@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>August 4, 2020</em>
+<em>Sep 15, 2020</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -46,6 +46,7 @@ Jun 17, 2020 | 2fb8543 | Add HEALPixSkyInstrument
 Jul 16, 2020 | 58c16ec | Repeat warnings and non-fatal errors at the end of the simulation log
 Jul 29, 2020 | 9db9d51 | Add polarised secondary emission for aligned dust grains
 Aug  4, 2020 | b1ccc21 | Add snapshot import from list of cuboidal cells (as alternative for AMR)
+Aug 20, 2020 | 3503470 | Allow assigning a user-provided SED to each individual imported source
 
 (*) Although these new features seem to produce reasonable results, please don't use them for 'production'
 simulations until the accuracy of their results has been verified in more detail.

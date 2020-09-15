@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git b1ccc21 built on 04/08/2020 at 12:09:10)</em>
+<em>SKIRT v9.0 (git 3503470 built on 15/09/2020 at 11:28:27)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -684,6 +684,13 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileBand::filename() "docs" | String | the name of the file defining the transmission curve |
+
+\subsection SkiFileHelpConcreteFileIndexedSEDFamily -FileIndexedSEDFamily
+[\ref FileIndexedSEDFamily "docs"] : a user-provided, indexed %SED family 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| filename | \ref FileIndexedSEDFamily::filename() "docs" | String | the name of the stored table file listing the %SEDs |
 
 \subsection SkiFileHelpConcreteFileMesh -FileMesh
 [\ref FileMesh "docs"] : a mesh read from a file 

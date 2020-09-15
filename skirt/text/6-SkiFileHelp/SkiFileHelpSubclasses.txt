@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git b1ccc21 built on 04/08/2020 at 12:09:10)</em>
+<em>SKIRT v9.0 (git 3503470 built on 15/09/2020 at 11:28:27)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -414,6 +414,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %BruzualCharlotSEDFamily | \ref SkiFileHelpConcreteBruzualCharlotSEDFamily "props" | \ref BruzualCharlotSEDFamily "docs"| a Bruzual-Charlot %SED family for single stellar populations |
 | %CastelliKuruczSEDFamily | \ref SkiFileHelpConcreteCastelliKuruczSEDFamily "props" | \ref CastelliKuruczSEDFamily "docs"| a Castelli-Kurucz %SED family for stellar atmospheres |
 | %FSPSSEDFamily | \ref SkiFileHelpConcreteFSPSSEDFamily "props" | \ref FSPSSEDFamily "docs"| an FSPS %SED family for single stellar populations |
+| %FileIndexedSEDFamily | \ref SkiFileHelpConcreteFileIndexedSEDFamily "props" | \ref FileIndexedSEDFamily "docs"| a user-provided, indexed %SED family |
 | %FileSSPSEDFamily | \ref SkiFileHelpConcreteFileSSPSEDFamily "props" | \ref FileSSPSEDFamily "docs"| a user-provided %SED family for single stellar populations |
 | %LyaDoublePeakedSEDFamily | \ref SkiFileHelpConcreteLyaDoublePeakedSEDFamily "props" | \ref LyaDoublePeakedSEDFamily "docs"| a family of double-peaked spectra around the central Lyman-alpha wavelength |
 | %LyaGaussianSEDFamily | \ref SkiFileHelpConcreteLyaGaussianSEDFamily "props" | \ref LyaGaussianSEDFamily "docs"| a family of Gaussian spectra around the central Lyman-alpha wavelength |
