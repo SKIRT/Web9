@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 3503470 built on 15/09/2020 at 11:28:27)</em>
+<em>SKIRT v9.0 (git 086772b built on 02/11/2020 at 13:58:52)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -104,6 +104,21 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | :-- | :--: | :--: | :-- |
 | %DustSelfAbsorptionOptions | \ref SkiFileHelpConcreteDustSelfAbsorptionOptions "props" | \ref DustSelfAbsorptionOptions "docs"| a set of options related to calculating dust self-absorption |
 
+\subsection SkiFileHelpBaseDynamicStateOptions -DynamicStateOptions
+[\ref DynamicStateOptions "docs"] : a set of options for dynamically adjusting the medium state by iterating over the radiation field 
+
+| Subclass | | | Description |
+| :-- | :--: | :--: | :-- |
+| %DynamicStateOptions | \ref SkiFileHelpConcreteDynamicStateOptions "props" | \ref DynamicStateOptions "docs"| a set of options for dynamically adjusting the medium state by iterating over the radiation field |
+
+\subsection SkiFileHelpBaseDynamicStateRecipe -DynamicStateRecipe
+[\ref DynamicStateRecipe "docs"] : a dynamic medium state recipe 
+
+| Subclass | | | Description |
+| :-- | :--: | :--: | :-- |
+| %ClearDensityRecipe | \ref SkiFileHelpConcreteClearDensityRecipe "props" | \ref ClearDensityRecipe "docs"| a recipe that clears material in cells above a given radiation field strength |
+| %LinearDustDestructionRecipe | \ref SkiFileHelpConcreteLinearDustDestructionRecipe "props" | \ref LinearDustDestructionRecipe "docs"| a dust destruction recipe using a linear temperature dependence |
+
 \subsection SkiFileHelpBaseExtinctionOnlyOptions -ExtinctionOnlyOptions
 [\ref ExtinctionOnlyOptions "docs"] : a set of options related to extinction-only simulation modes 
 
@@ -167,6 +182,8 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %MinSilicateGrainComposition | \ref SkiFileHelpConcreteMinSilicateGrainComposition "props" | \ref MinSilicateGrainComposition "docs"| a Min 2007 amorphous silicate dust grain composition |
 | %PolarizedGraphiteGrainComposition | \ref SkiFileHelpConcretePolarizedGraphiteGrainComposition "props" | \ref PolarizedGraphiteGrainComposition "docs"| a graphite dust grain composition with support for polarization |
 | %PolarizedSilicateGrainComposition | \ref SkiFileHelpConcretePolarizedSilicateGrainComposition "props" | \ref PolarizedSilicateGrainComposition "docs"| a silicate dust grain composition with support for polarization |
+| %SpheroidalGraphiteGrainComposition | \ref SkiFileHelpConcreteSpheroidalGraphiteGrainComposition "props" | \ref SpheroidalGraphiteGrainComposition "docs"| a spheroidal graphite dust grain composition with support for polarization |
+| %SpheroidalSilicateGrainComposition | \ref SkiFileHelpConcreteSpheroidalSilicateGrainComposition "props" | \ref SpheroidalSilicateGrainComposition "docs"| a spheroidal silicate dust grain composition with support for polarization |
 | %TrustGraphiteGrainComposition | \ref SkiFileHelpConcreteTrustGraphiteGrainComposition "props" | \ref TrustGraphiteGrainComposition "docs"| a TRUST benchmark graphite dust grain composition |
 | %TrustNeutralPAHGrainComposition | \ref SkiFileHelpConcreteTrustNeutralPAHGrainComposition "props" | \ref TrustNeutralPAHGrainComposition "docs"| a TRUST benchmark neutral PAH dust grain composition |
 | %TrustSilicateGrainComposition | \ref SkiFileHelpConcreteTrustSilicateGrainComposition "props" | \ref TrustSilicateGrainComposition "docs"| a TRUST benchmark silicate dust grain composition |
@@ -183,6 +200,8 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
+| %FileGrainSizeDistribution | \ref SkiFileHelpConcreteFileGrainSizeDistribution "props" | \ref FileGrainSizeDistribution "docs"| a dust grain size distribution loaded from a text file |
+| %ListGrainSizeDistribution | \ref SkiFileHelpConcreteListGrainSizeDistribution "props" | \ref ListGrainSizeDistribution "docs"| a dust grain size distribution specified inside the configuration file |
 | %LogNormalGrainSizeDistribution | \ref SkiFileHelpConcreteLogNormalGrainSizeDistribution "props" | \ref LogNormalGrainSizeDistribution "docs"| a log-normal dust grain size distribution |
 | %ModifiedLogNormalGrainSizeDistribution | \ref SkiFileHelpConcreteModifiedLogNormalGrainSizeDistribution "props" | \ref ModifiedLogNormalGrainSizeDistribution "docs"| a modified log-normal dust grain size distribution |
 | %ModifiedPowerLawGrainSizeDistribution | \ref SkiFileHelpConcreteModifiedPowerLawGrainSizeDistribution "props" | \ref ModifiedPowerLawGrainSizeDistribution "docs"| a modified power-law dust grain size distribution |
@@ -235,7 +254,8 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %ConfigurableDustMix | \ref SkiFileHelpConcreteConfigurableDustMix "props" | \ref ConfigurableDustMix "docs"| a configurable dust mix with one or more grain populations |
 | %DraineLiDustMix | \ref SkiFileHelpConcreteDraineLiDustMix "props" | \ref DraineLiDustMix "docs"| a Draine and Li (2007) dust mix |
 | %ElectronMix | \ref SkiFileHelpConcreteElectronMix "props" | \ref ElectronMix "docs"| a population of electrons |
-| %LyaNeutralHydrogenMaterialMix | \ref SkiFileHelpConcreteLyaNeutralHydrogenMaterialMix "props" | \ref LyaNeutralHydrogenMaterialMix "docs"| neutral hydrogen for Lyman-alpha line transfer |
+| %FragmentDustMixDecorator | \ref SkiFileHelpConcreteFragmentDustMixDecorator "props" | \ref FragmentDustMixDecorator "docs"| a dust mix decorator that manages separate densities for fragments of another dust mix |
+| %LyaNeutralHydrogenGasMix | \ref SkiFileHelpConcreteLyaNeutralHydrogenGasMix "props" | \ref LyaNeutralHydrogenGasMix "docs"| neutral hydrogen for Lyman-alpha line transfer |
 | %MRNDustMix | \ref SkiFileHelpConcreteMRNDustMix "props" | \ref MRNDustMix "docs"| an MRN (1997) dust mix |
 | %MeanFileDustMix | \ref SkiFileHelpConcreteMeanFileDustMix "props" | \ref MeanFileDustMix "docs"| a dust mix with mean properties loaded from a text file |
 | %MeanInterstellarDustMix | \ref SkiFileHelpConcreteMeanInterstellarDustMix "props" | \ref MeanInterstellarDustMix "docs"| a typical interstellar dust mix (mean properties) |
@@ -314,6 +334,19 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %PowMesh | \ref SkiFileHelpConcretePowMesh "props" | \ref PowMesh "docs"| a power-law mesh |
 | %SymPowMesh | \ref SkiFileHelpConcreteSymPowMesh "props" | \ref SymPowMesh "docs"| a symmetric power-law mesh |
 
+\subsection SkiFileHelpBaseMultiGrainDustMix -MultiGrainDustMix
+[\ref MultiGrainDustMix "docs"] : a dust mix with one or more grain populations 
+
+| Subclass | | | Description |
+| :-- | :--: | :--: | :-- |
+| %ConfigurableDustMix | \ref SkiFileHelpConcreteConfigurableDustMix "props" | \ref ConfigurableDustMix "docs"| a configurable dust mix with one or more grain populations |
+| %DraineLiDustMix | \ref SkiFileHelpConcreteDraineLiDustMix "props" | \ref DraineLiDustMix "docs"| a Draine and Li (2007) dust mix |
+| %MRNDustMix | \ref SkiFileHelpConcreteMRNDustMix "props" | \ref MRNDustMix "docs"| an MRN (1997) dust mix |
+| %ThemisDustMix | \ref SkiFileHelpConcreteThemisDustMix "props" | \ref ThemisDustMix "docs"| a THEMIS (Jones et al. 2017) dust mix |
+| %TrustBenchmarkDustMix | \ref SkiFileHelpConcreteTrustBenchmarkDustMix "props" | \ref TrustBenchmarkDustMix "docs"| a TRUST benchmark dust mix |
+| %WeingartnerDraineDustMix | \ref SkiFileHelpConcreteWeingartnerDraineDustMix "props" | \ref WeingartnerDraineDustMix "docs"| a Weingartner and Draine (2001) dust mix |
+| %ZubkoDustMix | \ref SkiFileHelpConcreteZubkoDustMix "props" | \ref ZubkoDustMix "docs"| a Zubko et al. (2004) dust mix |
+
 \subsection SkiFileHelpBasePhotonPacketOptions -PhotonPacketOptions
 [\ref PhotonPacketOptions "docs"] : a set of options related to the photon packet lifecycle 
 
@@ -334,6 +367,8 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
+| %CustomStatePerCellProbe | \ref SkiFileHelpConcreteCustomStatePerCellProbe "props" | \ref CustomStatePerCellProbe "docs"| custom medium state variable values for all spatial cells |
+| %DefaultCustomStateCutsProbe | \ref SkiFileHelpConcreteDefaultCustomStateCutsProbe "props" | \ref DefaultCustomStateCutsProbe "docs"| cuts of the custom medium state along the coordinate planes |
 | %DefaultDustTemperatureCutsProbe | \ref SkiFileHelpConcreteDefaultDustTemperatureCutsProbe "props" | \ref DefaultDustTemperatureCutsProbe "docs"| cuts of the indicative dust temperature along the coordinate planes |
 | %DefaultGasTemperatureCutsProbe | \ref SkiFileHelpConcreteDefaultGasTemperatureCutsProbe "props" | \ref DefaultGasTemperatureCutsProbe "docs"| cuts of the gas temperature along the coordinate planes |
 | %DefaultMagneticFieldCutsProbe | \ref SkiFileHelpConcreteDefaultMagneticFieldCutsProbe "props" | \ref DefaultMagneticFieldCutsProbe "docs"| cuts of the magnetic field along the coordinate planes |
@@ -356,6 +391,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %MeridionalDustTemperatureCutProbe | \ref SkiFileHelpConcreteMeridionalDustTemperatureCutProbe "props" | \ref MeridionalDustTemperatureCutProbe "docs"| the indicative dust temperature along a meridian line |
 | %OpticalDepthMapProbe | \ref SkiFileHelpConcreteOpticalDepthMapProbe "props" | \ref OpticalDepthMapProbe "docs"| all-sky optical depth map as seen from given location |
 | %OpticalMaterialPropertiesProbe | \ref SkiFileHelpConcreteOpticalMaterialPropertiesProbe "props" | \ref OpticalMaterialPropertiesProbe "docs"| aggregate optical material properties for each medium |
+| %PlanarCustomStateCutsProbe | \ref SkiFileHelpConcretePlanarCustomStateCutsProbe "props" | \ref PlanarCustomStateCutsProbe "docs"| cuts of the custom medium state along planes parallel to the coordinate planes |
 | %PlanarDustTemperatureCutsProbe | \ref SkiFileHelpConcretePlanarDustTemperatureCutsProbe "props" | \ref PlanarDustTemperatureCutsProbe "docs"| cuts of the indicative dust temperature along planes parallel to the coordinate planes |
 | %PlanarGasTemperatureCutsProbe | \ref SkiFileHelpConcretePlanarGasTemperatureCutsProbe "props" | \ref PlanarGasTemperatureCutsProbe "docs"| cuts of the gas temperature along planes parallel to the coordinate planes |
 | %PlanarMagneticFieldCutsProbe | \ref SkiFileHelpConcretePlanarMagneticFieldCutsProbe "props" | \ref PlanarMagneticFieldCutsProbe "docs"| cuts of the magnetic field along planes parallel to the coordinate planes |

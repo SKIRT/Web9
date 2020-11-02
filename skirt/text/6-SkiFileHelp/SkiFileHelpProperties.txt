@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 3503470 built on 15/09/2020 at 11:28:27)</em>
+<em>SKIRT v9.0 (git 086772b built on 02/11/2020 at 13:58:52)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -288,6 +288,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | sedFamily | \ref CellSource::sedFamily() "docs" | %Item | %SEDFamily | \ref SkiFileHelpBaseSEDFamily "subclasses" | the %SED family for assigning spectra to the imported sources |
 | wavelengthBiasDistribution | \ref CellSource::wavelengthBiasDistribution() "docs" | %Item | %WavelengthDistribution | \ref SkiFileHelpBaseWavelengthDistribution "subclasses" | the bias distribution for sampling photon packet wavelengths |
 
+\subsection SkiFileHelpConcreteClearDensityRecipe -ClearDensityRecipe
+[\ref ClearDensityRecipe "docs"] : a recipe that clears material in cells above a given radiation field strength 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| maxNotConvergedCells | \ref ClearDensityRecipe::maxNotConvergedCells() "docs" | Int | the number of spatial cells allowed to not converge |
+| fieldStrengthThreshold | \ref ClearDensityRecipe::fieldStrengthThreshold() "docs" | Double | the field strength above which material is cleared from a cell |
+
 \subsection SkiFileHelpConcreteClumpyGeometryDecorator -ClumpyGeometryDecorator
 [\ref ClumpyGeometryDecorator "docs"] : a decorator that adds clumpiness to any geometry 
 
@@ -392,6 +400,16 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | normalization | \ref CubicalBackgroundSource::normalization() "docs" | %Item | %LuminosityNormalization | \ref SkiFileHelpBaseLuminosityNormalization "subclasses" | the type of luminosity normalization for the source |
 | wavelengthBiasDistribution | \ref CubicalBackgroundSource::wavelengthBiasDistribution() "docs" | %Item | %WavelengthDistribution | \ref SkiFileHelpBaseWavelengthDistribution "subclasses" | the bias distribution for sampling photon packet wavelengths |
 
+\subsection SkiFileHelpConcreteCustomStatePerCellProbe -CustomStatePerCellProbe
+[\ref CustomStatePerCellProbe "docs"] : custom medium state variable values for all spatial cells 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref CustomStatePerCellProbe::probeName() "docs" | String | the name for this probe |
+| probeAfter | \ref CustomStatePerCellProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
+
 \subsection SkiFileHelpConcreteCylinder2DSpatialGrid -Cylinder2DSpatialGrid
 [\ref Cylinder2DSpatialGrid "docs"] : an axisymmetric spatial grid in cylindrical coordinates 
 
@@ -423,6 +441,16 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 \subsection SkiFileHelpConcreteCylindricalVectorField -CylindricalVectorField
 [\ref CylindricalVectorField "docs"] : a vector field rotating clockwise around the z-axis 
 
+\subsection SkiFileHelpConcreteDefaultCustomStateCutsProbe -DefaultCustomStateCutsProbe
+[\ref DefaultCustomStateCutsProbe "docs"] : cuts of the custom medium state along the coordinate planes 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref DefaultCustomStateCutsProbe::probeName() "docs" | String | the name for this probe |
+| probeAfter | \ref DefaultCustomStateCutsProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
+
 \subsection SkiFileHelpConcreteDefaultDustTemperatureCutsProbe -DefaultDustTemperatureCutsProbe
 [\ref DefaultDustTemperatureCutsProbe "docs"] : cuts of the indicative dust temperature along the coordinate planes 
 
@@ -450,6 +478,9 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | probeName | \ref DefaultMediaDensityCutsProbe::probeName() "docs" | String | the name for this probe |
+| probeAfter | \ref DefaultMediaDensityCutsProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcreteDefaultMediumVelocityCutsProbe -DefaultMediumVelocityCutsProbe
 [\ref DefaultMediumVelocityCutsProbe "docs"] : cuts of the medium velocity along the coordinate planes 
@@ -602,6 +633,20 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | probeName | \ref DustTemperaturePerCellProbe::probeName() "docs" | String | the name for this probe |
 
+\subsection SkiFileHelpConcreteDynamicStateOptions -DynamicStateOptions
+[\ref DynamicStateOptions "docs"] : a set of options for dynamically adjusting the medium state by iterating over the radiation field 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| hasDynamicState | \ref DynamicStateOptions::hasDynamicState() "docs" | Bool | dynamically adjust the medium state by iterating over the radiation field |
+| minIterations | \ref DynamicStateOptions::minIterations() "docs" | Int | the minimum number of dynamic medium state iterations |
+| maxIterations | \ref DynamicStateOptions::maxIterations() "docs" | Int | the maximum number of dynamic medium state iterations |
+| iterationPacketsMultiplier | \ref DynamicStateOptions::iterationPacketsMultiplier() "docs" | Double | the multiplier on the number of photon packets launched for each dynamic medium state iteration |
+
+| Compound Property | | Type | Base Class | | Description
+| :-- | :--: | :-- | :-- | :--: | :-- |
+| recipes | \ref DynamicStateOptions::recipes() "docs" | %ItemList | %DynamicStateRecipe | \ref SkiFileHelpBaseDynamicStateRecipe "subclasses" | the dynamic medium state recipes |
+
 \subsection SkiFileHelpConcreteEinastoGeometry -EinastoGeometry
 [\ref EinastoGeometry "docs"] : an Einasto geometry 
 
@@ -685,6 +730,13 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileBand::filename() "docs" | String | the name of the file defining the transmission curve |
 
+\subsection SkiFileHelpConcreteFileGrainSizeDistribution -FileGrainSizeDistribution
+[\ref FileGrainSizeDistribution "docs"] : a dust grain size distribution loaded from a text file 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| filename | \ref FileGrainSizeDistribution::filename() "docs" | String | the name of the file with the dust grain size distribution |
+
 \subsection SkiFileHelpConcreteFileIndexedSEDFamily -FileIndexedSEDFamily
 [\ref FileIndexedSEDFamily "docs"] : a user-provided, indexed %SED family 
 
@@ -750,6 +802,19 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | redshift | \ref FlatUniverseCosmology::redshift() "docs" | Double | the redshift z of the model coordinate frame |
 | reducedHubbleConstant | \ref FlatUniverseCosmology::reducedHubbleConstant() "docs" | Double | the reduced Hubble constant h |
 | matterDensityFraction | \ref FlatUniverseCosmology::matterDensityFraction() "docs" | Double | the cosmological matter density fraction Ω_m |
+
+\subsection SkiFileHelpConcreteFragmentDustMixDecorator -FragmentDustMixDecorator
+[\ref FragmentDustMixDecorator "docs"] : a dust mix decorator that manages separate densities for fragments of another dust mix 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| fragmentSizeBins | \ref FragmentDustMixDecorator::fragmentSizeBins() "docs" | Bool | fragment each dust population into its grain size bins |
+| hasDynamicDensities | \ref FragmentDustMixDecorator::hasDynamicDensities() "docs" | Bool | allow the fragment densities to be adjusted dynamically |
+| initialDensityFraction | \ref FragmentDustMixDecorator::initialDensityFraction() "docs" | Double | the initial value of the dynamic density fraction |
+
+| Compound Property | | Type | Base Class | | Description
+| :-- | :--: | :-- | :-- | :--: | :-- |
+| dustMix | \ref FragmentDustMixDecorator::dustMix() "docs" | %Item | %MultiGrainDustMix | \ref SkiFileHelpBaseMultiGrainDustMix "subclasses" | the dust mix to be fragmented |
 
 \subsection SkiFileHelpConcreteFrameInstrument -FrameInstrument
 [\ref FrameInstrument "docs"] : a distant instrument that outputs the surface brightness in every pixel as a data cube 
@@ -1002,6 +1067,18 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | maxWavelength | \ref LinWavelengthGrid::maxWavelength() "docs" | Double | the longest wavelength |
 | numWavelengths | \ref LinWavelengthGrid::numWavelengths() "docs" | Int | the number of wavelength grid points |
 
+\subsection SkiFileHelpConcreteLinearDustDestructionRecipe -LinearDustDestructionRecipe
+[\ref LinearDustDestructionRecipe "docs"] : a dust destruction recipe using a linear temperature dependence 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| maxNotConvergedCells | \ref LinearDustDestructionRecipe::maxNotConvergedCells() "docs" | Int | the number of spatial cells allowed to not converge |
+| densityFractionTolerance | \ref LinearDustDestructionRecipe::densityFractionTolerance() "docs" | Double | the convergence tolerance on the dynamic density fraction |
+| minSilicateTemperature | \ref LinearDustDestructionRecipe::minSilicateTemperature() "docs" | Double | the temperature below which silicate grains are not destroyed |
+| maxSilicateTemperature | \ref LinearDustDestructionRecipe::maxSilicateTemperature() "docs" | Double | the temperature above which all silicate grains are destroyed |
+| minGraphiteTemperature | \ref LinearDustDestructionRecipe::minGraphiteTemperature() "docs" | Double | the temperature below which graphite grains are not destroyed |
+| maxGraphiteTemperature | \ref LinearDustDestructionRecipe::maxGraphiteTemperature() "docs" | Double | the temperature above which all graphite grains are destroyed |
+
 \subsection SkiFileHelpConcreteLinearDustTemperatureCutProbe -LinearDustTemperatureCutProbe
 [\ref LinearDustTemperatureCutProbe "docs"] : the indicative dust temperature along a given line segment 
 
@@ -1023,6 +1100,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | wavelengths | \ref ListBand::wavelengths() "docs" | DoubleList | the wavelengths at which to specify the transmission |
 | transmissionValues | \ref ListBand::transmissionValues() "docs" | DoubleList | the transmission at each of the given wavelengths |
+
+\subsection SkiFileHelpConcreteListGrainSizeDistribution -ListGrainSizeDistribution
+[\ref ListGrainSizeDistribution "docs"] : a dust grain size distribution specified inside the configuration file 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| sizes | \ref ListGrainSizeDistribution::sizes() "docs" | DoubleList | the grain sizes at which to specify the size distribution |
+| sizeDistributionValues | \ref ListGrainSizeDistribution::sizeDistributionValues() "docs" | DoubleList | the size distribution values at each of the given grain sizes |
 
 \subsection SkiFileHelpConcreteListMesh -ListMesh
 [\ref ListMesh "docs"] : a mesh specified inside the configuration file 
@@ -1133,13 +1218,13 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 \subsection SkiFileHelpConcreteLyaGaussianSEDFamily -LyaGaussianSEDFamily
 [\ref LyaGaussianSEDFamily "docs"] : a family of Gaussian spectra around the central Lyman-alpha wavelength 
 
-\subsection SkiFileHelpConcreteLyaNeutralHydrogenMaterialMix -LyaNeutralHydrogenMaterialMix
-[\ref LyaNeutralHydrogenMaterialMix "docs"] : neutral hydrogen for Lyman-alpha line transfer 
+\subsection SkiFileHelpConcreteLyaNeutralHydrogenGasMix -LyaNeutralHydrogenGasMix
+[\ref LyaNeutralHydrogenGasMix "docs"] : neutral hydrogen for Lyman-alpha line transfer 
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
-| defaultTemperature | \ref LyaNeutralHydrogenMaterialMix::defaultTemperature() "docs" | Double | the default temperature of the neutral hydrogen gas |
-| includePolarization | \ref LyaNeutralHydrogenMaterialMix::includePolarization() "docs" | Bool | include support for polarization |
+| defaultTemperature | \ref LyaNeutralHydrogenGasMix::defaultTemperature() "docs" | Double | the default temperature of the neutral hydrogen gas |
+| includePolarization | \ref LyaNeutralHydrogenGasMix::includePolarization() "docs" | Bool | include support for polarization |
 
 \subsection SkiFileHelpConcreteLyaOptions -LyaOptions
 [\ref LyaOptions "docs"] : a set of options related to Lyman-alpha line transfer 
@@ -1303,6 +1388,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | dustEmissionOptions | \ref MediumSystem::dustEmissionOptions() "docs" | %Item | %DustEmissionOptions | \ref SkiFileHelpBaseDustEmissionOptions "subclasses" | the dust emission options |
 | dustSelfAbsorptionOptions | \ref MediumSystem::dustSelfAbsorptionOptions() "docs" | %Item | %DustSelfAbsorptionOptions | \ref SkiFileHelpBaseDustSelfAbsorptionOptions "subclasses" | the dust self-absorption options |
 | lyaOptions | \ref MediumSystem::lyaOptions() "docs" | %Item | %LyaOptions | \ref SkiFileHelpBaseLyaOptions "subclasses" | the Lyman-alpha line transfer options |
+| dynamicStateOptions | \ref MediumSystem::dynamicStateOptions() "docs" | %Item | %DynamicStateOptions | \ref SkiFileHelpBaseDynamicStateOptions "subclasses" | the options for dynamic medium state iterations |
 | media | \ref MediumSystem::media() "docs" | %ItemList | %Medium | \ref SkiFileHelpBaseMedium "subclasses" | the transfer media |
 | grid | \ref MediumSystem::grid() "docs" | %Item | %SpatialGrid | \ref SkiFileHelpBaseSpatialGrid "subclasses" | the spatial grid |
 
@@ -1475,6 +1561,9 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | upX | \ref OpticalDepthMapProbe::upX() "docs" | Double | the upwards direction, x component |
 | upY | \ref OpticalDepthMapProbe::upY() "docs" | Double | the upwards direction, y component |
 | upZ | \ref OpticalDepthMapProbe::upZ() "docs" | Double | the upwards direction, z component |
+| probeAfter | \ref OpticalDepthMapProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -1610,9 +1699,26 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
+| forceScattering | \ref PhotonPacketOptions::forceScattering() "docs" | Bool | use forced scattering to accelerate the photon life cycle |
 | minWeightReduction | \ref PhotonPacketOptions::minWeightReduction() "docs" | Double | the minimum weight reduction factor before a photon packet is terminated |
 | minScattEvents | \ref PhotonPacketOptions::minScattEvents() "docs" | Int | the minimum number of forced scattering events before a photon packet is terminated |
 | pathLengthBias | \ref PhotonPacketOptions::pathLengthBias() "docs" | Double | the fraction of path lengths sampled from a stretched distribution |
+
+\subsection SkiFileHelpConcretePlanarCustomStateCutsProbe -PlanarCustomStateCutsProbe
+[\ref PlanarCustomStateCutsProbe "docs"] : cuts of the custom medium state along planes parallel to the coordinate planes 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref PlanarCustomStateCutsProbe::probeName() "docs" | String | the name for this probe |
+| positionX | \ref PlanarCustomStateCutsProbe::positionX() "docs" | Double | the x position of the cut parallel to the yz plane |
+| positionY | \ref PlanarCustomStateCutsProbe::positionY() "docs" | Double | the y position of the cut parallel to the xz plane |
+| positionZ | \ref PlanarCustomStateCutsProbe::positionZ() "docs" | Double | the z position of the cut parallel to the xy plane |
+| numPixelsX | \ref PlanarCustomStateCutsProbe::numPixelsX() "docs" | Int | the number of pixels in the x direction |
+| numPixelsY | \ref PlanarCustomStateCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
+| numPixelsZ | \ref PlanarCustomStateCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
+| probeAfter | \ref PlanarCustomStateCutsProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcretePlanarDustTemperatureCutsProbe -PlanarDustTemperatureCutsProbe
 [\ref PlanarDustTemperatureCutsProbe "docs"] : cuts of the indicative dust temperature along planes parallel to the coordinate planes 
@@ -1665,6 +1771,9 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numPixelsX | \ref PlanarMediaDensityCutsProbe::numPixelsX() "docs" | Int | the number of pixels in the x direction |
 | numPixelsY | \ref PlanarMediaDensityCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
 | numPixelsZ | \ref PlanarMediaDensityCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
+| probeAfter | \ref PlanarMediaDensityCutsProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcretePlanarMediumVelocityCutsProbe -PlanarMediumVelocityCutsProbe
 [\ref PlanarMediumVelocityCutsProbe "docs"] : cuts of the medium velocity along planes parallel to the coordinate planes 
@@ -1725,16 +1834,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 \subsection SkiFileHelpConcretePolarizedGraphiteGrainComposition -PolarizedGraphiteGrainComposition
 [\ref PolarizedGraphiteGrainComposition "docs"] : a graphite dust grain composition with support for polarization 
 
-| Scalar Property | | Type | Description
-| :-- | :--: | :-- | :-- |
-| spheroidalEmissionTable | \ref PolarizedGraphiteGrainComposition::spheroidalEmissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by spheroidal grains |
-
 \subsection SkiFileHelpConcretePolarizedSilicateGrainComposition -PolarizedSilicateGrainComposition
 [\ref PolarizedSilicateGrainComposition "docs"] : a silicate dust grain composition with support for polarization 
-
-| Scalar Property | | Type | Description
-| :-- | :--: | :-- | :-- |
-| spheroidalEmissionTable | \ref PolarizedSilicateGrainComposition::spheroidalEmissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by spheroidal grains |
 
 \subsection SkiFileHelpConcretePolicyTreeSpatialGrid -PolicyTreeSpatialGrid
 [\ref PolicyTreeSpatialGrid "docs"] : a tree-based spatial grid 
@@ -1991,6 +2092,9 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | probeName | \ref SpatialCellPropertiesProbe::probeName() "docs" | String | the name for this probe |
 | wavelength | \ref SpatialCellPropertiesProbe::wavelength() "docs" | Double | the wavelength at which to determine the optical depth |
+| probeAfter | \ref SpatialCellPropertiesProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcreteSpatialGridConvergenceProbe -SpatialGridConvergenceProbe
 [\ref SpatialGridConvergenceProbe "docs"] : convergence information on the spatial grid 
@@ -2098,6 +2202,34 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | geometry | \ref SpheroidalGeometryDecorator::geometry() "docs" | %Item | %SpheGeometry | \ref SkiFileHelpBaseSpheGeometry "subclasses" | the spherical geometry to be made spheroidal |
+
+\subsection SkiFileHelpConcreteSpheroidalGraphiteGrainComposition -SpheroidalGraphiteGrainComposition
+[\ref SpheroidalGraphiteGrainComposition "docs"] : a spheroidal graphite dust grain composition with support for polarization 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| tableType | \ref SpheroidalGraphiteGrainComposition::tableType() "docs" | Enum | the type of emission tables to use |
+| | | --> Builtin | builtin resources |
+| | | --> OneTable | single custom table |
+| | | --> TwoTables | two custom tables with interpolation |
+| emissionTable | \ref SpheroidalGraphiteGrainComposition::emissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by arbitrarily aligned spheroidal grains |
+| alignedEmissionTable | \ref SpheroidalGraphiteGrainComposition::alignedEmissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by perfectly aligned spheroidal grains |
+| nonAlignedEmissionTable | \ref SpheroidalGraphiteGrainComposition::nonAlignedEmissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by non-aligned spheroidal grains |
+| alignmentFraction | \ref SpheroidalGraphiteGrainComposition::alignmentFraction() "docs" | Double | the alignment fraction of the spheroidal grains with the local magnetic field |
+
+\subsection SkiFileHelpConcreteSpheroidalSilicateGrainComposition -SpheroidalSilicateGrainComposition
+[\ref SpheroidalSilicateGrainComposition "docs"] : a spheroidal silicate dust grain composition with support for polarization 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| tableType | \ref SpheroidalSilicateGrainComposition::tableType() "docs" | Enum | the type of emission tables to use |
+| | | --> Builtin | builtin resources |
+| | | --> OneTable | single custom table |
+| | | --> TwoTables | two custom tables with interpolation |
+| emissionTable | \ref SpheroidalSilicateGrainComposition::emissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by arbitrarily aligned spheroidal grains |
+| alignedEmissionTable | \ref SpheroidalSilicateGrainComposition::alignedEmissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by perfectly aligned spheroidal grains |
+| nonAlignedEmissionTable | \ref SpheroidalSilicateGrainComposition::nonAlignedEmissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by non-aligned spheroidal grains |
+| alignmentFraction | \ref SpheroidalSilicateGrainComposition::alignmentFraction() "docs" | Double | the alignment fraction of the spheroidal grains with the local magnetic field |
 
 \subsection SkiFileHelpConcreteSpiralStructureGeometryDecorator -SpiralStructureGeometryDecorator
 [\ref SpiralStructureGeometryDecorator "docs"] : a decorator that adds spiral structure to any axisymmetric geometry 
