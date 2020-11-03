@@ -16,8 +16,8 @@ systems not supported by the script, the resource packs can be manually download
 installation guide for further instructions.
 
 <TABLE>
-<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Resources/SKIRT9_Resources_Core_v1.zip">SKIRT9_Resources_Core_v1.zip</a>
-</TD><TD>Core SKIRT resource pack, version 1 -- required for all installations
+<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Resources/SKIRT9_Resources_Core_v4.zip">SKIRT9_Resources_Core_v4.zip</a>
+</TD><TD>Core SKIRT resource pack, version 4 -- required for all installations
 </TD></TR>
 </TABLE>
 
