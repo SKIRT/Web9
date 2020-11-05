@@ -4,14 +4,12 @@
 
 \section StatusRoadmap9Status Status
 
-<em>August 29, 2019</em>
+<em>November 5, 2020</em>
 
-Version 9 of the SKIRT project has been publicly released on May 10, 2019 and has reached a state where it is ready to
-be used for science projects. SKIRT 9 properly performs hundreds of handcrafted test cases and properly runs all
-relevant benchmarks. SKIRT 9 and PTS 9 are fully documented, including up-to-date tutorials, concept notes and
-reference material. This new version is now being used for its first actual science projects. However, unknown problems
-may still be waiting to surface when the code is put to more extensive use. We therefore specifically invite you to
-perform further testing, evaluation, and proof-reading, and we look forward to hearing from you.
+Version 9 of the SKIRT project has been publicly released on May 10, 2019 and is currently the recommended version of
+the code. New features are being developed on an on-going basis. These updates are merged in the public master branch
+only after extensive testing. We specifically invite user collaboration; we look forward to receiving your suggestions,
+your questions, and, in case something went wrong despite our efforts, your problem reports.
 
 The core SKIRT team.
 

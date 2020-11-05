@@ -4,10 +4,10 @@
 
 \section Version9New What's new
 
-Version 9 is the latest version of the \c SKIRT project that has been designed to allow simulating a wider
-range of physics. The \ref Version9Intro on this page describes the \c SKIRT project without assuming any knowledge
-about previous versions. Readers familiar with \c SKIRT, or readers interested in the status of version 9 development,
-might instead want to visit these pages:
+Version 9 is the latest version of the \c SKIRT project that has been designed to allow simulating a wide range of
+physics for dust and other transfer media. The \ref Version9Intro on this page describes the \c SKIRT project without
+assuming any knowledge about previous versions. Readers familiar with \c SKIRT, or readers interested in the status of
+version 9 development, might want to visit these pages:
 
 - \ref NewInSKIRT9
 - \ref NewInPTS9
@@ -49,6 +49,7 @@ Another optional component of the \c SKIRT project is the "Python Toolkit for SK
 toolkit can help prepare, postprocess, and visualize SKIRT-related data, or it can execute \c SKIRT simulations in
 automated contexts.
 
+
 \section Version9SKIRTFeatures SKIRT features
 
 Model:
@@ -56,22 +57,25 @@ Model:
 - Employ the extensive built-in library to describe the spatial distribution of primary sources and transfer media.
 - Import components from hydrodynamic simulation snapshots using SPH, AMR, or Voronoi paradigms.
 - Combine multiple sources and multiple media components, each with their own spatial distributions and properties.
-- Combine different media types (currently: dust and electrons)
+- Combine different media types, including dust, electrons and neutral hydrogen (*).
 - Rely on built-in turn-key dust mixtures or configure your own, including optical properties and size distributions.
 - Include instruments for recording "observed" spectra, broadband images, and spectroscopic data cubes.
 - Include probes for recording data internal to the model, such as cuts through the radiation field.
 
 Physics:
 - Multiple anisotropic scattering, absorption and (re-)emission by the transfer medium.
+- Resonant scattering by hydrogen near the Lyman-alpha line (*).
 - Doppler shifts caused by moving sources and/or media (kinematics).
 - Polarization caused by scattering off spherical dust grains.
 - Anisotropic and polarized primary sources.
 - Self-consistent calculation of thermal re-emission by dust (iterative treatment of self-absorption).
 - Calculation of stochastic heating of small grains in non-equilibrium conditions.
+- Polarized emission by spheroidal dust grains (partially) aligned with the magnetic field.
+- Self-consistent calculation of medium state (e.g. dust destruction) based on the primary radiation field.
 
 Numerics:
 - Monte Carlo method for tracing photon packets through the spatial domain.
-- All standard accerelation and biasing techniques (peel-off, forced scattering, continuous absorption, ...).
+- All standard accerelation techniques: peel-off, forced scattering, continuous absorption, core skipping (*), ...
 - Photon packet wavelengths sampled from the source spectrum without intermediate interpolation.
 - Separate, configurable wavelength grids for storing the radiation field and for discretizing dust emission spectra.
 - Wide range of modern spatial grids, both regular and adaptive, including grids optimized for 1D or 2D models.
@@ -91,6 +95,9 @@ Code design:
 - Written in standard C++14 with very few other dependencies.
 - Modern object-oriented design with well-defined programming interfaces between components.
 - Extensively documented source code.
+
+(*) The Lyman-alpha radiation transfer capability is currently not ready for production use. It is quite tricky
+to configure and the results have not yet been verified for more complex geometries.
 
 
 \section Version9PTSFeatures PTS features

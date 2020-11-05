@@ -29,16 +29,14 @@ automated contexts.
 The SKIRT project is fully open source, including all C++ and Python code and the contents of this web site, and
 publicly available under liberal licensing conditions (see \ref LegalInfo). We invite you to use the SKIRT project's
 software for your work, and to interact with other users and/or contribute to the project (see \ref Contributing).
-Results of applying SKIRT to various astrophysical models have been reported in over 80 refereed publications so far
+Results of applying SKIRT to various astrophysical models have been reported in many refereed publications
 (see \ref PublicationsAllDate "Publications").
 
 \section LandingVersions Project versions
 
 This web site includes documentation for two versions of the SKIRT project. Version 9 is the current stable version and
-is recommended for any new projects. SKIRT 9 has been designed to allow a wider range of physics than previous
-versions. For example, it already implements kinematics, and the long-term goal is to include extra dust physics (e.g.,
-polarization caused by aligned spheroidal dust grains) and other transfer media (e.g., some aspects of hydrogen line
-transfer). The code has been extensively tested, runs all available benchmarks, and is actively used for various
+is recommended for any new projects. SKIRT 9 has been designed to allow a wide range of physics for dust and other
+transfer media. The code has been extensively tested, runs all available benchmarks, and is actively used for various
 science projects. It is fully documented, including tutorials, concept notes and reference material. PTS 9 is the
 corresponding new version of the Python toolkit for SKIRT.
 
@@ -55,36 +53,12 @@ for contributing to the project, and a list of related publications. At the firs
 SKIRT project, you'll find pages with introductory material, tutorials, benchmark information, download links, and
 access points to more in-depth information on each of SKIRT and PTS. This in-depth documentation resides at the deepest
 level of the web site, offering an installation guide, a user guide, a developer guide, and full reference material
-for each project component and version.
+for each project component and version. Below are direct links to some of these pages.
 
-<TABLE>
-<TR><TD colspan="2">
-Common information:
 - \ref Contributing -- information on how to interact with other SKIRT users and how to contribute to the project.
 - \ref PublicationsAllDate "Publications" -- a list of refereed publications related to or applying the SKIRT project.
 - \ref LegalInfo -- licensing conditions for the SKIRT project and contact information for the core SKIRT team.
-</TD></TR>
-<TR><TD>
-<a href="../version8/_version8.html">Project version 8</a>:
-- <a href="../version8/_tutorials.html">Tutorials for both SKIRT and PTS</a>
-- <a href="../version8/_benchmarks.html">Benchmark information for both SKIRT and PTS</a>
-- <a href="../version8/_downloads.html">Downloads for both SKIRT and PTS</a>
-- <a href="../skirt8/_s_k_i_r_t.html">SKIRT documentation</a>
-  - <a href="../skirt8/_installation_guide.html">Installation Guide</a>
-  - <a href="../skirt8/_user_guide.html">User Guide</a>
-  - <a href="../skirt8/_developer_guide.html">Developer Guide</a>
-  - <a href="../skirt8/_concepts.html">Concepts</a>
-  - <a href="../skirt8/namespaces.html">Namespace list</a>
-  - <a href="../skirt8/annotated.html">Class list</a>
-  - <a href="../skirt8/files.html">File list</a>
-- <a href="../pts8/_p_t_s.html">PTS documentation</a>
-  - <a href="../pts8/_installation_guide.html">Installation Guide</a>
-  - <a href="../pts8/_user_guide.html">User Guide</a>
-  - <a href="../pts8/_developer_guide.html">Developer Guide</a>
-  - <a href="../pts8/namespaces.html">Namespace list</a>
-  - <a href="../pts8/annotated.html">Class list</a>
-</TD><TD>
-<a href="../version9/_version9.html">Project version 9</a>:
+- <a href="../version9/_version9.html">Project version 9</a> -- introduction and features
 - <a href="../version9/_tutorials.html">Tutorials for both SKIRT and PTS</a>
 - <a href="../version9/_benchmarks.html">Benchmark information for both SKIRT and PTS</a>
 - <a href="../version9/_downloads.html">Downloads for both SKIRT and PTS</a>
@@ -102,26 +76,14 @@ Common information:
   - <a href="../pts9/_developer_guide.html">Developer Guide</a>
   - <a href="../pts9/namespaces.html">Namespace list</a>
   - <a href="../pts9/annotated.html">Class list</a>
-</TD></TR>
-</TABLE>
 
 \section LandingRepositories Source code repositories
 
 The source code for the various SKIRT project components is hosted at <a href="https://github.com">GitHub.com</a> in
 the following repositories.
 
-<TABLE>
-<TR><TD>
-Project version 8:
-- <a href="https://github.com/SKIRT/SKIRT8">the SKIRT repository</a>
-- <a href="https://github.com/SKIRT/PTS">the PTS repository</a>
-- <a href="https://github.com/SKIRT/Web8">the web site repository</a>
-</TD><TD>
-Project version 9:
 - <a href="https://github.com/SKIRT/SKIRT9">the SKIRT repository</a>
 - <a href="https://github.com/SKIRT/PTS9">the PTS repository</a>
 - <a href="https://github.com/SKIRT/Web9">the web site repository</a>
-</TD></TR>
-</TABLE>
 
 */
