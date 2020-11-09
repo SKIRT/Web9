@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 086772b built on 02/11/2020 at 13:58:52)</em>
+<em>SKIRT v9.0 (git 787d31a built on 09/11/2020 at 12:11:33)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -1931,8 +1931,16 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | seed | \ref Random::seed() "docs" | Int | the seed for the random generator |
 
+\subsection SkiFileHelpConcreteReadFits3DGeometry -ReadFits3DGeometry
+[\ref ReadFits3DGeometry "docs"] : a geometry read from a 3D FITS file 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| filename | \ref ReadFits3DGeometry::filename() "docs" | String | the filename of the datacube |
+| pixelScale | \ref ReadFits3DGeometry::pixelScale() "docs" | Double | the pixel scale for the datacube (i.e. the physical length per pixel) |
+
 \subsection SkiFileHelpConcreteReadFitsGeometry -ReadFitsGeometry
-[\ref ReadFitsGeometry "docs"] : a geometry read from a FITS file 
+[\ref ReadFitsGeometry "docs"] : a geometry read from a 2D FITS file 
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |

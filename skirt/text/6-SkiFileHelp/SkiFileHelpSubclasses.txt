@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 086772b built on 02/11/2020 at 13:58:52)</em>
+<em>SKIRT v9.0 (git 787d31a built on 09/11/2020 at 12:11:33)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -152,7 +152,8 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %ParticleGeometry | \ref SkiFileHelpConcreteParticleGeometry "props" | \ref ParticleGeometry "docs"| a geometry imported from smoothed particle data |
 | %PlummerGeometry | \ref SkiFileHelpConcretePlummerGeometry "props" | \ref PlummerGeometry "docs"| a Plummer geometry |
 | %PseudoSersicGeometry | \ref SkiFileHelpConcretePseudoSersicGeometry "props" | \ref PseudoSersicGeometry "docs"| a pseudo-Sérsic geometry |
-| %ReadFitsGeometry | \ref SkiFileHelpConcreteReadFitsGeometry "props" | \ref ReadFitsGeometry "docs"| a geometry read from a FITS file |
+| %ReadFits3DGeometry | \ref SkiFileHelpConcreteReadFits3DGeometry "props" | \ref ReadFits3DGeometry "docs"| a geometry read from a 3D FITS file |
+| %ReadFitsGeometry | \ref SkiFileHelpConcreteReadFitsGeometry "props" | \ref ReadFitsGeometry "docs"| a geometry read from a 2D FITS file |
 | %RingGeometry | \ref SkiFileHelpConcreteRingGeometry "props" | \ref RingGeometry "docs"| a ring geometry |
 | %RotateGeometryDecorator | \ref SkiFileHelpConcreteRotateGeometryDecorator "props" | \ref RotateGeometryDecorator "docs"| a decorator that adds a rotation to any geometry |
 | %SersicGeometry | \ref SkiFileHelpConcreteSersicGeometry "props" | \ref SersicGeometry "docs"| a Sérsic geometry |

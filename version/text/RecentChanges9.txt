@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Nov 2, 2020</em>
+<em>Nov 9, 2020</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -56,6 +56,7 @@ Nov  2, 2020 | 086772b | Add probes to output the values of custom state variabl
 Nov  2, 2020 | 086772b | (*) Add the option to use a photon cycle without forced scattering, mainly for Lyman-alpha
 Nov  2, 2020 | 086772b | Allow loading a dust grain size distribution from file or configuring it as a list
 Nov  2, 2020 | 086772b | The spheroidal dust grain compositions now offer built-in property tables
+Nov  9, 2020 | 787d31a | Add geometry that reads density distribution from a 3D FITS data cube
 
 (*) Although the Lyman-alpha capabilities seem to produce reasonable results for basic spherically symmetric setups,
 please don't use them for 'production' simulations until their accuracy has been verified in more detail.
