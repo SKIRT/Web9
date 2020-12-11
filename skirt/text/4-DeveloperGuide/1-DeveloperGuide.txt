@@ -20,6 +20,7 @@ the <a href="../version9/_tutorials.html">Tutorials</a> section on this web site
 This developer guide includes the following topics with further guidance and reference material:
 
 - <a href="../version9/_tutorials.html">Tutorials</a>
+- <a href="../root/_git_hub_work_flow.html">The GitHub workflow for the SKIRT project</a>
 - \ref DevStruct
 - \ref DevCoding
 - \ref DevItems

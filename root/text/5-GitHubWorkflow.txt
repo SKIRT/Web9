@@ -1,0 +1,332 @@
+/**
+
+\page GitHubWorkFlow The GitHub workflow for the SKIRT project
+
+## Introduction
+
+The repositories in the SKIRT organization use the GitHub \em fork \em and \em pull workflow model. Anyone can fork a
+repository, push changes to their personal fork, and initiate a pull request. The changes can be pulled into the
+original repository by a Core team member, possibly after discussion and/or being adjusted in one or more iterations.
+
+To get started with contributing to one of the SKIRT project repositories:
+ - On the GitHub web site, fork the relevant repository (for a list, see section \ref ContributingRepositories above).
+ - Clone this personal fork to your computer (possibly replacing your direct clone of the original repository).
+
+To initiate a pull request:
+ - On the GitHub web site, synchronize your personal fork with the upstream repository.
+ - On your local (cloned) copy, pull the latest version, and create a new topic branch for your changes.
+ - Make the desired changes, commit them, and push them to your personal fork.
+ - Test your changes, and repeat the previous line as many times as needed.
+ - On the GitHub web site, go to the upstream repository.
+ - Create a pull request for the topic branch of your fork to be merged into the master branch of the upstream repository.
+ - Wait for feedback from the Core SKIRT team.
+
+The sections on this page list the \c git commands for many of the steps in this workflow. For additional information,
+refer to GitHub help topics, including:
+
+ - [Collaborative models](https://help.github.com/en/articles/about-collaborative-development-models)
+ - [Forks](https://help.github.com/en/articles/about-forks)
+ - [Workflow](https://help.github.com/en/articles/github-flow)
+ - [Branches](https://help.github.com/en/articles/about-branches)
+ - [Pull requests](https://help.github.com/en/articles/about-pull-requests)
+
+
+## Creating a fork
+
+Go to the GitHub page for the SKIRT/SKIRT9 or SKIRT/PTS9 repository and click the "Fork" button to create a personal
+fork of the repository on GitHub. A fork is a personal copy of a repository. Forking allows you to experiment with
+changes without affecting the original repository.
+
+\note The example commands in this section use the SKIRT/SKIRT9 repository. For the SKIRT/PTS9 repository, replace
+"SKIRT9" by "PTS9" and clone into a directory named "pts" instead of "git".
+
+Once you've created a personal fork on GitHub, clone this forked repository onto your machine:
+
+\verbatim
+# Create local directories on your machine
+cd
+mkdir SKIRT
+cd SKIRT
+mkdir release run git
+cd git
+
+# Clone your fork into the SKIRT/git directory on your local machine
+git clone https://github.com/USERNAME/SKIRT9.git .
+\endverbatim
+
+In the last line, replace "USERNAME" by your GitHub user name and don't forget the dot at the end to indicate the
+current directory. On your computer, git will now refer to the forked repo as the "origin" remote. Remotes are
+repositories hosted on GitHub. You can list them as follows:
+
+\verbatim
+# Display all remotes
+git remote -v
+\endverbatim
+
+You'll want to make sure to keep your fork up to date by tracking the original "upstream" repository that you forked.
+To do this, you'll need to add a remote:
+
+\verbatim
+# Add 'upstream' repo to list of remotes
+git remote add upstream https://github.com/SKIRT/SKIRT9.git
+
+# Verify the new remote named 'upstream'
+git remote -v
+\endverbatim
+
+Configure git so that your identity will be attached to your commits (include the quotation marks):
+
+\verbatim
+# Link your commits to your name and GitHub account
+git config --global user.name "USERNAME"
+git config --global user.email "name@domain.com"
+\endverbatim
+
+
+## Keeping your fork up to date
+
+Whenever you want to update your fork with the latest upstream changes, you'll need to first fetch the upstream repo's
+branches and latest commits to bring them into your repository. This downloads the remote content but does not
+update the local repository's working state:
+
+\verbatim
+# Fetch from upstream remote
+git fetch upstream
+
+# List all branches, including those from upstream
+git branch -va
+\endverbatim
+
+Now, checkout your own master branch and merge the upstream repo's master branch:
+
+\verbatim
+# Checkout your master branch and merge upstream
+git checkout master
+git merge upstream/master
+\endverbatim
+
+If there are no commits on the local master branch, git will simply perform a fast-forward. However, if you made local
+changes on master (in the vast majority of cases you shouldn't, see next section), you may have to deal with conflicts.
+When doing so, be careful to respect the changes made upstream.
+
+Now, your local master branch is up-to-date with everything modified upstream. To bring your fork on GitHub up-to-date
+as well, push your changes:
+
+\verbatim
+# Push any updates to your GitHub fork
+git push
+\endverbatim
+
+
+## Doing your work
+
+### Creating a branch
+
+Whenever you begin work on a new feature or bugfix, it's important that you create a new branch. A branch represents an
+independent version of the code inside the repository. This is the proper git workflow to keep your changes organized
+and separated from the master branch. In this way you can easily submit and manage multiple pull requests for every
+task you complete, and keep your local master branch up-to-date with the upstream master branch.
+
+To create a new branch and start working on it:
+
+\verbatim
+# Checkout the master branch - you want your new branch to come from master
+git checkout master
+
+# Create a new branch named newfeature (give your branch its own simple informative name)
+git branch newfeature
+
+# Switch to your new branch
+git checkout newfeature
+
+# List all branches; the branch you have checked out has an asterisk (*)
+git branch -va
+\endverbatim
+
+Alternatively, you can create and checkout the new branch with a single command:
+
+\verbatim
+# Create and checkout a new branch based on master in one go
+git checkout -b newfeature master
+\endverbatim
+
+Push the new branch to the remote "origin", i.e. your personal GitHub fork:
+
+\verbatim
+# Push the new branch to your remote fork
+git push -u origin newfeature
+
+# List all local and remote branches
+git branch -va
+\endverbatim
+
+Now, make whatever changes you want to your local working copy of the repository.
+
+### Committing your changes
+
+Once you are happy with the changes to your local working copy, it is time to commit them to your personal repository:
+
+\verbatim
+# Make sure that your development branch is checked out
+git checkout newfeature
+
+# Check the status of modified files
+git status
+
+# Add a file to the staging area
+git add file.txt
+
+# Or add all modified files to the staging area
+git add -A
+
+# Check the status of the staging area
+git status
+
+# Commit any changes in the staging area to the local branch
+git commit -m "message describing the commit"
+
+# Push the local branch to the corresponding GitHub branch
+git push
+\endverbatim
+
+You can repeat this process as many times you want. This allows you to make complex changes in smaller steps.
+
+### Merging with other's changes
+
+Prior to submitting your work, you should make it as simple as possible for the Core team to test, accept, and
+merge your changes. First fetch upstream master and merge with your repo's master branch:
+
+\verbatim
+# Fetch upstream master and merge with your repo's master branch
+git fetch upstream
+git checkout master
+git merge upstream/master
+\endverbatim
+
+If any commits have been made to the upstream master branch, you should rebase your development branch
+so that merging it will be a simple fast-forward that won't require any conflict resolution work.
+With the rebase command, you can take all the changes that were committed on one branch (here the master branch)
+and replay them on a different branch (here the newfeature branch)
+
+\verbatim
+# If there were any new commits, rebase your development branch
+git checkout newfeature
+git rebase master
+\endverbatim
+
+Now, push your local changes to your personal fork on GitHub:
+
+\verbatim
+# Push your changes to your GitHub fork
+git checkout newfeature
+git push
+\endverbatim
+
+### Submitting a pull request
+
+Once you've committed and pushed all of your changes to GitHub:
+ - Go to the page for your personal fork on GitHub.
+ - Select your development branch.
+ - Click the pull request button.
+ - Complete the title and description.
+ - Submit the pull request.
+
+If you need to make any adjustments to the code in your pull request after submitting it, just commit these changes to
+your development branch locally and push your development branch to GitHub. Your pull request will automatically track
+the changes on your development branch.
+
+Now you can wait until a member of the Core team comments on your pull request and/or merges your changes with
+the main repository.
+
+### Removing the development branch
+
+Once your changes have been merged with the main repository, you're free to delete your development branch:
+
+\verbatim
+# Delete local branch that git knows to have been merged
+git branch -d newfeature
+
+# Delete local branch in any case
+git branch -D newfeature
+
+# Delete remote branch
+git push origin --delete newfeature
+\endverbatim
+
+## Resetting your fork
+
+\note The information in this section is intended for emergency use only.
+
+If you get in trouble you can reset your fork to a clean copy of the upstream repo. Remember that
+this will discard any changes you made to the local version of the repository \em and any changes that
+you pushed to your personal fork on GitHub:
+
+\verbatim
+git fetch upstream
+git checkout master
+git reset --hard upstream/master
+git push origin master --force
+\endverbatim
+
+
+## Merging a pull request
+
+\note The information in this last section is intended for use by the Core team only.
+
+### Automatically merging a pull request
+
+If no further changes to the code in the pull request are required and there are no merge conflicts, you can
+automatically perform the merge by just clicking the button on the pull request page on GitHub.
+
+### Manually adjusting a pull request
+
+Otherwise, you will need to work on a local copy of the pull request. First of all, make sure that your local master
+branch is up to date with the upstream master into which the pull requests wants to be merged. Then, check out a new
+branch and pull the changes from the pull request:
+
+\verbatim
+# Checkout a new branch with the pull request changes
+git checkout -b newfeature master
+git pull https://github.com/PR-USER/PR-REPO.git pr-branch
+\endverbatim
+
+Now test the pull-request code and make any required changes. If you did make any changes, create a new commit and push
+it back to the original pull request branch (assuming the pull request user did not disable this option):
+
+\verbatim
+# Create a new commit with your changes
+git commit -a -m "description of changes to pull request"
+
+# Push your commit(s) back to the original pull request branch
+git push https://github.com/PR-USER/PR-REPO.git newfeature:pr-branch
+\endverbatim
+
+After the pull request code has stabilized to an acceptable form, you can finally merge it using the automatic
+procedure on GitHub, as described before.
+
+### Updating your fork
+
+To update your GitHub fork after merging a pull request, once more:
+
+\verbatim
+# Checkout your master branch and merge upstream
+git fetch upstream
+git checkout master
+git merge upstream/master
+git push
+\endverbatim
+
+### Removing the development branch
+
+Now that you're done with the development branch, you're free to delete it.
+
+\verbatim
+# Delete local branch that git knows to have been merged
+git branch -d newfeature
+# Delete local branch in any case
+git branch -D newfeature
+# Delete remote branch
+git push origin --delete newfeature
+\endverbatim
+
+*/

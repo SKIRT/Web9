@@ -8,6 +8,7 @@ It is organized in the following topics:
 - \ref DevStruct
 - \ref DevStyle
 - \ref DevBuildDocs
+- \ref DevContributing
 
 \section DevStruct Packages, modules and directories
 
@@ -165,5 +166,14 @@ As usual, the file \c index.html provides the starting point for browsing.
 The source text for the \c PTS installation, user and developer guides is maintained in a different repository. For
 more information about how to edit and publish this documentation, refer to the \c SKIRT developer guide (section
 "Additional documentation" on page "Building the documentation")
+
+
+\section DevContributing Contributing to PTS
+
+We invite your contributions to PTS and to the SKIRT project in general. A contribution can take many forms, from
+asking a question to implementing a new feature. More information on how to contribute can be found here:
+
+- <a href="../root/_contributing.html">Contributing to the SKIRT project</a>
+- <a href="../root/_git_hub_work_flow.html">The GitHub workflow for the SKIRT project</a>
 
 */

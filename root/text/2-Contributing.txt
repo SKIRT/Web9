@@ -26,6 +26,7 @@ The technical contribution mechanisms and workflows are discussed here:
 - \ref ContributingTeams
 - \ref ContributingIssues
 - \ref ContributingPullRequests
+- \ref GitHubWorkFlow
 
 Developer information, including (usually stricly enforced) coding style guidelines, can be found
 in the developer guides for each of the project components:
@@ -215,11 +216,6 @@ To initiate a pull request:
  - Create a pull request for the topic branch of your fork to be merged into the master branch of the upstream repository.
  - Wait for feedback from the Core SKIRT team.
 
-For more information on this workflow, refer to the following GitHub help topics:
- - [Collaborative models](https://help.github.com/en/articles/about-collaborative-development-models)
- - [Forks](https://help.github.com/en/articles/about-forks)
- - [Workflow](https://help.github.com/en/articles/github-flow)
- - [Branches](https://help.github.com/en/articles/about-branches)
- - [Pull requests](https://help.github.com/en/articles/about-pull-requests)
+This worklow is discussed in more detail in \ref GitHubWorkFlow.
 
 */
