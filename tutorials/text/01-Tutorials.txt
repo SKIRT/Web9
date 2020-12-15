@@ -13,6 +13,10 @@ The best way to begin using \c SKIRT is to run through (at least some of) the tu
   - \ref TutorialGridsTreeVoro
   - \ref TutorialPolarization
 
+<b>For advanced SKIRT users</b>
+
+- \ref TutorialCustomDust
+
 <b>For SKIRT developers</b>
 
   - \ref TutorialDevelopGeom

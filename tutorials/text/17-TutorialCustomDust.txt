@@ -1,0 +1,40 @@
+/**
+
+\page TutorialCustomDust Configuring custom dust mixes
+
+This advanced tutorial explores the mechanisms for configuring custom dust mixes in SKIRT. The built-in turn-key dust
+mixes are sufficient for many applications and should remain the preferred choice for beginning (and many advanced)
+users. On the other hand, the flexibility to specify a customized dust model enables many powerful applications,
+including:
+
+ - Investigating the effect of changing optical material properties, relative abundances, grain size distributions,
+ and so forth on the observed extinction and emission characteristics of a given model or class of models.
+
+ - Spatially varying the properties of the dust in models imported from hydrodynamical snapshots by assigning a
+ different type of dust (material type, grain size, etc.) to each particle or cell.
+
+
+\section TutorialCustomDustPre Getting ready
+
+Because this is an advanced tutorial, it assumes that you:
+
+ - have installed SKIRT and any relevant visualization tools
+   (see <a href="../skirt9/_installation_guide.html">The SKIRT installation guide</a>);
+ - know how to operate SKIRT by completing the introductory SKIRT tutorials (see \ref Tutorials);
+ - understand the structure of ski files and know how to manually update them
+   (see <a href="../skirt9/_user_param_file.html">The SKIRT parameter file format</a>);
+ - have a working knowledge of interstellar dust concepts, including material types, absorption and scattering
+   processes, grain size distributions, wavelength dependence and so forth;
+ - have a basic understanding of how dust mixes are implemented in SKIRT
+   (see <a href="../skirt9/_dust_properties.html">Dust properties in SKIRT</a>).
+
+After all of that, you are ready to take a deep dive into the world of custom SKIRT dust mixes...
+
+
+\section TutorialCustomDustDupl Duplicating a built-in dustmix
+
+
+
+
+
+*/
