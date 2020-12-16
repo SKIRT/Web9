@@ -9,10 +9,11 @@ including:
 
  - Investigating the effect of changing optical material properties, relative abundances, grain size distributions,
  and so forth on the observed extinction and emission characteristics of a given model or class of models.
+ See section \ref TutorialCustomDustProps below.
 
  - Spatially varying the properties of the dust in models imported from hydrodynamical snapshots by assigning a
  different type of dust (material type, grain size, etc.) to each particle or cell.
-
+ See section \ref TutorialCustomDustImport below.
 
 \section TutorialCustomDustPre Getting ready
 
@@ -31,10 +32,229 @@ Because this is an advanced tutorial, it assumes that you:
 After all of that, you are ready to take a deep dive into the world of custom SKIRT dust mixes...
 
 
-\section TutorialCustomDustDupl Duplicating a built-in dustmix
+\section TutorialCustomDustProps Customizing dust properties
+
+## Reference model
+
+In the first part of the tutorial we study a basic, spherically symmetric SKIRT model with a central point source
+surrounded by a shell of dust. The reference model described in this section uses the built-in Zubko et al. 2004 dust
+mix, which is replaced in later sections by custom dust mix variations.
+
+The complete ski file for the reference model is listed below. You can copy and paste it into a text file, run it
+with SKIRT, and manually adjust the dust mix configuration while working through the following sections.
+
+\verbatim
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A SKIRT parameter file © Astronomical Observatory, Ghent University -->
+<skirt-simulation-hierarchy type="MonteCarloSimulation" format="9">
+    <MonteCarloSimulation userLevel="Regular" simulationMode="DustEmission" numPackets="1e7">
+        <units type="Units">
+            <ExtragalacticUnits fluxOutputStyle="Neutral"/>
+        </units>
+        <sourceSystem type="SourceSystem">
+            <SourceSystem minWavelength="0.01 micron" maxWavelength="160 micron">
+                <sources type="Source">
+                    <PointSource positionX="0 pc" positionY="0 pc" positionZ="0 pc">
+                        <sed type="SED">
+                            <BruzualCharlotSED imf="Chabrier" metallicity="0.002" age="0.5 Gyr"/>
+                        </sed>
+                        <normalization type="LuminosityNormalization">
+                            <IntegratedLuminosityNormalization wavelengthRange="Source"
+                                integratedLuminosity="100 Lsun"/>
+                        </normalization>
+                    </PointSource>
+                </sources>
+            </SourceSystem>
+        </sourceSystem>
+        <mediumSystem type="MediumSystem">
+            <MediumSystem numDensitySamples="100">
+                <dustEmissionOptions type="DustEmissionOptions">
+                    <DustEmissionOptions dustEmissionType="Stochastic">
+                        <radiationFieldWLG type="DisjointWavelengthGrid">
+                            <LogWavelengthGrid
+                                minWavelength="0.02 micron" maxWavelength="10 micron" numWavelengths="40"/>
+                        </radiationFieldWLG>
+                        <dustEmissionWLG type="DisjointWavelengthGrid">
+                            <NestedLogWavelengthGrid
+                                minWavelengthBaseGrid="0.2 micron" maxWavelengthBaseGrid="2000 micron"
+                                numWavelengthsBaseGrid="400"
+                                minWavelengthSubGrid="3 micron" maxWavelengthSubGrid="25 micron"
+                                numWavelengthsSubGrid="200"/>
+                        </dustEmissionWLG>
+                    </DustEmissionOptions>
+                </dustEmissionOptions>
+                <media type="Medium">
+                    <GeometricMedium>
+                        <geometry type="Geometry">
+                            <ShellGeometry minRadius="0.05 pc" maxRadius="1 pc" exponent="0.5"/>
+                        </geometry>
+                        <materialMix type="MaterialMix">
+                            <ZubkoDustMix numSilicateSizes="15" numGraphiteSizes="15" numPAHSizes="10"/>
+                        </materialMix>
+                        <normalization type="MaterialNormalization">
+                            <MassMaterialNormalization mass="1 Msun"/>
+                        </normalization>
+                    </GeometricMedium>
+                </media>
+                <grid type="SpatialGrid">
+                    <Sphere1DSpatialGrid minRadius="0.05 pc" maxRadius="1 pc">
+                        <meshRadial type="Mesh">
+                            <PowMesh numBins="75" ratio="2"/>
+                        </meshRadial>
+                    </Sphere1DSpatialGrid>
+                </grid>
+            </MediumSystem>
+        </mediumSystem>
+        <instrumentSystem type="InstrumentSystem">
+            <InstrumentSystem>
+                <defaultWavelengthGrid type="WavelengthGrid">
+                    <LogWavelengthGrid
+                        minWavelength="0.09 micron" maxWavelength="2000 micron" numWavelengths="500"/>
+                </defaultWavelengthGrid>
+                <instruments type="Instrument">
+                    <SEDInstrument instrumentName="i" distance="1 Mpc"
+                        inclination="0 deg" azimuth="0 deg" roll="0 deg"
+                        recordComponents="true"/>
+                </instruments>
+            </InstrumentSystem>
+        </instrumentSystem>
+        <probeSystem type="ProbeSystem">
+            <ProbeSystem>
+                <probes type="Probe">
+                    <SpatialGridConvergenceProbe probeName="cnv" wavelength="0.55 micron"/>
+                    <DefaultMediaDensityCutsProbe probeName="dns" probeAfter="Setup"/>
+                    <DefaultDustTemperatureCutsProbe probeName="tmp"/>
+                    <OpticalMaterialPropertiesProbe probeName="1"/>
+                    <DustGrainPopulationsProbe probeName="2"/>
+                    <DustGrainSizeDistributionProbe probeName="3" numSamples="250"/>
+                </probes>
+            </ProbeSystem>
+        </probeSystem>
+    </MonteCarloSimulation>
+</skirt-simulation-hierarchy>
+\endverbatim
+
+The central point source is assigned the typical spectrum of a fairly young stellar population. The surrounding dust is
+distributed as a shell with a radius of 1 pc and a shallow exponential radial density profile. The total dust mass is
+set to 1 solar mass, resulting is a radial optical depth of approximately 2.12, as can be seen in the text file
+produced by the \c SpatialGridConvergenceProbe. The following figures show a cut through the dust density and a cut
+through the indicative dust temperature, respectively generated by the \c DefaultMediaDensityCutsProbe and the \c
+DefaultDustTemperatureCutsProbe.
+
+| Dust density | Indicative dust temperature |
+| ------------ | --------------------------- |
+| ![ ](TutorialCustomDustPropsDensityCut.png) | ![ ](TutorialCustomDustPropsTemperatureCut.png) |
+
+To capture as many aspects of the influence of dust properties as possible, we configure a panchromatic simulation from
+UV to submillimeter wavelengths taking into account stochastic heating of small grains. The built-in Zubko dust mix is
+configured with a suffiently large number of size bins to properly resolve the grain size distributions when
+calculating the emission spectrum for each material type and for each representative grain size.
+
+The following figure shows the SED produced by this reference configuration, separated into its stellar and
+dust emission components. The dashed line indicates the stellar spectrum without dust extinction.
+
+| SED for reference model with built-in Zubko et al. 2004 |
+| ------------ |
+| ![ ](TutorialCustomDustPropsSedReference.png) |
+
+The \c OpticalMaterialPropertiesProbe ("1") outputs the aggregate optical properties of the dust mix as a function of
+wavelength. For convenience depending on the user's needs, the extinction properties are listed in two equivalent
+forms: as a cross section per hydrogen atom (in \f$\mathrm{m}^2\f$) and as a mass coefficient (in \f$\mathrm{m}^2
+\;\mathrm{kg}^{-1}\f$). These two quantities are connected through the dust mass per hydrogen atom for the dust mix,
+which is listed (in \f$\mathrm{kg}\f$) on the very first line of the file.
+
+The \c DustGrainPopulationsProbe ("2") outputs some characteristics for each of the grain populations in the dust mix.
+A grain population defines a grain material type and a corresponding grain size distribution. The built-in Zubko dust
+mix includes four grain populations:
+
+\verbatim
+0 Draine_Silicate     62.1543 8.115005680e-30 4.851668068e-03 ...
+1 Draine_Graphite     32.8185 4.284855429e-30 2.561759915e-03 ...
+2 Draine_Neutral_PAH   2.5136 3.281873294e-31 1.962113212e-04 ...
+3 Draine_Ionized_PAH   2.5136 3.281873294e-31 1.962113212e-04 ...
+\endverbatim
+
+The first column after the material type name lists the relative mass of each population in the total mix, as a
+percentage. The next two columns list the absolute mass in two forms: per hydrogen atom and per hydrogen mass.
+These numbers are provided for convenience when comparing a configured dust mix to dust models in the literature.
+
+The \c DustGrainSizeDistributionProbe ("3") outputs the size distribution for each of the grain populations (in
+separate files). A grain size distribution is \em not a normalized probability distribition; the scaling of the
+values is taken into account when integrating over the size distribution to calculate aggregate
+or representative properties.
+
+Many of these concepts will play an important role later in this tutorial.
+
+## Duplicating the Zubko dust mix
+
+Although the turn-key dust mixes built into SKIRT are hardwired in the code, they effectively use the same components
+as those used to configure a custom dust mix. For example, the built-in Zubko dust mix is coded as follows (see the
+ZubkoDustMix class):
+
+\verbatim
+addPopulation(new DraineSilicateGrainComposition(this), new ZubkoSilicateGrainSizeDistribution(this),
+              _numSilicateSizes, GrainPopulation::NormalizationType::FactorOnSizeDistribution, 1.);
+addPopulation(new DraineGraphiteGrainComposition(this), new ZubkoGraphiteGrainSizeDistribution(this),
+              _numGraphiteSizes, GrainPopulation::NormalizationType::FactorOnSizeDistribution, 1.);
+addPopulation(new DraineNeutralPAHGrainComposition(this), new ZubkoPAHGrainSizeDistribution(this),
+              _numPAHSizes, GrainPopulation::NormalizationType::FactorOnSizeDistribution, 0.5);
+addPopulation(new DraineIonizedPAHGrainComposition(this), new ZubkoPAHGrainSizeDistribution(this),
+              _numPAHSizes, GrainPopulation::NormalizationType::FactorOnSizeDistribution, 0.5);
+\endverbatim
+
+Assuming that the number of size bins for each population is configured as for the reference model above, this
+translates to the following equivalent ski file configuration:
+
+\verbatim
+<ConfigurableDustMix scatteringType="HenyeyGreenstein">
+    <populations type="GrainPopulation">
+        <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution" factorOnSizeDistribution="1">
+            <composition type="GrainComposition">
+                <DraineSilicateGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <ZubkoSilicateGrainSizeDistribution/>
+            </sizeDistribution>
+        </GrainPopulation>
+        <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution" factorOnSizeDistribution="1">
+            <composition type="GrainComposition">
+                <DraineGraphiteGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <ZubkoGraphiteGrainSizeDistribution/>
+            </sizeDistribution>
+        </GrainPopulation>
+        <GrainPopulation numSizes="10" normalizationType="FactorOnSizeDistribution" factorOnSizeDistribution="0.5">
+            <composition type="GrainComposition">
+                <DraineNeutralPAHGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <ZubkoPAHGrainSizeDistribution/>
+            </sizeDistribution>
+        </GrainPopulation>
+        <GrainPopulation numSizes="10" normalizationType="FactorOnSizeDistribution" factorOnSizeDistribution="0.5">
+            <composition type="GrainComposition">
+                <DraineIonizedPAHGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <ZubkoPAHGrainSizeDistribution/>
+            </sizeDistribution>
+        </GrainPopulation>
+    </populations>
+</ConfigurableDustMix>
+\endverbatim
 
 
 
 
+\section TutorialCustomDustImport Spatially varying the dust mix
+
+## Reference model
+
+In the second part of the tutorial we use a SKIRT model that reads both the source and medium setup from smoothed
+particle data provided as column text files. Rather than supplying data derived from an actual hydrodynamical
+simulation snapshot, we manually construct simple input data files that illustrate the concepts under study.
+
+[[[ To Be Completed ]]]
 
 */
