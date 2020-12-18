@@ -394,19 +394,182 @@ simulations, the aggregate cross sections have increased by exactly the amount c
 population. All of this is as expected. The effect on the mass coefficients is more difficult to predict (except by
 actually doing the calculations), also as expected.
 
+To illustrate the grain size distribution "normalization" mechanisms in SKIRT, it is convenient to focus on a single
+grain population. We return to a configuration with just the silicate population and a proportionality factor of 1 on
+the Zubko size distribution for silicates:
 
+\verbatim
+0 Draine_Silicate 100.0000 8.115005680e-30 4.851668068e-03 3.500000000e-04 3.700000000e-01
+\endverbatim
 
-## Grain compositions
+As a reminder, the columns after the percentage (100 because there is only a single population) indicate the
+dust mass per hydrogen atom (in kg), the dust mass per hydrogen mass (dimensionless), and the minimum and
+maximum grain size (in \f$\mu\text{m}\f$).
 
-blabla.
+Our intention is to replace the Zubko size distribution by another distribution with a simpler form, while retaining
+the same dust mass per hydrogen atom. We use a powerlaw size distribution with an exponent of 3.5 over the same size
+range as the Zubko distribution. The complete configuration now is:
 
-## Scattering phase function
+\verbatim
+<ConfigurableDustMix scatteringType="HenyeyGreenstein">
+    <populations type="GrainPopulation">
+        <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution" factorOnSizeDistribution="1">
+            <composition type="GrainComposition">
+                <DraineSilicateGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <PowerLawGrainSizeDistribution minSize="3.5 Angstrom" maxSize="0.37 micron" exponent="3.5"/>
+            </sizeDistribution>
+        </GrainPopulation>
+    </populations>
+</ConfigurableDustMix>
+\endverbatim
 
-blabla.
+This results in the following dust population characteristics:
 
-## Multiple medium components
+\verbatim
+0 Draine_Silicate 100.0000 1.481762434e+01 8.858921075e+27 3.500000000e-04 3.700000000e-01
+\endverbatim
 
-blabla.
+The dust mass per hydrogen atom is off by more than 30 orders of magnitude. It takes just a simple division to
+calculate the proportionality factor needed to correct this (8.115005680e-30 / 1.481762434e+01). Because of rounding
+errors it might take a couple iterations to get all the displayed digits right. The factor 5.4765902385e-31 does the
+trick. After replacing the factor of 1 in the configuration by this number, the dust population characteristics of
+probe "2" are identical to those of the original Zubko silicates. However, the cross sections calculated from the two
+grain size distributions differ slightly, resulting in subtle differences in the observed spectrum.
+
+The figure on the left below shows the two grain size distributions (in volume units) plotted from the files produced
+by the probes "3". These probes register the bare size distributions without the front factor, so we added this factor
+in the plotting routine. The figure on the right shows the corresponding observed spectra.
+
+| Grain size distribution in volume units | Corresponding observed spectrum |
+| ----- | ---- |
+| ![ ](TutorialCustomDustPropsSizeDistrib.png) | ![ ](TutorialCustomDustPropsSedSizeDistrib.png) |
+
+While experimenting with the form and range of a size distribution, it is often desirable to keep the dust mass per
+hydrogen atom of the population constant so that the relative contribution of the population in the complete dust mix
+remains fixed. To achieve this, the proportionality factor must be recalculated after each change to the size
+distribution. To avoid this annoyance, SKIRT offers an alternative "normalization" mechanism that allows directly
+specifying the dust mass per hydrogen atom or per hydrogen mass of a population. Thus, for our silicate model, the
+following three lines in the ski file result in exactly the same grain population:
+
+\verbatim
+<GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution" factorOnSizeDistribution="5.4765902385e-31">
+    ... or ...
+<GrainPopulation numSizes="15" normalizationType="DustMassPerHydrogenAtom" dustMassPerHydrogenAtom="8.115005680e-30 kg">
+    ... or ...
+<GrainPopulation numSizes="15" normalizationType="DustMassPerHydrogenMass" dustMassPerHydrogenMass="4.851668068e-03">
+\endverbatim
+
+These alternatives are especially handy when the characteristics for a grain population are specified in these terms in
+the literature.
+
+## Working with grain compositions
+
+SKIRT offers various built-in grain compositions (i.e. grain material types), including:
+ - the classic Draine et al. (amorphous) silicates, graphites and PAHs we have been using so far in this tutorial,
+ - crystalline Enstatite and Forsterite silicates prepared by Michiel Min et al.,
+ - a suite of material types taken from the data supplied with the DustEM code (Compiègne et al.), including more
+   recent versions of Draine et al. silicates, graphites and PAHs; carbonaceous grains defined by Jones et al.; and
+   amorphous olivine and pyroxene silicates defined by Koehler et al.
+
+More information can be found in the respective class descriptions.
+
+As an example, let us consider the THEMIS dust model. This model is already available as a turn-key dust mix in SKIRT,
+however it is informative to configure it as a custom dust mix in the ski file. The following is an extract from the
+input file specifying this dust model for the DustEM code:
+
+\verbatim
+# grain type, nsize, type keywords, Mdust/MH, rho, amin, amax, alpha/a0 [, at, ac, gamma (ED)] [, au, zeta, eta (CV)]
+# cgs units
+aOLM5  100 logn      0.255E-02  2.190E+00  1.00E-07   4900.0E-07     8.00E-07    1.00E+00
+aPyM5  100 logn      0.255E-02  2.190E+00  1.00E-07   4900.0E-07     8.00E-07    1.00E+00
+CM20   100 logn      0.600E-03  1.510E+00  0.50E-07   4900.0E-07     7.00E-07    1.00E+00
+CM20   100 plaw-ed   0.170E-02  1.600E+00  0.40E-07   4900.0E-07    -5.00E-00   10.00E-07   50.0E-07  1.000E+00
+\endverbatim
+
+The four grain populations use olivine, pyroxene, and carbonaceous grains (twice) with log-normal or modified power-law
+size distributions. These size distributions are "normalized" by specifying the dust mass per hydrogen mass
+(<tt>Mdust/MH</tt>). The bulk mass density is explicitly given for each material type (\c rho). The remaining columns
+provide parameters for the range and form of the size distributions.
+
+Here is the corresponding dust mix configuration in SKIRT. The concepts and values translate quite easily, although,
+admittedly, the ski file version is a lot more verbose:
+
+\verbatim
+<ConfigurableDustMix scatteringType="HenyeyGreenstein">
+    <populations type="GrainPopulation">
+        <GrainPopulation numSizes="15" normalizationType="DustMassPerHydrogenMass"
+                         dustMassPerHydrogenMass="0.255E-02">
+            <composition type="GrainComposition">
+                <DustEmGrainComposition grainType="aOlM5" bulkMassDensity="2.190E+00 g/cm3"/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <LogNormalGrainSizeDistribution minSize="1.00E-07 cm" maxSize="4900.0E-07 cm"
+                                                centroid="8.00E-07 cm" width="1.00E+00"/>
+            </sizeDistribution>
+        </GrainPopulation>
+        <GrainPopulation numSizes="15" normalizationType="DustMassPerHydrogenMass"
+                         dustMassPerHydrogenMass="0.255E-02">
+            <composition type="GrainComposition">
+                <DustEmGrainComposition grainType="aPyM5" bulkMassDensity="2.190E+00 g/cm3"/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <LogNormalGrainSizeDistribution minSize="1.00E-07 cm" maxSize="4900.0E-07 cm"
+                                                centroid="8.00E-07 cm" width="1.00E+00"/>
+            </sizeDistribution>
+        </GrainPopulation>
+        <GrainPopulation numSizes="15" normalizationType="DustMassPerHydrogenMass"
+                         dustMassPerHydrogenMass="0.600E-03">
+            <composition type="GrainComposition">
+                <DustEmGrainComposition grainType="CM20" bulkMassDensity="1.510E+00 g/cm3"/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <LogNormalGrainSizeDistribution minSize="0.50E-07 cm" maxSize="4900.0E-07 cm"
+                                                centroid="7.00E-07 cm" width="1.00E+00"/>
+            </sizeDistribution>
+        </GrainPopulation>
+        <GrainPopulation numSizes="15" normalizationType="DustMassPerHydrogenMass"
+                         dustMassPerHydrogenMass="0.170E-02">
+            <composition type="GrainComposition">
+                <DustEmGrainComposition grainType="CM20" bulkMassDensity="1.600E+00 g/cm3"/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <ModifiedPowerLawGrainSizeDistribution minSize="0.40E-07 cm" maxSize="4900.0E-07 cm"
+                            powerLawIndex="-5.00E-00" turnOffPoint="10.00E-07 cm"
+                            scaleExponentialDecay="50.0E-07 cm" exponentExponentialDecay="1.000E+00"
+                            strengthCurvature="0"/>
+            </sizeDistribution>
+        </GrainPopulation>
+    </populations>
+</ConfigurableDustMix>
+\endverbatim
+
+## Supporting polarization and material phase functions
+
+Depending on the data supplied with the dust grain compositions configured for a simulation, SKIRT may support any of
+the three following spherical-grain scattering mechanisms:
+
+- The Henyey-Greenstein scattering phase function is widely used for dust scattering in an astrophysical context
+ because it requires only a single (wavelength-dependent) parameter, namely \f$g=\left<\cos\theta\right>\f$, the
+ average cosine of the scattering angle \f$\theta\f$. The resulting analytical phase function form is, however, not
+ always an excellent approximation of the actual phase function.
+
+- With scattering for polarized radiation, the phase function depends on the polarization state of the incoming
+ radiation, and the polarization state of the outgoing radiation is updated appropriately. The phase function is
+ computed from the (wavelength and grain size-dependent) coefficients of the Mueller matrix supplied for the grain
+ composition.
+
+- The material phase function mode calculates the actual phase function from (part of) the Mueller matrix components
+ supplied for the grain composition, but does not support polarized radiation.
+
+As mentioned earlier, most dust mixes and grain compositions in SKIRT work with the Henyey-Greenstein scattering mode.
+
+[[[ To Be Completed ]]]
+
+## Configuring multiple medium components
+
+[[[ To Be Completed ]]]
 
 
 \section TutorialCustomDustImport Spatially varying the dust mix
