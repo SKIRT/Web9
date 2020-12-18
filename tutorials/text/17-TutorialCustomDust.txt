@@ -545,34 +545,47 @@ admittedly, the ski file version is a lot more verbose:
 </ConfigurableDustMix>
 \endverbatim
 
-## Supporting polarization and material phase functions
+## Using polarization and material phase functions
 
-Depending on the data supplied with the dust grain compositions configured for a simulation, SKIRT may support any of
-the three following spherical-grain scattering mechanisms:
+Depending on the data supplied with the included dust grain compositions, a \c ConfigurableDustMix may support one or
+more of the following spherical-grain scattering mechanisms (specified with the \c scatteringType attribute):
 
-- The Henyey-Greenstein scattering phase function is widely used for dust scattering in an astrophysical context
- because it requires only a single (wavelength-dependent) parameter, namely \f$g=\left<\cos\theta\right>\f$, the
- average cosine of the scattering angle \f$\theta\f$. The resulting analytical phase function form is, however, not
- always an excellent approximation of the actual phase function.
+- \c HenyeyGreenstein: the Henyey-Greenstein scattering phase function is widely used for dust scattering in an
+ astrophysical context because it requires only a single (wavelength-dependent) parameter, namely
+ \f$g=\left<\cos\theta\right>\f$, the average cosine of the scattering angle \f$\theta\f$. The resulting analytical
+ phase function form is, however, not always an excellent approximation of the actual phase function.
 
-- With scattering for polarized radiation, the phase function depends on the polarization state of the incoming
- radiation, and the polarization state of the outgoing radiation is updated appropriately. The phase function is
- computed from the (wavelength and grain size-dependent) coefficients of the Mueller matrix supplied for the grain
- composition.
+- \c SphericalPolarization: with scattering for polarized radiation, the phase function depends on the polarization
+ state of the incoming radiation, and the polarization state of the outgoing radiation is updated appropriately. The
+ phase function is computed from the (wavelength and grain size-dependent) coefficients of the Mueller matrix supplied
+ for the grain composition.
 
-- The material phase function mode calculates the actual phase function from (part of) the Mueller matrix components
- supplied for the grain composition, but does not support polarized radiation.
+- \c MaterialPhaseFunction: this mode calculates the actual material phase function from (part of) the
+ Mueller matrix components supplied for the grain composition, without handling polarized radiation.
 
-As mentioned earlier, most dust mixes and grain compositions in SKIRT work with the Henyey-Greenstein scattering mode.
-
-[[[ To Be Completed ]]]
+All grain compositions mentioned so far in this tutorial work with the Henyey-Greenstein scattering mode and don't
+support the other modes. Apart from some special-purpose dust mixes intended for use with benchmarks, only the \c
+PolarizedSilicateGrainComposition and \c PolarizedGraphiteGrainComposition provide the Mueller matrix data necessary to
+support the \c SphericalPolarization or \c MaterialPhaseFunction modes.
 
 ## Configuring multiple medium components
 
-[[[ To Be Completed ]]]
+In the configurations studied above, all grain populations under consideration are included in a single dust mix, which
+in turn is attached to a geometry that defines the spatial dust density distribution. This implies that the dust
+properties are the same everywhere in the model. We can overcome this limitation by configuring multiple media
+components, each with their own geometry and dust mix. For example, assume that the original dust mix has a silicate
+and a graphite grain population. We can then include the silicate population in the dust mix of the first medium
+component and the graphite population in the dust mix of the second medium component. Remember that we also need to
+adjust the normalization of the dust mass for each medium component to reflect the relative contribution of silicates
+and graphites. We can then control the spatial distribution for silicates and graphites separately by configuring
+different geometries for each medium component.
+
+While this approach works perfectly for simple geometric or even imported models, it becomes unwieldy when the density
+distributions for a nontrivial number of separate grain populations are being imported from hydrodynamical snapshot
+data. This use case is discussed in the second part of this tutorial.
 
 
-\section TutorialCustomDustImport Spatially varying the dust mix
+\section TutorialCustomDustImport Spatially varying the dust mix in imported models
 
 ## Reference model
 
