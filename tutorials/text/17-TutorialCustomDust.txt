@@ -801,13 +801,120 @@ first part of this tutorial, this leads to:
 </ParticleMedium>
 \endverbatim
 
-The adjusted ski file produces the following spectra, as expected:
+The adjusted ski file produces the following spectra. The middle dust blob contains only silicate so it does not show
+the graphite absorption feature. The other two blobs contain only graphite and thus they show the graphite absorption
+feature, at two different column densities:
 
 | Spectra for the model with multiple particle types |
 | ------------ |
 | ![ ](TutorialCustomDustImportSpectra2.png) |
 
 
+## Multiple dust masses, one per type of dust
+
+A related but different situation arises when each of the imported particles carries multiple dust masses, one for each
+type of dust in the simulation. Consider an example with three dust types; silicates, graphite, and neutral PAHs:
+
+\verbatim
+# dust3.txt
+# Column 1: position x (pc)
+# Column 2: position y (pc)
+# Column 3: position z (pc)
+# Column 4: smoothing length (pc)
+# Column 5: silicate mass (Msun)
+# Column 6: graphite mass (Msun)
+# Column 7: PAH mass (Msun)
+-0.66666 0  0  0.3   0.010  0.001  0.001
+ 0       0  0  0.3   0.001  0.010  0.000
+ 0.66666 0  0  0.3   0.001  0.000  0.010
+\endverbatim
+
+This situation can be addressed by configuring a separate medium component for each type of dust. Each medium component
+imports the same particles from the same file but picks the mass column that corresponds to the dust mix assigned to
+the component. This can be achieved through the \c useColumns attribute of the \c ParticleMedium class. The definition
+of the medium components now becomes:
+
+\verbatim
+<ParticleMedium filename="dust3.txt" massFraction="1"
+                useColumns="position x,position y,position z,smoothing length,silicate mass">
+    <smoothingKernel type="SmoothingKernel">
+        <CubicSplineSmoothingKernel/>
+    </smoothingKernel>
+    <materialMix type="MaterialMix">
+        <ConfigurableDustMix scatteringType="HenyeyGreenstein">
+            <populations type="GrainPopulation">
+                <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution"
+                                 factorOnSizeDistribution="1">
+                    <composition type="GrainComposition">
+                        <DraineSilicateGrainComposition/>
+                    </composition>
+                    <sizeDistribution type="GrainSizeDistribution">
+                        <ZubkoSilicateGrainSizeDistribution/>
+                    </sizeDistribution>
+                </GrainPopulation>
+            </populations>
+        </ConfigurableDustMix>
+    </materialMix>
+</ParticleMedium>
+
+<ParticleMedium filename="dust3.txt" massFraction="1"
+                useColumns="position x,position y,position z,smoothing length,graphite mass">
+    <smoothingKernel type="SmoothingKernel">
+        <CubicSplineSmoothingKernel/>
+    </smoothingKernel>
+    <materialMix type="MaterialMix">
+        <ConfigurableDustMix scatteringType="HenyeyGreenstein">
+            <populations type="GrainPopulation">
+                <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution"
+                                 factorOnSizeDistribution="1">
+                    <composition type="GrainComposition">
+                        <DraineGraphiteGrainComposition/>
+                    </composition>
+                    <sizeDistribution type="GrainSizeDistribution">
+                        <ZubkoGraphiteGrainSizeDistribution/>
+                    </sizeDistribution>
+                </GrainPopulation>
+            </populations>
+        </ConfigurableDustMix>
+    </materialMix>
+</ParticleMedium>
+
+<ParticleMedium filename="dust3.txt" massFraction="1"
+                useColumns="position x,position y,position z,smoothing length,PAH mass">
+   <smoothingKernel type="SmoothingKernel">
+        <CubicSplineSmoothingKernel/>
+    </smoothingKernel>
+    <materialMix type="MaterialMix">
+        <ConfigurableDustMix scatteringType="HenyeyGreenstein">
+            <populations type="GrainPopulation">
+                <GrainPopulation numSizes="10" normalizationType="FactorOnSizeDistribution"
+                                 factorOnSizeDistribution="1">
+                    <composition type="GrainComposition">
+                        <DraineNeutralPAHGrainComposition/>
+                    </composition>
+                    <sizeDistribution type="GrainSizeDistribution">
+                        <ZubkoPAHGrainSizeDistribution/>
+                    </sizeDistribution>
+                </GrainPopulation>
+            </populations>
+        </ConfigurableDustMix>
+    </materialMix>
+</ParticleMedium>
+\endverbatim
+
+The ski file now produces the following spectra. The extinction curves have a distinct shape (other than just a
+scaling), indicating that the three blobs contain a different mixture of grain types.
+
+| Spectra for the model with masses per type of dust |
+| ------------ |
+| ![ ](TutorialCustomDustImportSpectra3.png) |
+
+An alternative method, achieving the same goal, is offered by the ...
+ (split configurable or even Zubko, repeating the last column twice)
+
+[[[ To Be Completed ]]]
+
+## Multiple dust masses, one per dust grain size bin
 
 [[[ To Be Completed ]]]
 
