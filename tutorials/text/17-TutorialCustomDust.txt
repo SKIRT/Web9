@@ -589,9 +589,225 @@ data. This use case is discussed in the second part of this tutorial.
 
 ## Reference model
 
-In the second part of the tutorial we use a SKIRT model that reads both the source and medium setup from smoothed
+In the second part of the tutorial we use SKIRT models that read both the source and medium setup from smoothed
 particle data provided as column text files. Rather than supplying data derived from an actual hydrodynamical
 simulation snapshot, we manually construct simple input data files that illustrate the concepts under study.
+
+We first construct a reference model that we can use as the basis for further exploration. The model includes three
+identical sources lined up on the x-axis. Each source is embedded in a blob of dust that may have different properties.
+In the reference model we use a single dust mix; the only difference between the blobs is their mass. By smartly
+positioning a frame instrument so that each pixel covers a single source/blob combination, we can we evaluate the
+extinction characteristics for each dust blob separately.
+
+The following column text data file defines the three sources for our model; this file will remain unchanged for all
+models considered in this tutorial:
+
+\verbatim
+# sources.txt
+# Column 1: position x (pc)
+# Column 2: position y (pc)
+# Column 3: position z (pc)
+# Column 4: smoothing length (pc)
+# Column 5: blackbody radius (km)
+# Column 6: blackbody temperature (K)
+-0.66666 0  0  0.001  1e3   12000
+ 0       0  0  0.001  1e3   12000
+ 0.66666 0  0  0.001  1e3   12000
+\endverbatim
+
+The column information in the header is optional but highly recommended. Apart from explicitly declaring the units for
+the tabulated quantities, the column names are reproduced in the SKIRT log file, providing an additional sanity check
+on the imported data. The luminosity and spectrum of the sources are specified through the radius and temperature of a
+blackbody emitter.
+
+The following column text data file defines the three dust blobs enveloping the sources in our model; the contents of
+this file will vary along with the ski file during our further exploration:
+
+\verbatim
+# dust1.txt
+# Column 1: position x (pc)
+# Column 2: position y (pc)
+# Column 3: position z (pc)
+# Column 4: smoothing length (pc)
+# Column 5: dust mass (Msun)
+-0.66666 0  0  0.3  0.01
+ 0       0  0  0.3  0.02
+ 0.66666 0  0  0.3  0.03
+\endverbatim
+
+The ski file configures source and media components by importing these data files:
+
+\verbatim
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A SKIRT parameter file © Astronomical Observatory, Ghent University -->
+<skirt-simulation-hierarchy type="MonteCarloSimulation" format="9">
+    <MonteCarloSimulation userLevel="Regular" simulationMode="ExtinctionOnly" numPackets="5e6">
+        <units type="Units">
+            <ExtragalacticUnits fluxOutputStyle="Frequency"/>
+        </units>
+        <sourceSystem type="SourceSystem">
+            <SourceSystem minWavelength="0.09 micron" maxWavelength="1.2 micron">
+                <sources type="Source">
+                    <ParticleSource filename="sources.txt">
+                        <smoothingKernel type="SmoothingKernel">
+                            <CubicSplineSmoothingKernel/>
+                        </smoothingKernel>
+                        <sedFamily type="SEDFamily">
+                            <BlackBodySEDFamily/>
+                        </sedFamily>
+                    </ParticleSource>
+                </sources>
+            </SourceSystem>
+        </sourceSystem>
+        <mediumSystem type="MediumSystem">
+            <MediumSystem numDensitySamples="100">
+                <media type="Medium">
+                    <ParticleMedium filename="dust1.txt" massFraction="1">
+                        <smoothingKernel type="SmoothingKernel">
+                            <CubicSplineSmoothingKernel/>
+                        </smoothingKernel>
+                        <materialMix type="MaterialMix">
+                            <ZubkoDustMix numSilicateSizes="15" numGraphiteSizes="15" numPAHSizes="10"/>
+                        </materialMix>
+                    </ParticleMedium>
+                </media>
+                <grid type="SpatialGrid">
+                    <CartesianSpatialGrid minX="-1 pc" maxX="1 pc" minY="-1 pc" maxY="1 pc" minZ="-1 pc" maxZ="1 pc">
+                        <meshX type="MoveableMesh">
+                            <LinMesh numBins="60"/>
+                        </meshX>
+                        <meshY type="MoveableMesh">
+                            <LinMesh numBins="60"/>
+                        </meshY>
+                        <meshZ type="MoveableMesh">
+                            <LinMesh numBins="60"/>
+                        </meshZ>
+                    </CartesianSpatialGrid>
+                </grid>
+            </MediumSystem>
+        </mediumSystem>
+        <instrumentSystem type="InstrumentSystem">
+            <InstrumentSystem>
+                <defaultWavelengthGrid type="WavelengthGrid">
+                    <LogWavelengthGrid minWavelength="0.09 micron" maxWavelength="1.2 micron" numWavelengths="100"/>
+                </defaultWavelengthGrid>
+                <instruments type="Instrument">
+                    <FrameInstrument instrumentName="xy" distance="1 kpc"
+                                     inclination="0 deg" azimuth="0 deg" roll="90 deg"
+                                     fieldOfViewX="2 pc" numPixelsX="3" centerX="0 pc"
+                                     fieldOfViewY="0.66666 pc" numPixelsY="1" centerY="0 pc"
+                                     recordComponents="true"/>
+                </instruments>
+            </InstrumentSystem>
+        </instrumentSystem>
+        <probeSystem type="ProbeSystem">
+            <ProbeSystem>
+                <probes type="Probe">
+                    <SpatialGridConvergenceProbe probeName="cnv" wavelength="0.55 micron"/>
+                    <DefaultMediaDensityCutsProbe probeName="dns" probeAfter="Setup"/>
+                </probes>
+            </ProbeSystem>
+        </probeSystem>
+    </MonteCarloSimulation>
+</skirt-simulation-hierarchy>
+\endverbatim
+
+A cut through the gridded dust density along the xy plane shows the dust blobs listed in the imported file from left to
+right:
+
+| Cut through the density distribution of the reference model |
+| ------------ |
+| ![ ](TutorialCustomDustImportDensityCutRef.png) |
+
+The configured frame instrument looks down on the xy plane and has three pixels, each covering one of the source/dust
+combinations. The instrument records separate flux components, including the transparent flux (i.e. as if there
+were no dust) and the direct flux (i.e. the extincted flux ignoring scattering into the sight line). This means we can
+plot the effect of the dust extinction for each of the blobs separately:
+
+| Spectra for each source/dust combination in the reference model |
+| ------------ |
+| ![ ](TutorialCustomDustImportSpectra1.png) |
+
+Clearly this is a contrived setup, but it allows us to explore SKIRT's capabilities for spatially varying the dust mix
+in a simulation.
+
+## Multiple particle types
+
+In the reference model, the imported particles are all of the same type and specify a single dust mass. Now consider a
+situation where there are multiple particle types corresponding to a different dust mix. For example, some
+particles represent silicate dust, and other particles represent graphite dust. Each particle still carries a single
+dust mass. This would lead to an import data file of the following form, with a zero-based index indicating the
+particle type:
+
+\verbatim
+# dust2.txt
+# Column 1: position x (pc)
+# Column 2: position y (pc)
+# Column 3: position z (pc)
+# Column 4: smoothing length (pc)
+# Column 5: dust mass (Msun)
+# Column 6: dust mix index (1)
+-0.66666 0  0  0.3  0.02   1
+ 0       0  0  0.3  0.02   0
+ 0.66666 0  0  0.3  0.03   1
+\endverbatim
+
+We address this situation in the ski file through the \c SelectDustMixFamily class, which uses the extra index to
+select one of the dust mixes listed in its \c dustMixes property. Other than replacing \c ZubkoDustMix by \c
+SelectDustMixFamily, we need to enable import of the extra column by setting the \c importVariableMixParams attribute
+of the \c ParticleMedium to true. Using the silicate and graphite components of the Zubko dust mix discussed in the
+first part of this tutorial, this leads to:
+
+\verbatim
+<ParticleMedium filename="dust2.txt" massFraction="1" importVariableMixParams="true">
+    <smoothingKernel type="SmoothingKernel">
+        <CubicSplineSmoothingKernel/>
+    </smoothingKernel>
+    <materialMixFamily type="MaterialMixFamily">
+        <SelectDustMixFamily>
+            <dustMixes type="DustMix">
+
+                <ConfigurableDustMix scatteringType="HenyeyGreenstein">
+                    <populations type="GrainPopulation">
+                        <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution"
+                                         factorOnSizeDistribution="1">
+                            <composition type="GrainComposition">
+                                <DraineSilicateGrainComposition/>
+                            </composition>
+                            <sizeDistribution type="GrainSizeDistribution">
+                                <ZubkoSilicateGrainSizeDistribution/>
+                            </sizeDistribution>
+                        </GrainPopulation>
+                    </populations>
+                </ConfigurableDustMix>
+
+                <ConfigurableDustMix scatteringType="HenyeyGreenstein">
+                    <populations type="GrainPopulation">
+                        <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution"
+                                         factorOnSizeDistribution="1">
+                            <composition type="GrainComposition">
+                                <DraineGraphiteGrainComposition/>
+                            </composition>
+                            <sizeDistribution type="GrainSizeDistribution">
+                                <ZubkoGraphiteGrainSizeDistribution/>
+                            </sizeDistribution>
+                        </GrainPopulation>
+                    </populations>
+                </ConfigurableDustMix>
+
+            </dustMixes>
+        </SelectDustMixFamily>
+    </materialMixFamily>
+</ParticleMedium>
+\endverbatim
+
+The adjusted ski file produces the following spectra, as expected:
+
+| Spectra for the model with multiple particle types |
+| ------------ |
+| ![ ](TutorialCustomDustImportSpectra2.png) |
+
+
 
 [[[ To Be Completed ]]]
 
