@@ -810,7 +810,7 @@ feature, at two different column densities:
 | ![ ](TutorialCustomDustImportSpectra2.png) |
 
 
-## Multiple dust masses, one per type of dust
+## Masses per type of dust
 
 A related but different situation arises when each of the imported particles carries multiple dust masses, one for each
 type of dust in the simulation. Consider an example with three dust types; silicates, graphite, and neutral PAHs:
@@ -909,13 +909,186 @@ scaling), indicating that the three blobs contain a different mixture of grain t
 | ------------ |
 | ![ ](TutorialCustomDustImportSpectra3.png) |
 
-An alternative method, achieving the same goal, is offered by the ...
- (split configurable or even Zubko, repeating the last column twice)
+## Mass fractions per type of dust
 
-[[[ To Be Completed ]]]
+An alternative method, achieving the same goal, is offered by the \c FragmentDustMixDecorator, which splits a given
+dust mix into its constituent fragments. The configuration now contains a single medium component with a single
+underlying dust mix, which is "fragmented" into its individual dust grain populations. The import file contains a
+column specifying the total mass for each particle in addition to a weight for each of the populations:
 
-## Multiple dust masses, one per dust grain size bin
+\verbatim
+dust4.txt
+# Column 1: position x (pc)
+# Column 2: position y (pc)
+# Column 3: position z (pc)
+# Column 4: smoothing length (pc)
+# Column 5: total mass (Msun)
+# Column 6: silicate weight (1)
+# Column 7: graphite weight (1)
+# Column 8: PAH weight (1)
+-0.66666 0  0  0.3   0.012  0.833333333  0.083333333  0.083333333
+ 0       0  0  0.3   0.011  0.090909090  0.909090909  0
+ 0.66666 0  0  0.3   0.011  0.090909090  0            0.909090909
+\endverbatim
 
-[[[ To Be Completed ]]]
+The mass allocated to each dust grain population is determined by the product of the mass (column 5) and the
+corresponding weight (columns 6-8). For the radiative transfer process, this product is the only relevant number.
+However, most of the probes (including, for example, the cuts throught the medium density) use the mass column and
+ignore the weights. It is thus best to have the mass column specify the total mass and the weights specify the fraction
+of the mass to be assigned to each grain population, where the sum of the weights equals one.
+
+The order of the weights in the import file matches the order of the grain populations in the ski file:
+
+\verbatim
+<ParticleMedium filename="dust4.txt" massFraction="1">
+    <smoothingKernel type="SmoothingKernel">
+        <CubicSplineSmoothingKernel/>
+    </smoothingKernel>
+    <materialMix type="MaterialMix">
+        <FragmentDustMixDecorator fragmentSizeBins="false">
+            <dustMix type="MultiGrainDustMix">
+                <ConfigurableDustMix scatteringType="HenyeyGreenstein">
+                    <populations type="GrainPopulation">
+                        <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution"
+                                         factorOnSizeDistribution="1">
+                            <composition type="GrainComposition">
+                                <DraineSilicateGrainComposition/>
+                            </composition>
+                            <sizeDistribution type="GrainSizeDistribution">
+                                <ZubkoSilicateGrainSizeDistribution/>
+                            </sizeDistribution>
+                        </GrainPopulation>
+                        <GrainPopulation numSizes="15" normalizationType="FactorOnSizeDistribution"
+                                         factorOnSizeDistribution="1">
+                            <composition type="GrainComposition">
+                                <DraineGraphiteGrainComposition/>
+                            </composition>
+                            <sizeDistribution type="GrainSizeDistribution">
+                                <ZubkoGraphiteGrainSizeDistribution/>
+                            </sizeDistribution>
+                        </GrainPopulation>
+                        <GrainPopulation numSizes="10" normalizationType="FactorOnSizeDistribution"
+                                         factorOnSizeDistribution="1">
+                            <composition type="GrainComposition">
+                                <DraineNeutralPAHGrainComposition/>
+                            </composition>
+                            <sizeDistribution type="GrainSizeDistribution">
+                                <ZubkoPAHGrainSizeDistribution/>
+                            </sizeDistribution>
+                        </GrainPopulation>
+                    </populations>
+                </ConfigurableDustMix>
+            </dustMix>
+        </FragmentDustMixDecorator>
+    </materialMix>
+</ParticleMedium>
+\endverbatim
+
+As expected, this configuration produces the same spectra as the "Masses per type of dust" configuration discussed
+earlier (see the figure at the end of the previous section).
+
+The \c FragmentDustMixDecorator can also split any of the built-in turn-key dust mixes that inherit from \c
+MultiGrainDustMix. In that case, we need to know the list of grain populations defined by that dust mix, including the
+order of that list. For example, the \c ZubkoDustMix includes four grain populations: silicates, graphites, neutral
+PAHs, and ionized PAHs. The latter two specify a factor of 0.5 on the same grain size distribution, so they each count
+for 50% of the PAHs. The import file would thus need to be equipped with an extra column.
+
+While using a turn-key dust mix shortens the configuration file, it is slightly less "portable" because it relies on
+the ordering of the grain populations in the builtin dust mix. This ordering is not firmly "guaranteed" by the
+implementation, although it is not likely to change anytime soon for a well-established dust mix.
+
+## Mass fractions per grain size bin
+
+The \c FragmentDustMixDecorator can also split each of the grain populations in a dust mix into their grain size bins.
+The size bins are always spaced logarithmically and range from the smallest to the largest grain size in the size
+distribution configured for the grain population.
+
+We consider a simple example with a single silicate grain population that has just three grain size bins. Similarly to
+the previous section, the import file now has a column for the total mass in addition to weighting factors for each of
+the size bins:
+
+\verbatim
+# dust5.txt
+# Column 1: position x (pc)
+# Column 2: position y (pc)
+# Column 3: position z (pc)
+# Column 4: smoothing length (pc)
+# Column 5: total mass (Msun)
+# Column 6: bin 1 weight (1)
+# Column 7: bin 2 weight (1)
+# Column 8: bin 3 weight (1)
+-0.66666 0  0  0.3   0.015  0.091213  0.245902  0.662885
+ 0       0  0  0.3   0.015  0.01      0.15      0.84
+ 0.66666 0  0  0.3   0.015  0.75      0.15      0.10
+\endverbatim
+
+In the ski file, the \c fragmentSizeBins attribute of the fragment decorator is set to true, and the number of size
+bins of the silicate population is set to match the number of weights in the import file:
+
+\verbatim
+<ParticleMedium filename="dust5.txt" massFraction="1">
+    <smoothingKernel type="SmoothingKernel">
+        <CubicSplineSmoothingKernel/>
+    </smoothingKernel>
+    <materialMix type="MaterialMix">
+        <FragmentDustMixDecorator fragmentSizeBins="true">
+            <dustMix type="MultiGrainDustMix">
+                <ConfigurableDustMix scatteringType="HenyeyGreenstein">
+                    <populations type="GrainPopulation">
+                        <GrainPopulation numSizes="3" normalizationType="FactorOnSizeDistribution"
+                                         factorOnSizeDistribution="1">
+                            <composition type="GrainComposition">
+                                <DraineSilicateGrainComposition/>
+                            </composition>
+                            <sizeDistribution type="GrainSizeDistribution">
+                                <ZubkoSilicateGrainSizeDistribution/>
+                            </sizeDistribution>
+                        </GrainPopulation>
+                    </populations>
+                </ConfigurableDustMix>
+            </dustMix>
+        </FragmentDustMixDecorator>
+    </materialMix>
+</ParticleMedium>
+\endverbatim
+
+This setup produces the following spectra:
+
+| Spectra for the model with mass fractions per grain size bin |
+| ------------ |
+| ![ ](TutorialCustomDustImportSpectra5.png) |
+
+The orange curve for the first particle matches the regular extincted spectrum for a silicate population with the
+configured Zubko size distribution. This can be verified by removing the fragment dust mix decorator from the ski file
+and running it again with the same import file. In this case, the size bin weights are ignored and the three resulting
+spectra are identical (and match the spectrum for the first particle \em with the weights specified in the import
+file).
+
+The fractions specified in the import file for the first particle were obtained by inserting the \c
+DustGrainPopulationsProbe in the ski file (\em with fragment decorator). The third column of the output of this probe
+lists the percentage of the total dust mass contained in each size bin:
+
+\verbatim
+# Medium component 0 -- dust mass per hydrogen atom: 8.115005680e-30 kg
+# column 1: grain population index (1)
+# column 2: grain material type (-)
+# column 3: dust mass as a percentage of total (%)
+...
+0 Draine_Silicate   9.1213 ...
+1 Draine_Silicate  24.5902 ...
+2 Draine_Silicate  66.2885 ...
+\endverbatim
+
+The second particle (green curve) is overweighted in large grains, resulting in weaker extinction at shorter
+wavelengths. The third particle (red curve) is overweighted in small grains, resulting in stronger extinction at
+shorter wavelengths.
+
+A hydrodynamical simulation that follows dust evolution probably employs a substantially larger number of grain size
+bins (e.g., 32 bins). We assume that these bins are spaced logarithmically. When post-processing such a simulation with
+SKIRT using the fragment decorator, the overall dust grain size distribution for each imported particle (or cell) is
+determined by the imported weights, and the precise grain size distribution in each of the fairly small size bins is no
+longer important. The minimum and maximum grains sizes in the ski file must be set to match the outer borders of the
+corresponding bins in the hydrodynamical simulation, and the size distribution itself can be set to, for example,
+a plain power law with proper normalization (see the first part of this tutorial).
 
 */
