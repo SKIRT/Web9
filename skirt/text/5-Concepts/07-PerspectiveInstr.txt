@@ -81,7 +81,7 @@ and the eye position \f$\mathbf{E}\f$ becomes
 \f[
 \mathbf{E}=\mathbf{V}+F_{e}\mathbf{G}
 \f]
-When a peel-off photon package is launched towards the instrument
+When a peel-off photon packet is launched towards the instrument
 from position \f$\mathbf{P}\f$, a unit vector with the appropriate direction
 is given by
 \f[
@@ -122,10 +122,10 @@ matrix through regular matrix multiplication.
 
 \section PerTrans The instrument transformation
 
-When a peel-off photon package launched from position \f$\mathbf{P}\f$
+When a peel-off photon packet launched from position \f$\mathbf{P}\f$
 arrives at the perspective instrument, a single transformation is
 applied to find the homogeneous coordinates of the pixel receiving
-the photon package's luminosity
+the photon packet's luminosity
 \f[
 \mathcal{J}=\mathcal{P}\,\mathcal{T}_{\mathrm{tot}}
 \f]
@@ -133,8 +133,8 @@ where \f$\mathcal{P}=(P_{x},P_{y},P_{z},1)\f$ and \f$\mathcal{T}_{\mathrm{tot}}\
 represents the composite transformation from world coordinates to
 pixel coordinates which will be developed below.
 
-The incoming photon package's luminosity is taken into account only
-if the package originated in front of the viewport and if the pixel
+The incoming photon packet's luminosity is taken into account only
+if the packet originated in front of the viewport and if the pixel
 indices are both within range (from zero up to the number of pixels
 in the relevant direction minus one). The pixel indices can be retrieved
 using
@@ -374,63 +374,33 @@ and positive depth indicates positions in front of the viewport.
 
 \section PerFlux Flux calibration
 
-Each photon package arriving at the instrument carries a certain fraction
-of luminosity \f$L_{\lambda}\f$ at a particular wavelength
-\f$\lambda\f$. The contribution of the photon package to the surface
-brightness \f$S_{\lambda}\f$ of the instrument pixel being hit can be
-written as
-\f[
-S_{\lambda}=\frac{\lambda}{\Delta\lambda}\frac{1}{4\pi d^{2}}\frac{1}{\Omega}L_{\lambda}
-\f]
-where \f$\Delta\lambda\f$ is the width of the wavelength bin corresponding
-to \f$\lambda\f$, \f$d\f$ is the distance from the photon package's origin
-to the instrument, and \f$\Omega\f$ is the solid angle that spans the
-area of a single pixel at a distance \f$d\f$, i.e.
-\f[
-\Omega=2\arctan\left(\frac{1}{2}\frac{S_{x}/N_{x}}{d}\right)\times2\arctan\left(\frac{1}{2}\frac{S_{y}/N_{y}}{d}\right)
-\f]
-Assuming that the instrument pixels are square, i.e.\ the aspect
-ratio of the viewport is the same when calculated in pixels (\f$N_{y}/N_{x}\f$)
-or in world size (\f$S_{y}/S_{x}\f$), we can express the width of a pixel
-as
-\f[
-s=\frac{S_{x}}{N_{x}}=\frac{S_{y}}{N_{y}}
-\f]
-so that
-\f[
-\Omega=4\arctan^{2}\!\left(\frac{s}{2d}\right)
-\f]
+Each photon packet arriving at the instrument carries a certain fraction of luminosity \f$L_\mathrm{pp}\f$ at a
+particular wavelength \f$\lambda\f$. The contribution of the photon packet to the surface brightness
+\f$f_{\lambda,_\mathrm{px}}\f$ of the target instrument pixel can be written as \f[ f_{\lambda,_\mathrm{px}} =
+\frac{1}{\Delta\lambda}\frac{1}{4\pi d_\mathrm{pp}^{2}}\frac{1}{\Omega_\mathrm{px}} L_\mathrm{px} \f] where
+\f$\Delta\lambda\f$ is the width of the wavelength bin containing the wavelength \f$\lambda\f$, \f$d_\mathrm{pp}\f$ is
+the distance from the photon packet's origin to the instrument, and \f$\Omega_\mathrm{px}\f$ is the solid angle
+subtended by the target pixel as seen from the eye position.
 
+This solid angle depends on the location of the pixel in the viewport. Pixels at the edges or in the corners of the
+viewport subtend a smaller solid angle than central pixels. The current implementation of the instrument, though, uses
+the solid angle of the central pixel for all pixels in the viewport. Let us examine the nature of the error introduced
+by this approximation. For simplicity, we assume a square viewport of size \f$S \times S\f$ with \f$N \times N\f$
+square pixels and a distance from the viewport to the eye position (focal length) of \f$F_\mathrm{e}\f$. Further
+assuming that \f$N\f$ is uneven, the solid angle \f$\Omega_0\f$ of the central viewport pixel is given by \f[ \Omega_0
+= \left( 2\arctan\left(\frac{S}{2 N F_\mathrm{e}}\right) \right)^2. \f] It is straightforward to also calculate the
+solid angle \f$\Omega_N\f$ of a pixel in of the corners of the viewport. The relative error \f$(\Omega_0 -
+\Omega_N)/\Omega_0\f$ is plotted in the figure below (as a percentage) as a function of the ratio \f$S/F_\mathrm{e}\f$
+of the viewport size and the focal length:
 
-For large distances \f$d\gg s\f$ we can use \f$\arctan x\approx x\f$ when
-\f$x\ll1\f$ to obtain \f$\Omega\approx s^{2}/d^{2}\f$ so that
-\f[
-S_{\lambda,\gg}=\frac{\lambda}{\Delta\lambda}\frac{1}{4\pi s^{2}}L_{\lambda}\qquad(d\gg s)
-\f]
-which is independent of the actual distance. For smaller distances
-this approximation doesn't hold and the surface brightness can be
-written in terms of \f$S_{\lambda,\gg}\f$ and a correction factor
-\f[
-S_{\lambda}=\frac{\left(\frac{s}{2d}\right)^{2}}{\arctan^{2}\!\left(\frac{s}{2d}\right)}\: S_{\lambda,\gg}
-\f]
+\image html PerspectiveSolidAngleError.png
 
+It is thus recommended to place the eye at a distance of at least twice the size of the viewpoint. In that case, the
+error in the flux calibration at the edges of the viewport is limited to about 10%. Conversely, if the focal distance
+becomes smaller than the viewport size, the error quickly rises to an unacceptable level.
 
-The following table lists the correction factor for a few values of
-\f$d/s\f$.
-
-<TABLE>
-<TR><TD><B>Distance</B></TD>        <TD><B>Correction factor</B></TD></TR>
-<TR><TD>\f$d=\frac{1}{50}s\f$</TD>  <TD>\f$266.7\f$</TD></TR>
-<TR><TD>\f$d=\frac{1}{10}s\f$</TD>  <TD>\f$13.25\f$</TD></TR>
-<TR><TD>\f$d=\frac{1}{4}s\f$</TD>   <TD>\f$3.263\f$</TD></TR>
-<TR><TD>\f$d=\frac{1}{2}s\f$</TD>   <TD>\f$1.621\f$</TD></TR>
-<TR><TD>\f$d=s\f$</TD>              <TD>\f$1.163\f$</TD></TR>
-<TR><TD>\f$d=10\, s\f$</TD>         <TD>\f$1.0017\f$</TD></TR>
-<TR><TD>\f$d=100\, s\f$</TD>        <TD>\f$1.000017\f$</TD></TR>
-</TABLE>
-
-To avoid overly large contributions from extremely nearby objects,
-it seems reasonable to ignore any photon packages that originated
-too close to the viewport, for example with \f$d<\frac{1}{10}s\f$.
+Lastly, to avoid overly large contributions from extremely nearby objects, the instrument ignores any photon packets
+that originated at a distance to the viewport \f$d<\frac{S}{10N}\f$. (Photon packets originating behind the viewport
+are ignored in any case).
 
 */

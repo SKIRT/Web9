@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 57736d1 built on 19/01/2021 at 16:32:32)</em>
+<em>SKIRT v9.0 (git 2c0a6a1 built on 19/02/2021 at 17:11:12)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -744,6 +744,13 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileIndexedSEDFamily::filename() "docs" | String | the name of the stored table file listing the %SEDs |
 
+\subsection SkiFileHelpConcreteFileLineSED -FileLineSED
+[\ref FileLineSED "docs"] : a discrete line %SED loaded from a text file 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| filename | \ref FileLineSED::filename() "docs" | String | the name of the file with the line definitions |
+
 \subsection SkiFileHelpConcreteFileMesh -FileMesh
 [\ref FileMesh "docs"] : a mesh read from a file 
 
@@ -1067,6 +1074,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | maxWavelength | \ref LinWavelengthGrid::maxWavelength() "docs" | Double | the longest wavelength |
 | numWavelengths | \ref LinWavelengthGrid::numWavelengths() "docs" | Int | the number of wavelength grid points |
 
+\subsection SkiFileHelpConcreteLineLuminosityNormalization -LineLuminosityNormalization
+[\ref LineLuminosityNormalization "docs"] : source normalization through the luminosity for a given emission line 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| wavelength | \ref LineLuminosityNormalization::wavelength() "docs" | Double | the central wavelength of the emission line |
+| luminosity | \ref LineLuminosityNormalization::luminosity() "docs" | Double | the luminosity for the emission line |
+
 \subsection SkiFileHelpConcreteLinearDustDestructionRecipe -LinearDustDestructionRecipe
 [\ref LinearDustDestructionRecipe "docs"] : a dust destruction recipe using a linear temperature dependence 
 
@@ -1108,6 +1123,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | sizes | \ref ListGrainSizeDistribution::sizes() "docs" | DoubleList | the grain sizes at which to specify the size distribution |
 | sizeDistributionValues | \ref ListGrainSizeDistribution::sizeDistributionValues() "docs" | DoubleList | the size distribution values at each of the given grain sizes |
+
+\subsection SkiFileHelpConcreteListLineSED -ListLineSED
+[\ref ListLineSED "docs"] : a discrete line %SED specified inside the configuration file 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| wavelengths | \ref ListLineSED::wavelengths() "docs" | DoubleList | the line wavelengths |
+| luminosities | \ref ListLineSED::luminosities() "docs" | DoubleList | the line luminosities |
 
 \subsection SkiFileHelpConcreteListMesh -ListMesh
 [\ref ListMesh "docs"] : a mesh specified inside the configuration file 
@@ -1247,8 +1270,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
-| sedOriginal | \ref LyaSEDDecorator::sedOriginal() "docs" | %Item | %SED | \ref SkiFileHelpBaseSED "subclasses" | the original %SED being adjusted |
-| sedLymanAlpha | \ref LyaSEDDecorator::sedLymanAlpha() "docs" | %Item | %SED | \ref SkiFileHelpBaseSED "subclasses" | the %SED representing the Lyman-alpha line emission |
+| sedOriginal | \ref LyaSEDDecorator::sedOriginal() "docs" | %Item | %ContSED | \ref SkiFileHelpBaseContSED "subclasses" | the original %SED being adjusted |
+| sedLymanAlpha | \ref LyaSEDDecorator::sedLymanAlpha() "docs" | %Item | %ContSED | \ref SkiFileHelpBaseContSED "subclasses" | the %SED representing the Lyman-alpha line emission |
 
 \subsection SkiFileHelpConcreteLyaSEDFamilyDecorator -LyaSEDFamilyDecorator
 [\ref LyaSEDFamilyDecorator "docs"] : an %SED family decorator replacing ionizing radiation with Lyman-alpha line emission 
@@ -1260,7 +1283,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | sedFamilyOriginal | \ref LyaSEDFamilyDecorator::sedFamilyOriginal() "docs" | %Item | %SEDFamily | \ref SkiFileHelpBaseSEDFamily "subclasses" | the original %SED family being adjusted |
-| sedLymanAlpha | \ref LyaSEDFamilyDecorator::sedLymanAlpha() "docs" | %Item | %SED | \ref SkiFileHelpBaseSED "subclasses" | the %SED representing the Lyman-alpha line emission |
+| sedLymanAlpha | \ref LyaSEDFamilyDecorator::sedLymanAlpha() "docs" | %Item | %ContSED | \ref SkiFileHelpBaseContSED "subclasses" | the %SED representing the Lyman-alpha line emission |
 
 \subsection SkiFileHelpConcreteMRNDustMix -MRNDustMix
 [\ref MRNDustMix "docs"] : an MRN (1997) dust mix 

@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 57736d1 built on 19/01/2021 at 16:32:32)</em>
+<em>SKIRT v9.0 (git 2c0a6a1 built on 19/02/2021 at 17:11:12)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -50,6 +50,26 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %BroadBand | \ref SkiFileHelpConcreteBroadBand "props" | \ref BroadBand "docs"| a standard built-in broadband (transmission curve) |
 | %FileBand | \ref SkiFileHelpConcreteFileBand "props" | \ref FileBand "docs"| a wavelength band (transmission curve) loaded from a text file |
 | %ListBand | \ref SkiFileHelpConcreteListBand "props" | \ref ListBand "docs"| a wavelength band (transmission curve) specified inside the configuration file |
+
+\subsection SkiFileHelpBaseContSED -ContSED
+[\ref ContSED "docs"] : a continuous spectral energy distribution 
+
+| Subclass | | | Description |
+| :-- | :--: | :--: | :-- |
+| %BlackBodySED | \ref SkiFileHelpConcreteBlackBodySED "props" | \ref BlackBodySED "docs"| a black-body spectral energy distribution |
+| %BruzualCharlotSED | \ref SkiFileHelpConcreteBruzualCharlotSED "props" | \ref BruzualCharlotSED "docs"| a Bruzual-Charlot simple stellar population %SED |
+| %CastelliKuruczSED | \ref SkiFileHelpConcreteCastelliKuruczSED "props" | \ref CastelliKuruczSED "docs"| a Castelli-Kurucz stellar atmosphere %SED |
+| %FSPSSED | \ref SkiFileHelpConcreteFSPSSED "props" | \ref FSPSSED "docs"| an FSPS simple stellar population %SED |
+| %FileSED | \ref SkiFileHelpConcreteFileSED "props" | \ref FileSED "docs"| a spectral energy distribution loaded from a text file |
+| %ListSED | \ref SkiFileHelpConcreteListSED "props" | \ref ListSED "docs"| a spectral energy distribution specified inside the configuration file |
+| %LyaDoublePeakedSED | \ref SkiFileHelpConcreteLyaDoublePeakedSED "props" | \ref LyaDoublePeakedSED "docs"| a double-peaked spectrum around the central Lyman-alpha wavelength |
+| %LyaGaussianSED | \ref SkiFileHelpConcreteLyaGaussianSED "props" | \ref LyaGaussianSED "docs"| a Gaussian spectrum around the central Lyman-alpha wavelength |
+| %LyaSEDDecorator | \ref SkiFileHelpConcreteLyaSEDDecorator "props" | \ref LyaSEDDecorator "docs"| an %SED decorator replacing ionizing radiation with Lyman-alpha line emission |
+| %MappingsSED | \ref SkiFileHelpConcreteMappingsSED "props" | \ref MappingsSED "docs"| a star-forming region %SED from the MAPPINGS III model |
+| %MarastonSED | \ref SkiFileHelpConcreteMarastonSED "props" | \ref MarastonSED "docs"| a Maraston simple stellar population %SED |
+| %QuasarSED | \ref SkiFileHelpConcreteQuasarSED "props" | \ref QuasarSED "docs"| the spectral energy distribution of a typical quasar |
+| %Starburst99SED | \ref SkiFileHelpConcreteStarburst99SED "props" | \ref Starburst99SED "docs"| a Starburst99 simple stellar population %SED |
+| %SunSED | \ref SkiFileHelpConcreteSunSED "props" | \ref SunSED "docs"| the spectral energy distribution of the Sun |
 
 \subsection SkiFileHelpBaseCosmology -Cosmology
 [\ref Cosmology "docs"] : a set of cosmology parameters, including redshift 
@@ -238,6 +258,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | :-- | :--: | :--: | :-- |
 | %BandLuminosityNormalization | \ref SkiFileHelpConcreteBandLuminosityNormalization "props" | \ref BandLuminosityNormalization "docs"| source normalization through the specific luminosity for a given wavelength band |
 | %IntegratedLuminosityNormalization | \ref SkiFileHelpConcreteIntegratedLuminosityNormalization "props" | \ref IntegratedLuminosityNormalization "docs"| source normalization through the integrated luminosity for a given wavelength range |
+| %LineLuminosityNormalization | \ref SkiFileHelpConcreteLineLuminosityNormalization "props" | \ref LineLuminosityNormalization "docs"| source normalization through the luminosity for a given emission line |
 | %SpecificLuminosityNormalization | \ref SkiFileHelpConcreteSpecificLuminosityNormalization "props" | \ref SpecificLuminosityNormalization "docs"| source normalization through the specific luminosity at a given wavelength |
 
 \subsection SkiFileHelpBaseLyaOptions -LyaOptions
@@ -430,7 +451,9 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %BruzualCharlotSED | \ref SkiFileHelpConcreteBruzualCharlotSED "props" | \ref BruzualCharlotSED "docs"| a Bruzual-Charlot simple stellar population %SED |
 | %CastelliKuruczSED | \ref SkiFileHelpConcreteCastelliKuruczSED "props" | \ref CastelliKuruczSED "docs"| a Castelli-Kurucz stellar atmosphere %SED |
 | %FSPSSED | \ref SkiFileHelpConcreteFSPSSED "props" | \ref FSPSSED "docs"| an FSPS simple stellar population %SED |
+| %FileLineSED | \ref SkiFileHelpConcreteFileLineSED "props" | \ref FileLineSED "docs"| a discrete line %SED loaded from a text file |
 | %FileSED | \ref SkiFileHelpConcreteFileSED "props" | \ref FileSED "docs"| a spectral energy distribution loaded from a text file |
+| %ListLineSED | \ref SkiFileHelpConcreteListLineSED "props" | \ref ListLineSED "docs"| a discrete line %SED specified inside the configuration file |
 | %ListSED | \ref SkiFileHelpConcreteListSED "props" | \ref ListSED "docs"| a spectral energy distribution specified inside the configuration file |
 | %LyaDoublePeakedSED | \ref SkiFileHelpConcreteLyaDoublePeakedSED "props" | \ref LyaDoublePeakedSED "docs"| a double-peaked spectrum around the central Lyman-alpha wavelength |
 | %LyaGaussianSED | \ref SkiFileHelpConcreteLyaGaussianSED "props" | \ref LyaGaussianSED "docs"| a Gaussian spectrum around the central Lyman-alpha wavelength |

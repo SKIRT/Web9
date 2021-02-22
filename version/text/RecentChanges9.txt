@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Nov 9, 2020</em>
+<em>Feb 19, 2021</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -34,14 +34,14 @@ Oct 29, 2019 | fda5749 | Use hydrid parallellization for building Voronoi grids
 Jan 17, 2020 | 8b4920a | Introduce a set of basic vector fields, including decorators
 Jan 17, 2020 | 8b4920a | Add magnetic fields to geometric and imported media, including probes
 Jan 17, 2020 | 8b4920a | Add velocity fields to geometric sources and media, including probes
-Jan 28, 2020 | d9c0c65 | (*) Add SEDs to model Lyman-alpha sources
+Jan 28, 2020 | d9c0c65 | Add SEDs to model Lyman-alpha sources
 Feb 20, 2020 | d2af8ae | Add minimum radius to Sphere1DSpatialGrid
 Mar 19, 2020 | 767fb95 | Allow placing models at nonzero redshift
 Mar 19, 2020 | 767fb95 | Support dust heating by the CMB radiation
 Mar 19, 2020 | 767fb95 | Parallel instruments output the extent of the spatial axes in angular units
 Apr 20, 2020 | 69b5c6e | Fix bug in optimization of instruments with the same line of sight
 May 11, 2020 | 247b3fb | Remove the carbon emission lines from the Mappings dust continuum
-Jun 10, 2020 | efcaaee | (*) Add Lyman-alpha photon cycle and import capabilities
+Jun 10, 2020 | efcaaee | Add Lyman-alpha photon cycle and import capabilities
 Jun 17, 2020 | 2fb8543 | Add HEALPixSkyInstrument
 Jul 16, 2020 | 58c16ec | Repeat warnings and non-fatal errors at the end of the simulation log
 Jul 29, 2020 | 9db9d51 | Add polarised secondary emission for aligned dust grains
@@ -53,13 +53,13 @@ Nov  2, 2020 | 086772b | Allow distinct density values to be imported from a sna
 Nov  2, 2020 | 086772b | Allow dynamically adjusting the medium state by iterating over the primary radiation field
 Nov  2, 2020 | 086772b | Add a basic dust destruction recipe using the dynamic medium state mechanism
 Nov  2, 2020 | 086772b | Add probes to output the values of custom state variables such as destruction fractions
-Nov  2, 2020 | 086772b | (*) Add the option to use a photon cycle without forced scattering, mainly for Lyman-alpha
+Nov  2, 2020 | 086772b | Add the option to use a photon cycle without forced scattering, mainly for Lyman-alpha
 Nov  2, 2020 | 086772b | Allow loading a dust grain size distribution from file or configuring it as a list
 Nov  2, 2020 | 086772b | The spheroidal dust grain compositions now offer built-in property tables
 Nov  9, 2020 | 787d31a | Add geometry that reads density distribution from a 3D FITS data cube
-
-(*) Although the Lyman-alpha capabilities seem to produce reasonable results for basic spherically symmetric setups,
-please don't use them for 'production' simulations until their accuracy has been verified in more detail.
+Nov 13, 2020 | 46f0313 | Fix the (tiny) asymmetry in Lyman-alpha SEDs for static spheres
+Feb 19, 2021 | 04f69bd | Fix surface brightness calibration and coordinate transforms for "local" instruments
+Feb 19, 2021 | 2c0a6a1 | Introduce line emission spectra for normalized sources
 
 
 \section RecentChanges9PTS Recent changes in PTS 9
@@ -77,5 +77,7 @@ Oct 21, 2019 | 70b262f | Support plotting the new planar cuts at arbitrary posit
 Jan 17, 2020 | b60c3d8 | Allow plotting magnetic field and velocity cuts produced by the respective probes
 May 11, 2020 | 021456b | Remove the carbon emission lines from the Mappings dust continuum
 Jul  8, 2020 | 8de8b34 | Add script to convert HEALPixSkyInstrument output to a projected image
+Feb 19, 2021 | 55e86db | Update script to convert HEALPixSkyInstrument output to a projected image
+Feb 19, 2021 | 35684ec | Augment automated ski file upgrade procedure for line SEDs
 
 */
