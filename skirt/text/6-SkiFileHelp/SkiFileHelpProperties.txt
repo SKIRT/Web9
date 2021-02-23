@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 2c0a6a1 built on 19/02/2021 at 17:11:12)</em>
+<em>SKIRT v9.0 (git d9ef94a built on 23/02/2021 at 12:06:06)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -2022,6 +2022,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | inclination | \ref SEDInstrument::inclination() "docs" | Double | the inclination angle θ of the detector |
 | azimuth | \ref SEDInstrument::azimuth() "docs" | Double | the azimuth angle φ of the detector |
 | roll | \ref SEDInstrument::roll() "docs" | Double | the roll angle ω of the detector |
+| radius | \ref SEDInstrument::radius() "docs" | Double | the radius of the circular aperture, or zero for no aperture |
 | recordComponents | \ref SEDInstrument::recordComponents() "docs" | Bool | record flux components separately |
 | numScatteringLevels | \ref SEDInstrument::numScatteringLevels() "docs" | Int | the number of individually recorded scattering levels |
 | recordPolarization | \ref SEDInstrument::recordPolarization() "docs" | Bool | record polarization (Stokes vector elements) |

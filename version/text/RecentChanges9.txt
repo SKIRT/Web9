@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Feb 19, 2021</em>
+<em>Feb 23, 2021</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -60,6 +60,7 @@ Nov  9, 2020 | 787d31a | Add geometry that reads density distribution from a 3D 
 Nov 13, 2020 | 46f0313 | Fix the (tiny) asymmetry in Lyman-alpha SEDs for static spheres
 Feb 19, 2021 | 04f69bd | Fix surface brightness calibration and coordinate transforms for "local" instruments
 Feb 19, 2021 | 2c0a6a1 | Introduce line emission spectra for normalized sources
+Feb 23, 2021 | d9ef94a | Add circular aperture to SED instrument
 
 
 \section RecentChanges9PTS Recent changes in PTS 9
