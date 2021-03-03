@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git d9ef94a built on 23/02/2021 at 12:06:06)</em>
+<em>SKIRT v9.0 (git 9c80c88 built on 03/03/2021 at 14:20:27)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -158,6 +158,17 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | geometry | \ref BoxClipGeometryDecorator::geometry() "docs" | %Item | %Geometry | \ref SkiFileHelpBaseGeometry "subclasses" | the geometry to be clipped |
+
+\subsection SkiFileHelpConcreteBpassSED -BpassSED
+[\ref BpassSED "docs"] : a BPASS single stellar population %SED 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| metallicity | \ref BpassSED::metallicity() "docs" | Double | the metallicity of the SSP |
+| age | \ref BpassSED::age() "docs" | Double | the age of the SSP |
+
+\subsection SkiFileHelpConcreteBpassSEDFamily -BpassSEDFamily
+[\ref BpassSEDFamily "docs"] : a BPASS %SED family for single stellar populations 
 
 \subsection SkiFileHelpConcreteBroadBand -BroadBand
 [\ref BroadBand "docs"] : a standard built-in broadband (transmission curve) 

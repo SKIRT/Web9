@@ -19,6 +19,9 @@ installation guide for further instructions.
 <TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Resources/SKIRT9_Resources_Core_v4.zip">SKIRT9_Resources_Core_v4.zip</a>
 </TD><TD>Core SKIRT resource pack, version 4 -- required for all installations
 </TD></TR>
+<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Resources/SKIRT9_Resources_BPASS_v1.zip">SKIRT9_Resources_BPASS_v1.zip</a>
+</TD><TD>SKIRT resource pack for BPASS SED template family, version 1 -- optional, required only for BPASS SEDs
+</TD></TR>
 </TABLE>
 
 \section DownloadsTutorials Data files used in the tutorials

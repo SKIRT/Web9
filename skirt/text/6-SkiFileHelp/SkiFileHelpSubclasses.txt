@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git d9ef94a built on 23/02/2021 at 12:06:06)</em>
+<em>SKIRT v9.0 (git 9c80c88 built on 03/03/2021 at 14:20:27)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -57,6 +57,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
 | %BlackBodySED | \ref SkiFileHelpConcreteBlackBodySED "props" | \ref BlackBodySED "docs"| a black-body spectral energy distribution |
+| %BpassSED | \ref SkiFileHelpConcreteBpassSED "props" | \ref BpassSED "docs"| a BPASS single stellar population %SED |
 | %BruzualCharlotSED | \ref SkiFileHelpConcreteBruzualCharlotSED "props" | \ref BruzualCharlotSED "docs"| a Bruzual-Charlot simple stellar population %SED |
 | %CastelliKuruczSED | \ref SkiFileHelpConcreteCastelliKuruczSED "props" | \ref CastelliKuruczSED "docs"| a Castelli-Kurucz stellar atmosphere %SED |
 | %FSPSSED | \ref SkiFileHelpConcreteFSPSSED "props" | \ref FSPSSED "docs"| an FSPS simple stellar population %SED |
@@ -448,6 +449,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
 | %BlackBodySED | \ref SkiFileHelpConcreteBlackBodySED "props" | \ref BlackBodySED "docs"| a black-body spectral energy distribution |
+| %BpassSED | \ref SkiFileHelpConcreteBpassSED "props" | \ref BpassSED "docs"| a BPASS single stellar population %SED |
 | %BruzualCharlotSED | \ref SkiFileHelpConcreteBruzualCharlotSED "props" | \ref BruzualCharlotSED "docs"| a Bruzual-Charlot simple stellar population %SED |
 | %CastelliKuruczSED | \ref SkiFileHelpConcreteCastelliKuruczSED "props" | \ref CastelliKuruczSED "docs"| a Castelli-Kurucz stellar atmosphere %SED |
 | %FSPSSED | \ref SkiFileHelpConcreteFSPSSED "props" | \ref FSPSSED "docs"| an FSPS simple stellar population %SED |
@@ -471,6 +473,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
 | %BlackBodySEDFamily | \ref SkiFileHelpConcreteBlackBodySEDFamily "props" | \ref BlackBodySEDFamily "docs"| a black body %SED family |
+| %BpassSEDFamily | \ref SkiFileHelpConcreteBpassSEDFamily "props" | \ref BpassSEDFamily "docs"| a BPASS %SED family for single stellar populations |
 | %BruzualCharlotSEDFamily | \ref SkiFileHelpConcreteBruzualCharlotSEDFamily "props" | \ref BruzualCharlotSEDFamily "docs"| a Bruzual-Charlot %SED family for single stellar populations |
 | %CastelliKuruczSEDFamily | \ref SkiFileHelpConcreteCastelliKuruczSEDFamily "props" | \ref CastelliKuruczSEDFamily "docs"| a Castelli-Kurucz %SED family for stellar atmospheres |
 | %FSPSSEDFamily | \ref SkiFileHelpConcreteFSPSSEDFamily "props" | \ref FSPSSEDFamily "docs"| an FSPS %SED family for single stellar populations |
