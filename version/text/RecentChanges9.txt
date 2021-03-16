@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Mar 3, 2021</em>
+<em>Mar 16, 2021</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -62,6 +62,7 @@ Feb 19, 2021 | 04f69bd | Fix surface brightness calibration and coordinate trans
 Feb 19, 2021 | 2c0a6a1 | Introduce line emission spectra for normalized sources
 Feb 23, 2021 | d9ef94a | Add circular aperture to SED instrument
 Mar  3, 2021 | 9c80c88 | Add BPASS SED template family with optional resource pack
+Mar 16, 2021 | bf69f1b | Add optional ionization parameter to FileSSPSEDFamily to support nebular emission
 
 
 \section RecentChanges9PTS Recent changes in PTS 9
@@ -82,5 +83,6 @@ Jul  8, 2020 | 8de8b34 | Add script to convert HEALPixSkyInstrument output to a 
 Dec 10, 2020 | 4caec70 | Add conversion to SKIRT stab format for BPASS stellar population models
 Feb 19, 2021 | 55e86db | Update script to convert HEALPixSkyInstrument output to a projected image
 Feb 19, 2021 | 35684ec | Augment automated ski file upgrade procedure for line SEDs
+Mar 16, 2021 | 9631f87 | Add example script for creating FSPS templates with nebular emission
 
 */

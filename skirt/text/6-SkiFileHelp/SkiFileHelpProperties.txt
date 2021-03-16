@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 9c80c88 built on 03/03/2021 at 14:20:27)</em>
+<em>SKIRT v9.0 (git bf69f1b built on 16/03/2021 at 16:51:38)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -783,6 +783,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileSSPSEDFamily::filename() "docs" | String | the name of the stored table file defining the %SED templates |
+| hasIonizationParameter | \ref FileSSPSEDFamily::hasIonizationParameter() "docs" | Bool | include ionization U as an extra parameter for the %SED family |
 
 \subsection SkiFileHelpConcreteFileTreeSpatialGrid -FileTreeSpatialGrid
 [\ref FileTreeSpatialGrid "docs"] : a tree-based spatial grid loaded from a topology data file 
