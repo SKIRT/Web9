@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git bf69f1b built on 16/03/2021 at 16:51:38)</em>
+<em>SKIRT v9.0 (git 6409465 built on 30/03/2021 at 10:27:32)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -42,9 +42,11 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | maxZ | \ref AdaptiveMeshMedium::maxZ() "docs" | Double | the end point of the domain in the Z direction |
 | massType | \ref AdaptiveMeshMedium::massType() "docs" | Enum | the type of mass quantity to be imported |
 | | | --> MassDensity | mass density |
-| | | --> Mass | mass (volume-integrated mass density) |
+| | | --> Mass | mass (volume-integrated) |
+| | | --> MassDensityAndMass | both mass density and volume-integrated mass |
 | | | --> NumberDensity | number density |
-| | | --> Number | number (volume-integrated number density) |
+| | | --> Number | number (volume-integrated) |
+| | | --> NumberDensityAndNumber | both number density and volume-integrated number |
 | massFraction | \ref AdaptiveMeshMedium::massFraction() "docs" | Double | the fraction of the mass to be included (or one to include all) |
 | importMetallicity | \ref AdaptiveMeshMedium::importMetallicity() "docs" | Bool | import a metallicity column |
 | importTemperature | \ref AdaptiveMeshMedium::importTemperature() "docs" | Bool | import a temperature column |
@@ -1944,6 +1946,16 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | unityRadius | \ref RadialVectorField::unityRadius() "docs" | Double | the radius where the magnitude of the vectors is unity |
 
+\subsection SkiFileHelpConcreteRadiationFieldAtPositionsProbe -RadiationFieldAtPositionsProbe
+[\ref RadiationFieldAtPositionsProbe "docs"] : the mean radiation field intensity at imported positions 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref RadiationFieldAtPositionsProbe::probeName() "docs" | String | the name for this probe |
+| filename | \ref RadiationFieldAtPositionsProbe::filename() "docs" | String | the name of the file listing the positions |
+| useColumns | \ref RadiationFieldAtPositionsProbe::useColumns() "docs" | String | a list of names corresponding to columns in the file to be imported |
+| writeWavelengthGrid | \ref RadiationFieldAtPositionsProbe::writeWavelengthGrid() "docs" | Bool | output a text file with the radiation field wavelength grid |
+
 \subsection SkiFileHelpConcreteRadiationFieldPerCellProbe -RadiationFieldPerCellProbe
 [\ref RadiationFieldPerCellProbe "docs"] : the mean radiation field intensity for each spatial cell 
 
@@ -2482,9 +2494,11 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | maxZ | \ref VoronoiMeshMedium::maxZ() "docs" | Double | the end point of the domain in the Z direction |
 | massType | \ref VoronoiMeshMedium::massType() "docs" | Enum | the type of mass quantity to be imported |
 | | | --> MassDensity | mass density |
-| | | --> Mass | mass (volume-integrated mass density) |
+| | | --> Mass | mass (volume-integrated) |
+| | | --> MassDensityAndMass | both mass density and volume-integrated mass |
 | | | --> NumberDensity | number density |
-| | | --> Number | number (volume-integrated number density) |
+| | | --> Number | number (volume-integrated) |
+| | | --> NumberDensityAndNumber | both number density and volume-integrated number |
 | massFraction | \ref VoronoiMeshMedium::massFraction() "docs" | Double | the fraction of the mass to be included (or one to include all) |
 | importMetallicity | \ref VoronoiMeshMedium::importMetallicity() "docs" | Bool | import a metallicity column |
 | importTemperature | \ref VoronoiMeshMedium::importTemperature() "docs" | Bool | import a temperature column |

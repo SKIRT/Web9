@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Mar 16, 2021</em>
+<em>Mar 30, 2021</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -63,6 +63,8 @@ Feb 19, 2021 | 2c0a6a1 | Introduce line emission spectra for normalized sources
 Feb 23, 2021 | d9ef94a | Add circular aperture to SED instrument
 Mar  3, 2021 | 9c80c88 | Add BPASS SED template family with optional resource pack
 Mar 16, 2021 | bf69f1b | Add optional ionization parameter to FileSSPSEDFamily to support nebular emission
+Mar 29, 2021 | aecef86 | Allow avoiding Voronoi tessellation construction for imported density distributions
+Mar 30, 2021 | 6409465 | Add a probe for the radiation field at the positions listed in a user-provided input file
 
 
 \section RecentChanges9PTS Recent changes in PTS 9
