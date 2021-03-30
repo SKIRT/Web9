@@ -64,7 +64,7 @@ Feb 23, 2021 | d9ef94a | Add circular aperture to SED instrument
 Mar  3, 2021 | 9c80c88 | Add BPASS SED template family with optional resource pack
 Mar 16, 2021 | bf69f1b | Add optional ionization parameter to FileSSPSEDFamily to support nebular emission
 Mar 29, 2021 | aecef86 | Allow avoiding Voronoi tessellation construction for imported density distributions
-Mar 30, 2021 | 6409465 | Add a probe for the radiation field at the positions listed in a user-provided input file
+Mar 30, 2021 | c2a0f31 | Add a probe for the radiation field at the positions listed in a user-provided input file
 
 
 \section RecentChanges9PTS Recent changes in PTS 9
