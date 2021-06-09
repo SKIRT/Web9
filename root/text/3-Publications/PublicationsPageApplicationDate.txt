@@ -10,6 +10,8 @@
 
 | Title | Author(s) | Date | Journal | Category | PDF | ADS |
 |--|--|--|--|--|--|--|
+| Cosmological simulations of the same spiral galaxy: the impact of baryonic physics | Nuñez-Castiñeyra et al. | Jan 2021 | MNRAS | Application | [PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/NunezCastineyra2021.pdf) | [ADS](https://ui.adsabs.harvard.edu/abs/2021MNRAS.501...62N/abstract) |
+| Ultrafaint Dwarfs in a Milky Way Context: Introducing the Mint Condition DC Justice League Simulations | Applebaum et al. | Jan 2021 | ApJ | Application | [PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Applebaum2021.pdf) | [ADS](https://ui.adsabs.harvard.edu/abs/2021ApJ...906...96A/abstract) |
 | High-resolution, 3D radiative transfer modelling. IV. AGN-powered dust heating in NGC 1068 | Viaene et al. | Jun 2020 | A&A | Application | [PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Viaene2020.pdf) | [ADS](https://ui.adsabs.harvard.edu/abs/2020A&A...638A.150V/abstract) |
 | Massive low-surface-brightness galaxies in the EAGLE simulation | Kulier et al. | Jun 2020 | MNRAS | Application | [PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Kulier2020.pdf) | [ADS](https://ui.adsabs.harvard.edu/abs/2020MNRAS.496.3996K/abstract) |
 | High-resolution, 3D radiative transfer modelling. II. The early-type spiral galaxy M 81 | Verstocken et al. | May 2020 | A&A | Application | [PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Verstocken2020.pdf) | [ADS](https://ui.adsabs.harvard.edu/abs/2020A&A...637A..24V/abstract) |

@@ -6,6 +6,22 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+Cosmological simulations of the same spiral galaxy: the impact of baryonic physics
+Nuñez-Castiñeyra et al.
+MNRAS
+01 2021
+Application
+NunezCastineyra2021
+2021MNRAS.501...62N
+
+Ultrafaint Dwarfs in a Milky Way Context: Introducing the Mint Condition DC Justice League Simulations
+Applebaum et al.
+ApJ
+01 2021
+Application
+Applebaum2021
+2021ApJ...906...96A
+
 High-resolution, 3D radiative transfer modelling. IV. AGN-powered dust heating in NGC 1068
 Viaene et al.
 A&A

@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Mar 30, 2021</em>
+<em>Jun 9, 2021</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -65,6 +65,10 @@ Mar  3, 2021 | 9c80c88 | Add BPASS SED template family with optional resource pa
 Mar 16, 2021 | bf69f1b | Add optional ionization parameter to FileSSPSEDFamily to support nebular emission
 Mar 29, 2021 | aecef86 | Allow avoiding Voronoi tessellation construction for imported density distributions
 Mar 30, 2021 | c2a0f31 | Add a probe for the radiation field at the positions listed in a user-provided input file
+Apr 26, 2021 | c70b6ef | Upgrade to recent cfitsio library version that properly runs on Apple Silicon
+Jun  9, 2021 | b37c225 | Upgrade to recent Voro++ library version and retry construction after removing invalid cells
+Jun  9, 2021 | b37c225 | Stop Intel compilers from using optimizations that cause non-standard floating point operation
+Jun  9, 2021 | a3abee9 | Support binary stored columns format as faster alternative for column text files
 
 
 \section RecentChanges9PTS Recent changes in PTS 9
@@ -86,5 +90,6 @@ Dec 10, 2020 | 4caec70 | Add conversion to SKIRT stab format for BPASS stellar p
 Feb 19, 2021 | 55e86db | Update script to convert HEALPixSkyInstrument output to a projected image
 Feb 19, 2021 | 35684ec | Augment automated ski file upgrade procedure for line SEDs
 Mar 16, 2021 | 9631f87 | Add example script for creating FSPS templates with nebular emission
+Jun  9, 2021 | 1e09625 | Support creating and reading files in the SKIRT-specific stored columns format
 
 */
