@@ -6,6 +6,110 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+Dust evolution in zoom-in cosmological simulations of galaxy formation
+Granato et al.
+MNRAS
+05 2021
+Application
+Granato2021
+2021MNRAS.503..511G
+
+How Does the Polar Dust Affect the Correlation between Dust Covering Factor and Eddington Ratio in Type 1 Quasars Selected from the Sloan Digital Sky Survey Data Release 16?
+Toba et al.
+ApJ
+05 2021
+Application
+Toba2021
+2021ApJ...912...91T
+
+Infrared emission of z ∼ 6 galaxies: AGN imprints
+Di Mascia et al.
+MNRAS
+05 2021
+Application
+DiMascia2021
+2021MNRAS.503.2349D
+
+The physical properties of local (U)LIRGs: A comparison with nearby early- and late-type galaxies
+Paspaliaris et al.
+A&A
+05 2021
+Application
+Paspaliaris2021
+2021A&A...649A.137P
+
+Asymmetry Revisited: The Effect of Dust Attenuation and Galaxy Inclination
+Yuan et al.
+ApJ
+04 2021
+Application
+Yuan2021
+2021ApJ...911..145Y
+
+The IRX-β relation of high-redshift galaxies
+Liang et al.
+MNRAS
+04 2021
+Application
+Liang2021
+2021MNRAS.502.3210L
+
+A deep learning approach to test the small-scale galaxy morphology and its relationship with star formation activity in hydrodynamical simulations
+Zanisi et al.
+MNRAS
+03 2021
+Application
+Zanisi2021
+2021MNRAS.501.4359Z
+
+Realistic mock observations of the sizes and stellar mass surface densities of massive galaxies in FIRE-2 zoom-in simulations
+Parsotan et al.
+MNRAS
+02 2021
+Application
+Parsotan2021
+2021MNRAS.501.1591P
+
+Early galaxy growth: mergers or gravitational instability?
+Zanella et al.
+MNRAS
+01 2021
+Application
+Zanella2021
+2021MNRAS.500..118Z
+
+High-resolution, 3D radiative transfer modelling. V. A detailed model of the M 51 interacting pair
+Nersesian et al.
+A&A
+11 2020
+Application
+Nersesian2020
+2020A&A...643A..90N
+
+A redshift-dependent IRX-β dust attenuation relation for TNG50 galaxies
+Schulz et. al
+MNRAS
+10 2020
+Application
+Schulz2020
+2020MNRAS.497.4773S
+
+High-redshift JWST predictions from IllustrisTNG: II. Galaxy line and continuum spectral indices and dust attenuation curves
+Shen et al.
+MNRAS
+07 2020
+Application
+Shen2020
+2020MNRAS.495.4747S
+
+An ALMA survey of the SCUBA-2 CLS UDS field: physical properties of 707 sub-millimetre galaxies
+Dudzevičiūtė et al.
+MNRAS
+05 2020
+Application
+Dudzeviciute2020
+2020MNRAS.494.3828D
+
 Cosmological simulations of the same spiral galaxy: the impact of baryonic physics
 Nuñez-Castiñeyra et al.
 MNRAS
@@ -97,10 +201,10 @@ Camps2020
 Infrared luminosity functions and dust mass functions in the EAGLE simulation
 Baes et al.
 MNRAS
-04 2020
+05 2020
 Application
 Baes2020
-2020MNRAS.tmp.1138B
+2020MNRAS.494.2912B
 
 Predictions for the spatial distribution of the dust continuum emission in 1 < z < 5 star-forming galaxies
 Cochrane et al.
