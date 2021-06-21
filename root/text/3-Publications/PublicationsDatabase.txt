@@ -83,7 +83,7 @@ Nersesian et al.
 A&A
 11 2020
 Application
-Nersesian2020
+Nersesian2020b
 2020A&A...643A..90N
 
 A redshift-dependent IRX-β dust attenuation relation for TNG50 galaxies
