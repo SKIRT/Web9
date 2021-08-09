@@ -6,6 +6,14 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+Effects of Spatial Discretization in Lyα Line Radiation Transfer Simulations
+Camps et al.
+ApJ
+07 2021
+Technical
+Camps2021
+2021ApJ...916...39C
+
 Dust evolution in zoom-in cosmological simulations of galaxy formation
 Granato et al.
 MNRAS
@@ -185,7 +193,7 @@ Vandenbroucke2020
 Reproducing the Universe: a comparison between the EAGLE simulations and the nearby DustPedia galaxy sample
 Trčka et al.
 MNRAS
-04 2020
+05 2020
 Application
 Trcka2020
 2020MNRAS.494.2823T
