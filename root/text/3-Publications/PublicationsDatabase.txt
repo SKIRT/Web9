@@ -6,6 +6,14 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+High-resolution synthetic UV-submm images for simulated Milky Way-type galaxies from the Auriga project
+Kapoor et al.
+MNRAS
+10 2021
+Application
+Kapoor2021
+2021MNRAS.506.5703K
+
 Effects of Spatial Discretization in Lyα Line Radiation Transfer Simulations
 Camps et al.
 ApJ
