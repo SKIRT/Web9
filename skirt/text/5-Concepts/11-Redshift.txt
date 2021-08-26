@@ -95,7 +95,8 @@ from \f[ d_\mathrm{A}(z) = (1+z)^{-1} \, d_\mathrm{M}(z) \f] and \f[ d_\mathrm{L
 
 The angular-diameter distance converts a \em proper transverse separation \f$\mathrm{d}l\f$ to the corresponding
 observed angular separation \f$\mathrm{d}\psi\f$, \f[ \mathrm{d}\psi = \frac{\mathrm{d}l}{d_\mathrm{A}(z)}. \f] This is
-used for surface brightness calibration.
+used for surface brightness calibration and to properly calculate the angular pixel size, which is written to the FITS
+file header representing the instrument data cube.
 
 The luminosity distance converts a total luminosity \f$L_\mathrm{tot}\f$ to the corresponding observed total flux
 \f$F_\mathrm{tot}\f$, \f[ F_\mathrm{tot} = \frac{L_\mathrm{tot}}{4\pi\,d_\mathrm{L}^2(z)} \f] or a neutral-style
