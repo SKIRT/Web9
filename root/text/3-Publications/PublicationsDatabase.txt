@@ -6,6 +6,22 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+Geometry effects on dust attenuation curves with different grain sources at high redshift
+Lin et al.
+MNRAS
+10 2021
+Application
+Lin2021
+2021MNRAS.507.2755L
+
+Polarised emission from aligned dust grains in nearby galaxies: Predictions from the Auriga simulations
+Vandenbroucke et al.
+A&A
+09 2021
+Application
+Vandenbroucke2021
+2021A&A...653A..34V
+
 High-resolution synthetic UV-submm images for simulated Milky Way-type galaxies from the Auriga project
 Kapoor et al.
 MNRAS

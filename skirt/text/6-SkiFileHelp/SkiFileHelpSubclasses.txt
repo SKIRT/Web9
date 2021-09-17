@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 78e573c built on 26/08/2021 at 10:11:36)</em>
+<em>SKIRT v9.0 (git 2633935 built on 16/09/2021 at 15:41:44)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -421,6 +421,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %PlanarMediaDensityCutsProbe | \ref SkiFileHelpConcretePlanarMediaDensityCutsProbe "props" | \ref PlanarMediaDensityCutsProbe "docs"| cuts of the media densities along planes parallel to the coordinate planes |
 | %PlanarMediumVelocityCutsProbe | \ref SkiFileHelpConcretePlanarMediumVelocityCutsProbe "props" | \ref PlanarMediumVelocityCutsProbe "docs"| cuts of the medium velocity along planes parallel to the coordinate planes |
 | %PlanarRadiationFieldCutsProbe | \ref SkiFileHelpConcretePlanarRadiationFieldCutsProbe "props" | \ref PlanarRadiationFieldCutsProbe "docs"| cuts of the mean radiation field intensity along planes parallel to the coordinate planes |
+| %ProjectedMediaDensityProbe | \ref SkiFileHelpConcreteProjectedMediaDensityProbe "props" | \ref ProjectedMediaDensityProbe "docs"| Parallel-projection of the media density toward an arbitrary line of sight |
 | %RadiationFieldAtPositionsProbe | \ref SkiFileHelpConcreteRadiationFieldAtPositionsProbe "props" | \ref RadiationFieldAtPositionsProbe "docs"| the mean radiation field intensity at imported positions |
 | %RadiationFieldPerCellProbe | \ref SkiFileHelpConcreteRadiationFieldPerCellProbe "props" | \ref RadiationFieldPerCellProbe "docs"| the mean radiation field intensity for each spatial cell |
 | %RadiationFieldWavelengthGridProbe | \ref SkiFileHelpConcreteRadiationFieldWavelengthGridProbe "props" | \ref RadiationFieldWavelengthGridProbe "docs"| the radiation field wavelength grid |

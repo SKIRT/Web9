@@ -69,6 +69,8 @@ Apr 26, 2021 | c70b6ef | Upgrade to recent cfitsio library version that properly
 Jun  9, 2021 | b37c225 | Upgrade to recent Voro++ library version and retry construction after removing invalid cells
 Jun  9, 2021 | b37c225 | Stop Intel compilers from using optimizations that cause non-standard floating point operation
 Jun  9, 2021 | a3abee9 | Support binary stored columns format as faster alternative for column text files
+Sep 16, 2021 | fc46ce7 | Fix incorrect treatment of photon packets originating outside of Cylinder 2D grid
+Sep 16, 2021 | 2633935 | Add probe to output projected surface density (dust) or column density (electrons, gas)
 
 
 \section RecentChanges9PTS Recent changes in PTS 9

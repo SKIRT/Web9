@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 78e573c built on 26/08/2021 at 10:11:36)</em>
+<em>SKIRT v9.0 (git 2633935 built on 16/09/2021 at 15:41:44)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -1927,6 +1927,25 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | probes | \ref ProbeSystem::probes() "docs" | %ItemList | %Probe | \ref SkiFileHelpBaseProbe "subclasses" | the probes |
+
+\subsection SkiFileHelpConcreteProjectedMediaDensityProbe -ProjectedMediaDensityProbe
+[\ref ProjectedMediaDensityProbe "docs"] : Parallel-projection of the media density toward an arbitrary line of sight 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref ProjectedMediaDensityProbe::probeName() "docs" | String | the name for this probe |
+| inclination | \ref ProjectedMediaDensityProbe::inclination() "docs" | Double | the inclination angle θ of the projection |
+| azimuth | \ref ProjectedMediaDensityProbe::azimuth() "docs" | Double | the azimuth angle φ of the projection |
+| roll | \ref ProjectedMediaDensityProbe::roll() "docs" | Double | the roll angle ω of the projection |
+| fieldOfViewX | \ref ProjectedMediaDensityProbe::fieldOfViewX() "docs" | Double | the total field of view in the horizontal direction |
+| numPixelsX | \ref ProjectedMediaDensityProbe::numPixelsX() "docs" | Int | the number of pixels in the horizontal direction |
+| centerX | \ref ProjectedMediaDensityProbe::centerX() "docs" | Double | the center of the frame in the horizontal direction |
+| fieldOfViewY | \ref ProjectedMediaDensityProbe::fieldOfViewY() "docs" | Double | the total field of view in the vertical direction |
+| numPixelsY | \ref ProjectedMediaDensityProbe::numPixelsY() "docs" | Int | the number of pixels in the vertical direction |
+| centerY | \ref ProjectedMediaDensityProbe::centerY() "docs" | Double | the center of the frame in the vertical direction |
+| probeAfter | \ref ProjectedMediaDensityProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcretePseudoSersicGeometry -PseudoSersicGeometry
 [\ref PseudoSersicGeometry "docs"] : a pseudo-Sérsic geometry 
