@@ -75,3 +75,9 @@ h2.memtitle     /* for member function section titles */
 {
    text-align: left;
 }
+
+img     /* so that images shrink */
+{
+   max-width: 100%;
+   height: auto;
+}
