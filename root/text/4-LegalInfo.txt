@@ -12,7 +12,7 @@ license can be found in the file \ref LicenseText "LICENSE.txt" provided in each
 <http://www.gnu.org/licenses/>.
 
 We invite you to use the SKIRT code or other portions of this project in your work. If you do so, we kindly ask that
-you cite some of the relevant papers listed in the \ref PublicationsAllDate "Publications" section.
+you cite some of the relevant papers listed in the \ref PublicationsGallery "Publications" section.
 
 \section LegalThird Third-party libraries
 

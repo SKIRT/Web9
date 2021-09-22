@@ -1,6 +1,8 @@
 /**
 \page PublicationsAllAuthor All Publications by Author
 
+- \ref PublicationsGallery
+<p>
 - \ref PublicationsAllDate
 - \ref PublicationsAllAuthor
 - \ref PublicationsTechnicalDate

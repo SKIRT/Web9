@@ -1,0 +1,23 @@
+/**
+\page PublicationsGallery Publications Gallery
+
+- \ref PublicationsGallery
+<p>
+- \ref PublicationsAllDate
+- \ref PublicationsAllAuthor
+- \ref PublicationsTechnicalDate
+- \ref PublicationsTechnicalAuthor
+- \ref PublicationsApplicationDate
+- \ref PublicationsApplicationAuthor
+
+<TABLE>
+<TR>
+<TD><IMG src="http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Applebaum2021.png" alt="Applebaum et al. 2021 (ApJ)" title="Applebaum et al. 2021 (ApJ)" onclick="location.href='http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Applebaum2021.pdf';" loading="lazy"/>
+<TD><IMG src="http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Artale2019.png" alt="Artale et al. 2019 (MNRAS)" title="Artale et al. 2019 (MNRAS)" onclick="location.href='http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Artale2019.pdf';" loading="lazy"/>
+<TD><IMG src="http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Baes2007.png" alt="Baes et al. 2007 (BaltA)" title="Baes et al. 2007 (BaltA)" onclick="location.href='http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Baes2007.pdf';" loading="lazy"/>
+<TR>
+<TD><IMG src="http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Baes2005.png" alt="Baes et al. 2005 (NewA)" title="Baes et al. 2005 (NewA)" onclick="location.href='http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Baes2005.pdf';" loading="lazy"/>
+<TD><IMG src="http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Baes2003.png" alt="Baes et al. 2003 (MNRAS)" title="Baes et al. 2003 (MNRAS)" onclick="location.href='http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/Baes2003.pdf';" loading="lazy"/>
+</TABLE>
+
+*/

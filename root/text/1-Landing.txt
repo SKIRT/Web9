@@ -30,7 +30,7 @@ The SKIRT project is fully open source, including all C++ and Python code and th
 publicly available under liberal licensing conditions (see \ref LegalInfo). We invite you to use the SKIRT project's
 software for your work, and to interact with other users and/or contribute to the project (see \ref Contributing).
 Results of applying SKIRT to various astrophysical models have been reported in many refereed publications
-(see \ref PublicationsAllDate "Publications").
+(see \ref PublicationsGallery "Publications").
 
 \section LandingVersions Project versions
 
@@ -56,7 +56,7 @@ level of the web site, offering an installation guide, a user guide, a developer
 for each project component and version. Below are direct links to some of these pages.
 
 - \ref Contributing -- information on how to interact with other SKIRT users and how to contribute to the project.
-- \ref PublicationsAllDate "Publications" -- a list of refereed publications related to or applying the SKIRT project.
+- \ref PublicationsGallery "Publications" -- a list of refereed publications related to or applying the SKIRT project.
 - \ref LegalInfo -- licensing conditions for the SKIRT project and contact information for the core SKIRT team.
 - <a href="../version9/_version9.html">Project version 9</a> -- introduction and features
 - <a href="../version9/_tutorials.html">Tutorials for both SKIRT and PTS</a>

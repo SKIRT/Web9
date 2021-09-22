@@ -84,7 +84,7 @@ categories = ["All"] + categories
 orderings = ["Date", "Author"]
 months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-# function to generate a given Doxygen page
+# function to generate a text-oriented Doxygen page
 def makePage(records, mycateg, myorder):
     with open(wdir+"PublicationsPage"+mycateg+myorder+".txt", 'w') as pg:
         # write page header
@@ -93,6 +93,8 @@ def makePage(records, mycateg, myorder):
         pg.write("\n")
 
         # write links to other pages
+        pg.write("- \\ref PublicationsGallery\n")
+        pg.write("<p>\n")
         for categ in categories:
             for order in orderings:
                 pg.write("- \\ref Publications" + categ + order + "\n")
@@ -115,7 +117,6 @@ def makePage(records, mycateg, myorder):
         pg.write("\n")
         pg.write("*/\n")
 
-
 # generate the Doxygen pages for records sorted on date
 records.sort(key=lambda record: str(record['year'])+str(100+record['month'])+record['author'], reverse=True)
 makePage(records, "All", "Date")
@@ -127,5 +128,45 @@ records.sort(key=lambda record: record['author']+str(record['year'])+str(100+rec
 makePage(records, "All", "Author")
 makePage([ record for record in records if record['category']=="Technical"], "Technical", "Author")
 makePage([ record for record in records if record['category']=="Application"], "Application", "Author")
+
+# -----------------------------------------------------------------
+
+# function to generate the image-oriented Doxygen page
+def makeGalleryPage(records):
+    with open(wdir+"PublicationsPageGallery.txt", 'w') as pg:
+        # write page header
+        pg.write("/**\n")
+        pg.write("\\page PublicationsGallery Publications Gallery\n")
+        pg.write("\n")
+
+        # write links to other pages
+        pg.write("- \\ref PublicationsGallery\n")
+        pg.write("<p>\n")
+        for categ in categories:
+            for order in orderings:
+                pg.write("- \\ref Publications" + categ + order + "\n")
+        pg.write("\n")
+
+        # write table of images with 3 columns
+        pg.write("<TABLE>\n")
+        for index, record in enumerate(records):
+            if index % 3 == 0:
+                pg.write("<TR>\n")
+            imagepath = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".png"
+            alttext = record['author'] + " " + str(record['year']) + " (" + record['journal'] + ")"
+            pdflink = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf"
+            pg.write('<TD><IMG src="{}" alt="{}" title="{}" onclick="location.href=\'{}\';" loading="lazy"/>\n'
+                        .format(imagepath, alttext, alttext, pdflink))
+        pg.write("</TABLE>\n")
+
+        # write page footer
+        pg.write("\n")
+        pg.write("*/\n")
+
+# generate the Doxygen publication gallery page, sorted on date, limited to papers with an associated image
+if pdfdir is not None:
+    records = [ record for record in records if os.path.exists(pdfdir + record['pdfname'] + ".png") ]
+records.sort(key=lambda record: str(record['year'])+str(100+record['month'])+record['author'], reverse=True)
+makeGalleryPage(records)
 
 # -----------------------------------------------------------------
