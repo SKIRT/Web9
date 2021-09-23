@@ -147,16 +147,21 @@ def makeGalleryPage(records):
                 pg.write("- \\ref Publications" + categ + order + "\n")
         pg.write("\n")
 
-        # write table of images with 3 columns
+        # write table of images with links
         pg.write("<TABLE>\n")
         for index, record in enumerate(records):
-            if index % 3 == 0:
+            if index % 3 == 0:      # start a new row after N columns
                 pg.write("<TR>\n")
-            imagepath = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".png"
-            alttext = record['author'] + " " + str(record['year']) + " (" + record['journal'] + ")"
-            pdflink = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf"
-            pg.write('<TD><IMG src="{}" alt="{}" title="{}" onclick="location.href=\'{}\';" loading="lazy"/>\n'
-                        .format(imagepath, alttext, alttext, pdflink))
+            d = {}
+            d["imgpath"] = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".png"
+            d["pdfpath"] = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf"
+            d["pdflink"] = "[PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf)"
+            d["adslink"] = "[ADS](https://ui.adsabs.harvard.edu/abs/" + record['adsname'] + "/abstract)"
+            d["alttext"] = record['author'] + " " + str(record['year']) + " (" + record['journal'] + ")"
+            d["title"] = record['author'] + " " + str(record['year']) + " (" + record['journal'] + "): " + \
+                         record['title']
+            pg.write(('<TD><IMG src="{imgpath}" alt="{alttext}" title="{title}" ' + \
+                      'onclick="location.href=\'{pdfpath}\';" loading="lazy"/>\n  {pdflink} {adslink}\n').format(**d))
         pg.write("</TABLE>\n")
 
         # write page footer
