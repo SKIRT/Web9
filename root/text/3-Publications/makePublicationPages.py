@@ -19,6 +19,7 @@
 
 import sys
 import os.path
+import PIL.Image
 
 # -----------------------------------------------------------------
 
@@ -131,6 +132,13 @@ makePage([ record for record in records if record['category']=="Application"], "
 
 # -----------------------------------------------------------------
 
+# function to obtain the aspect ratio width/height for the png image associated with the specified record
+def imageAspect(record):
+    path = pdfdir + record['pdfname'] + ".png"
+    image = PIL.Image.open(path)
+    width, height = image.size
+    return width/height
+
 # function to generate the image-oriented Doxygen page
 def makeGalleryPage(records):
     with open(wdir+"PublicationsPageGallery.txt", 'w') as pg:
@@ -151,16 +159,17 @@ def makeGalleryPage(records):
         pg.write("<TABLE>\n")
         for index, record in enumerate(records):
             if index % 3 == 0:      # start a new row after N columns
-                pg.write("<TR>\n")
+                pg.write('<TR style="text-align:center;">\n')
             d = {}
             d["imgpath"] = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".png"
+            d["maxwidth"] = int(min(1, imageAspect(record)) * 100)
             d["pdfpath"] = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf"
             d["pdflink"] = "[PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf)"
             d["adslink"] = "[ADS](https://ui.adsabs.harvard.edu/abs/" + record['adsname'] + "/abstract)"
             d["alttext"] = record['author'] + " " + str(record['year']) + " (" + record['journal'] + ")"
             d["title"] = record['author'] + " " + str(record['year']) + " (" + record['journal'] + "): " + \
                          record['title']
-            pg.write(('<TD><IMG src="{imgpath}" alt="{alttext}" title="{title}" ' + \
+            pg.write(('<TD><IMG src="{imgpath}" style="max-width:{maxwidth}%;" alt="{alttext}" title="{title}" ' + \
                       'onclick="location.href=\'{pdfpath}\';" loading="lazy"/>\n  {pdflink} {adslink}\n').format(**d))
         pg.write("</TABLE>\n")
 
