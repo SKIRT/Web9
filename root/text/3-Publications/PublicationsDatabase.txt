@@ -6,6 +6,14 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+The structure of the Milky Way based on unWISE 3.4 μm integrated photometry
+Mosenkov et al.
+MNRAS
+11 2021
+Application
+Mosenkov2021
+2021MNRAS.507.5246M
+
 Geometry effects on dust attenuation curves with different grain sources at high redshift
 Lin et al.
 MNRAS
