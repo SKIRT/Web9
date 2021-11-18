@@ -158,7 +158,7 @@ def makeGalleryPage(records):
         # write table of images with links
         pg.write("<TABLE>\n")
         for index, record in enumerate(records):
-            if index % 3 == 0:      # start a new row after N columns
+            if index % 4 == 0:      # start a new row after N columns
                 pg.write('<TR style="text-align:center;">\n')
             d = {}
             d["imgpath"] = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".png"
