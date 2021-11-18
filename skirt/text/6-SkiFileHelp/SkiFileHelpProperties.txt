@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 2633935 built on 29/09/2021 at 09:50:14)</em>
+<em>SKIRT v9.0 (git 8008259 built on 18/11/2021 at 14:43:33)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -123,9 +123,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | unitStyle | \ref BandLuminosityNormalization::unitStyle() "docs" | Enum | the luminosity unit style |
+| | | --> neutralmonluminosity | neutral: λ L_λ = ν L_ν |
 | | | --> wavelengthmonluminosity | per unit of wavelength: L_λ |
 | | | --> frequencymonluminosity | per unit of frequency: L_ν |
-| | | --> neutralmonluminosity | neutral: λ L_λ = ν L_ν |
+| | | --> energymonluminosity | counts per unit of energy: L_E |
 | specificLuminosity | \ref BandLuminosityNormalization::specificLuminosity() "docs" | Double | the specific luminosity for the given band |
 
 | Compound Property | | Type | Base Class | | Description
@@ -706,6 +707,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | | | --> Neutral | neutral: λ F_λ = ν F_ν |
 | | | --> Wavelength | per unit of wavelength: F_λ |
 | | | --> Frequency | per unit of frequency: F_ν |
+| | | --> Energy | counts per unit of energy: F_E |
 
 \subsection SkiFileHelpConcreteFSPSSED -FSPSSED
 [\ref FSPSSED "docs"] : an FSPS simple stellar population %SED 
@@ -1161,9 +1163,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | wavelengths | \ref ListSED::wavelengths() "docs" | DoubleList | the wavelengths at which to specify the specific luminosity |
 | unitStyle | \ref ListSED::unitStyle() "docs" | Enum | the luminosity unit style |
+| | | --> neutralmonluminosity | neutral: λ L_λ = ν L_ν |
 | | | --> wavelengthmonluminosity | per unit of wavelength: L_λ |
 | | | --> frequencymonluminosity | per unit of frequency: L_ν |
-| | | --> neutralmonluminosity | neutral: λ L_λ = ν L_ν |
+| | | --> energymonluminosity | counts per unit of energy: L_E |
 | specificLuminosities | \ref ListSED::specificLuminosities() "docs" | DoubleList | the specific luminosities at each of the given wavelengths |
 
 \subsection SkiFileHelpConcreteListWavelengthDistribution -ListWavelengthDistribution
@@ -1173,9 +1176,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | wavelengths | \ref ListWavelengthDistribution::wavelengths() "docs" | DoubleList | the wavelengths at which to specify the probability |
 | unitStyle | \ref ListWavelengthDistribution::unitStyle() "docs" | Enum | the probability unit style |
-| | | --> wavelengthmonluminosity | per unit of wavelength: p_λ |
-| | | --> frequencymonluminosity | per unit of frequency: p_ν |
-| | | --> neutralmonluminosity | neutral: λ p_λ = ν p_ν |
+| | | --> neutralmonluminosity | neutral: λ L_λ = ν L_ν |
+| | | --> wavelengthmonluminosity | per unit of wavelength: L_λ |
+| | | --> frequencymonluminosity | per unit of frequency: L_ν |
+| | | --> energymonluminosity | counts per unit of energy: L_E |
 | probabilities | \ref ListWavelengthDistribution::probabilities() "docs" | DoubleList | the probabilities at each of the given wavelengths |
 
 \subsection SkiFileHelpConcreteListWavelengthGrid -ListWavelengthGrid
@@ -2084,6 +2088,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | | | --> Neutral | neutral: λ F_λ = ν F_ν |
 | | | --> Wavelength | per unit of wavelength: F_λ |
 | | | --> Frequency | per unit of frequency: F_ν |
+| | | --> Energy | counts per unit of energy: F_E |
 
 \subsection SkiFileHelpConcreteScaledGaussianSmoothingKernel -ScaledGaussianSmoothingKernel
 [\ref ScaledGaussianSmoothingKernel "docs"] : a scaled Gaussian smoothing kernel 
@@ -2200,9 +2205,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | wavelength | \ref SpecificLuminosityNormalization::wavelength() "docs" | Double | the wavelength at which to provide the specific luminosity |
 | unitStyle | \ref SpecificLuminosityNormalization::unitStyle() "docs" | Enum | the luminosity unit style |
+| | | --> neutralmonluminosity | neutral: λ L_λ = ν L_ν |
 | | | --> wavelengthmonluminosity | per unit of wavelength: L_λ |
 | | | --> frequencymonluminosity | per unit of frequency: L_ν |
-| | | --> neutralmonluminosity | neutral: λ L_λ = ν L_ν |
+| | | --> energymonluminosity | counts per unit of energy: L_E |
 | specificLuminosity | \ref SpecificLuminosityNormalization::specificLuminosity() "docs" | Double | the specific luminosity at the given wavelength |
 
 \subsection SkiFileHelpConcreteSphere1DSpatialGrid -Sphere1DSpatialGrid
@@ -2363,6 +2369,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | | | --> Neutral | neutral: λ F_λ = ν F_ν |
 | | | --> Wavelength | per unit of wavelength: F_λ |
 | | | --> Frequency | per unit of frequency: F_ν |
+| | | --> Energy | counts per unit of energy: F_E |
 
 \subsection SkiFileHelpConcreteSunSED -SunSED
 [\ref SunSED "docs"] : the spectral energy distribution of the Sun 
