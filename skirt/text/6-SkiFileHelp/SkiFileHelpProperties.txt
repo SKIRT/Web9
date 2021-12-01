@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 8008259 built on 18/11/2021 at 14:43:33)</em>
+<em>SKIRT v9.0 (git 3133494 built on 01/12/2021 at 15:30:09)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -420,7 +420,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | probeName | \ref CustomStatePerCellProbe::probeName() "docs" | String | the name for this probe |
-| probeAfter | \ref CustomStatePerCellProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| probeAfter | \ref CustomStatePerCellProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
 
@@ -461,7 +461,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | probeName | \ref DefaultCustomStateCutsProbe::probeName() "docs" | String | the name for this probe |
-| probeAfter | \ref DefaultCustomStateCutsProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| probeAfter | \ref DefaultCustomStateCutsProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
 
@@ -472,12 +472,22 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | probeName | \ref DefaultDustTemperatureCutsProbe::probeName() "docs" | String | the name for this probe |
 
+\subsection SkiFileHelpConcreteDefaultElectronTemperatureCutsProbe -DefaultElectronTemperatureCutsProbe
+[\ref DefaultElectronTemperatureCutsProbe "docs"] : cuts of the electron temperature along the coordinate planes 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref DefaultElectronTemperatureCutsProbe::probeName() "docs" | String | the name for this probe |
+
 \subsection SkiFileHelpConcreteDefaultGasTemperatureCutsProbe -DefaultGasTemperatureCutsProbe
 [\ref DefaultGasTemperatureCutsProbe "docs"] : cuts of the gas temperature along the coordinate planes 
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | probeName | \ref DefaultGasTemperatureCutsProbe::probeName() "docs" | String | the name for this probe |
+| probeAfter | \ref DefaultGasTemperatureCutsProbe::probeAfter() "docs" | Enum | perform the probe after |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcreteDefaultMagneticFieldCutsProbe -DefaultMagneticFieldCutsProbe
 [\ref DefaultMagneticFieldCutsProbe "docs"] : cuts of the magnetic field along the coordinate planes 
@@ -492,7 +502,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | probeName | \ref DefaultMediaDensityCutsProbe::probeName() "docs" | String | the name for this probe |
-| probeAfter | \ref DefaultMediaDensityCutsProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| probeAfter | \ref DefaultMediaDensityCutsProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
 
@@ -502,6 +512,16 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | probeName | \ref DefaultMediumVelocityCutsProbe::probeName() "docs" | String | the name for this probe |
+
+\subsection SkiFileHelpConcreteDefaultMetallicityCutsProbe -DefaultMetallicityCutsProbe
+[\ref DefaultMetallicityCutsProbe "docs"] : cuts of the metallicity along the coordinate planes 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref DefaultMetallicityCutsProbe::probeName() "docs" | String | the name for this probe |
+| probeAfter | \ref DefaultMetallicityCutsProbe::probeAfter() "docs" | Enum | perform the probe after |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcreteDefaultRadiationFieldCutsProbe -DefaultRadiationFieldCutsProbe
 [\ref DefaultRadiationFieldCutsProbe "docs"] : cuts of the mean radiation field intensity along the coordinate planes 
@@ -579,7 +599,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | bulkMassDensity | \ref DustEmGrainComposition::bulkMassDensity() "docs" | Double | the bulk mass density for this grain material |
 
 \subsection SkiFileHelpConcreteDustEmissionOptions -DustEmissionOptions
-[\ref DustEmissionOptions "docs"] : a set of options related to secondary emission from dust 
+[\ref DustEmissionOptions "docs"] : a set of options related to thermal emission from dust 
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
@@ -587,15 +607,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | | | --> Equilibrium | assume local thermal equilibrium (LTE) |
 | | | --> Stochastic | handle stochastically heated grains (non-LTE) |
 | includeHeatingByCMB | \ref DustEmissionOptions::includeHeatingByCMB() "docs" | Bool | add the cosmic microwave background (CMB) as a dust heating source term |
-| storeEmissionRadiationField | \ref DustEmissionOptions::storeEmissionRadiationField() "docs" | Bool | store the radiation field during emission so that it can be probed for output |
-| secondaryPacketsMultiplier | \ref DustEmissionOptions::secondaryPacketsMultiplier() "docs" | Double | the multiplier on the number of photon packets launched for secondary emission from dust |
-| spatialBias | \ref DustEmissionOptions::spatialBias() "docs" | Double | the fraction of secondary photon packets distributed uniformly across spatial cells |
+| maxFractionOfPrimary | \ref DustEmissionOptions::maxFractionOfPrimary() "docs" | Double | convergence is reached when the total absorbed dust luminosity is less than this fraction of the total absorbed primary luminosity |
+| maxFractionOfPrevious | \ref DustEmissionOptions::maxFractionOfPrevious() "docs" | Double | convergence is reached when the total absorbed dust luminosity has changed by less than this fraction compared to the previous iteration |
+| sourceWeight | \ref DustEmissionOptions::sourceWeight() "docs" | Double | the weight of dust emission for the number of photon packets launched |
 | wavelengthBias | \ref DustEmissionOptions::wavelengthBias() "docs" | Double | the fraction of secondary photon packet wavelengths sampled from a bias distribution |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | cellLibrary | \ref DustEmissionOptions::cellLibrary() "docs" | %Item | %SpatialCellLibrary | \ref SkiFileHelpBaseSpatialCellLibrary "subclasses" | the spatial cell grouping scheme for calculating dust emission |
-| radiationFieldWLG | \ref DustEmissionOptions::radiationFieldWLG() "docs" | %Item | %DisjointWavelengthGrid | \ref SkiFileHelpBaseDisjointWavelengthGrid "subclasses" | the wavelength grid for storing the radiation field |
 | dustEmissionWLG | \ref DustEmissionOptions::dustEmissionWLG() "docs" | %Item | %DisjointWavelengthGrid | \ref SkiFileHelpBaseDisjointWavelengthGrid "subclasses" | the wavelength grid for calculating the dust emission spectrum |
 | wavelengthBiasDistribution | \ref DustEmissionOptions::wavelengthBiasDistribution() "docs" | %Item | %WavelengthDistribution | \ref SkiFileHelpBaseWavelengthDistribution "subclasses" | the bias distribution for sampling secondary photon packet wavelengths |
 
@@ -629,17 +648,6 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | probeName | \ref DustGrainSizeDistributionProbe::probeName() "docs" | String | the name for this probe |
 | numSamples | \ref DustGrainSizeDistributionProbe::numSamples() "docs" | Int | the number of samples in the size distribution table |
 
-\subsection SkiFileHelpConcreteDustSelfAbsorptionOptions -DustSelfAbsorptionOptions
-[\ref DustSelfAbsorptionOptions "docs"] : a set of options related to calculating dust self-absorption 
-
-| Scalar Property | | Type | Description
-| :-- | :--: | :-- | :-- |
-| minIterations | \ref DustSelfAbsorptionOptions::minIterations() "docs" | Int | the minimum number of dust self-absorption iterations |
-| maxIterations | \ref DustSelfAbsorptionOptions::maxIterations() "docs" | Int | the maximum number of dust self-absorption iterations |
-| maxFractionOfPrimary | \ref DustSelfAbsorptionOptions::maxFractionOfPrimary() "docs" | Double | convergence is reached when the total absorbed dust luminosity is less than this fraction of the total absorbed primary luminosity |
-| maxFractionOfPrevious | \ref DustSelfAbsorptionOptions::maxFractionOfPrevious() "docs" | Double | convergence is reached when the total absorbed dust luminosity has changed by less than this fraction compared to the previous iteration |
-| iterationPacketsMultiplier | \ref DustSelfAbsorptionOptions::iterationPacketsMultiplier() "docs" | Double | the multiplier on the number of photon packets launched for each self-absorption iteration |
-
 \subsection SkiFileHelpConcreteDustTemperaturePerCellProbe -DustTemperaturePerCellProbe
 [\ref DustTemperaturePerCellProbe "docs"] : the indicative dust temperature for each spatial cell 
 
@@ -648,14 +656,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | probeName | \ref DustTemperaturePerCellProbe::probeName() "docs" | String | the name for this probe |
 
 \subsection SkiFileHelpConcreteDynamicStateOptions -DynamicStateOptions
-[\ref DynamicStateOptions "docs"] : a set of options for dynamically adjusting the medium state by iterating over the radiation field 
-
-| Scalar Property | | Type | Description
-| :-- | :--: | :-- | :-- |
-| hasDynamicState | \ref DynamicStateOptions::hasDynamicState() "docs" | Bool | dynamically adjust the medium state by iterating over the radiation field |
-| minIterations | \ref DynamicStateOptions::minIterations() "docs" | Int | the minimum number of dynamic medium state iterations |
-| maxIterations | \ref DynamicStateOptions::maxIterations() "docs" | Int | the maximum number of dynamic medium state iterations |
-| iterationPacketsMultiplier | \ref DynamicStateOptions::iterationPacketsMultiplier() "docs" | Double | the multiplier on the number of photon packets launched for each dynamic medium state iteration |
+[\ref DynamicStateOptions "docs"] : a set of options for dynamically adjusting the medium state 
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -675,6 +676,15 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | includePolarization | \ref ElectronMix::includePolarization() "docs" | Bool | include support for polarization |
+| includeThermalDispersion | \ref ElectronMix::includeThermalDispersion() "docs" | Bool | include thermal velocity dispersion |
+| defaultTemperature | \ref ElectronMix::defaultTemperature() "docs" | Double | the default temperature of the electron population |
+
+\subsection SkiFileHelpConcreteElectronTemperaturePerCellProbe -ElectronTemperaturePerCellProbe
+[\ref ElectronTemperaturePerCellProbe "docs"] : the electron temperature for each spatial cell 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref ElectronTemperaturePerCellProbe::probeName() "docs" | String | the name for this probe |
 
 \subsection SkiFileHelpConcreteExpDiskGeometry -ExpDiskGeometry
 [\ref ExpDiskGeometry "docs"] : an exponential disk geometry 
@@ -686,17 +696,6 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | minRadius | \ref ExpDiskGeometry::minRadius() "docs" | Double | the radius of the central cavity |
 | maxRadius | \ref ExpDiskGeometry::maxRadius() "docs" | Double | the truncation radius (zero means no truncation) |
 | maxZ | \ref ExpDiskGeometry::maxZ() "docs" | Double | the truncation height (zero means no truncation) |
-
-\subsection SkiFileHelpConcreteExtinctionOnlyOptions -ExtinctionOnlyOptions
-[\ref ExtinctionOnlyOptions "docs"] : a set of options related to extinction-only simulation modes 
-
-| Scalar Property | | Type | Description
-| :-- | :--: | :-- | :-- |
-| storeRadiationField | \ref ExtinctionOnlyOptions::storeRadiationField() "docs" | Bool | store the radiation field so that it can be probed for output |
-
-| Compound Property | | Type | Base Class | | Description
-| :-- | :--: | :-- | :-- | :--: | :-- |
-| radiationFieldWLG | \ref ExtinctionOnlyOptions::radiationFieldWLG() "docs" | %Item | %DisjointWavelengthGrid | \ref SkiFileHelpBaseDisjointWavelengthGrid "subclasses" | the wavelength grid for storing the radiation field |
 
 \subsection SkiFileHelpConcreteExtragalacticUnits -ExtragalacticUnits
 [\ref ExtragalacticUnits "docs"] : extragalactic units (length in pc, distance in Mpc) 
@@ -903,6 +902,9 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | probeName | \ref GasTemperaturePerCellProbe::probeName() "docs" | String | the name for this probe |
+| probeAfter | \ref GasTemperaturePerCellProbe::probeAfter() "docs" | Enum | perform the probe after |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcreteGaussianGeometry -GaussianGeometry
 [\ref GaussianGeometry "docs"] : a Gaussian geometry 
@@ -1045,6 +1047,19 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 \subsection SkiFileHelpConcreteIsotropicAngularDistribution -IsotropicAngularDistribution
 [\ref IsotropicAngularDistribution "docs"] : an isotropic emission profile 
+
+\subsection SkiFileHelpConcreteIterationOptions -IterationOptions
+[\ref IterationOptions "docs"] : a set of options for configuring iterations during primary and/or secondary emission 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| minPrimaryIterations | \ref IterationOptions::minPrimaryIterations() "docs" | Int | the minimum number of iterations during primary emission |
+| maxPrimaryIterations | \ref IterationOptions::maxPrimaryIterations() "docs" | Int | the maximum number of iterations during primary emission |
+| minSecondaryIterations | \ref IterationOptions::minSecondaryIterations() "docs" | Int | the minimum number of iterations during secondary emission |
+| maxSecondaryIterations | \ref IterationOptions::maxSecondaryIterations() "docs" | Int | the maximum number of iterations during secondary emission |
+| includePrimaryEmission | \ref IterationOptions::includePrimaryEmission() "docs" | Bool | include primary emission in the secondary emission iterations |
+| primaryIterationPacketsMultiplier | \ref IterationOptions::primaryIterationPacketsMultiplier() "docs" | Double | the multiplier on the number of photon packets launched for each primary emission iteration |
+| secondaryIterationPacketsMultiplier | \ref IterationOptions::secondaryIterationPacketsMultiplier() "docs" | Double | the multiplier on the number of photon packets launched for each secondary emission iteration |
 
 \subsection SkiFileHelpConcreteLaserAngularDistribution -LaserAngularDistribution
 [\ref LaserAngularDistribution "docs"] : a laser emission profile 
@@ -1418,19 +1433,17 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 \subsection SkiFileHelpConcreteMediumSystem -MediumSystem
 [\ref MediumSystem "docs"] : a medium system 
 
-| Scalar Property | | Type | Description
-| :-- | :--: | :-- | :-- |
-| numDensitySamples | \ref MediumSystem::numDensitySamples() "docs" | Int | the number of random density samples for determining spatial cell mass |
-
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | photonPacketOptions | \ref MediumSystem::photonPacketOptions() "docs" | %Item | %PhotonPacketOptions | \ref SkiFileHelpBasePhotonPacketOptions "subclasses" | the photon packet options |
-| extinctionOnlyOptions | \ref MediumSystem::extinctionOnlyOptions() "docs" | %Item | %ExtinctionOnlyOptions | \ref SkiFileHelpBaseExtinctionOnlyOptions "subclasses" | the extinction-only options |
-| dustEmissionOptions | \ref MediumSystem::dustEmissionOptions() "docs" | %Item | %DustEmissionOptions | \ref SkiFileHelpBaseDustEmissionOptions "subclasses" | the dust emission options |
-| dustSelfAbsorptionOptions | \ref MediumSystem::dustSelfAbsorptionOptions() "docs" | %Item | %DustSelfAbsorptionOptions | \ref SkiFileHelpBaseDustSelfAbsorptionOptions "subclasses" | the dust self-absorption options |
 | lyaOptions | \ref MediumSystem::lyaOptions() "docs" | %Item | %LyaOptions | \ref SkiFileHelpBaseLyaOptions "subclasses" | the Lyman-alpha line transfer options |
-| dynamicStateOptions | \ref MediumSystem::dynamicStateOptions() "docs" | %Item | %DynamicStateOptions | \ref SkiFileHelpBaseDynamicStateOptions "subclasses" | the options for dynamic medium state iterations |
+| dynamicStateOptions | \ref MediumSystem::dynamicStateOptions() "docs" | %Item | %DynamicStateOptions | \ref SkiFileHelpBaseDynamicStateOptions "subclasses" | the dynamic medium state options |
+| radiationFieldOptions | \ref MediumSystem::radiationFieldOptions() "docs" | %Item | %RadiationFieldOptions | \ref SkiFileHelpBaseRadiationFieldOptions "subclasses" | the radiation field options |
+| secondaryEmissionOptions | \ref MediumSystem::secondaryEmissionOptions() "docs" | %Item | %SecondaryEmissionOptions | \ref SkiFileHelpBaseSecondaryEmissionOptions "subclasses" | the secondary emission options |
+| iterationOptions | \ref MediumSystem::iterationOptions() "docs" | %Item | %IterationOptions | \ref SkiFileHelpBaseIterationOptions "subclasses" | the primary and/or secondary emission iteration options |
+| dustEmissionOptions | \ref MediumSystem::dustEmissionOptions() "docs" | %Item | %DustEmissionOptions | \ref SkiFileHelpBaseDustEmissionOptions "subclasses" | the dust emission options |
 | media | \ref MediumSystem::media() "docs" | %ItemList | %Medium | \ref SkiFileHelpBaseMedium "subclasses" | the transfer media |
+| samplingOptions | \ref MediumSystem::samplingOptions() "docs" | %Item | %SamplingOptions | \ref SkiFileHelpBaseSamplingOptions "subclasses" | the spatial grid sampling options |
 | grid | \ref MediumSystem::grid() "docs" | %Item | %SpatialGrid | \ref SkiFileHelpBaseSpatialGrid "subclasses" | the spatial grid |
 
 \subsection SkiFileHelpConcreteMediumVelocityPerCellProbe -MediumVelocityPerCellProbe
@@ -1449,6 +1462,16 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numSamples | \ref MeridionalDustTemperatureCutProbe::numSamples() "docs" | Int | the number of samples along the meridian |
 | radius | \ref MeridionalDustTemperatureCutProbe::radius() "docs" | Double | the radius of the circle containing the meridian |
 | azimuth | \ref MeridionalDustTemperatureCutProbe::azimuth() "docs" | Double | the azimuth angle φ of the meridian |
+
+\subsection SkiFileHelpConcreteMetallicityPerCellProbe -MetallicityPerCellProbe
+[\ref MetallicityPerCellProbe "docs"] : metallicity values for all spatial cells 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref MetallicityPerCellProbe::probeName() "docs" | String | the name for this probe |
+| probeAfter | \ref MetallicityPerCellProbe::probeAfter() "docs" | Enum | perform the probe after |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcreteMieSilicateGrainComposition -MieSilicateGrainComposition
 [\ref MieSilicateGrainComposition "docs"] : a MieX-based Draine silicate dust grain composition 
@@ -1497,12 +1520,15 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | | | --> Expert | Expert: for expert users (hides no options) |
 | simulationMode | \ref MonteCarloSimulation::simulationMode() "docs" | Enum | the overall simulation mode |
 | | | --> OligoNoMedium | No medium - oligochromatic regime (a few discrete wavelengths) |
-| | | --> OligoExtinctionOnly | Dust extinction only - oligochromatic regime (a few discrete wavelengths) |
+| | | --> OligoExtinctionOnly | Extinction only - oligochromatic regime (a few discrete wavelengths) |
 | | | --> NoMedium | No medium (primary sources only) |
-| | | --> ExtinctionOnly | Dust extinction only (no secondary emission) |
+| | | --> ExtinctionOnly | Extinction only (no secondary emission) |
+| | | --> LyaExtinctionOnly | Extinction only with Lyman-alpha line transfer |
 | | | --> DustEmission | With secondary emission from dust |
-| | | --> DustEmissionWithSelfAbsorption | With secondary emission from dust and iterations for dust self-absorption |
-| | | --> LyaWithDustExtinction | Lyman-alpha line transfer and dust extinction |
+| | | --> GasEmission | With secondary emission from gas |
+| | | --> DustAndGasEmission | With secondary emission from dust and gas |
+| iterateMediumState | \ref MonteCarloSimulation::iterateMediumState() "docs" | Bool | iterate to self-consistently determine the medium state |
+| iterateSecondaryEmission | \ref MonteCarloSimulation::iterateSecondaryEmission() "docs" | Bool | iterate to self-consistently determine secondary emission |
 | numPackets | \ref MonteCarloSimulation::numPackets() "docs" | Double | the default number of photon packets launched per simulation segment |
 
 | Compound Property | | Type | Base Class | | Description
@@ -1602,7 +1628,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | upX | \ref OpticalDepthMapProbe::upX() "docs" | Double | the upwards direction, x component |
 | upY | \ref OpticalDepthMapProbe::upY() "docs" | Double | the upwards direction, y component |
 | upZ | \ref OpticalDepthMapProbe::upZ() "docs" | Double | the upwards direction, z component |
-| probeAfter | \ref OpticalDepthMapProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| probeAfter | \ref OpticalDepthMapProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
 
@@ -1757,7 +1783,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numPixelsX | \ref PlanarCustomStateCutsProbe::numPixelsX() "docs" | Int | the number of pixels in the x direction |
 | numPixelsY | \ref PlanarCustomStateCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
 | numPixelsZ | \ref PlanarCustomStateCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
-| probeAfter | \ref PlanarCustomStateCutsProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| probeAfter | \ref PlanarCustomStateCutsProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
 
@@ -1774,6 +1800,19 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numPixelsY | \ref PlanarDustTemperatureCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
 | numPixelsZ | \ref PlanarDustTemperatureCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
 
+\subsection SkiFileHelpConcretePlanarElectronTemperatureCutsProbe -PlanarElectronTemperatureCutsProbe
+[\ref PlanarElectronTemperatureCutsProbe "docs"] : cuts of the electron temperature along planes parallel to the coordinate planes 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref PlanarElectronTemperatureCutsProbe::probeName() "docs" | String | the name for this probe |
+| positionX | \ref PlanarElectronTemperatureCutsProbe::positionX() "docs" | Double | the x position of the cut parallel to the yz plane |
+| positionY | \ref PlanarElectronTemperatureCutsProbe::positionY() "docs" | Double | the y position of the cut parallel to the xz plane |
+| positionZ | \ref PlanarElectronTemperatureCutsProbe::positionZ() "docs" | Double | the z position of the cut parallel to the xy plane |
+| numPixelsX | \ref PlanarElectronTemperatureCutsProbe::numPixelsX() "docs" | Int | the number of pixels in the x direction |
+| numPixelsY | \ref PlanarElectronTemperatureCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
+| numPixelsZ | \ref PlanarElectronTemperatureCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
+
 \subsection SkiFileHelpConcretePlanarGasTemperatureCutsProbe -PlanarGasTemperatureCutsProbe
 [\ref PlanarGasTemperatureCutsProbe "docs"] : cuts of the gas temperature along planes parallel to the coordinate planes 
 
@@ -1786,6 +1825,9 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numPixelsX | \ref PlanarGasTemperatureCutsProbe::numPixelsX() "docs" | Int | the number of pixels in the x direction |
 | numPixelsY | \ref PlanarGasTemperatureCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
 | numPixelsZ | \ref PlanarGasTemperatureCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
+| probeAfter | \ref PlanarGasTemperatureCutsProbe::probeAfter() "docs" | Enum | perform the probe after |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcretePlanarMagneticFieldCutsProbe -PlanarMagneticFieldCutsProbe
 [\ref PlanarMagneticFieldCutsProbe "docs"] : cuts of the magnetic field along planes parallel to the coordinate planes 
@@ -1812,7 +1854,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numPixelsX | \ref PlanarMediaDensityCutsProbe::numPixelsX() "docs" | Int | the number of pixels in the x direction |
 | numPixelsY | \ref PlanarMediaDensityCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
 | numPixelsZ | \ref PlanarMediaDensityCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
-| probeAfter | \ref PlanarMediaDensityCutsProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| probeAfter | \ref PlanarMediaDensityCutsProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
 
@@ -1828,6 +1870,22 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numPixelsX | \ref PlanarMediumVelocityCutsProbe::numPixelsX() "docs" | Int | the number of pixels in the x direction |
 | numPixelsY | \ref PlanarMediumVelocityCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
 | numPixelsZ | \ref PlanarMediumVelocityCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
+
+\subsection SkiFileHelpConcretePlanarMetallicityCutsProbe -PlanarMetallicityCutsProbe
+[\ref PlanarMetallicityCutsProbe "docs"] : cuts of the metallicity along planes parallel to the coordinate planes 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| probeName | \ref PlanarMetallicityCutsProbe::probeName() "docs" | String | the name for this probe |
+| positionX | \ref PlanarMetallicityCutsProbe::positionX() "docs" | Double | the x position of the cut parallel to the yz plane |
+| positionY | \ref PlanarMetallicityCutsProbe::positionY() "docs" | Double | the y position of the cut parallel to the xz plane |
+| positionZ | \ref PlanarMetallicityCutsProbe::positionZ() "docs" | Double | the z position of the cut parallel to the xy plane |
+| numPixelsX | \ref PlanarMetallicityCutsProbe::numPixelsX() "docs" | Int | the number of pixels in the x direction |
+| numPixelsY | \ref PlanarMetallicityCutsProbe::numPixelsY() "docs" | Int | the number of pixels in the y direction |
+| numPixelsZ | \ref PlanarMetallicityCutsProbe::numPixelsZ() "docs" | Int | the number of pixels in the z direction |
+| probeAfter | \ref PlanarMetallicityCutsProbe::probeAfter() "docs" | Enum | perform the probe after |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcretePlanarRadiationFieldCutsProbe -PlanarRadiationFieldCutsProbe
 [\ref PlanarRadiationFieldCutsProbe "docs"] : cuts of the mean radiation field intensity along planes parallel to the coordinate planes 
@@ -1947,7 +2005,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | fieldOfViewY | \ref ProjectedMediaDensityProbe::fieldOfViewY() "docs" | Double | the total field of view in the vertical direction |
 | numPixelsY | \ref ProjectedMediaDensityProbe::numPixelsY() "docs" | Int | the number of pixels in the vertical direction |
 | centerY | \ref ProjectedMediaDensityProbe::centerY() "docs" | Double | the center of the frame in the vertical direction |
-| probeAfter | \ref ProjectedMediaDensityProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| probeAfter | \ref ProjectedMediaDensityProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
 
@@ -1978,6 +2036,17 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | filename | \ref RadiationFieldAtPositionsProbe::filename() "docs" | String | the name of the file listing the positions |
 | useColumns | \ref RadiationFieldAtPositionsProbe::useColumns() "docs" | String | a list of names corresponding to columns in the file to be imported |
 | writeWavelengthGrid | \ref RadiationFieldAtPositionsProbe::writeWavelengthGrid() "docs" | Bool | output a text file with the radiation field wavelength grid |
+
+\subsection SkiFileHelpConcreteRadiationFieldOptions -RadiationFieldOptions
+[\ref RadiationFieldOptions "docs"] : a set of options related to the radiation field 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| storeRadiationField | \ref RadiationFieldOptions::storeRadiationField() "docs" | Bool | store the radiation field so that it can be probed for output |
+
+| Compound Property | | Type | Base Class | | Description
+| :-- | :--: | :-- | :-- | :--: | :-- |
+| radiationFieldWLG | \ref RadiationFieldOptions::radiationFieldWLG() "docs" | %Item | %DisjointWavelengthGrid | \ref SkiFileHelpBaseDisjointWavelengthGrid "subclasses" | the wavelength grid for storing the radiation field |
 
 \subsection SkiFileHelpConcreteRadiationFieldPerCellProbe -RadiationFieldPerCellProbe
 [\ref RadiationFieldPerCellProbe "docs"] : the mean radiation field intensity for each spatial cell 
@@ -2090,8 +2159,30 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | | | --> Frequency | per unit of frequency: F_ν |
 | | | --> Energy | counts per unit of energy: F_E |
 
+\subsection SkiFileHelpConcreteSamplingOptions -SamplingOptions
+[\ref SamplingOptions "docs"] : a set of options related to media sampling for the spatial grid 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| numDensitySamples | \ref SamplingOptions::numDensitySamples() "docs" | Int | the number of random density samples for determining spatial cell mass |
+| numPropertySamples | \ref SamplingOptions::numPropertySamples() "docs" | Int | the number of random samples for determining other medium properties |
+| aggregateVelocity | \ref SamplingOptions::aggregateVelocity() "docs" | Enum | aggregating the bulk velocity from multiple medium components |
+| | | --> Average | Use the density-weighted average; missing values are taken to be zero |
+| | | --> Maximum | Use the vector with largest magnitude; missing values are taken to be zero |
+| | | --> First | Use the vector of the first medium component for which one is available |
+
 \subsection SkiFileHelpConcreteScaledGaussianSmoothingKernel -ScaledGaussianSmoothingKernel
 [\ref ScaledGaussianSmoothingKernel "docs"] : a scaled Gaussian smoothing kernel 
+
+\subsection SkiFileHelpConcreteSecondaryEmissionOptions -SecondaryEmissionOptions
+[\ref SecondaryEmissionOptions "docs"] : a set of options related to secondary emission 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| storeEmissionRadiationField | \ref SecondaryEmissionOptions::storeEmissionRadiationField() "docs" | Bool | store the radiation field during emission so that it can be probed for output |
+| secondaryPacketsMultiplier | \ref SecondaryEmissionOptions::secondaryPacketsMultiplier() "docs" | Double | the multiplier on the number of photon packets launched for secondary emission |
+| spatialBias | \ref SecondaryEmissionOptions::spatialBias() "docs" | Double | the fraction of secondary photon packets distributed uniformly across spatial cells |
+| sourceBias | \ref SecondaryEmissionOptions::sourceBias() "docs" | Double | the fraction of photon packets distributed uniformly across secondary sources |
 
 \subsection SkiFileHelpConcreteSelectDustMixFamily -SelectDustMixFamily
 [\ref SelectDustMixFamily "docs"] : a family of dust mixes specified in the configuration 
@@ -2172,7 +2263,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | probeName | \ref SpatialCellPropertiesProbe::probeName() "docs" | String | the name for this probe |
 | wavelength | \ref SpatialCellPropertiesProbe::wavelength() "docs" | Double | the wavelength at which to determine the optical depth |
-| probeAfter | \ref SpatialCellPropertiesProbe::probeAfter() "docs" | Enum | when to probe the medium state |
+| probeAfter | \ref SpatialCellPropertiesProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
 
@@ -2183,6 +2274,9 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | probeName | \ref SpatialGridConvergenceProbe::probeName() "docs" | String | the name for this probe |
 | wavelength | \ref SpatialGridConvergenceProbe::wavelength() "docs" | Double | the wavelength at which to determine the optical depth |
+| probeAfter | \ref SpatialGridConvergenceProbe::probeAfter() "docs" | Enum | perform the probe after |
+| | | --> Setup | after setup |
+| | | --> Run | after the complete simulation run |
 
 \subsection SkiFileHelpConcreteSpatialGridPlotProbe -SpatialGridPlotProbe
 [\ref SpatialGridPlotProbe "docs"] : data files for plotting the structure of the grid 
@@ -2311,6 +2405,21 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | alignedEmissionTable | \ref SpheroidalSilicateGrainComposition::alignedEmissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by perfectly aligned spheroidal grains |
 | nonAlignedEmissionTable | \ref SpheroidalSilicateGrainComposition::nonAlignedEmissionTable() "docs" | String | the name of the file tabulating properties for polarized emission by non-aligned spheroidal grains |
 | alignmentFraction | \ref SpheroidalSilicateGrainComposition::alignmentFraction() "docs" | Double | the alignment fraction of the spheroidal grains with the local magnetic field |
+
+\subsection SkiFileHelpConcreteSpinFlipHydrogenGasMix -SpinFlipHydrogenGasMix
+[\ref SpinFlipHydrogenGasMix "docs"] : A gas mix supporting the spin-flip 21 cm hydrogen transition 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| sourceWeight | \ref SpinFlipHydrogenGasMix::sourceWeight() "docs" | Double | the weight of this secondary source for the number of photon packets launched |
+| wavelengthBias | \ref SpinFlipHydrogenGasMix::wavelengthBias() "docs" | Double | the fraction of secondary photon packet wavelengths sampled from a bias distribution |
+| defaultMetallicity | \ref SpinFlipHydrogenGasMix::defaultMetallicity() "docs" | Double | the default metallicity of the gas |
+| defaultTemperature | \ref SpinFlipHydrogenGasMix::defaultTemperature() "docs" | Double | the default temperature of the gas |
+| defaultDustToGasRatio | \ref SpinFlipHydrogenGasMix::defaultDustToGasRatio() "docs" | Double | the default dust-to-gas ratio |
+
+| Compound Property | | Type | Base Class | | Description
+| :-- | :--: | :-- | :-- | :--: | :-- |
+| wavelengthBiasDistribution | \ref SpinFlipHydrogenGasMix::wavelengthBiasDistribution() "docs" | %Item | %WavelengthDistribution | \ref SkiFileHelpBaseWavelengthDistribution "subclasses" | the bias distribution for sampling secondary photon packet wavelengths |
 
 \subsection SkiFileHelpConcreteSpiralStructureGeometryDecorator -SpiralStructureGeometryDecorator
 [\ref SpiralStructureGeometryDecorator "docs"] : a decorator that adds spiral structure to any axisymmetric geometry 

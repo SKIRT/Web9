@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 8008259 built on 18/11/2021 at 14:43:33)</em>
+<em>SKIRT v9.0 (git 3133494 built on 01/12/2021 at 15:30:09)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -92,11 +92,11 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %NestedLogWavelengthGrid | \ref SkiFileHelpConcreteNestedLogWavelengthGrid "props" | \ref NestedLogWavelengthGrid "docs"| a nested logarithmic wavelength grid |
 
 \subsection SkiFileHelpBaseDustEmissionOptions -DustEmissionOptions
-[\ref DustEmissionOptions "docs"] : a set of options related to secondary emission from dust 
+[\ref DustEmissionOptions "docs"] : a set of options related to thermal emission from dust 
 
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
-| %DustEmissionOptions | \ref SkiFileHelpConcreteDustEmissionOptions "props" | \ref DustEmissionOptions "docs"| a set of options related to secondary emission from dust |
+| %DustEmissionOptions | \ref SkiFileHelpConcreteDustEmissionOptions "props" | \ref DustEmissionOptions "docs"| a set of options related to thermal emission from dust |
 
 \subsection SkiFileHelpBaseDustMix -DustMix
 [\ref DustMix "docs"] : a dust mix 
@@ -118,19 +118,12 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %WeingartnerDraineDustMix | \ref SkiFileHelpConcreteWeingartnerDraineDustMix "props" | \ref WeingartnerDraineDustMix "docs"| a Weingartner and Draine (2001) dust mix |
 | %ZubkoDustMix | \ref SkiFileHelpConcreteZubkoDustMix "props" | \ref ZubkoDustMix "docs"| a Zubko et al. (2004) dust mix |
 
-\subsection SkiFileHelpBaseDustSelfAbsorptionOptions -DustSelfAbsorptionOptions
-[\ref DustSelfAbsorptionOptions "docs"] : a set of options related to calculating dust self-absorption 
-
-| Subclass | | | Description |
-| :-- | :--: | :--: | :-- |
-| %DustSelfAbsorptionOptions | \ref SkiFileHelpConcreteDustSelfAbsorptionOptions "props" | \ref DustSelfAbsorptionOptions "docs"| a set of options related to calculating dust self-absorption |
-
 \subsection SkiFileHelpBaseDynamicStateOptions -DynamicStateOptions
-[\ref DynamicStateOptions "docs"] : a set of options for dynamically adjusting the medium state by iterating over the radiation field 
+[\ref DynamicStateOptions "docs"] : a set of options for dynamically adjusting the medium state 
 
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
-| %DynamicStateOptions | \ref SkiFileHelpConcreteDynamicStateOptions "props" | \ref DynamicStateOptions "docs"| a set of options for dynamically adjusting the medium state by iterating over the radiation field |
+| %DynamicStateOptions | \ref SkiFileHelpConcreteDynamicStateOptions "props" | \ref DynamicStateOptions "docs"| a set of options for dynamically adjusting the medium state |
 
 \subsection SkiFileHelpBaseDynamicStateRecipe -DynamicStateRecipe
 [\ref DynamicStateRecipe "docs"] : a dynamic medium state recipe 
@@ -139,13 +132,6 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | :-- | :--: | :--: | :-- |
 | %ClearDensityRecipe | \ref SkiFileHelpConcreteClearDensityRecipe "props" | \ref ClearDensityRecipe "docs"| a recipe that clears material in cells above a given radiation field strength |
 | %LinearDustDestructionRecipe | \ref SkiFileHelpConcreteLinearDustDestructionRecipe "props" | \ref LinearDustDestructionRecipe "docs"| a dust destruction recipe using a linear temperature dependence |
-
-\subsection SkiFileHelpBaseExtinctionOnlyOptions -ExtinctionOnlyOptions
-[\ref ExtinctionOnlyOptions "docs"] : a set of options related to extinction-only simulation modes 
-
-| Subclass | | | Description |
-| :-- | :--: | :--: | :-- |
-| %ExtinctionOnlyOptions | \ref SkiFileHelpConcreteExtinctionOnlyOptions "props" | \ref ExtinctionOnlyOptions "docs"| a set of options related to extinction-only simulation modes |
 
 \subsection SkiFileHelpBaseGeometry -Geometry
 [\ref Geometry "docs"] : a geometry 
@@ -252,6 +238,13 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | :-- | :--: | :--: | :-- |
 | %InstrumentSystem | \ref SkiFileHelpConcreteInstrumentSystem "props" | \ref InstrumentSystem "docs"| an instrument system |
 
+\subsection SkiFileHelpBaseIterationOptions -IterationOptions
+[\ref IterationOptions "docs"] : a set of options for configuring iterations during primary and/or secondary emission 
+
+| Subclass | | | Description |
+| :-- | :--: | :--: | :-- |
+| %IterationOptions | \ref SkiFileHelpConcreteIterationOptions "props" | \ref IterationOptions "docs"| a set of options for configuring iterations during primary and/or secondary emission |
+
 \subsection SkiFileHelpBaseLuminosityNormalization -LuminosityNormalization
 [\ref LuminosityNormalization "docs"] : the luminosity normalization for a primary source 
 
@@ -287,6 +280,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %MeanPascucciBenchmarkDustMix | \ref SkiFileHelpConcreteMeanPascucciBenchmarkDustMix "props" | \ref MeanPascucciBenchmarkDustMix "docs"| a Pascucci 2D benchmark dust mix (mean properties) |
 | %MeanPinteBenchmarkDustMix | \ref SkiFileHelpConcreteMeanPinteBenchmarkDustMix "props" | \ref MeanPinteBenchmarkDustMix "docs"| a Pinte 2D benchmark dust mix (mean properties, optionally with polarization at 1 micron) |
 | %MeanTrustBenchmarkDustMix | \ref SkiFileHelpConcreteMeanTrustBenchmarkDustMix "props" | \ref MeanTrustBenchmarkDustMix "docs"| a TRUST benchmark dust mix (mean properties, optionally with polarization) |
+| %SpinFlipHydrogenGasMix | \ref SkiFileHelpConcreteSpinFlipHydrogenGasMix "props" | \ref SpinFlipHydrogenGasMix "docs"| A gas mix supporting the spin-flip 21 cm hydrogen transition |
 | %ThemisDustMix | \ref SkiFileHelpConcreteThemisDustMix "props" | \ref ThemisDustMix "docs"| a THEMIS (Jones et al. 2017) dust mix |
 | %TrustBenchmarkDustMix | \ref SkiFileHelpConcreteTrustBenchmarkDustMix "props" | \ref TrustBenchmarkDustMix "docs"| a TRUST benchmark dust mix |
 | %WeingartnerDraineDustMix | \ref SkiFileHelpConcreteWeingartnerDraineDustMix "props" | \ref WeingartnerDraineDustMix "docs"| a Weingartner and Draine (2001) dust mix |
@@ -393,10 +387,12 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %CustomStatePerCellProbe | \ref SkiFileHelpConcreteCustomStatePerCellProbe "props" | \ref CustomStatePerCellProbe "docs"| custom medium state variable values for all spatial cells |
 | %DefaultCustomStateCutsProbe | \ref SkiFileHelpConcreteDefaultCustomStateCutsProbe "props" | \ref DefaultCustomStateCutsProbe "docs"| cuts of the custom medium state along the coordinate planes |
 | %DefaultDustTemperatureCutsProbe | \ref SkiFileHelpConcreteDefaultDustTemperatureCutsProbe "props" | \ref DefaultDustTemperatureCutsProbe "docs"| cuts of the indicative dust temperature along the coordinate planes |
+| %DefaultElectronTemperatureCutsProbe | \ref SkiFileHelpConcreteDefaultElectronTemperatureCutsProbe "props" | \ref DefaultElectronTemperatureCutsProbe "docs"| cuts of the electron temperature along the coordinate planes |
 | %DefaultGasTemperatureCutsProbe | \ref SkiFileHelpConcreteDefaultGasTemperatureCutsProbe "props" | \ref DefaultGasTemperatureCutsProbe "docs"| cuts of the gas temperature along the coordinate planes |
 | %DefaultMagneticFieldCutsProbe | \ref SkiFileHelpConcreteDefaultMagneticFieldCutsProbe "props" | \ref DefaultMagneticFieldCutsProbe "docs"| cuts of the magnetic field along the coordinate planes |
 | %DefaultMediaDensityCutsProbe | \ref SkiFileHelpConcreteDefaultMediaDensityCutsProbe "props" | \ref DefaultMediaDensityCutsProbe "docs"| cuts of the media densities along the coordinate planes |
 | %DefaultMediumVelocityCutsProbe | \ref SkiFileHelpConcreteDefaultMediumVelocityCutsProbe "props" | \ref DefaultMediumVelocityCutsProbe "docs"| cuts of the medium velocity along the coordinate planes |
+| %DefaultMetallicityCutsProbe | \ref SkiFileHelpConcreteDefaultMetallicityCutsProbe "props" | \ref DefaultMetallicityCutsProbe "docs"| cuts of the metallicity along the coordinate planes |
 | %DefaultRadiationFieldCutsProbe | \ref SkiFileHelpConcreteDefaultRadiationFieldCutsProbe "props" | \ref DefaultRadiationFieldCutsProbe "docs"| cuts of the mean radiation field intensity along the coordinate planes |
 | %DustAbsorptionPerCellProbe | \ref SkiFileHelpConcreteDustAbsorptionPerCellProbe "props" | \ref DustAbsorptionPerCellProbe "docs"| the spectral luminosity absorbed by dust for each spatial cell |
 | %DustEmissionWavelengthGridProbe | \ref SkiFileHelpConcreteDustEmissionWavelengthGridProbe "props" | \ref DustEmissionWavelengthGridProbe "docs"| the dust emission wavelength grid |
@@ -404,6 +400,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %DustGrainPopulationsProbe | \ref SkiFileHelpConcreteDustGrainPopulationsProbe "props" | \ref DustGrainPopulationsProbe "docs"| dust grain population mass and size information |
 | %DustGrainSizeDistributionProbe | \ref SkiFileHelpConcreteDustGrainSizeDistributionProbe "props" | \ref DustGrainSizeDistributionProbe "docs"| dust grain size distribution |
 | %DustTemperaturePerCellProbe | \ref SkiFileHelpConcreteDustTemperaturePerCellProbe "props" | \ref DustTemperaturePerCellProbe "docs"| the indicative dust temperature for each spatial cell |
+| %ElectronTemperaturePerCellProbe | \ref SkiFileHelpConcreteElectronTemperaturePerCellProbe "props" | \ref ElectronTemperaturePerCellProbe "docs"| the electron temperature for each spatial cell |
 | %GasTemperaturePerCellProbe | \ref SkiFileHelpConcreteGasTemperaturePerCellProbe "props" | \ref GasTemperaturePerCellProbe "docs"| the gas temperature for each spatial cell |
 | %InstrumentWavelengthGridProbe | \ref SkiFileHelpConcreteInstrumentWavelengthGridProbe "props" | \ref InstrumentWavelengthGridProbe "docs"| the instrument wavelength grids |
 | %LaunchedPacketsProbe | \ref SkiFileHelpConcreteLaunchedPacketsProbe "props" | \ref LaunchedPacketsProbe "docs"| the number of photon packets launched from primary sources |
@@ -412,14 +409,17 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %MagneticFieldPerCellProbe | \ref SkiFileHelpConcreteMagneticFieldPerCellProbe "props" | \ref MagneticFieldPerCellProbe "docs"| the magnetic field for each spatial cell |
 | %MediumVelocityPerCellProbe | \ref SkiFileHelpConcreteMediumVelocityPerCellProbe "props" | \ref MediumVelocityPerCellProbe "docs"| the medium velocity for each spatial cell |
 | %MeridionalDustTemperatureCutProbe | \ref SkiFileHelpConcreteMeridionalDustTemperatureCutProbe "props" | \ref MeridionalDustTemperatureCutProbe "docs"| the indicative dust temperature along a meridian line |
+| %MetallicityPerCellProbe | \ref SkiFileHelpConcreteMetallicityPerCellProbe "props" | \ref MetallicityPerCellProbe "docs"| metallicity values for all spatial cells |
 | %OpticalDepthMapProbe | \ref SkiFileHelpConcreteOpticalDepthMapProbe "props" | \ref OpticalDepthMapProbe "docs"| all-sky optical depth map as seen from given location |
 | %OpticalMaterialPropertiesProbe | \ref SkiFileHelpConcreteOpticalMaterialPropertiesProbe "props" | \ref OpticalMaterialPropertiesProbe "docs"| aggregate optical material properties for each medium |
 | %PlanarCustomStateCutsProbe | \ref SkiFileHelpConcretePlanarCustomStateCutsProbe "props" | \ref PlanarCustomStateCutsProbe "docs"| cuts of the custom medium state along planes parallel to the coordinate planes |
 | %PlanarDustTemperatureCutsProbe | \ref SkiFileHelpConcretePlanarDustTemperatureCutsProbe "props" | \ref PlanarDustTemperatureCutsProbe "docs"| cuts of the indicative dust temperature along planes parallel to the coordinate planes |
+| %PlanarElectronTemperatureCutsProbe | \ref SkiFileHelpConcretePlanarElectronTemperatureCutsProbe "props" | \ref PlanarElectronTemperatureCutsProbe "docs"| cuts of the electron temperature along planes parallel to the coordinate planes |
 | %PlanarGasTemperatureCutsProbe | \ref SkiFileHelpConcretePlanarGasTemperatureCutsProbe "props" | \ref PlanarGasTemperatureCutsProbe "docs"| cuts of the gas temperature along planes parallel to the coordinate planes |
 | %PlanarMagneticFieldCutsProbe | \ref SkiFileHelpConcretePlanarMagneticFieldCutsProbe "props" | \ref PlanarMagneticFieldCutsProbe "docs"| cuts of the magnetic field along planes parallel to the coordinate planes |
 | %PlanarMediaDensityCutsProbe | \ref SkiFileHelpConcretePlanarMediaDensityCutsProbe "props" | \ref PlanarMediaDensityCutsProbe "docs"| cuts of the media densities along planes parallel to the coordinate planes |
 | %PlanarMediumVelocityCutsProbe | \ref SkiFileHelpConcretePlanarMediumVelocityCutsProbe "props" | \ref PlanarMediumVelocityCutsProbe "docs"| cuts of the medium velocity along planes parallel to the coordinate planes |
+| %PlanarMetallicityCutsProbe | \ref SkiFileHelpConcretePlanarMetallicityCutsProbe "props" | \ref PlanarMetallicityCutsProbe "docs"| cuts of the metallicity along planes parallel to the coordinate planes |
 | %PlanarRadiationFieldCutsProbe | \ref SkiFileHelpConcretePlanarRadiationFieldCutsProbe "props" | \ref PlanarRadiationFieldCutsProbe "docs"| cuts of the mean radiation field intensity along planes parallel to the coordinate planes |
 | %ProjectedMediaDensityProbe | \ref SkiFileHelpConcreteProjectedMediaDensityProbe "props" | \ref ProjectedMediaDensityProbe "docs"| Parallel-projection of the media density toward an arbitrary line of sight |
 | %RadiationFieldAtPositionsProbe | \ref SkiFileHelpConcreteRadiationFieldAtPositionsProbe "props" | \ref RadiationFieldAtPositionsProbe "docs"| the mean radiation field intensity at imported positions |
@@ -437,6 +437,13 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
 | %ProbeSystem | \ref SkiFileHelpConcreteProbeSystem "props" | \ref ProbeSystem "docs"| a probe system |
+
+\subsection SkiFileHelpBaseRadiationFieldOptions -RadiationFieldOptions
+[\ref RadiationFieldOptions "docs"] : a set of options related to the radiation field 
+
+| Subclass | | | Description |
+| :-- | :--: | :--: | :-- |
+| %RadiationFieldOptions | \ref SkiFileHelpConcreteRadiationFieldOptions "props" | \ref RadiationFieldOptions "docs"| a set of options related to the radiation field |
 
 \subsection SkiFileHelpBaseRandom -Random
 [\ref Random "docs"] : the default random generator 
@@ -487,6 +494,20 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %MappingsSEDFamily | \ref SkiFileHelpConcreteMappingsSEDFamily "props" | \ref MappingsSEDFamily "docs"| a MAPPINGS III %SED family for star-forming regions |
 | %MarastonSEDFamily | \ref SkiFileHelpConcreteMarastonSEDFamily "props" | \ref MarastonSEDFamily "docs"| a Maraston %SED family for single stellar populations |
 | %Starburst99SEDFamily | \ref SkiFileHelpConcreteStarburst99SEDFamily "props" | \ref Starburst99SEDFamily "docs"| a Starburst99 %SED family for single stellar populations |
+
+\subsection SkiFileHelpBaseSamplingOptions -SamplingOptions
+[\ref SamplingOptions "docs"] : a set of options related to media sampling for the spatial grid 
+
+| Subclass | | | Description |
+| :-- | :--: | :--: | :-- |
+| %SamplingOptions | \ref SkiFileHelpConcreteSamplingOptions "props" | \ref SamplingOptions "docs"| a set of options related to media sampling for the spatial grid |
+
+\subsection SkiFileHelpBaseSecondaryEmissionOptions -SecondaryEmissionOptions
+[\ref SecondaryEmissionOptions "docs"] : a set of options related to secondary emission 
+
+| Subclass | | | Description |
+| :-- | :--: | :--: | :-- |
+| %SecondaryEmissionOptions | \ref SkiFileHelpConcreteSecondaryEmissionOptions "props" | \ref SecondaryEmissionOptions "docs"| a set of options related to secondary emission |
 
 \subsection SkiFileHelpBaseSmoothingKernel -SmoothingKernel
 [\ref SmoothingKernel "docs"] : a smoothing kernel 
