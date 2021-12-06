@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 3133494 built on 01/12/2021 at 15:30:09)</em>
+<em>SKIRT v9.0 (git 5451916 built on 06/12/2021 at 16:31:01)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -702,6 +702,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
+| wavelengthOutputStyle | \ref ExtragalacticUnits::wavelengthOutputStyle() "docs" | Enum | the output style for wavelengths |
+| | | --> Wavelength | as photon wavelength: λ |
+| | | --> Frequency | as photon frequency: ν |
+| | | --> Energy | as photon energy: E |
 | fluxOutputStyle | \ref ExtragalacticUnits::fluxOutputStyle() "docs" | Enum | the output style for flux density and surface brightness |
 | | | --> Neutral | neutral: λ F_λ = ν F_ν |
 | | | --> Wavelength | per unit of wavelength: F_λ |
@@ -2153,6 +2157,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
+| wavelengthOutputStyle | \ref SIUnits::wavelengthOutputStyle() "docs" | Enum | the output style for wavelengths |
+| | | --> Wavelength | as photon wavelength: λ |
+| | | --> Frequency | as photon frequency: ν |
+| | | --> Energy | as photon energy: E |
 | fluxOutputStyle | \ref SIUnits::fluxOutputStyle() "docs" | Enum | the output style for flux density and surface brightness |
 | | | --> Neutral | neutral: λ F_λ = ν F_ν |
 | | | --> Wavelength | per unit of wavelength: F_λ |
@@ -2474,6 +2482,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
+| wavelengthOutputStyle | \ref StellarUnits::wavelengthOutputStyle() "docs" | Enum | the output style for wavelengths |
+| | | --> Wavelength | as photon wavelength: λ |
+| | | --> Frequency | as photon frequency: ν |
+| | | --> Energy | as photon energy: E |
 | fluxOutputStyle | \ref StellarUnits::fluxOutputStyle() "docs" | Enum | the output style for flux density and surface brightness |
 | | | --> Neutral | neutral: λ F_λ = ν F_ν |
 | | | --> Wavelength | per unit of wavelength: F_λ |
