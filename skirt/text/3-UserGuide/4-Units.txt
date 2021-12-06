@@ -1,0 +1,91 @@
+/**
+
+\page UserUnits The SKIRT units system
+
+\section UserUnitsIntro Introduction
+
+SKIRT supports a rich set of astronomical units for input and output purposes. Internally, however, SKIRT uses the
+International System of Units (SI) for all physical quantities. Furthermore, all spectral quantities are internally
+expressed in wavelength style, i.e. wavelength (m) or per wavelength (1/m). The conversion from input units to SI units
+occurs at input time, and the conversion from SI units to output units occurs at output time. In other words, the unit
+conversion code is isolated in specific input and output modules. This convention allows all other code to avoid unit
+conversions, thus simplifying any internal calculations.
+
+\section UserUnitsSystems Unit systems
+
+To configure the input/output units employed for a simulation, the user selects a \em unit \em system (SI units,
+stellar units, or extra-galactic units) and selects an \em output \em style (wavelengths, frequency, or energy) for
+spectral "wavelength" and "flux" quantities. For example, selecting
+
+    <SIUnits wavelengthOutputStyle="Wavelength" fluxOutputStyle="Wavelength"/>
+
+would output all quantities in internal form without conversion, e.g., distance, and wavelength in m and surface
+brightness in W/m3/sr. On the other hand, a simulation of a galaxy in the optical-FIR spectral range may instead
+specify
+
+    <ExtragalacticUnits wavelengthOutputStyle="Wavelength" fluxOutputStyle="Frequency"/>
+
+which would output distance in Mpc, wavelength in micron, and surface brightness in MJy/sr. As a final exanple, a
+simulation of a circumstellar system in the X-ray spectral range may specify
+
+    <StellarUnits wavelengthOutputStyle="Energy" fluxOutputStyle="Energy"/>
+
+which would output distance in pc, wavelength in keV, and surface brightness in 1/s/cm2/keV/arcsec2.
+
+On the input side (in ski files, in interactive question and answer mode, and in import file column headers) units
+can usually be mixed regardless of the selected unit system and output styles. For example, a "wavelength" can be
+expressed as a wavelength (e.g. in Angstrom), a frequency (e.g. in THz) or in energy units (e.g. in MeV) at the user's
+choice.
+
+
+\section UserUnitsSupport Supported units
+
+In ski files, in interactive question and answer mode, and in import file column headers, \c SKIRT recognizes various
+unit abbreviations for each type of physical quantity. The supported abbreviations are listed in the following table.
+Unit abbreviations of the form "1/xxx" can also be written without the leading "1". For example, "17 /cm" is equivalent
+to "17 1/cm". In all cases, remember to include a space between the number and the unit abbreviation.
+
+| Physical quantity | Unit abbreviations |
+|----------|--------------------|
+| length or distance | <tt>m, cm, mm, km, AU, pc, kpc, Mpc</tt> |
+| wavelength | <tt>m, cm, mm, micron, nm, Angstrom</tt> |
+| wavelength (as photon frequency) | <tt>Hz, kHz, MHz, GHz, THz, PHz, EHz, ZHz</tt> |
+| wavelength (as photon energy) | <tt>eV, meV, keV, MeV, GeV</tt> |
+| grainsize | <tt>m, cm, mm, micron, nm, Angstrom</tt> |
+| per grainsize | <tt>1/m, 1/cm, 1/mm, 1/micron, 1/nm, 1/Angstrom</tt> |
+| cross section | <tt>m2, cm2, mm2</tt> |
+| volume | <tt>m3, cm3, mm3, AU3, pc3</tt> |
+| velocity | <tt>m/s, cm/s, mm/s, km/s, km/h</tt> |
+| acceleration | <tt>m/s2, cm/s2, mm/s2, km/s2</tt> |
+| mass | <tt>kg, g, Msun</tt> |
+| bulk mass | <tt>kg, g</tt> |
+| bulk mass density | <tt>kg/m3, g/cm3</tt> |
+| mass surface density | <tt>kg/m2, g/cm2, Msun/AU2, Msun/pc2</tt> |
+| mass volume density | <tt>kg/m3, g/cm3, Msun/AU3, Msun/pc3</tt> |
+| mass rate | <tt>kg/s, g/s, Msun/yr</tt> |
+| number surface density | <tt>1/m2, 1/cm2, 1/AU2, 1/pc2</tt> |
+| number volume density | <tt>1/m3, 1/cm3, 1/AU3, 1/pc3</tt> |
+| mass coefficient | <tt>m2/kg, cm2/g</tt> |
+| time | <tt>s, yr, Myr, Gyr</tt> |
+| temperature | <tt>K</tt> |
+| energy | <tt>J, erg, eV, meV, keV, MeV, GeV, TeV</tt> |
+| magnetic field | <tt>T, mT, uT, nT, G, mG, uG, nG</tt> |
+| pressure | <tt>Pa, N/m2, J/m3, bar, mbar, hPa, Ba, erg/cm3, K/m3</tt> |
+| bolometric luminosity | <tt>W, J/s, erg/s, Lsun</tt> |
+| neutral monochromatic luminosity \f$(\lambda L_\lambda = \nu L_\nu)\f$ | <tt>W, erg/s, Lsun</tt> |
+| neutral flux density \f$(\lambda F_\lambda = \nu F_\nu)\f$ | <tt>W/m2, erg/s/cm2</tt> |
+| neutral surface brightness \f$(\lambda f_\lambda = \nu f_\nu)\f$, mean intensity or spectral radiance \f$(\lambda J_\lambda = \nu J_\nu)\f$ | <tt>W/m2/sr, W/m2/arcsec2, erg/s/cm2/sr, erg/s/cm2/arcsec2</tt> |
+| per-wavelength monochromatic luminosity \f$(L_\lambda)\f$ | <tt>W/m, W/micron, W/Angstrom, erg/s/cm, erg/s/micron, erg/s/Angstrom, Lsun/micron</tt> |
+| per-wavelength flux density \f$(F_\lambda)\f$ | <tt>W/m3, W/m2/micron, W/m2/Angstrom, erg/s/cm3, erg/s/cm2/micron, erg/s/cm2/Angstrom</tt> |
+| per-wavelength surface brightness \f$(f_\lambda)\f$, mean intensity or spectral radiance \f$(J_\lambda)\f$ | <tt>W/m3/sr, W/m2/micron/sr, W/m2/micron/arcsec2, W/m2/Angstrom/sr, W/m2/Angstrom/arcsec2, erg/s/cm3/sr, erg/s/cm2/micron/sr, erg/s/cm2/micron/arcsec2, erg/s/cm2/Angstrom/sr, erg/s/cm2/Angstrom/arcsec2</tt> |
+| per-frequency monochromatic luminosity \f$(L_\nu)\f$ | <tt>W/Hz, erg/s/Hz, Lsun/Hz</tt> |
+| per-frequency flux density \f$(F_\nu)\f$ | <tt>W/m2/Hz, erg/s/cm2/Hz, Jy, mJy, MJy</tt> |
+| per-frequency surface brightness \f$(f_\nu)\f$, mean intensity or spectral radiance \f$(J_\nu)\f$ | <tt>W/m2/Hz/sr, W/m2/Hz/arcsec2, erg/s/cm2/Hz/sr, erg/s/cm2/Hz/arcsec2, Jy/sr, Jy/arcsec2, MJy/sr, MJy/arcsec2</tt> |
+| counts-per-energy monochromatic luminosity \f$(L_E)\f$ | <tt>1/s/J, 1/s/eV, 1/s/keV</tt> |
+| counts-per-energy flux density \f$(F_E)\f$ | <tt>1/s/m2/J, 1/s/cm2/keV</tt> |
+| counts-per-energy surface brightness \f$(f_E)\f$, mean intensity or spectral radiance \f$(J_E)\f$ | <tt>1/s/m2/J/sr, 1/s/m2/J/arcsec2, 1/s/cm2/keV/sr, 1/s/cm2/keV/arcsec2</tt> |
+| angular size (for objects in the sky) | <tt>rad, deg, arcsec</tt>
+| positioning angle (for instruments) | <tt>rad, deg</tt>
+| solid angle | <tt>sr, arcsec2</tt>
+
+ */

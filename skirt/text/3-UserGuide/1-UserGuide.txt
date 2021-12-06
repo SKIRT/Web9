@@ -18,6 +18,7 @@ The \c SKIRT user guide includes the following topics:
 - <a href="../version9/_tutorials.html">Tutorials</a>
 - \ref UserCmdLine
 - \ref UserParamFile
+- \ref UserUnits
 - \ref UserMakeUp
 - \ref UserMPI
 
