@@ -6,6 +6,30 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+Galaxy Evolution in All Five CANDELS Fields and IllustrisTNG: Morphological, Structural, and the Major Merger Evolution to z 3
+Whitney et al.
+ApJ
+10 2021
+Application
+Whitney2021
+2021ApJ...919..139W
+
+The two formation pathways of S0 galaxies
+Deeley et al.
+MNRAS
+11 2021
+Application
+Deeley2021
+2021MNRAS.508..895D
+
+SÍGAME v3: Gas Fragmentation in Postprocessing of Cosmological Simulations for More Accurate Infrared Line Emission Modeling
+Olsen et al.
+ApJ
+11 2021
+Application
+Olsen2021
+2021ApJ...922...88O
+
 The structure of the Milky Way based on unWISE 3.4 μm integrated photometry
 Mosenkov et al.
 MNRAS

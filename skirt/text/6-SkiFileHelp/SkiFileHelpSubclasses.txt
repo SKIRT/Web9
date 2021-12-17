@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 5451916 built on 06/12/2021 at 16:31:01)</em>
+<em>SKIRT v9.0 (git 06cfaac built on 17/12/2021 at 15:51:08)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -85,11 +85,17 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
+| %FileBorderWavelengthGrid | \ref SkiFileHelpConcreteFileBorderWavelengthGrid "props" | \ref FileBorderWavelengthGrid "docs"| a wavelength grid loaded from a text file listing bin borders |
 | %FileWavelengthGrid | \ref SkiFileHelpConcreteFileWavelengthGrid "props" | \ref FileWavelengthGrid "docs"| a wavelength grid loaded from a text file |
+| %LinBorderWavelengthGrid | \ref SkiFileHelpConcreteLinBorderWavelengthGrid "props" | \ref LinBorderWavelengthGrid "docs"| a linear wavelength grid with given outer borders |
 | %LinWavelengthGrid | \ref SkiFileHelpConcreteLinWavelengthGrid "props" | \ref LinWavelengthGrid "docs"| a linear wavelength grid |
-| %ListWavelengthGrid | \ref SkiFileHelpConcreteListWavelengthGrid "props" | \ref ListWavelengthGrid "docs"| a list of one or more wavelengths |
+| %ListBorderWavelengthGrid | \ref SkiFileHelpConcreteListBorderWavelengthGrid "props" | \ref ListBorderWavelengthGrid "docs"| a wavelength grid configured as a list of bin borders |
+| %ListWavelengthGrid | \ref SkiFileHelpConcreteListWavelengthGrid "props" | \ref ListWavelengthGrid "docs"| a wavelength grid configured as a list |
+| %LogBorderWavelengthGrid | \ref SkiFileHelpConcreteLogBorderWavelengthGrid "props" | \ref LogBorderWavelengthGrid "docs"| a logarithmic wavelength grid with given outer borders |
 | %LogWavelengthGrid | \ref SkiFileHelpConcreteLogWavelengthGrid "props" | \ref LogWavelengthGrid "docs"| a logarithmic wavelength grid |
 | %NestedLogWavelengthGrid | \ref SkiFileHelpConcreteNestedLogWavelengthGrid "props" | \ref NestedLogWavelengthGrid "docs"| a nested logarithmic wavelength grid |
+| %ResolutionBorderWavelengthGrid | \ref SkiFileHelpConcreteResolutionBorderWavelengthGrid "props" | \ref ResolutionBorderWavelengthGrid "docs"| a logarithmic wavelength grid with given spectral resolution and outer borders |
+| %ResolutionWavelengthGrid | \ref SkiFileHelpConcreteResolutionWavelengthGrid "props" | \ref ResolutionWavelengthGrid "docs"| a logarithmic wavelength grid with given spectral resolution |
 
 \subsection SkiFileHelpBaseDustEmissionOptions -DustEmissionOptions
 [\ref DustEmissionOptions "docs"] : a set of options related to thermal emission from dust 
@@ -621,11 +627,17 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
 | %ConfigurableBandWavelengthGrid | \ref SkiFileHelpConcreteConfigurableBandWavelengthGrid "props" | \ref ConfigurableBandWavelengthGrid "docs"| a wavelength grid including a configurable list of (broad)bands |
+| %FileBorderWavelengthGrid | \ref SkiFileHelpConcreteFileBorderWavelengthGrid "props" | \ref FileBorderWavelengthGrid "docs"| a wavelength grid loaded from a text file listing bin borders |
 | %FileWavelengthGrid | \ref SkiFileHelpConcreteFileWavelengthGrid "props" | \ref FileWavelengthGrid "docs"| a wavelength grid loaded from a text file |
+| %LinBorderWavelengthGrid | \ref SkiFileHelpConcreteLinBorderWavelengthGrid "props" | \ref LinBorderWavelengthGrid "docs"| a linear wavelength grid with given outer borders |
 | %LinWavelengthGrid | \ref SkiFileHelpConcreteLinWavelengthGrid "props" | \ref LinWavelengthGrid "docs"| a linear wavelength grid |
-| %ListWavelengthGrid | \ref SkiFileHelpConcreteListWavelengthGrid "props" | \ref ListWavelengthGrid "docs"| a list of one or more wavelengths |
+| %ListBorderWavelengthGrid | \ref SkiFileHelpConcreteListBorderWavelengthGrid "props" | \ref ListBorderWavelengthGrid "docs"| a wavelength grid configured as a list of bin borders |
+| %ListWavelengthGrid | \ref SkiFileHelpConcreteListWavelengthGrid "props" | \ref ListWavelengthGrid "docs"| a wavelength grid configured as a list |
+| %LogBorderWavelengthGrid | \ref SkiFileHelpConcreteLogBorderWavelengthGrid "props" | \ref LogBorderWavelengthGrid "docs"| a logarithmic wavelength grid with given outer borders |
 | %LogWavelengthGrid | \ref SkiFileHelpConcreteLogWavelengthGrid "props" | \ref LogWavelengthGrid "docs"| a logarithmic wavelength grid |
 | %NestedLogWavelengthGrid | \ref SkiFileHelpConcreteNestedLogWavelengthGrid "props" | \ref NestedLogWavelengthGrid "docs"| a nested logarithmic wavelength grid |
 | %PredefinedBandWavelengthGrid | \ref SkiFileHelpConcretePredefinedBandWavelengthGrid "props" | \ref PredefinedBandWavelengthGrid "docs"| a wavelength grid including a predefined list of (broad)bands |
+| %ResolutionBorderWavelengthGrid | \ref SkiFileHelpConcreteResolutionBorderWavelengthGrid "props" | \ref ResolutionBorderWavelengthGrid "docs"| a logarithmic wavelength grid with given spectral resolution and outer borders |
+| %ResolutionWavelengthGrid | \ref SkiFileHelpConcreteResolutionWavelengthGrid "props" | \ref ResolutionWavelengthGrid "docs"| a logarithmic wavelength grid with given spectral resolution |
 
 */

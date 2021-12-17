@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 5451916 built on 06/12/2021 at 16:31:01)</em>
+<em>SKIRT v9.0 (git 06cfaac built on 17/12/2021 at 15:51:08)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -748,6 +748,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileBand::filename() "docs" | String | the name of the file defining the transmission curve |
 
+\subsection SkiFileHelpConcreteFileBorderWavelengthGrid -FileBorderWavelengthGrid
+[\ref FileBorderWavelengthGrid "docs"] : a wavelength grid loaded from a text file listing bin borders 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| filename | \ref FileBorderWavelengthGrid::filename() "docs" | String | the name of the file with the wavelength bin borders |
+| log | \ref FileBorderWavelengthGrid::log() "docs" | Bool | logarithmic scale |
+
 \subsection SkiFileHelpConcreteFileGrainSizeDistribution -FileGrainSizeDistribution
 [\ref FileGrainSizeDistribution "docs"] : a dust grain size distribution loaded from a text file 
 
@@ -819,6 +827,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileWavelengthGrid::filename() "docs" | String | the name of the file with the characteristic wavelengths |
 | relativeHalfWidth | \ref FileWavelengthGrid::relativeHalfWidth() "docs" | Double | the relative half width for discrete bins, or zero for a consecutive range |
+| log | \ref FileWavelengthGrid::log() "docs" | Bool | logarithmic scale |
 
 \subsection SkiFileHelpConcreteFlatUniverseCosmology -FlatUniverseCosmology
 [\ref FlatUniverseCosmology "docs"] : the model is at a given redshift in a flat universe 
@@ -1085,6 +1094,15 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | wavelengthGrid | \ref LaunchedPacketsProbe::wavelengthGrid() "docs" | %Item | %WavelengthGrid | \ref SkiFileHelpBaseWavelengthGrid "subclasses" | the wavelength grid for this probe |
 
+\subsection SkiFileHelpConcreteLinBorderWavelengthGrid -LinBorderWavelengthGrid
+[\ref LinBorderWavelengthGrid "docs"] : a linear wavelength grid with given outer borders 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| minWavelength | \ref LinBorderWavelengthGrid::minWavelength() "docs" | Double | the shortest wavelength |
+| maxWavelength | \ref LinBorderWavelengthGrid::maxWavelength() "docs" | Double | the longest wavelength |
+| numWavelengthBins | \ref LinBorderWavelengthGrid::numWavelengthBins() "docs" | Int | the number of wavelength bins |
+
 \subsection SkiFileHelpConcreteLinMesh -LinMesh
 [\ref LinMesh "docs"] : a linear mesh 
 
@@ -1151,6 +1169,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | wavelengths | \ref ListBand::wavelengths() "docs" | DoubleList | the wavelengths at which to specify the transmission |
 | transmissionValues | \ref ListBand::transmissionValues() "docs" | DoubleList | the transmission at each of the given wavelengths |
 
+\subsection SkiFileHelpConcreteListBorderWavelengthGrid -ListBorderWavelengthGrid
+[\ref ListBorderWavelengthGrid "docs"] : a wavelength grid configured as a list of bin borders 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| wavelengths | \ref ListBorderWavelengthGrid::wavelengths() "docs" | DoubleList | the wavelength bin borders |
+| log | \ref ListBorderWavelengthGrid::log() "docs" | Bool | logarithmic scale |
+
 \subsection SkiFileHelpConcreteListGrainSizeDistribution -ListGrainSizeDistribution
 [\ref ListGrainSizeDistribution "docs"] : a dust grain size distribution specified inside the configuration file 
 
@@ -1202,15 +1228,25 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | probabilities | \ref ListWavelengthDistribution::probabilities() "docs" | DoubleList | the probabilities at each of the given wavelengths |
 
 \subsection SkiFileHelpConcreteListWavelengthGrid -ListWavelengthGrid
-[\ref ListWavelengthGrid "docs"] : a list of one or more wavelengths 
+[\ref ListWavelengthGrid "docs"] : a wavelength grid configured as a list 
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | wavelengths | \ref ListWavelengthGrid::wavelengths() "docs" | DoubleList | the characteristic wavelength for each bin |
 | relativeHalfWidth | \ref ListWavelengthGrid::relativeHalfWidth() "docs" | Double | the relative half width for discrete bins, or zero for a consecutive range |
+| log | \ref ListWavelengthGrid::log() "docs" | Bool | logarithmic scale |
 
 \subsection SkiFileHelpConcreteLocalUniverseCosmology -LocalUniverseCosmology
 [\ref LocalUniverseCosmology "docs"] : the model is at redshift zero in the Local Universe 
+
+\subsection SkiFileHelpConcreteLogBorderWavelengthGrid -LogBorderWavelengthGrid
+[\ref LogBorderWavelengthGrid "docs"] : a logarithmic wavelength grid with given outer borders 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| minWavelength | \ref LogBorderWavelengthGrid::minWavelength() "docs" | Double | the shortest wavelength |
+| maxWavelength | \ref LogBorderWavelengthGrid::maxWavelength() "docs" | Double | the longest wavelength |
+| numWavelengthBins | \ref LogBorderWavelengthGrid::numWavelengthBins() "docs" | Int | the number of wavelength bins |
 
 \subsection SkiFileHelpConcreteLogMesh -LogMesh
 [\ref LogMesh "docs"] : a logarithmic mesh 
@@ -2097,6 +2133,24 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | centerY | \ref ReadFitsGeometry::centerY() "docs" | Double | y coordinate of the center (in pixels) |
 | scaleHeight | \ref ReadFitsGeometry::scaleHeight() "docs" | Double | the scale height |
 
+\subsection SkiFileHelpConcreteResolutionBorderWavelengthGrid -ResolutionBorderWavelengthGrid
+[\ref ResolutionBorderWavelengthGrid "docs"] : a logarithmic wavelength grid with given spectral resolution and outer borders 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| minWavelength | \ref ResolutionBorderWavelengthGrid::minWavelength() "docs" | Double | the shortest wavelength |
+| maxWavelength | \ref ResolutionBorderWavelengthGrid::maxWavelength() "docs" | Double | the longest wavelength |
+| resolution | \ref ResolutionBorderWavelengthGrid::resolution() "docs" | Double | the spectral resolution R of the grid |
+
+\subsection SkiFileHelpConcreteResolutionWavelengthGrid -ResolutionWavelengthGrid
+[\ref ResolutionWavelengthGrid "docs"] : a logarithmic wavelength grid with given spectral resolution 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| minWavelength | \ref ResolutionWavelengthGrid::minWavelength() "docs" | Double | the shortest wavelength |
+| maxWavelength | \ref ResolutionWavelengthGrid::maxWavelength() "docs" | Double | the longest wavelength |
+| resolution | \ref ResolutionWavelengthGrid::resolution() "docs" | Double | the spectral resolution R of the grid |
+
 \subsection SkiFileHelpConcreteRingGeometry -RingGeometry
 [\ref RingGeometry "docs"] : a ring geometry 
 
@@ -2423,7 +2477,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | wavelengthBias | \ref SpinFlipHydrogenGasMix::wavelengthBias() "docs" | Double | the fraction of secondary photon packet wavelengths sampled from a bias distribution |
 | defaultMetallicity | \ref SpinFlipHydrogenGasMix::defaultMetallicity() "docs" | Double | the default metallicity of the gas |
 | defaultTemperature | \ref SpinFlipHydrogenGasMix::defaultTemperature() "docs" | Double | the default temperature of the gas |
-| defaultDustToGasRatio | \ref SpinFlipHydrogenGasMix::defaultDustToGasRatio() "docs" | Double | the default dust-to-gas ratio |
+| defaultNeutralFraction | \ref SpinFlipHydrogenGasMix::defaultNeutralFraction() "docs" | Double | the default neutral hydrogen fraction |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
