@@ -6,6 +6,30 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+The dust attenuation law in z ∼ 6 quasars
+Di Mascia et al.
+MNRAS
+09 2021
+Application
+DiMascia2021b
+2021MNRAS.506.3946D
+
+Linear spectropolarimetric analysis of fairall 9 with VLT/FORS2
+Jiang et al.
+MNRAS
+11 2021
+Application
+Jiang2021
+2021MNRAS.508...79J
+
+On the dust temperatures of high-redshift galaxies
+Liang et al.
+MNRAS
+10 2019
+Application
+Liang2019
+2019MNRAS.489.1397L
+
 Galaxy Evolution in All Five CANDELS Fields and IllustrisTNG: Morphological, Structural, and the Major Merger Evolution to z 3
 Whitney et al.
 ApJ

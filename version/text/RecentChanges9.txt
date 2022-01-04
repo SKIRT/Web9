@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Dec 17, 2021</em>
+<em>Jan 4, 2022</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -78,6 +78,7 @@ Dec 10, 2021 | 3a210a8 | Add new wavelengths grid types (specify spectral resolu
 Dec 16, 2021 | e0367b6 | Add Compton scattering and velocity dispersion for electron populations
 Dec 16, 2021 | e0367b6 | Fix a bug in velocity dispersion sampling for imported sources
 Dec 17, 2021 | 06cfaac | Add \em EXPERIMENTAL 21 cm 'spin-flip' line emission and self-absorption
+Jan  4, 2022 | 4a9adf8 | Add composite wavelength grid defined by aggregating a list of wavelength grids
 
 \*\* This update requires a ski file upgrade
 
@@ -105,5 +106,6 @@ Jun  9, 2021 | 1e09625 | Support creating and reading files in the SKIRT-specifi
 Nov 30, 2021 | 8bcfe7f | Provide automated ski file upgrade procedure for tomorrow's SKIRT update
 Dec  6, 2021 | 649cd1e | Support counts per energy units (e.g. 1/s/keV) and wavelength output style (e.g. keV)
 Dec  9, 2021 | a50ebfd | Add broadband definitions for the Euclid and Rubin/LSST observatories
+Jan  4, 2022 | 93b3eca | Allow plotting spectral resolution from any instrument or probe output with a wavelength grid
 
 */

@@ -45,20 +45,24 @@ extensively using the code and offering feedback. They are listed in alphabetica
 - Christoph Behrens
 - Killian Braun
 - Peter Camps
-</TD><TD>
 - Marjorie Decleir
+</TD><TD>
 - Gert De Geyter
 - Ilse De Looze
 - Jacopo Fritz
+- Andrea Gebek
 - Tom Hendrix
+- Anand Utsav Kapoor
 </TD><TD>
 - Alexander Mosenkov
 - Christian Peest
 - Waad Saftly
 - Marko Stalevski
 - James Trayford
+- Ana Trčka
 </TD><TD>
 - Bert Vandenbroucke
+- Bert Vander Meulen
 - Dries Van De Putte
 - Sebastiaan Vandewoude
 - Sam Verstocken

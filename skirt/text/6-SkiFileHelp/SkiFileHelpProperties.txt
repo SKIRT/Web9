@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 06cfaac built on 17/12/2021 at 15:51:08)</em>
+<em>SKIRT v9.0 (git 4a9adf8 built on 04/01/2022 at 16:30:02)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -337,6 +337,17 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | firstGeometry | \ref CombineGeometryDecorator::firstGeometry() "docs" | %Item | %Geometry | \ref SkiFileHelpBaseGeometry "subclasses" | the first geometry |
 | secondGeometry | \ref CombineGeometryDecorator::secondGeometry() "docs" | %Item | %Geometry | \ref SkiFileHelpBaseGeometry "subclasses" | the second geometry |
+
+\subsection SkiFileHelpConcreteCompositeWavelengthGrid -CompositeWavelengthGrid
+[\ref CompositeWavelengthGrid "docs"] : a wavelength grid composited from a list of wavelength grids 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| log | \ref CompositeWavelengthGrid::log() "docs" | Bool | use logarithmic scale |
+
+| Compound Property | | Type | Base Class | | Description
+| :-- | :--: | :-- | :-- | :--: | :-- |
+| wavelengthGrids | \ref CompositeWavelengthGrid::wavelengthGrids() "docs" | %ItemList | %DisjointWavelengthGrid | \ref SkiFileHelpBaseDisjointWavelengthGrid "subclasses" | the wavelength grids to be composited |
 
 \subsection SkiFileHelpConcreteConfigurableBandWavelengthGrid -ConfigurableBandWavelengthGrid
 [\ref ConfigurableBandWavelengthGrid "docs"] : a wavelength grid including a configurable list of (broad)bands 
@@ -754,7 +765,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileBorderWavelengthGrid::filename() "docs" | String | the name of the file with the wavelength bin borders |
-| log | \ref FileBorderWavelengthGrid::log() "docs" | Bool | logarithmic scale |
+| log | \ref FileBorderWavelengthGrid::log() "docs" | Bool | use logarithmic scale |
 
 \subsection SkiFileHelpConcreteFileGrainSizeDistribution -FileGrainSizeDistribution
 [\ref FileGrainSizeDistribution "docs"] : a dust grain size distribution loaded from a text file 
@@ -827,7 +838,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileWavelengthGrid::filename() "docs" | String | the name of the file with the characteristic wavelengths |
 | relativeHalfWidth | \ref FileWavelengthGrid::relativeHalfWidth() "docs" | Double | the relative half width for discrete bins, or zero for a consecutive range |
-| log | \ref FileWavelengthGrid::log() "docs" | Bool | logarithmic scale |
+| log | \ref FileWavelengthGrid::log() "docs" | Bool | use logarithmic scale |
 
 \subsection SkiFileHelpConcreteFlatUniverseCosmology -FlatUniverseCosmology
 [\ref FlatUniverseCosmology "docs"] : the model is at a given redshift in a flat universe 
@@ -1175,7 +1186,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | wavelengths | \ref ListBorderWavelengthGrid::wavelengths() "docs" | DoubleList | the wavelength bin borders |
-| log | \ref ListBorderWavelengthGrid::log() "docs" | Bool | logarithmic scale |
+| log | \ref ListBorderWavelengthGrid::log() "docs" | Bool | use logarithmic scale |
 
 \subsection SkiFileHelpConcreteListGrainSizeDistribution -ListGrainSizeDistribution
 [\ref ListGrainSizeDistribution "docs"] : a dust grain size distribution specified inside the configuration file 
@@ -1234,7 +1245,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | wavelengths | \ref ListWavelengthGrid::wavelengths() "docs" | DoubleList | the characteristic wavelength for each bin |
 | relativeHalfWidth | \ref ListWavelengthGrid::relativeHalfWidth() "docs" | Double | the relative half width for discrete bins, or zero for a consecutive range |
-| log | \ref ListWavelengthGrid::log() "docs" | Bool | logarithmic scale |
+| log | \ref ListWavelengthGrid::log() "docs" | Bool | use logarithmic scale |
 
 \subsection SkiFileHelpConcreteLocalUniverseCosmology -LocalUniverseCosmology
 [\ref LocalUniverseCosmology "docs"] : the model is at redshift zero in the Local Universe 

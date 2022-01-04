@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 06cfaac built on 17/12/2021 at 15:51:08)</em>
+<em>SKIRT v9.0 (git 4a9adf8 built on 04/01/2022 at 16:30:02)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -85,6 +85,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
+| %CompositeWavelengthGrid | \ref SkiFileHelpConcreteCompositeWavelengthGrid "props" | \ref CompositeWavelengthGrid "docs"| a wavelength grid composited from a list of wavelength grids |
 | %FileBorderWavelengthGrid | \ref SkiFileHelpConcreteFileBorderWavelengthGrid "props" | \ref FileBorderWavelengthGrid "docs"| a wavelength grid loaded from a text file listing bin borders |
 | %FileWavelengthGrid | \ref SkiFileHelpConcreteFileWavelengthGrid "props" | \ref FileWavelengthGrid "docs"| a wavelength grid loaded from a text file |
 | %LinBorderWavelengthGrid | \ref SkiFileHelpConcreteLinBorderWavelengthGrid "props" | \ref LinBorderWavelengthGrid "docs"| a linear wavelength grid with given outer borders |
@@ -626,6 +627,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
+| %CompositeWavelengthGrid | \ref SkiFileHelpConcreteCompositeWavelengthGrid "props" | \ref CompositeWavelengthGrid "docs"| a wavelength grid composited from a list of wavelength grids |
 | %ConfigurableBandWavelengthGrid | \ref SkiFileHelpConcreteConfigurableBandWavelengthGrid "props" | \ref ConfigurableBandWavelengthGrid "docs"| a wavelength grid including a configurable list of (broad)bands |
 | %FileBorderWavelengthGrid | \ref SkiFileHelpConcreteFileBorderWavelengthGrid "props" | \ref FileBorderWavelengthGrid "docs"| a wavelength grid loaded from a text file listing bin borders |
 | %FileWavelengthGrid | \ref SkiFileHelpConcreteFileWavelengthGrid "props" | \ref FileWavelengthGrid "docs"| a wavelength grid loaded from a text file |
