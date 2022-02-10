@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git a313a94 built on 24/01/2022 at 13:37:36)</em>
+<em>SKIRT v9.0 (git d993e19 built on 10/02/2022 at 12:19:22)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -465,6 +465,11 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 \subsection SkiFileHelpConcreteCylindricalVectorField -CylindricalVectorField
 [\ref CylindricalVectorField "docs"] : a vector field rotating clockwise around the z-axis 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| unityRadius | \ref CylindricalVectorField::unityRadius() "docs" | Double | the radius where the magnitude of the vectors is unity |
+| exponent | \ref CylindricalVectorField::exponent() "docs" | Double | the power-law exponent governing the radial dependence of the magnitude |
 
 \subsection SkiFileHelpConcreteDefaultCustomStateCutsProbe -DefaultCustomStateCutsProbe
 [\ref DefaultCustomStateCutsProbe "docs"] : cuts of the custom medium state along the coordinate planes 
@@ -2077,6 +2082,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | unityRadius | \ref RadialVectorField::unityRadius() "docs" | Double | the radius where the magnitude of the vectors is unity |
+| exponent | \ref RadialVectorField::exponent() "docs" | Double | the power-law exponent governing the radial dependence of the magnitude |
 
 \subsection SkiFileHelpConcreteRadiationFieldAtPositionsProbe -RadiationFieldAtPositionsProbe
 [\ref RadiationFieldAtPositionsProbe "docs"] : the mean radiation field intensity at imported positions 
@@ -2784,6 +2790,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numSilicateSizes | \ref WeingartnerDraineDustMix::numSilicateSizes() "docs" | Int | the number of silicate grain size bins |
 | numGraphiteSizes | \ref WeingartnerDraineDustMix::numGraphiteSizes() "docs" | Int | the number of graphite grain size bins |
 | numPAHSizes | \ref WeingartnerDraineDustMix::numPAHSizes() "docs" | Int | the number of neutral and ionized PAH size bins (each) |
+
+\subsection SkiFileHelpConcreteXRayAtomicGasMix -XRayAtomicGasMix
+[\ref XRayAtomicGasMix "docs"] : A gas mix supporting photo-absorption and fluorescence for X-ray wavelengths 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| abundancies | \ref XRayAtomicGasMix::abundancies() "docs" | DoubleList | the abundancies for the elements with atomic number Z = 1,...,30 |
+| temperature | \ref XRayAtomicGasMix::temperature() "docs" | Double | the temperature of the gas |
 
 \subsection SkiFileHelpConcreteZubkoDustMix -ZubkoDustMix
 [\ref ZubkoDustMix "docs"] : a Zubko et al. (2004) dust mix 

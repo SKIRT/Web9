@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Jan 4, 2022</em>
+<em>Feb 10, 2022</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -77,9 +77,11 @@ Dec  9, 2021 | 99109f7 | Add broadband definitions for the Euclid and Rubin/LSST
 Dec 10, 2021 | 3a210a8 | Add new wavelengths grid types (specify spectral resolution; specify outer bin borders)
 Dec 16, 2021 | e0367b6 | Add Compton scattering and velocity dispersion for electron populations
 Dec 16, 2021 | e0367b6 | Fix a bug in velocity dispersion sampling for imported sources
-Dec 17, 2021 | 06cfaac | Add \em EXPERIMENTAL 21 cm 'spin-flip' line emission and self-absorption
+Dec 17, 2021 | 06cfaac | Add 21 cm hydrogen 'spin-flip' line emission and self-absorption
 Jan  4, 2022 | 4a9adf8 | Add composite wavelength grid defined by aggregating a list of wavelength grids
 Jan 24, 2022 | a313a94 | Instruments output transparent flux from secondary sources (extra column in SED output files!)
+Jan 28, 2022 | 681a39a | Add power-law behavior to radial and rotational vector fields
+Feb 10, 2022 | d993e19 | Add photo-absorption and fluorescence by neutral atomic gas at X-ray wavelengths
 
 \*\* This update requires a ski file upgrade
 
