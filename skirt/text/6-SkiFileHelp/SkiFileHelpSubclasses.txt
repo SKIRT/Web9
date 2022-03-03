@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git d993e19 built on 10/02/2022 at 12:19:22)</em>
+<em>SKIRT v9.0 (git 4222613 built on 03/03/2022 at 11:44:42)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -607,6 +607,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | Subclass | | | Description |
 | :-- | :--: | :--: | :-- |
 | %CylindricalVectorField | \ref SkiFileHelpConcreteCylindricalVectorField "props" | \ref CylindricalVectorField "docs"| a vector field rotating clockwise around the z-axis |
+| %HollowRadialVectorField | \ref SkiFileHelpConcreteHollowRadialVectorField "props" | \ref HollowRadialVectorField "docs"| a vector field pointing away from the origin with a central cavity |
 | %OffsetVectorFieldDecorator | \ref SkiFileHelpConcreteOffsetVectorFieldDecorator "props" | \ref OffsetVectorFieldDecorator "docs"| a decorator that adds an offset to any vector field |
 | %RadialVectorField | \ref SkiFileHelpConcreteRadialVectorField "props" | \ref RadialVectorField "docs"| a vector field pointing away from the origin |
 | %RotateVectorFieldDecorator | \ref SkiFileHelpConcreteRotateVectorFieldDecorator "props" | \ref RotateVectorFieldDecorator "docs"| a decorator that adds a rotation to any vector field |

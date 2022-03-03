@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git d993e19 built on 10/02/2022 at 12:19:22)</em>
+<em>SKIRT v9.0 (git 4222613 built on 03/03/2022 at 11:44:42)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -1022,6 +1022,14 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 \subsection SkiFileHelpConcreteHammerAitoffProjection -HammerAitoffProjection
 [\ref HammerAitoffProjection "docs"] : the Hammer-Aitoff all-sky projection 
+
+\subsection SkiFileHelpConcreteHollowRadialVectorField -HollowRadialVectorField
+[\ref HollowRadialVectorField "docs"] : a vector field pointing away from the origin with a central cavity 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| zeroRadius | \ref HollowRadialVectorField::zeroRadius() "docs" | Double | the radius within which the magnitude of the vectors is zero |
+| exponent | \ref HollowRadialVectorField::exponent() "docs" | Double | the power-law exponent governing the radial dependence of the magnitude |
 
 \subsection SkiFileHelpConcreteHyperboloidGeometry -HyperboloidGeometry
 [\ref HyperboloidGeometry "docs"] : a hyperboloid geometry 
@@ -2797,7 +2805,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | abundancies | \ref XRayAtomicGasMix::abundancies() "docs" | DoubleList | the abundancies for the elements with atomic number Z = 1,...,30 |
-| temperature | \ref XRayAtomicGasMix::temperature() "docs" | Double | the temperature of the gas |
+| temperature | \ref XRayAtomicGasMix::temperature() "docs" | Double | the temperature of the gas or zero to disable thermal dispersion |
 
 \subsection SkiFileHelpConcreteZubkoDustMix -ZubkoDustMix
 [\ref ZubkoDustMix "docs"] : a Zubko et al. (2004) dust mix 

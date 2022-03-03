@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Feb 16, 2022</em>
+<em>Mar 3, 2022</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -81,9 +81,10 @@ Dec 17, 2021 | 06cfaac | Add 21 cm hydrogen 'spin-flip' line emission and self-a
 Jan  4, 2022 | 4a9adf8 | Add composite wavelength grid defined by aggregating a list of wavelength grids
 Jan 24, 2022 | a313a94 | Instruments output transparent flux from secondary sources (extra column in SED output files!)
 Jan 28, 2022 | 681a39a | Add power-law behavior to radial and rotational vector fields
-Feb 10, 2022 | d993e19 | Add photo-absorption and fluorescence by neutral atomic gas at X-ray wavelengths
 Feb 15, 2022 | 322f530 | Allow multiple media components to change the wavelength during scattering
-Feb 16, 2022 | 9b73b93 | Fix random point generation in Torus, Shell, and ConicalShell geometries for exponents p>=3
+Feb 16, 2022 | 9b73b93 | Fix random position generation in Torus, Shell, and ConicalShell geometries for exponents p>=3
+Feb 24, 2022 | ca5ff94 | Add photo-absorption and fluorescence by neutral atomic gas at X-ray wavelengths
+Mar  3, 2022 | 4222613 | Add "hollow" radial vector field with power-law behavior and central cavity
 
 \*\* This update requires a ski file upgrade
 
