@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>Mar 3, 2022</em>
+<em>Mar 10, 2022</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -85,6 +85,7 @@ Feb 15, 2022 | 322f530 | Allow multiple media components to change the wavelengt
 Feb 16, 2022 | 9b73b93 | Fix random position generation in Torus, Shell, and ConicalShell geometries for exponents p>=3
 Feb 24, 2022 | ca5ff94 | Add photo-absorption and fluorescence by neutral atomic gas at X-ray wavelengths
 Mar  3, 2022 | 4222613 | Add "hollow" radial vector field with power-law behavior and central cavity
+Mar 10, 2022 | d21d1b2 | Include information on secondary emission in LaunchedPacketsProbe
 
 \*\* This update requires a ski file upgrade
 

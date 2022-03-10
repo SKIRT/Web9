@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 4222613 built on 03/03/2022 at 11:44:42)</em>
+<em>SKIRT v9.0 (git d21d1b2 built on 10/03/2022 at 15:32:47)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -1108,7 +1108,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | symmetryZ | \ref LaserAngularDistribution::symmetryZ() "docs" | Double | the direction of the positive symmetry axis, z component |
 
 \subsection SkiFileHelpConcreteLaunchedPacketsProbe -LaunchedPacketsProbe
-[\ref LaunchedPacketsProbe "docs"] : the number of photon packets launched from primary sources 
+[\ref LaunchedPacketsProbe "docs"] : the number of photon packets launched from primary and secondary sources 
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |

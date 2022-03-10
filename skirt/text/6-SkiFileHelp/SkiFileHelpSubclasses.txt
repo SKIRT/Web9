@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 4222613 built on 03/03/2022 at 11:44:42)</em>
+<em>SKIRT v9.0 (git d21d1b2 built on 10/03/2022 at 15:32:47)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -411,7 +411,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %ElectronTemperaturePerCellProbe | \ref SkiFileHelpConcreteElectronTemperaturePerCellProbe "props" | \ref ElectronTemperaturePerCellProbe "docs"| the electron temperature for each spatial cell |
 | %GasTemperaturePerCellProbe | \ref SkiFileHelpConcreteGasTemperaturePerCellProbe "props" | \ref GasTemperaturePerCellProbe "docs"| the gas temperature for each spatial cell |
 | %InstrumentWavelengthGridProbe | \ref SkiFileHelpConcreteInstrumentWavelengthGridProbe "props" | \ref InstrumentWavelengthGridProbe "docs"| the instrument wavelength grids |
-| %LaunchedPacketsProbe | \ref SkiFileHelpConcreteLaunchedPacketsProbe "props" | \ref LaunchedPacketsProbe "docs"| the number of photon packets launched from primary sources |
+| %LaunchedPacketsProbe | \ref SkiFileHelpConcreteLaunchedPacketsProbe "props" | \ref LaunchedPacketsProbe "docs"| the number of photon packets launched from primary and secondary sources |
 | %LinearDustTemperatureCutProbe | \ref SkiFileHelpConcreteLinearDustTemperatureCutProbe "props" | \ref LinearDustTemperatureCutProbe "docs"| the indicative dust temperature along a given line segment |
 | %LuminosityProbe | \ref SkiFileHelpConcreteLuminosityProbe "props" | \ref LuminosityProbe "docs"| the primary source luminosities |
 | %MagneticFieldPerCellProbe | \ref SkiFileHelpConcreteMagneticFieldPerCellProbe "props" | \ref MagneticFieldPerCellProbe "docs"| the magnetic field for each spatial cell |
