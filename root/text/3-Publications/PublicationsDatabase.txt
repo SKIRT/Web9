@@ -6,6 +6,70 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+The dust-continuum size of TNG50 galaxies at redshift 1 to 5: a comparison with the distribution of stellar light, stars, dust and H2
+Popping et al.
+MNRAS
+03 2022
+Application
+Popping2022
+2022MNRAS.510.3321P
+
+Observed structural parameters of EAGLE galaxies: reconciling the mass-size relation in simulations with local observations
+de Graaff et al.
+MNRAS
+04 2022
+Application
+DeGraaff2022
+2022MNRAS.511.2544D
+
+Relic galaxy analogues in TNG50 simulation: the formation pathways of surviving red nuggets in a cosmological simulation
+Flores-Freitas et al.
+MNRAS
+05 2022
+Application
+FloresFreitas2022
+2022MNRAS.512..245F
+
+High-redshift predictions from IllustrisTNG - III. Infrared luminosity functions, obscured star formation, and dust temperature of high-redshift galaxies
+Shen et al.
+MNRAS
+03 2022
+Application
+Shen2022
+2022MNRAS.510.5560S
+
+The Complex Infrared Dust Continuum Emission of NGC 1068: Ground-based N- and Q-band Spectroscopy and New Radiative Transfer Models
+Victoria-Ceballos et al.
+ApJ
+02 2022
+Application
+VictoriaCeballos2022
+2022ApJ...926..192V
+
+High-resolution synthetic UV-submm images for Milky Way-mass simulated galaxies from the ARTEMIS project
+Camps et al.
+MNRAS
+05 2022
+Application
+Camps2022
+2022MNRAS.512.2728C
+
+First Light And Reionisation Epoch Simulations (FLARES) - III. The properties of massive dusty galaxies at cosmic dawn
+Vijayan et al.
+MNRAS
+04 2022
+Application
+Vijayan2022
+2022MNRAS.511.4999V
+
+A new analytical scattering phase function for interstellar dust
+Baes et al.
+A&A
+03 2022
+Technical
+Baes2022
+2022A&A...659A.149B
+
 The dust attenuation law in z ∼ 6 quasars
 Di Mascia et al.
 MNRAS
