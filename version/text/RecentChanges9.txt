@@ -88,6 +88,7 @@ Mar  3, 2022 | 4222613 | Add "hollow" radial vector field with power-law behavio
 Mar 10, 2022 | d21d1b2 | Include information on secondary emission in LaunchedPacketsProbe
 Mar 22, 2022 | 5e3effa | Add workaround for extreme forward scattering by dust in the X-ray regime
 Apr  4, 2022 | 86ac8bf | Adjust MeanInterStellarDustMix scattering asymmetry parameter for X-ray wavelengths
+Apr  5, 2022 | bc5c5af | Add scattering by bound electrons to X-ray atomic gas
 
 \*\* This update requires a ski file upgrade
 
