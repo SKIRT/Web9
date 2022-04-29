@@ -16,7 +16,7 @@ the scattering and polarization properties can be calculated using Mie theory.
 <TABLE>
 <TR><TH>Publication</TH>  <TD>Pinte et al. 2009 <a href="https://ui.adsabs.harvard.edu/abs/2009A%26A...498..967P">[ADS]</a></TD>
 <TR><TH>Web site</TH>  <TD>http://ipag.osug.fr/~pintec/benchmark</TD>
-<TR><TH>Ski file</TH>  <TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/pinte.ski">pinte.ski</a></TD>
+<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/pinte.ski">pinte.ski</a></TD>
 </TABLE>
 
 \section PinteResults SKIRT results

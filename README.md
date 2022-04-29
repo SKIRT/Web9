@@ -5,7 +5,7 @@ The SKIRT project -- advanced radiative transfer in dusty systems
 Welcome to the SKIRT project version 9 web site repository. For more
 information on the SKIRT project as a whole and on the contents of this
 repository specifically, please visit the
-[SKIRT project web site](http://www.skirt.ugent.be).
+[SKIRT project web site](https://www.skirt.ugent.be).
 
 The code and documentation in the SKIRT project is open source and freely
 available to the worldwide scientific community (see the file LICENSE.txt in

@@ -5,7 +5,7 @@
 \image html SkirtLogoSmall.png
 
 These pages offer documentation for the SKIRT project (version 9) other than the reference material derived from the source code.
-For more information, please visit the <tt>SKIRT</tt> website at <a href="http://www.skirt.ugent.be">www.skirt.ugent.be</a>.
+For more information, please visit the <tt>SKIRT</tt> website at <a href="https://www.skirt.ugent.be">www.skirt.ugent.be</a>.
 
 The main entry points into the documentation for SKIRT and PTS version 9 are:
 

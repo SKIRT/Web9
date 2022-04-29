@@ -15,9 +15,9 @@ and viewing angles.
 <TABLE>
 <TR><TH>Publication</TH>  <TD>Gordon et al. 2017 <a href="https://ui.adsabs.harvard.edu/abs/2017A%26A...603A.114G">[ADS]</a></TD>
 <TR><TH>Web site</TH>  <TD>http://ipag.osug.fr/RT13/RTTRUST/</TD>
-<TR><TH>Ski file</TH>  <TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/gordon_template.ski">gordon_template.ski</a></TD>
-<TR><TH>Wavelength grid - basic</TH>  <TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/gordon_wavelengths_basic.dat">gordon_wavelengths_basic.dat</a></TD>
-<TR><TH>Wavelength grid - full</TH>  <TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/gordon_wavelengths_full.dat">gordon_wavelengths_full.dat</a></TD>
+<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/gordon_template.ski">gordon_template.ski</a></TD>
+<TR><TH>Wavelength grid - basic</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/gordon_wavelengths_basic.dat">gordon_wavelengths_basic.dat</a></TD>
+<TR><TH>Wavelength grid - full</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/gordon_wavelengths_full.dat">gordon_wavelengths_full.dat</a></TD>
 </TABLE>
 
 \section GordonResults SKIRT results

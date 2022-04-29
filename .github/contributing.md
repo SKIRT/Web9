@@ -7,6 +7,6 @@ feature, correcting or improving the documentation, writing a tutorial, fixing a
 implementing a new class or a new module, and so on.
 
 Information on how to contribute can be found in the "Contributing" section of the
-SKIRT project web site: http://www.skirt.ugent.be/root/_contributing.html
+SKIRT project web site: https://www.skirt.ugent.be/root/_contributing.html
 
 The core SKIRT team.

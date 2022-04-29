@@ -15,7 +15,7 @@ produced by several radiative transfer codes for two dust density profiles and f
 <TABLE>
 <TR><TH>Publication</TH>  <TD>Ivezić et al. 1997 <a href="https://ui.adsabs.harvard.edu/abs/1997MNRAS.291..121I">[ADS]</a></TD>
 <TR><TH>FTP site</TH>  <TD>ftp://www.pa.uky.edu/pub/ivezic/benches/</TD>
-<TR><TH>Ski file</TH>  <TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/ivezic_template.ski">ivezic_template.ski</a></TD>
+<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/ivezic_template.ski">ivezic_template.ski</a></TD>
 </TABLE>
 
 \section IvezicResults SKIRT results

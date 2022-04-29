@@ -108,7 +108,7 @@ Doxygen configuration files, are contained in a separate public repository as in
 \section ContributingWebsite Web site
 
 All documentation related to versions 8 and 9 of the SKIRT project is published on the web site
-[www.skirt.ugent.be](http://www.skirt.ugent.be/), which is hosted on the Ghent University web server. Each repository
+[www.skirt.ugent.be](https://www.skirt.ugent.be/), which is hosted on the Ghent University web server. Each repository
 in the GitHub SKIRT organization includes a \c makeHTML.sh procedure that drives Doxygen to locally build HTML pages
 from the comment blocks embedded in the source code or text files in the repository. This procedure converts LaTeX
 formulas to images, performing a full LaTeX syntax check along the way. As a result, this procedure enables

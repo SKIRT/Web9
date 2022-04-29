@@ -93,8 +93,8 @@ locate and open the file \c ~\\SKIRT\\git\\SKIRT\\resources\\ExpectedResources.t
 On Windows there is no automated resource download procedure. Instead, proceed as follows:
 
 - Using your favorite browser, navigate to the
-  [SKIRT project version 9 downloads page](http://www.skirt.ugent.be/version9/_downloads.html)
-  on the [SKIRT project web site](http://www.skirt.ugent.be).
+  [SKIRT project version 9 downloads page](https://www.skirt.ugent.be/version9/_downloads.html)
+  on the [SKIRT project web site](https://www.skirt.ugent.be).
 - Download the desired resource packs (at least the latest version of the Core resource pack) as ZIP archive(s).
 - Extract the complete contents of each ZIP archive into the directory \c ~\\SKIRT\\resources, again replacing
   the tilde with an absolute path so that the \c resources directory is next to the \c git directory.

@@ -16,10 +16,10 @@ systems not supported by the script, the resource packs can be manually download
 installation guide for further instructions.
 
 <TABLE>
-<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Resources/SKIRT9_Resources_Core_v6.zip">SKIRT9_Resources_Core_v6.zip</a>
+<TR><TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Resources/SKIRT9_Resources_Core_v6.zip">SKIRT9_Resources_Core_v6.zip</a>
 </TD><TD>Core SKIRT resource pack, version 6 -- required for all installations
 </TD></TR>
-<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Resources/SKIRT9_Resources_BPASS_v1.zip">SKIRT9_Resources_BPASS_v1.zip</a>
+<TR><TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Resources/SKIRT9_Resources_BPASS_v1.zip">SKIRT9_Resources_BPASS_v1.zip</a>
 </TD><TD>SKIRT resource pack for BPASS SED template family, version 1 -- optional, required only for BPASS SEDs
 </TD></TR>
 </TABLE>
@@ -31,16 +31,16 @@ present on your computer, as described in the "Getting ready" section of each tu
 here.
 
 <TABLE>
-<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Tutorials/kh_amr.txt">kh_amr.txt</a>
+<TR><TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Tutorials/kh_amr.txt">kh_amr.txt</a>
 </TD><TD>Dust distribution in Kelvin-Helmholtz instability produced by MPI-AMRVAC
 </TD></TR>
-<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Tutorials/eagle_stars.txt">eagle_stars.txt</a>
+<TR><TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Tutorials/eagle_stars.txt">eagle_stars.txt</a>
 </TD><TD>Stellar particles from EAGLE SPH simulation snapshot
 </TD></TR>
-<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Tutorials/eagle_gas.txt">eagle_gas.txt</a>
+<TR><TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Tutorials/eagle_gas.txt">eagle_gas.txt</a>
 </TD><TD>Gas particles from EAGLE SPH simulation snapshot
 </TD></TR>
-<TR><TD><a href="http://sciences.ugent.be/skirtextdat/SKIRT9/Tutorials/polarization_config.xml">polarization_config.xml</a>
+<TR><TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Tutorials/polarization_config.xml">polarization_config.xml</a>
 </TD><TD>Configuration file serving as a basis for the tutorial on polarization
 </TD></TR>
 </TABLE>

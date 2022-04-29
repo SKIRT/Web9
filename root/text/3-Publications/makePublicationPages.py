@@ -108,7 +108,7 @@ def makePage(records, mycateg, myorder):
         # write the records
         for record in records:
             date = months[record['month']] + " " + str(record['year'])
-            pdflink = "[PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf)"
+            pdflink = "[PDF](https://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf)"
             adslink = "[ADS](https://ui.adsabs.harvard.edu/abs/" + record['adsname'] + "/abstract)"
             pg.write("| " + record['title'] + " | " + record['author'] + " | " + date +
                      " | " + record['journal'] + " | " + record['category'] +
@@ -161,10 +161,10 @@ def makeGalleryPage(records):
             if index % 4 == 0:      # start a new row after N columns
                 pg.write('<TR style="text-align:center;">\n')
             d = {}
-            d["imgpath"] = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".png"
+            d["imgpath"] = "https://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".png"
             d["maxwidth"] = int(min(1, imageAspect(record)) * 100)
-            d["pdfpath"] = "http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf"
-            d["pdflink"] = "[PDF](http://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf)"
+            d["pdfpath"] = "https://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf"
+            d["pdflink"] = "[PDF](https://sciences.ugent.be/skirtextdat/SKIRTC/Publications/" + record['pdfname'] + ".pdf)"
             d["adslink"] = "[ADS](https://ui.adsabs.harvard.edu/abs/" + record['adsname'] + "/abstract)"
             d["alttext"] = record['author'] + " " + str(record['year']) + " (" + record['journal'] + ")"
             d["title"] = record['author'] + " " + str(record['year']) + " (" + record['journal'] + "): " + \
