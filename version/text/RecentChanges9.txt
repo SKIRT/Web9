@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>April 4, 2022</em>
+<em>May 22, 2022</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -88,7 +88,7 @@ Mar  3, 2022 | 4222613 | Add "hollow" radial vector field with power-law behavio
 Mar 10, 2022 | d21d1b2 | Include information on secondary emission in LaunchedPacketsProbe
 Mar 22, 2022 | 5e3effa | Add workaround for extreme forward scattering by dust in the X-ray regime
 Apr  4, 2022 | 86ac8bf | Adjust MeanInterStellarDustMix scattering asymmetry parameter for X-ray wavelengths
-Apr  5, 2022 | bc5c5af | Add scattering by bound electrons to X-ray atomic gas
+May 22, 2022 | 5f62d78 | Add scattering by bound electrons to X-ray atomic gas (three implementations)
 
 \*\* This update requires a ski file upgrade
 
