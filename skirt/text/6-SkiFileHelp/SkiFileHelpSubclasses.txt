@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 48f28ee built on 18/05/2022 at 07:18:13)</em>
+<em>SKIRT v9.0 (git 3062f08 built on 03/06/2022 at 10:41:58)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,

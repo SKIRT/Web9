@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 48f28ee built on 18/05/2022 at 07:18:13)</em>
+<em>SKIRT v9.0 (git 3062f08 built on 03/06/2022 at 10:41:58)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -2797,6 +2797,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | abundancies | \ref XRayAtomicGasMix::abundancies() "docs" | DoubleList | the abundancies for the elements with atomic number Z = 1,...,30 |
 | temperature | \ref XRayAtomicGasMix::temperature() "docs" | Double | the temperature of the gas or zero to disable thermal dispersion |
 | scatterBoundElectrons | \ref XRayAtomicGasMix::scatterBoundElectrons() "docs" | Enum | implementation of scattering by bound electrons |
+| | | --> None | ignore bound electrons |
 | | | --> Free | use free-electron Compton scattering |
 | | | --> Good | use smooth Rayleigh scattering and exact bound-Compton scattering |
 | | | --> Exact | use anomalous Rayleigh scattering and exact bound-Compton scattering |
