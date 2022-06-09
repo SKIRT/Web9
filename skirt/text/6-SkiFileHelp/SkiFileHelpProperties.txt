@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 3062f08 built on 03/06/2022 at 10:41:58)</em>
+<em>SKIRT v9.0 (git 5afa2a8 built on 09/06/2022 at 16:20:40)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -1939,7 +1939,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
-| forceScattering | \ref PhotonPacketOptions::forceScattering() "docs" | Bool | use forced scattering to accelerate the photon life cycle |
+| explicitAbsorption | \ref PhotonPacketOptions::explicitAbsorption() "docs" | Bool | use explicit absorption to allow negative absorption (stimulated emission) |
+| forceScattering | \ref PhotonPacketOptions::forceScattering() "docs" | Bool | use forced scattering to reduce noise |
 | minWeightReduction | \ref PhotonPacketOptions::minWeightReduction() "docs" | Double | the minimum weight reduction factor before a photon packet is terminated |
 | minScattEvents | \ref PhotonPacketOptions::minScattEvents() "docs" | Int | the minimum number of forced scattering events before a photon packet is terminated |
 | pathLengthBias | \ref PhotonPacketOptions::pathLengthBias() "docs" | Double | the fraction of path lengths sampled from a stretched distribution |
@@ -2619,6 +2620,15 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
 | geometry | \ref TriaxialGeometryDecorator::geometry() "docs" | %Item | %SpheGeometry | \ref SkiFileHelpBaseSpheGeometry "subclasses" | the spherical geometry to be made triaxial |
+
+\subsection SkiFileHelpConcreteTrivialGasMix -TrivialGasMix
+[\ref TrivialGasMix "docs"] : A trivial gas mix for testing purposes 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| absorptionCrossSection | \ref TrivialGasMix::absorptionCrossSection() "docs" | Double | the absorption cross section per hydrogen atom |
+| scatteringCrossSection | \ref TrivialGasMix::scatteringCrossSection() "docs" | Double | the scattering cross section per hydrogen atom |
+| asymmetryParameter | \ref TrivialGasMix::asymmetryParameter() "docs" | Double | the scattering asymmetry parameter |
 
 \subsection SkiFileHelpConcreteTrustBenchmarkDustMix -TrustBenchmarkDustMix
 [\ref TrustBenchmarkDustMix "docs"] : a TRUST benchmark dust mix 

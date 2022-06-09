@@ -4,7 +4,7 @@
 
 \section RecentChanges9Intro Introduction
 
-<em>June 3, 2022</em>
+<em>June 9, 2022</em>
 
 The tables below list the most relevant recent changes to SKIRT 9 and PTS 9, respectively, since the code was publicly
 released on May 10, 2019. In case a change comprises multiple commits, the date and commit hash in the table indicate
@@ -90,7 +90,8 @@ Mar 22, 2022 | 5e3effa | Add workaround for extreme forward scattering by dust i
 Apr  4, 2022 | 86ac8bf | Adjust MeanInterStellarDustMix scattering asymmetry parameter for X-ray wavelengths
 May 18, 2022 | 48f28ee | \*\* Substantially revised and augmented probes based on new design with probe forms
 May 18, 2022 | 48f28ee | ParticleMedium can read volume-integrated number as an alternative to volume-integrated mass
-Jun  3, 2022 | 3062f08 | Add scattering by bound electrons to X-ray atomic gas (four implementations)
+Jun  9, 2022 | 5afa2a8 | Add scattering by bound electrons to X-ray atomic gas (four implementations)
+Jun  9, 2022 | 5afa2a8 | Introduce explicit absorption to support stimulated emission (negative extinction)
 
 \*\* This update requires a ski file upgrade
 

@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 3062f08 built on 03/06/2022 at 10:41:58)</em>
+<em>SKIRT v9.0 (git 5afa2a8 built on 09/06/2022 at 16:20:40)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -315,6 +315,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %MeanTrustBenchmarkDustMix | \ref SkiFileHelpConcreteMeanTrustBenchmarkDustMix "props" | \ref MeanTrustBenchmarkDustMix "docs"| a TRUST benchmark dust mix (mean properties, optionally with polarization) |
 | %SpinFlipHydrogenGasMix | \ref SkiFileHelpConcreteSpinFlipHydrogenGasMix "props" | \ref SpinFlipHydrogenGasMix "docs"| A gas mix supporting the spin-flip 21 cm hydrogen transition |
 | %ThemisDustMix | \ref SkiFileHelpConcreteThemisDustMix "props" | \ref ThemisDustMix "docs"| a THEMIS (Jones et al. 2017) dust mix |
+| %TrivialGasMix | \ref SkiFileHelpConcreteTrivialGasMix "props" | \ref TrivialGasMix "docs"| A trivial gas mix for testing purposes |
 | %TrustBenchmarkDustMix | \ref SkiFileHelpConcreteTrustBenchmarkDustMix "props" | \ref TrustBenchmarkDustMix "docs"| a TRUST benchmark dust mix |
 | %WeingartnerDraineDustMix | \ref SkiFileHelpConcreteWeingartnerDraineDustMix "props" | \ref WeingartnerDraineDustMix "docs"| a Weingartner and Draine (2001) dust mix |
 | %XRayAtomicGasMix | \ref SkiFileHelpConcreteXRayAtomicGasMix "props" | \ref XRayAtomicGasMix "docs"| A gas mix supporting photo-absorption and fluorescence for X-ray wavelengths |
