@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpSubclasses List of subclasses for each base class
-<em>SKIRT v9.0 (git 5afa2a8 built on 09/06/2022 at 16:20:40)</em>
+<em>SKIRT v9.0 (git 4dbf6f3 built on 09/08/2022 at 15:32:36)</em>
 \section SkiFileHelpSubclassesIntro Introduction
 This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -336,6 +336,7 @@ This page lists the subclasses for each SKIRT class that may occur as base class
 | %MassColumnMaterialNormalization | \ref SkiFileHelpConcreteMassColumnMaterialNormalization "props" | \ref MassColumnMaterialNormalization "docs"| normalization by defining the mass column density along a coordinate axis |
 | %MassMaterialNormalization | \ref SkiFileHelpConcreteMassMaterialNormalization "props" | \ref MassMaterialNormalization "docs"| normalization by defining the total mass |
 | %NumberColumnMaterialNormalization | \ref SkiFileHelpConcreteNumberColumnMaterialNormalization "props" | \ref NumberColumnMaterialNormalization "docs"| normalization by defining the number column density along a coordinate axis |
+| %NumberMaterialNormalization | \ref SkiFileHelpConcreteNumberMaterialNormalization "props" | \ref NumberMaterialNormalization "docs"| normalization by defining the total number of entities |
 | %OpticalDepthMaterialNormalization | \ref SkiFileHelpConcreteOpticalDepthMaterialNormalization "props" | \ref OpticalDepthMaterialNormalization "docs"| normalization by defining the optical depth along a coordinate axis |
 
 \subsection SkiFileHelpBaseMedium -Medium

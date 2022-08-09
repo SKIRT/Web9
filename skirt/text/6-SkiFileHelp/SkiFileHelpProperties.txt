@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git 5afa2a8 built on 09/06/2022 at 16:20:40)</em>
+<em>SKIRT v9.0 (git 4dbf6f3 built on 09/08/2022 at 15:32:36)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -349,6 +349,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | numClumps | \ref ClumpyGeometryDecorator::numClumps() "docs" | Int | the total number of clumps |
 | clumpRadius | \ref ClumpyGeometryDecorator::clumpRadius() "docs" | Double | the scale radius of a single clump |
 | cutoffClumps | \ref ClumpyGeometryDecorator::cutoffClumps() "docs" | Bool | cut off clumps at the boundary of the underlying geometry |
+| seed | \ref ClumpyGeometryDecorator::seed() "docs" | Int | the seed for the random clump position generator, or zero to use the default generator |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -486,6 +487,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | probeAfter | \ref CustomStateProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
+| | | --> Primary | after each iteration over primary emission |
+| | | --> Secondary | after each iteration over secondary emission |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -542,6 +545,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | probeAfter | \ref DensityProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
+| | | --> Primary | after each iteration over primary emission |
+| | | --> Secondary | after each iteration over secondary emission |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -1110,6 +1115,7 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | probeName | \ref ImportedSourceLuminosityProbe::probeName() "docs" | String | the name for this probe |
+| convolve | \ref ImportedSourceLuminosityProbe::convolve() "docs" | Bool | average or convolve the specific luminosity over the wavelength bin |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -1625,6 +1631,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | probeAfter | \ref MetallicityProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
+| | | --> Primary | after each iteration over primary emission |
+| | | --> Secondary | after each iteration over secondary emission |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -1684,8 +1692,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | | | --> DustEmission | With secondary emission from dust |
 | | | --> GasEmission | With secondary emission from gas |
 | | | --> DustAndGasEmission | With secondary emission from dust and gas |
-| iterateMediumState | \ref MonteCarloSimulation::iterateMediumState() "docs" | Bool | iterate to self-consistently determine the medium state |
-| iterateSecondaryEmission | \ref MonteCarloSimulation::iterateSecondaryEmission() "docs" | Bool | iterate to self-consistently determine secondary emission |
+| iteratePrimaryEmission | \ref MonteCarloSimulation::iteratePrimaryEmission() "docs" | Bool | iterate over primary emission for self-consistent calculation |
+| iterateSecondaryEmission | \ref MonteCarloSimulation::iterateSecondaryEmission() "docs" | Bool | iterate over secondary emission for self-consistent calculation |
 | numPackets | \ref MonteCarloSimulation::numPackets() "docs" | Double | the default number of photon packets launched per simulation segment |
 
 | Compound Property | | Type | Base Class | | Description
@@ -1742,6 +1750,13 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | | | --> Z | the Z axis of the model coordinate sytem |
 | numberColumnDensity | \ref NumberColumnMaterialNormalization::numberColumnDensity() "docs" | Double | the number column density along this axis |
 
+\subsection SkiFileHelpConcreteNumberMaterialNormalization -NumberMaterialNormalization
+[\ref NumberMaterialNormalization "docs"] : normalization by defining the total number of entities 
+
+| Scalar Property | | Type | Description
+| :-- | :--: | :-- | :-- |
+| number | \ref NumberMaterialNormalization::number() "docs" | Double | the total number of entities in the material |
+
 \subsection SkiFileHelpConcreteOffsetGeometryDecorator -OffsetGeometryDecorator
 [\ref OffsetGeometryDecorator "docs"] : a decorator that adds an offset to any geometry 
 
@@ -1782,6 +1797,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | probeAfter | \ref OpacityProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
+| | | --> Primary | after each iteration over primary emission |
+| | | --> Secondary | after each iteration over secondary emission |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -2089,6 +2106,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | :-- | :--: | :-- | :-- |
 | probeName | \ref RadiationFieldProbe::probeName() "docs" | String | the name for this probe |
 | writeWavelengthGrid | \ref RadiationFieldProbe::writeWavelengthGrid() "docs" | Bool | output a text file with the radiation field wavelength grid |
+| probeAfter | \ref RadiationFieldProbe::probeAfter() "docs" | Enum | perform the probe after |
+| | | --> Run | after the complete simulation run |
+| | | --> Primary | after each iteration over primary emission |
+| | | --> Secondary | after each iteration over secondary emission |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
@@ -2568,6 +2589,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | probeAfter | \ref TemperatureProbe::probeAfter() "docs" | Enum | perform the probe after |
 | | | --> Setup | after setup |
 | | | --> Run | after the complete simulation run |
+| | | --> Primary | after each iteration over primary emission |
+| | | --> Secondary | after each iteration over secondary emission |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
