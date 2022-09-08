@@ -97,6 +97,7 @@ Aug  2, 2022 | c0b019d | Imported source probes always use system aggregation
 Aug  3, 2022 | 4540d38 | Support convolution over broadbands in imported source luminosity probe
 Aug  3, 2022 | 0f9447f | Allow probing after each iteration over primary or secondary emission
 Aug  9, 2022 | 4dbf6f3 | \*\* Revised dynamic medium state concepts and execution flows
+Sep  8, 2022 | a932cb1 | Support self-consistent non-LTE line transfer for selected transitions and species
 
 \*\* This update requires a ski file upgrade
 
