@@ -1,6 +1,6 @@
 /**
 \page SkiFileHelpProperties List of properties for each concrete class
-<em>SKIRT v9.0 (git a932cb1 built on 08/09/2022 at 17:15:52)</em>
+<em>SKIRT v9.0 (git 2c337c4 built on 19/09/2022 at 16:11:33)</em>
 \section SkiFileHelpPropertiesIntro Introduction
 This page lists the properties for each concrete SKIRT class that may occur as an object in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
@@ -761,7 +761,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | filename | \ref FileBorderWavelengthGrid::filename() "docs" | String | the name of the file with the wavelength bin borders |
-| log | \ref FileBorderWavelengthGrid::log() "docs" | Bool | use logarithmic scale |
+| characteristic | \ref FileBorderWavelengthGrid::characteristic() "docs" | Enum | determine the characteristic wavelength for each bin |
+| | | --> Linear | using linear interpolation |
+| | | --> Logarithmic | using logarithmic interpolation |
+| | | --> Specified | specified in the imported wavelength list |
 
 \subsection SkiFileHelpConcreteFileGrainSizeDistribution -FileGrainSizeDistribution
 [\ref FileGrainSizeDistribution "docs"] : a dust grain size distribution loaded from a text file 
@@ -1298,7 +1301,10 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | Scalar Property | | Type | Description
 | :-- | :--: | :-- | :-- |
 | wavelengths | \ref ListBorderWavelengthGrid::wavelengths() "docs" | DoubleList | the wavelength bin borders |
-| log | \ref ListBorderWavelengthGrid::log() "docs" | Bool | use logarithmic scale |
+| characteristic | \ref ListBorderWavelengthGrid::characteristic() "docs" | Enum | determine the characteristic wavelength for each bin |
+| | | --> Linear | using linear interpolation |
+| | | --> Logarithmic | using logarithmic interpolation |
+| | | --> Specified | specified in the configured wavelength list |
 
 \subsection SkiFileHelpConcreteListGrainSizeDistribution -ListGrainSizeDistribution
 [\ref ListGrainSizeDistribution "docs"] : a dust grain size distribution specified inside the configuration file 
@@ -1759,6 +1765,8 @@ This page lists the properties for each concrete SKIRT class that may occur as a
 | defaultTurbulenceVelocity | \ref NonLTELineGasMix::defaultTurbulenceVelocity() "docs" | Double | the default (non-thermal) turbulence velocity |
 | maxChangeInLevelPopulations | \ref NonLTELineGasMix::maxChangeInLevelPopulations() "docs" | Double | the maximum relative change for the level populations in a cell to be considered converged |
 | maxFractionNotConvergedCells | \ref NonLTELineGasMix::maxFractionNotConvergedCells() "docs" | Double | the maximum fraction of spatial cells that have not convergenced |
+| storeMeanIntensities | \ref NonLTELineGasMix::storeMeanIntensities() "docs" | Bool | store the mean radiation field intensity at each transition line |
+| initialLevelPopsFilename | \ref NonLTELineGasMix::initialLevelPopsFilename() "docs" | String | the name of the file with initial level populations |
 
 | Compound Property | | Type | Base Class | | Description
 | :-- | :--: | :-- | :-- | :--: | :-- |
