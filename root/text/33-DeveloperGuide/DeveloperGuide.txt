@@ -1,0 +1,10 @@
+/**
+
+\page DeveloperGuide Developer Guide
+
+Here we link to the tables:
+
+- \ref SkiFileHelpProperties
+- \ref SkiFileHelpSubclasses
+
+*/

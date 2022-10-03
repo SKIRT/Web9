@@ -35,7 +35,7 @@
     <tab type="pages" visible="no" title="" intro=""/>
     <tab type="modules" visible="no" title="" intro=""/>
     <tab type="namespaces" visible="no" title="">
-      <tab type="namespacelist" visible="yes" title="" intro=""/>
+      <tab type="namespacelist" visible="yes" title="" intro="List of namespaces in alphabetical order"/>
       <tab type="namespacemembers" visible="yes" title="" intro=""/>
     </tab>
     <tab type="concepts" visible="no" title="">
@@ -46,7 +46,7 @@
       <tab type="interfacehierarchy" visible="yes" title="" intro=""/>
     </tab>
     <tab type="classes" visible="no" title="">
-      <tab type="classlist" visible="yes" title="" intro=""/>
+      <tab type="classlist" visible="yes" title="" intro="List of classes in alphabetical order"/>
       <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/>
       <tab type="hierarchy" visible="yes" title="" intro=""/>
       <tab type="classmembers" visible="yes" title="" intro=""/>
@@ -61,7 +61,7 @@
       <tab type="exceptionhierarchy" visible="yes" title="" intro=""/>
     </tab>
     <tab type="files" visible="no" title="">
-      <tab type="filelist" visible="yes" title="" intro=""/>
+      <tab type="filelist" visible="yes" title="Macro List" intro="List of headers that define macros"/>
       <tab type="globals" visible="yes" title="" intro=""/>
     </tab>
     <tab type="examples" visible="no" title="" intro=""/>

@@ -1,0 +1,7 @@
+/**
+
+\page InstallationGuide Installation Guide
+
+SKIRT and PTS are easy to install.
+
+*/

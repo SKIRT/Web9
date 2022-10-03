@@ -1,0 +1,11 @@
+/**
+
+\page UserGuide User Guide
+
+The MonteCarloSimulation class is the main driver of the photon cycle.
+We also have many Geometry subclasses.
+The Geometry::generatePosition() returns a random position.
+
+In PTS, pts.simulation.simulation.createSimulation returns a pts.simulation.simulation.Simulation object.
+
+*/

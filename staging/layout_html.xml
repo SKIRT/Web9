@@ -4,7 +4,6 @@
   <navindex>
     <tab type="user" url="../root/_home.html" title="Home"/>
     <tab type="user" url="../root/_publications_gallery.html" title="Community">
-        <tab type="user" url="../root/_publications_gallery.html" title="Publications"/>
         <tab type="user" url="../root/_benchmarks.html" title="Benchmarks"/>
         <tab type="user" url="../root/_contributing.html" title="Contributing"/>
         <tab type="user" url="../root/_legal_info.html" title="Legal Info"/>
@@ -15,20 +14,6 @@
         <tab type="user" url="../root/_user_guide.html" title="User Guide"/>
         <tab type="user" url="../root/_developer_guide.html" title="Developer Guide"/>
         <tab type="user" url="../root/_downloads.html" title="Downloads"/>
-    </tab>
-    <tab type="user" url="../skirt9/classes.html" title="Reference">
-        <tab type="user" url="../skirt9/classes.html" title="SKIRT Reference">
-            <tab type="user" url="../skirt9/classes.html" title="Class Index"/>
-            <tab type="user" url="../skirt9/inherits.html" title="Class Hierarchy"/>
-            <tab type="user" url="../skirt9/annotated.html" title="Class List"/>
-            <tab type="user" url="../skirt9/namespaces.html" title="Namespace List"/>
-            <tab type="user" url="../skirt9/files.html" title="Macro List"/>
-        </tab>
-        <tab type="user" url="../root/_ski_file_help_subclasses.html" title="Ski File Reference">
-            <tab type="user" url="../root/_ski_file_help_subclasses.html" title="List of subclasses"/>
-            <tab type="user" url="../root/_ski_file_help_properties.html" title="List of properties"/>
-        </tab>
-        <tab type="user" url="../pts9/namespaces.html" title="PTS Reference"/>
     </tab>
 
     <tab type="mainpage" visible="no" title=""/>
