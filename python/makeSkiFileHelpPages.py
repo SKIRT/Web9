@@ -142,7 +142,7 @@ with open(outdir + "SkiFileHelpSubclasses.txt", 'w') as pg:
     pg.write("\\page SkiFileHelpSubclasses List of subclasses for each base class\n")
     pg.write("<em>{}</em>\n".format(version))
     pg.write("\\section SkiFileHelpSubclassesIntro Introduction\n")
-    pg.write('''This page lists the subclasses for each SKIRT class that may occur as base class name a ski file. <p>
+    pg.write('''This page lists the subclasses for each SKIRT class that may occur as a base class name in a ski file. <p>
              The sections are listed alphabetically on class name. To quickly locate the section for a given class,
              use your browser's find function and precede the class name with a - (dash).
              ''')

@@ -3,7 +3,7 @@
   <!-- Navigation index tabs for HTML output -->
   <navindex>
     <tab type="user" url="../root/_home.html" title="Home"/>
-    <tab type="user" url="../root/_publications_gallery.html" title="Community">
+    <tab type="user" url="../root/_community.html" title="Community">
         <tab type="user" url="../root/_benchmarks.html" title="Benchmarks"/>
         <tab type="user" url="../root/_contributing.html" title="Contributing"/>
         <tab type="user" url="../root/_legal_info.html" title="Legal Info"/>
@@ -13,7 +13,6 @@
         <tab type="user" url="../root/_installation_guide.html" title="Installation Guide"/>
         <tab type="user" url="../root/_user_guide.html" title="User Guide"/>
         <tab type="user" url="../root/_developer_guide.html" title="Developer Guide"/>
-        <tab type="user" url="../root/_downloads.html" title="Downloads"/>
     </tab>
 
     <tab type="mainpage" visible="no" title=""/>

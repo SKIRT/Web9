@@ -1,0 +1,42 @@
+/**
+
+\page Reference Reference Overview
+
+This area of the web site provides detailed reference documentation that has been automatically derived from the source
+code. For introductory information and advanced guidance, see \ref Documentation.
+
+
+<H2>SKIRT Reference</H2>
+
+The SKIRT reference material includes detailed documentation for every class, namespace, function, and macro defined
+in the SKIRT C++ code. The following entry points into the documentation are provided:
+
+- <a href="../skirt9/classes.html">Class Index</a>: a compact, multi-column list of all classes.
+- <a href="../skirt9/inherits.html">Class Hierarchy</a>: the inheritance trees for all classes.
+- <a href="../skirt9/annotated.html">Class List</a>: a single-column list of all classes.
+- <a href="../skirt9/namespaces.html">Namespace List</a>: a list of all namespaces.
+- <a href="../skirt9/files.html">Macro List</a>: a list of header files defining macros.
+
+Note that namespaces are listed separately and thus are not included in the class index and list. This can be confusing
+because a set of related "static" functions could be implemented as a namespace (e.g., SpecialFunctions) or as a class
+(e.g., NR), requiring the user to look for the entity in two lists.
+
+
+<H2>Ski File Reference</H2>
+
+The ski file reference material comes in very handy when manually adjusting a ski file. It includes two (long) pages:
+
+- \ref SkiFileHelpSubclasses "": for each base class that may occur in a ski file, a list of available subclasses.
+- \ref SkiFileHelpProperties "": for each concrete class that may occur in a ski file, a list of supported properties
+       including those inherited from super classes.
+
+
+<H2>PTS Reference</H2>
+
+The Python Toolkit for SKIRT (PTS) reference material includes detailed documentation for every module, class and
+function defined in the PTS Python code. There is a single entry point into the documentation:
+
+- <a href="../pts9/namespaces.html">PTS Reference</a>: a hierarchical list of modules, classes, and functions. Click on
+a triangle to open or close a node in the hierarchy.
+
+*/

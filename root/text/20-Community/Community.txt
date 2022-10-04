@@ -1,0 +1,13 @@
+/**
+
+\page Community Community Overview
+
+Here we provide an overview of the community information.
+
+- \ref PublicationsGallery
+- \ref Benchmarks
+- \ref Contributing
+- \ref LegalInfo
+- \ref Contact
+
+*/
