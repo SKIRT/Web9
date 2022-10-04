@@ -8,4 +8,9 @@ The Geometry::generatePosition() returns a random position.
 
 In PTS, pts.simulation.simulation.createSimulation returns a pts.simulation.simulation.Simulation object.
 
+Here we link also link to the ski file tables:
+
+- \ref SkiFileHelpProperties
+- \ref SkiFileHelpSubclasses
+
 */

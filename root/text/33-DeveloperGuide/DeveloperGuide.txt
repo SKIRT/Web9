@@ -2,9 +2,9 @@
 
 \page DeveloperGuide Developer Guide
 
-Here we link to the tables:
+Here we also link to:
 
-- \ref SkiFileHelpProperties
-- \ref SkiFileHelpSubclasses
+- \ref Contributing
+- \ref GitHubWorkFlow
 
 */

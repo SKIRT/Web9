@@ -6,7 +6,7 @@
 
 The repositories in the SKIRT organization use the GitHub \em fork \em and \em pull workflow model. Anyone can fork a
 repository, push changes to their personal fork, and initiate a pull request. The changes can be pulled into the
-original repository by a Core team member, possibly after discussion and/or being adjusted in one or more iterations.
+original repository by a core team member, possibly after discussion and/or being adjusted in one or more iterations.
 
 To get started with contributing to one of the SKIRT project repositories:
  - On the GitHub web site, fork the relevant repository (for a list, see section \ref ContributingRepositories above).
@@ -19,7 +19,7 @@ To initiate a pull request:
  - Test your changes, and repeat the previous line as many times as needed.
  - On the GitHub web site, go to the upstream repository.
  - Create a pull request for the topic branch of your fork to be merged into the master branch of the upstream repository.
- - Wait for feedback from the Core SKIRT team.
+ - Wait for feedback from the core team.
 
 The sections on this page list the \c git commands for many of the steps in this workflow. For additional information,
 refer to GitHub help topics, including:
@@ -193,7 +193,7 @@ You can repeat this process as many times you want. This allows you to make comp
 
 ### Merging with other's changes
 
-Prior to submitting your work, you should make it as simple as possible for the Core team to test, accept, and
+Prior to submitting your work, you should make it as simple as possible for the core team to test, accept, and
 merge your changes. First fetch upstream master and merge with your repo's master branch:
 
 \verbatim
@@ -235,7 +235,7 @@ If you need to make any adjustments to the code in your pull request after submi
 your development branch locally and push your development branch to GitHub. Your pull request will automatically track
 the changes on your development branch.
 
-Now you can wait until a member of the Core team comments on your pull request and/or merges your changes with
+Now you can wait until a member of the core team comments on your pull request and/or merges your changes with
 the main repository.
 
 ### Removing the development branch
@@ -271,7 +271,7 @@ git push origin master --force
 
 ## Merging a pull request
 
-\note The information in this last section is intended for use by the Core team only.
+\note The information in this last section is intended for use by the core team only.
 
 ### Automatically merging a pull request
 

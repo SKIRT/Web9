@@ -2,10 +2,8 @@
 
 \page Contact Contact
 
-While we encourage user interaction through the online mechanisms described in the \ref Contributing section,
-you can also find contact information for the members of the core SKIRT team through the following links:
-
- - <a href="https://users.ugent.be/~mbaes/">Prof. dr. Maarten Baes</a>, Astronomical Observatory, Ghent University
- - <a href="https://users.ugent.be/~pcamps/">Dr. ir. Peter Camps</a>, Astronomical Observatory, Ghent University
+While we encourage user interaction through the online mechanisms described in the \ref Contributing section, you can
+contact the core SKIRT team through <a href="https://users.ugent.be/~mbaes/Home.html">Prof. dr. Maarten Baes</a> at the
+Astronomical Observatory, Ghent University, Belgium.
 
 */

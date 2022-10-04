@@ -26,17 +26,17 @@ The technical contribution mechanisms and workflows are discussed here:
 - \ref ContributingTeams
 - \ref ContributingIssues
 - \ref ContributingPullRequests
-- \ref GitHubWorkFlow
 
-Developer information, including (usually stricly enforced) coding style guidelines, can be found
-in the developer guides for each of the project components:
-- <a href="../skirt9/_developer_guide.html">SKIRT 9 Developer Guide</a>
-- <a href="../pts9/_developer_guide.html">PTS 9 Developer Guide</a>
+For detailed developer information, including coding style guidelines and the recommended GitHub worklow,
+see the \ref DeveloperGuide.
 
 \section ContributingContributors Contributor's hall of fame
 
-The following people have contributed to the SKIRT project effort by developing code, writing documentation, and/or by
-extensively using the code and offering feedback. They are listed in alphabetical order on last name.
+Prof. dr. Maarten Baes conceived of SKIRT and wrote the first several versions of the code. He continues to determine
+the strategic direction and to supervise further development, heading the core SKIRT team. Once in a while, less
+frequently than he would like, he contributes some nice new feature himself. Other than Maarten, the following people
+have contributed to the SKIRT project effort by developing code, writing documentation, and/or by extensively using the
+code and offering detailed information on new features. They are listed in alphabetical order on last name.
 
 <TABLE>
 <TR><TD>
@@ -72,18 +72,6 @@ extensively using the code and offering feedback. They are listed in alphabetica
 
 If we inadvertently failed to list someone, please let us know.
 
-\subsection ContributingContributorsCore Core team
-
-The current members of the core SKIRT team are:
-
-- <a href = "https://users.ugent.be/~mbaes">Prof. dr. Maarten Baes</a>. Maarten conceived of SKIRT and wrote the first
-several versions of the code. He continues to determine the strategic direction and to supervise further development.
-Once in a while, less frequently than he would like, he contributes some nice new feature himself.
-
-- <a href = "https://users.ugent.be/~pcamps">Dr. ir. Peter Camps</a>. Peter overhauled the SKIRT code, readying the
-class design for further expansion, and initiated the Python toolkit for SKIRT. He is currently chief software
-architect and main developer for the SKIRT project, acting as a gatekeeper for new contributions.
-
 
 \section ContributingRepositories GitHub repositories
 
@@ -96,31 +84,31 @@ the SKIRT organization to which new contributions should be directed.
 |------------|------------
 | [SKIRT9](https://github.com/SKIRT/SKIRT9) | SKIRT 9 C++ source code
 | [PTS9](https://github.com/SKIRT/PTS9) | Python Toolkit for SKIRT 9
-| [Web9](https://github.com/SKIRT/Web9) | SKIRT and PTS guides plus project-wide pages
+| [Web9](https://github.com/SKIRT/Web9) | Additional documentation for the web site
 
-Reference documentation is embedded in the source code as special comment blocks in Doxygen format, and is thus
-automatically contained in a GitHub repository as a part of the development cycle. All other documentation
-(installation & user guide, tutorials, etc.) is authored as a set of text files in Doxygen format (i.e. special comment
+Reference documentation is embedded in the source code as special comment blocks in [Doxygen](https://doxygen.nl)
+format, and is thus automatically contained in a GitHub repository as a part of the development cycle. All other
+documentation available on this web site is authored as a set of text files in Doxygen format (i.e. special comment
 blocks without actual source code). These Doxygen source files, together with any referenced images and the relevant
 Doxygen configuration files, are contained in a separate public repository as indicated in the table above.
 
 
 \section ContributingWebsite Web site
 
-All documentation related to versions 8 and 9 of the SKIRT project is published on the web site
+All documentation related to the SKIRT project is published on the web site
 [www.skirt.ugent.be](https://www.skirt.ugent.be/), which is hosted on the Ghent University web server. Each repository
-in the GitHub SKIRT organization includes a \c makeHTML.sh procedure that drives Doxygen to locally build HTML pages
-from the comment blocks embedded in the source code or text files in the repository. This procedure converts LaTeX
-formulas to images, performing a full LaTeX syntax check along the way. As a result, this procedure enables
-contributors to verify changes in the documentation before initiating a pull request (assuming Doxygen is installed on
-their system).
+in the GitHub SKIRT organization includes a \c makeHTML.sh procedure that drives [Doxygen](https://doxygen.nl) to
+locally build HTML pages from the comment blocks embedded in the source code or text files in the repository. This
+procedure converts LaTeX formulas to images, performing a full LaTeX syntax check along the way. As a result, this
+procedure enables contributors to verify changes in the documentation before initiating a pull request (assuming
+Doxygen is installed on their system).
 
 To allow combining the documentation from the various repositories into a single web site, the Web9 repository also
-contains a \c stageWebsite.sh procedure to locally build the complete web site from a local copy of all relevant
-repositories (SKIRT8, SKIRT9, PTS, PTS9, Web8, Web9). This procedure uses MATHJAX to render LaTeX formulas, which
-avoids the many images created by an explicit conversion, and leads to a much more pleasing formula presentation. While
-any contributor can stage the web site, assuming they have a local copy of all relevant repositories, only a core team
-member can actually publish the web site because it requires write access rights to the web server.
+contains a \c stageWebsite.sh procedure to locally build the complete web site from a local copy of the relevant
+repositories (SKIRT9, PTS9, Web9). This procedure uses MATHJAX to render LaTeX formulas, which avoids the many images
+created by an explicit conversion, and leads to a much more pleasing formula presentation. While any contributor can
+stage the web site, assuming they have a local copy of all relevant repositories, only a core team member can actually
+publish the web site because it requires write access rights to the web server.
 
 
 \section ContributingData Data
@@ -131,11 +119,11 @@ server. Examples of extra data files include:
 
  - External resources for SKIRT.
  - Example data used in tutorials on SKIRT or PTS.
- - Configuration, input and reference data for SKIRT benchmark tests.
+ - %Configuration, input and reference data for SKIRT benchmark tests.
 
 These data files are prepared and published by a core team member. There is at this point no automated workflow for
 other contributors to participate in this effort, although many of the procedures are available as part of PTS. For
-example, contributors can locally prepare and use new SKIRT 9 stored table resource files by adjusting or extending the
+example, contributors can locally prepare and use new SKIRT stored table resource files by adjusting or extending the
 appropriate PTS functions.
 
 
@@ -152,7 +140,7 @@ Because the repositories are public, any GitHub user has read access and can pos
 <TR><TD>
 [<b>Contributor</b> team](https://github.com/orgs/SKIRT/teams/contributor) members
 </TD><TD>
-Members of this team have access to the SKIRT Contributor team page so that they can participate in project-wide
+Members of this team have access to the SKIRT contributor team page so that they can participate in project-wide
 discussions and receive SKIRT-related broadcast notifications
 </TD></TR>
 <TR><TD>
@@ -163,17 +151,15 @@ pull requests (e.g., closing issues or merging pull requests)
 </TD></TR>
 </TABLE>
 
-Users with a specific interest in SKIRT are encouraged to become a member of the Contributor team. Notifications about
+Users with a specific interest in SKIRT are encouraged to become a member of the contributor team. Notifications about
 important events (e.g., a new major feature becoming available, or an upcoming SKIRT user group meeting) will be
-broadcast to contributors through the GitHub Contributor team page. The team page also facilitates discussions that are
+broadcast to contributors through the GitHub contributor team page. The team page also facilitates discussions that are
 not directly related to a particular technical issue. For example, there could be discussions about a given SKIRT use
 case or about an upcoming conference in a related field.
 
-To become a member of the SKIRT Contributor team, contact one of the core SKIRT team members:
-  - Use the email address listed at the top of the [GitHub SKIRT organization](https://github.com/SKIRT) page.
-  - Refer to \ref Contact for information on how to contact the core team members.
+To become a member of the SKIRT contributor team, contact the core team (see \ref Contact).
 
-For more information on GitHub team discussions, refer to
+For more information on GitHub team discussions, see
 [GitHub help](https://help.github.com/en/articles/about-team-discussions).
 
 
@@ -188,7 +174,7 @@ Example contributions in this area include:
  - Providing extra information to a bug report (e.g., does it also happen on another operating system?).
  - Supporting feature requests, or suggesting alternative solutions.
 
-The Core team is responsible for following up on and eventually closing issues as needed.
+The core team is responsible for following up on and eventually closing issues as needed.
 
 To post an issue:
  - Browse to the SKIRT repository for which this issue is relevant (see section \ref ContributingRepositories above).
@@ -198,14 +184,14 @@ To post an issue:
  - Add a title and complete all relevant sections in the provided template.
  - Click the green "Submit" button.
 
-For more information on GitHub issues, refer to [GitHub help](https://help.github.com/en/articles/about-issues).
+For more information on GitHub issues, see [GitHub help](https://help.github.com/en/articles/about-issues).
 
 
 \section ContributingPullRequests GitHub pull requests
 
 The repositories in the SKIRT organization use the GitHub \em fork \em and \em pull workflow model. Anyone can fork a
 repository, push changes to their personal fork, and initiate a pull request. The changes can be pulled into the
-original repository by a Core team member, possibly after discussion and/or being adjusted in one or more iterations.
+original repository by a core team member, possibly after discussion and/or being adjusted in one or more iterations.
 
 To get started with contributing to one of the SKIRT project repositories:
  - On the GitHub web site, fork the relevant repository (for a list, see section \ref ContributingRepositories above).
@@ -218,7 +204,7 @@ To initiate a pull request:
  - Test your changes, and repeat the previous line as many times as needed.
  - On the GitHub web site, go to the upstream repository.
  - Create a pull request for the topic branch of your fork to be merged into the master branch of the upstream repository.
- - Wait for feedback from the Core SKIRT team.
+ - Wait for feedback from the core team.
 
 This worklow is discussed in more detail in \ref GitHubWorkFlow.
 
