@@ -6,6 +6,126 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+CRIRES high-resolution near-infrared spectroscopy of diffuse interstellar band profiles. Detection of 12 new DIBs in the YJ band and the introduction of a combined ISM sight line and stellar analysis approach
+Ebenbichler et al.
+A&A
+06 2022
+Application
+Ebenbichler2022
+2022A&A...662A..81E
+
+The observability of galaxy merger signatures in nearby gas-rich spirals
+McElroy et al.
+MNRAS
+09 2022
+Application
+McElroy2022
+2022MNRAS.515.3406M
+
+A machine learning approach to infer the accreted stellar mass fractions of central galaxies in the TNG100 simulation
+Shi et al.
+MNRAS
+09 2022
+Application
+Shi2022
+2022MNRAS.515.3938S
+
+Redshift and stellar mass dependence of intrinsic shapes of disc-dominated galaxies from COSMOS observations below z = 1.0
+Hoffmann et al.
+MNRAS
+09 2022
+Application
+Hoffmann2022
+2022MNRAS.515.3603H
+
+A Simulation-driven Deep Learning Approach for Separating Mergers and Star-forming Galaxies: The Formation Histories of Clumpy Galaxies in All of the CANDELS Fields
+Ferreira et al.
+ApJ
+05 2022
+Application
+Ferreira2022
+2022ApJ...931...34F
+
+The NewHorizon simulation - to bar or not to bar
+Reddish et al.
+MNRAS
+05 2022
+Application
+Reddish2022
+2022MNRAS.512..160R
+
+The THESAN project: properties of the intergalactic medium and its connection to reionization-era galaxies
+Garaldi et al.
+MNRAS
+06 2022
+Application
+Garaldi2022
+2022MNRAS.512.4909G
+
+The THESAN project: predictions for multitracer line intensity mapping in the epoch of reionization
+Kannan et al.
+MNRAS
+08 2022
+Application
+Kannan2022b
+2022MNRAS.514.3857K
+
+Introducing the THESAN project: radiation-magnetohydrodynamic simulations of the epoch of reionization
+Kannan et al.
+MNRAS
+04 2022
+Application
+Kannan2022a
+2022MNRAS.511.4005K
+
+UV to submillimetre luminosity functions of TNG50 galaxies
+Trčka et al.
+MNRAS
+11 2022
+Application
+Trcka2022
+2022MNRAS.516.3728T
+
+iMaNGA: mock MaNGA galaxies based on IllustrisTNG and MaStar SSPs - I. Construction and analysis of the mock data cubes
+Nanni et al.
+MNRAS
+09 2022
+Application
+Nanni2022
+2022MNRAS.515..320N
+
+A panchromatic view of star cluster formation in a simulated dwarf galaxy starburst
+Lahén et al.
+MNRAS
+08 2022
+Application
+Lahen2022
+2022MNRAS.514.4560L
+
+A survey of high-z galaxies: SERRA simulations
+Pallottini et al.
+MNRAS
+07 2022
+Application
+Pallottini2022
+2022MNRAS.513.5621P
+
+Galactic angular momentum in the IllustrisTNG simulation - I. Connection to morphology, halo spin, and black hole mass
+Rodriguez-Gomez et al.
+MNRAS
+06 2022
+Application
+RodriguezGomez2022
+2022MNRAS.512.5978R
+
+Starduster: A Multiwavelength SED Model Based on Radiative Transfer Simulations and Deep Learning
+Qiu et al.
+ApJ
+05 2022
+Application
+Qiu2022
+2022ApJ...930...66Q
+
 The dust-continuum size of TNG50 galaxies at redshift 1 to 5: a comparison with the distribution of stellar light, stars, dust and H2
 Popping et al.
 MNRAS
