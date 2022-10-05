@@ -9,6 +9,8 @@ the corresponding page.
 
 - Ivezić et al. 1997: \ref Ivezic1997
 - Pascucci et al. 2004: \ref Pascucci2004
+- Dijkstra et al. 2006: \ref Dijkstra2006
+- Tasitsiomi 2006: \ref Tasitsiomi2006
 - Pinte et al. 2009: \ref Pinte2009
 - Camps et al. 2015: \ref Camps2015
 - Gordon et al. 2017: \ref Gordon2017
