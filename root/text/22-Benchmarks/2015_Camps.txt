@@ -17,7 +17,7 @@ fields.
 <TABLE>
 <TR><TH>Publication</TH>  <TD>Camps et al. 2015 <a href="https://ui.adsabs.harvard.edu/abs/2015A%26A...580A..87C">[ADS]</a></TD>
 <TR><TH>Web site</TH>  <TD>http://www.shg.ugent.be</TD>
-<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/camps.ski">camps.ski</a></TD>
+<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/camps.ski">camps.ski</a></TD>
 </TABLE>
 
 \section CampsResults SKIRT results
@@ -35,8 +35,8 @@ black-body series). These figures correspond to Figures 5, 6 and 7 of Camps et a
 
 \section CampsPerform Performing this benchmark
 
-To perform this benchmark, download the ski file provided above (\ref CampsRefs) and pass it to \c SKIRT as
-a single command line argument. After about 15 seconds, \c SKIRT produces an output file for each of the input fields
+To perform this benchmark, download the ski file provided above (\ref CampsRefs) and pass it to SKIRT as
+a single command line argument. After about 15 seconds, SKIRT produces an output file for each of the input fields
 in the benchmark. The emissivity is listed in a seperate column for each material type in the benchmark dust mixture
 (in the order Silicates, Graphite, and PAHs, corresponding to the order in which these components are specified in the
 ski file). You need to add those three columns to obtain the total emissivity of the dust mixture.

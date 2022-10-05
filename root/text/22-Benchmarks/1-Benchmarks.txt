@@ -2,11 +2,10 @@
 
 \page Benchmarks Benchmarks
 
-\c SKIRT properly performs the major benchmarks published in the field to which the code is applicable, i.e. continuum
-dust radiative transfer for astrophysical systems. In fact, the \c SKIRT team participated in several recent benchmark
-efforts. The geometries, source spectra and dust properties needed for these benchmarks are built into \c SKIRT, so you
-can run them without changing the code. The \c SKIRT configuration file (\em ski file) for each benchmark is offered
-for download on the corresponding page:
+SKIRT properly performs the major benchmarks published in the areas to which the code is applicable. The geometries,
+source spectra and medium properties needed for all of these benchmarks are built into SKIRT, so you can run them
+without changing the code. The SKIRT configuration file (\em ski file) for each benchmark is offered for download on
+the corresponding page.
 
 - Ivezić et al. 1997: \ref Ivezic1997
 - Pascucci et al. 2004: \ref Pascucci2004

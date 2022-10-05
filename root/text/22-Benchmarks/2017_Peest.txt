@@ -5,7 +5,7 @@
 \section PeestIntro Introduction
 
 Peest et al. 2017 describe a method for simulating the effects of scattering by spherical dust grains on the
-polarization of radiation in Monte Carlo codes such as \c SKIRT. Furthermore, they define a number of test cases to
+polarization of radiation in Monte Carlo codes such as SKIRT. Furthermore, they define a number of test cases to
 verify the simulation results by comparison with analytically calculated solutions.
 
 \section PeestRefs References and downloads
@@ -13,9 +13,9 @@ verify the simulation results by comparison with analytically calculated solutio
 <TABLE>
 <TR><TH>Publication</TH>  <TD>Peest et al. 2017 <a href="https://ui.adsabs.harvard.edu/abs/2017A%26A...601A..92P">[ADS]</a></TD>
 <TR><TH>Ski files</TH>
-    <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/peest_tc1.ski">peest_tc1.ski</a> <br>
-        <a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/peest_tc2.ski">peest_tc2.ski</a> <br>
-        <a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/peest_tc3.ski">peest_tc3.ski</a>
+    <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc1.ski">peest_tc1.ski</a> <br>
+        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc2.ski">peest_tc2.ski</a> <br>
+        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc3.ski">peest_tc3.ski</a>
     </TD>
 </TABLE>
 
@@ -45,7 +45,7 @@ this test case (bottom right panel) onto the one shown by Peest et al. 2017.
 \section PeestPerform Performing this benchmark
 
 To perform this benchmark, download the ski files provided above for each of the three test cases
-(\ref PeestRefs) and pass their names to \c SKIRT on the command line.
+(\ref PeestRefs) and pass their names to SKIRT on the command line.
 
 
 */

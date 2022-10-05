@@ -14,16 +14,16 @@ optical depths and viewing angles.
 <TABLE>
 <TR><TH>Publication</TH>  <TD>Pascucci et al. 2004 <a href="https://ui.adsabs.harvard.edu/abs/2004A%26A...417..793P">[ADS]</a></TD>
 <TR><TH>Web site</TH>  <TD>http://www.mpia.de/PSF/PSFpages/RT/benchmark.html</TD>
-<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/pascucci_template.ski">pascucci_template.ski</a></TD>
-<TR><TH>Wavelength grid</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/pascucci_wavelengths.dat">pascucci_wavelengths.dat</a></TD>
+<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/pascucci_template.ski">pascucci_template.ski</a></TD>
+<TR><TH>Wavelength grid</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/pascucci_wavelengths.dat">pascucci_wavelengths.dat</a></TD>
 </TABLE>
 
 \section PascucciResults SKIRT results
 
-The figures below show the SEDs produced by \c SKIRT for an inclination of \f$12.5^\circ\f$ (left) and \f$77.5^\circ\f$
-(right) and for edge-on optical depths ranging from 0.1 to 100 (colored curves and dots). The solid lines show the \c
+The figures below show the SEDs produced by SKIRT for an inclination of \f$12.5^\circ\f$ (left) and \f$77.5^\circ\f$
+(right) and for edge-on optical depths ranging from 0.1 to 100 (colored curves and dots). The solid lines show the
 SKIRT solutions, the dots indicate the range of the solutions produced by the five codes participating in the original
-benchmark. The lower panel of each figure displays the difference between the \c SKIRT solution and the average
+benchmark. The lower panel of each figure displays the difference between the SKIRT solution and the average
 benchmark solution for the highest optical depth.
 
 |                            |                           |
@@ -40,8 +40,7 @@ AU from the central star in the midplane, comparable to Figure 6 in Pascucci et 
 \section PascucciPerform Performing this benchmark
 
 To perform this benchmark, download the ski file and wavelength grid data file provided above (\ref PascucciRefs).
-Rename the wavelength grid data file to "wavelengths.dat". Open the ski file in a text editor to adjust the following
-parameter values to a particular benchmark configuration:
+Open the ski file in a text editor to adjust the following parameter values to a particular benchmark configuration:
 
 | Parameter            | XML element                          | XML attribute    |
 |----------------------|--------------------------------------|------------------|
@@ -54,15 +53,15 @@ value in the ski file therefore must be set to twice the value specified for the
 There are four optical depth values; here are the corresponding values for the number of photon packets
 in the SKIRT configuration:
 
-| Optical depth | Nr of photon packets |
-|---------------|----------------------|
-| 0.1           | 5e6                  |
-| 1             | 5e6                  |
-| 10            | 1e7                  |
-| 100           | 5e7                  |
+| Radial optical depth | Nr of photon packets |
+|----------------------|----------------------|
+| 0.1   | 5e6   |
+| 1     | 5e6   |
+| 10    | 1e7   |
+| 100   | 5e7   |
 
-Then pass the (name of) the ski file to \c SKIRT as a single command line argument. Higher optical depths lead to
-longer simulation run times. At the end of the simulation run, \c SKIRT outputs temperature profiles and SEDs which can
+Then pass the (name of) the ski file to SKIRT as a single command line argument. Higher optical depths lead to
+longer simulation run times. At the end of the simulation run, SKIRT outputs temperature profiles and SEDs which can
 be compared to the original benchmark results.
 
 */

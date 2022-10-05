@@ -14,16 +14,15 @@ produced by several radiative transfer codes for two dust density profiles and f
 
 <TABLE>
 <TR><TH>Publication</TH>  <TD>Ivezić et al. 1997 <a href="https://ui.adsabs.harvard.edu/abs/1997MNRAS.291..121I">[ADS]</a></TD>
-<TR><TH>FTP site</TH>  <TD>ftp://www.pa.uky.edu/pub/ivezic/benches/</TD>
-<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRT9/Benchmarks/ivezic_template.ski">ivezic_template.ski</a></TD>
+<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/ivezic_template.ski">ivezic_template.ski</a></TD>
 </TABLE>
 
 \section IvezicResults SKIRT results
 
-The figures below show the temperature profiles (left column) and normalized SEDs (right column) produced by \c SKIRT
+The figures below show the temperature profiles (left column) and normalized SEDs (right column) produced by SKIRT
 for this benchmark. The top row shows results for the constant density profile; the bottom row for the more challenging
 \f$\rho(r)\propto\,r^{-2}\f$ profile. Each panel shows the solutions for the different optical depths as indicated in
-the legend. The dashed curves in the right column indicate the reference SEDs taken from the benchmark FTP site. The \c
+the legend. The dashed curves in the right column indicate the reference SEDs taken from the benchmark FTP site. The
 SKIRT results match the benchmark results well, except for the case with steep density gradient and very high optical
 depth, which is not shown.
 
@@ -37,11 +36,11 @@ depth, which is not shown.
 To perform this benchmark, download the ski file provided above (\ref IvezicRefs). Open the ski file in a text editor
 to adjust the following parameter values to a particular benchmark configuration:
 
-| Parameter         | XML element                          | XML attribute            |
-|-------------------|--------------------------------------|--------------------------|
-| Density exponent  | \c ShellGeometry                     | \em exponent             |
-| Optical depth     | \c OpticalDepthMaterialNormalization | \em opticalDepth         |
-| Source luminosity | \c IntegratedLuminosityNormalization | \em integratedLuminosity |
+| Parameter          | XML element                          | XML attribute            |
+|--------------------|--------------------------------------|--------------------------|
+| Density exponent   | \c ShellGeometry                     | \em exponent             |
+| Optical depth      | \c OpticalDepthMaterialNormalization | \em opticalDepth         |
+| %Source luminosity | \c IntegratedLuminosityNormalization | \em integratedLuminosity |
 
 The benchmark specifies radial optical depth values (integrated from the origin to infinity) while the values in the
 ski file normalize the optical depth along the complete X-axis (integrated from negative to positive infinity). The
@@ -51,8 +50,8 @@ The source luminosity must be adjusted to ensure that the dust temperature at th
 each configuration as required by the benchmark definition. With the length scales adopted in the ski file provided
 above, the appropriate values are:
 
-| Density exponent | Optical depth | Source luminosity (\f$\text{L}_\odot\f$) |
-|------------------|---------------|------------------------------------------|
+| Density exponent | Radial optical depth | %Source luminosity (\f$\text{L}_\odot\f$) |
+|------------------|----------------------|-------------------------------------------|
 | 0 |    1 | 23.6 |
 | 0 |   10 | 23.5 |
 | 0 |  100 | 22.8 |
@@ -62,8 +61,8 @@ above, the appropriate values are:
 | 2 |  100 |  5.8 |
 | 2 | 1000 |  --- |
 
-Then pass the (name of) the ski file to \c SKIRT as a single command line argument. Higher optical depths and steeper
-dust density gradients lead to longer simulation run times. At the end of the simulation run, \c SKIRT outputs
+Then pass the (name of) the ski file to SKIRT as a single command line argument. Higher optical depths and steeper
+dust density gradients lead to longer simulation run times. At the end of the simulation run, SKIRT outputs
 temperature profiles and SEDs which can be compared to the original benchmark results.
 
 */
