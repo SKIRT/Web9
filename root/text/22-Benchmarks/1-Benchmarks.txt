@@ -8,6 +8,7 @@ without changing the code. The SKIRT configuration file (\em ski file) for each 
 the corresponding page.
 
 - Ivezić et al. 1997: \ref Ivezic1997
+- van Zadelhoff et al. 2002: \ref Zadelhoff2002
 - Pascucci et al. 2004: \ref Pascucci2004
 - Dijkstra et al. 2006: \ref Dijkstra2006
 - Tasitsiomi 2006: \ref Tasitsiomi2006
