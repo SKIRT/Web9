@@ -1,0 +1,206 @@
+/**
+
+\page InstallSKIRTQt Install SKIRT using Qt Creator (all platforms)
+
+You may wish to install the Qt development environment (although the SKIRT command line program does
+not depend on it), so that you can use the graphical user interface offered by the optional MakeUp utility for
+configuring parameter files. Apart from this, Qt Creator is an excellent C++ source code editor and build environment.
+So you can just as well use it to configure and build the SKIRT code.
+
+This topic contains the following sections:
+- \ref InstallSKIRTQtToolsGet
+- \ref InstallSKIRTQtInstall
+- \ref InstallSKIRTQtBuild
+- \ref InstallSKIRTQtFinal
+
+
+\section InstallSKIRTQtToolsGet Install the build tools and get the source code (Qt Creator)
+
+As a first step, you need to install the basic build tools (\c git, CMake, and C++ compiler) and obtain a local copy
+of the SKIRT source code, just like you would if you were not using Qt. Follow the instructions appropriate
+for your operating system:
+
+<TABLE>
+<TR><TD>
+- \ref InstallUnixTools
+- \ref InstallUnixGet
+</TD><TD>
+- \ref InstallWindowsTools
+- \ref InstallWindowsGet
+</TD></TR>
+</TABLE>
+
+There is no need to configure and build the SKIRT code according to the platform-specific instructions, because
+that will be accomplished with Qt Creator as described below.
+
+
+\section InstallSKIRTQtInstall Install the development environment (Qt Creator)
+
+The MakeUp program that is part of the SKIRT project requires Qt Desktop v5.9.0 or later.
+
+In addition to cross-platform run-time libraries, the Qt development environment includes a convenient integrated code
+editor/builder called Qt Creator. All of these components can be installed with a single installer.
+
+<b> Download the installer </b>
+
+  - Go to the <a href="https://www.qt.io/download">Qt download page</a>.
+  - Follow the "Go open source" button.
+  - If the web site properly identified your operating system, press "Download" and wait for the installer
+    to be downloaded.
+  - Otherwise, press "View other options" and download an installer appropriate for your system. Select an
+    online installer unless you have a good reason to use an offline installer.
+
+<b> Open the installer </b>
+
+  - Launch the installer you just downloaded. The precise procedure will differ depending on your operating system:
+    - On Mac OS X, double click the downloaded disk image file ('.dmg") to mount the disk, and then
+      double-click the installer in the newly opened window. You will get a warning that the program was downloaded
+      from the internet, but you can click 'Open' anyway since this source can be trusted.
+    - On Windows, respond "yes" when your browser asks whether
+      to actually execute the downloaded executable file, or simply double click the file.
+    - On Linux, you need to make the downloaded file executable and then launch it from the command line, e.g.:
+
+          cd Downloads
+          chmod +rx qt-unified-linux-x64-online.run
+          ./qt-unified-linux-x64-online.run
+
+<b> Select the components to be installed </b>
+
+  - Follow the on-screen instructions to initiate the installation. You can skip creating a Qt account unless you want
+    to. You will also be asked to choose the installation folder for Qt; it is best to keep this at the default value.
+
+  - When you enter the "Select Components" screen, select a recent release, and unfold the item that is marked as
+    the Qt version to be installed. In the list that appears, uncheck all items except the one corresponding to
+    your desktop operating system (e.g. "macOS" or "Desktop").
+
+  - Press continue and follow the subsequent steps until the actual installation starts.
+
+<b> Make a shortcut to Qt Creator </b>
+
+  - At the end of the installation, you can choose to open Qt Creator. This gives you an opportunity for creating a
+    permanent shortcut to Qt Creator in your dock or task bar. Right-click the application icon in the dock or task bar
+    and select "Lock" in the popup menu (or equivalent operation depending on your operating system).
+
+  - Alternatively, locate the Qt Creator application in the newly installed directory, and drag the application icon to
+    your dock or task bar (or equivalent operation depending on your operating system).
+
+<b> Configure the build tools in Qt Creator </b>
+
+  - Open Qt Creator if needed.
+
+  - Show the Qt Creator preferences panel (depending on your operating system, choose the menu item
+    "Qt Creator -> Preferences..." or "Tools->Options...").
+
+  - Select the "Kits->CMake" tab and verify that Qt automatically detected the correct version of CMake installed
+    on your computer. If not, manually add it to the list. <b>Important note for Mac OS X</b>: configure the command
+    line version of cmake that resides \em inside the <b>CMake.app</b> directory, i.e.
+    <tt>/Applications/CMake.app/Contents/bin/cmake</tt>, rather than the <tt>CMake.app</tt> GUI application itself.
+
+  - Select the "Kits->Compilers" tab and verify that Qt automatically detected the compilers installed on your
+    computer. If not, manually add a suitable C and C++ compiler.
+
+  - Select the "Kits->Qt Versions" tab and verify that Qt automatically detected the Qt version you just installed.
+    If not, manually add an appropriate Qt version.
+
+  - Select the "Kits->Kits" tab. Usually there is only a single kit called "Desktop xxxx (Default)". If there are
+    muliple kits, verify that the appropriate kit is marked as "Default". Verify and if needed configure the properties
+    of the default kit, specifically "Compiler", "Qt version" and "CMake Tool". The "CMake Generator" property should
+    be set to "Code Blocks - Unix Makefiles ..."
+
+  - Press "OK" to accept any changes and close the preferences panel.
+
+<b> Install system libraries if required </b>
+
+On some Unix systems other than Mac OS X, the Qt libraries used by the optional MakeUp tool in the SKIRT project
+depend on extra system libraries. On Ubuntu these libraries can be installed as follows:
+
+    sudo apt-get install libgl1-mesa-dev
+
+
+\section InstallSKIRTQtBuild Configure and build the code (Qt Creator)
+
+\subsection InstallSKIRTQtBuildFirst Building for the first time
+
+<b>Open the project file</b>
+
+- Open Qt Creator.
+- Choose the menu item "File->Open File or Project...".
+- From within the dialog, locate and select the file \c CMakeLists.txt in your SKIRT/git directory
+  (at the top level, \em not in one of the subdirectories).
+- Press the "Open" button in the dialog.
+
+Qt Creator now displays an initial configuration pane for the SKIRT project in its main window, similar to this:
+
+\image html InstallSKIRTQtConfigureProject.png
+
+<b>Configure builds for the project</b>
+
+In the configuration pane shown above:
+
+- Uncheck all kits except for the kit you want to use (most likely, just your default kit is being shown).
+- Open the details for that kit, and uncheck all build types except for "Debug" and "Release".
+- Change the build paths to \c ~/SKIRT/debug and \c ~/SKIRT/release, respectively.
+- Press the "Configure Project..." button, which causes Qt Creator to switch to regular "Edit" mode.
+
+<b>Build the project</b>
+
+- Select "Edit" mode in the left margin of the Qt Creator window, unless that mode is already shown.
+- Click on the icon resembling a computer screen near the bottom of the left margin of the Qt Creator window
+  to bring up a popup pane listing the various builds configured for your project.
+- In that popup pane, select the "Release" build and the "skirt" run configuration.
+- Click the hammer icon in the lower left corner of the Qt Creator window to compile and build the SKIRT project
+  with the current build options.
+- Select the "Compile Output" tab at the bottom of the Qt Creator window to view the build log.
+
+Your window should now look similar to this:
+
+\image html InstallSKIRTQtEditBuild.png
+
+
+\subsection InstallSKIRTQtBuildOptions Adjusting build options
+
+By default, the procedure described above builds just the SKIRT command line program. To build additional programs
+such as MakeUp, or to enable capabilities such as multi-processing, you need to adjust the corresponding
+build options. For a list of build options, see \ref InstallOptions.
+
+Qt Creator offers built-in support for configuring build options and passing them on to the CMake build tool. To use
+this feature, select the "Projects" mode in the left margin of the Qt Creator window, and then select the "Build" item
+in the lefthand column of the window, just below a "Desktop" header stating your Qt and compiler versions. Your window
+should now look similar to this:
+
+\image html InstallSKIRTQtBuildSettings.png
+
+In this window, Qt Creator shows a list of CMake variables that control the build.
+
+  - Use the checkboxes or the "Edit" button to adjust one or more values in the list. For example, to build the
+    MakeUp utility, enable the checkbox next to the BUILD_MAKE_UP option.
+
+  - Press the wide "Apply Configuration Changes" button at the bottom of the list. This causes the changes to be
+    integrated into the CMake configuration, and the list of variables shown to be updated accordingly.
+
+  - In some cases, you need to repeat this process:
+     - A new option may appear because you enabled the options on which it depends. To adjust such dependent options,
+       you need a second round of adjustment.
+     - CMake may fail to locate the appropriate paths for an option you enabled. If so, you need another
+       round of adjustment to override these values manually.
+
+  - After all changes to the configuration have been applied, go back to "Edit" mode and press the Hammer icon to
+    (re)build the code.
+
+
+\section InstallSKIRTQtFinal Finalize the installation (Qt Creator)
+
+As the last step, you need to finalize and verify your installation just like you would if you were not using Qt.
+Follow the instructions appropriate for your operating system:
+
+<TABLE>
+<TR><TD>
+- \ref InstallUnixResource
+- \ref InstallUnixFinal
+</TD><TD>
+- \ref InstallWindowsResource
+- \ref InstallWindowsFinal
+</TD></TR>
+</TABLE>
+
+*/

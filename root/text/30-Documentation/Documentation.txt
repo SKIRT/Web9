@@ -2,11 +2,14 @@
 
 \page Documentation Documentation Overview
 
-Here we provide an overview of the documentation.
+The documentation in this area of the SKIRT project web site is organized in three guides:
 
-- \ref InstallationGuide
-- \ref UserGuide
-- \ref DeveloperGuide
+- \ref InstallationGuide "": how to install SKIRT and PTS on various platforms depending on the intended use case.
 
+- \ref UserGuide "": usage information on several levels, including tutorials for beginners and expert insights.
+
+- \ref DeveloperGuide "": how to understand the code and develop new features, small or large.
+
+For detailed reference documentation that has been automatically derived from the source code, see \ref Reference.
 
 */

@@ -2,6 +2,96 @@
 
 \page InstallationGuide Installation Guide
 
-SKIRT and PTS are easy to install.
+\section InstallChanges Recent changes
+
+See \ref RecentChanges for a list of recent updates to SKIRT and PTS.
+
+
+\section InstallTypes Types of installation
+
+SKIRT and PTS can be installed on any recent 64-bit version of Unix, macOS, and Microsoft Windows (for more details,
+see \ref InstallRequirements below). Your approach will depend on your usage intentions and computer system. We can
+distinguish two main types of environment:
+
+- A laptop or desktop computer running macOS, a Linux distribution such as Ubuntu, or Microsoft Windows. In this
+environment you probably want to install both SKIRT and PTS, and you are likely to select tools that offer a graphical
+user interface. If you'd like to manage SKIRT configuration files with the graphical wizard offered by the MakeUp tool,
+then you need to install the Qt libraries. In that case, you can just as well use Qt Creator to build the SKIRT code.
+Alternatively, you can skip graphical user interfaces entirely and perform all tasks on the command line.
+
+- A remote server or multi-node cluster, most likely running a Linux distribution or some proprietary Unix flavor. In
+this environment you are likely to perform all tasks on the command line, even if it is often possible to use graphical
+interfaces through a remote windowing system. Installing PTS is only required if you wish to use it on the server for
+SKIRT-related data preparation or visualization tasks. Alternatively, you can perform these tasks locally and run just
+the SKIRT simulation remotely.
+
+The installation instructions in this guide are structured in topics as listed below. The procedure for a specific
+scenario and operating system can hopefully be inferred by picking and choosing from these instructions.
+
+
+\section InstallInstructions Installation instructions
+
+- \ref InstallSKIRTUnix
+- \ref InstallSKIRTWindows
+- \ref InstallSKIRTQt
+- \ref InstallSKIRTDev
+- \ref InstallSKIRTOptions
+- \ref InstallSKIRTMPI
+- \ref DownloadResourcePacks
+- \ref InstallFITS
+- \ref InstallPythonUbuntu
+- \ref InstallPythonMac
+- \ref InstallPTS
+
+
+\section InstallRequirements System requirements
+
+SKIRT and PTS can be installed on any recent 64-bit version of Unix, macOS, and Microsoft Windows.
+
+\subsection InstallReqSKIRT SKIRT
+
+The SKIRT code is intended to be truly cross-platform. It is written in standard C++14, which is supported by all
+recent C++ compilers, and it uses the CMake build system, which is widely available. The source code for SKIRT is
+hosted on GitHub. You can download the code as a ZIP archive, but the recommended method is to use a  git client,
+which is widely available. The source code is formatted using  clang-format and the documentation on this web site is
+generated from the source code through Doxygen. You don't need to install these documentation tools unless you are a
+substantial contributor to the SKIRT project.
+
+The default and most basic build configuration includes a fully-functional version of the SKIRT command-line program
+with support for multiple parallel threads in a single process. In this configuration, the code has no external
+dependencies other than the C++ compiler and the CMake build tool. Additional capabilities that may depend on external
+components can be enabled through user-configurable build options:
+
+- To enable the multi-processing (and hence multi-node) capabilities of SKIRT, the host system must provide an
+implementation of the standard Message Passing Interface (MPI).
+
+- The optional MakeUp utility, included in the SKIRT code tree, uses the Qt development environment to implement its
+graphical user interface, so a recent version of the Qt framework must be installed to build this utility.
+
+\subsection InstallReqPTS PTS
+
+PTS is written in Python 3 and requires a Python distribution for language version 3.7 or later to be installed on the
+host computer. In addition to the functionality offered by the Python standard library packages, PTS also depends on
+some non-standard but commonly available packages. Usually, these packages can be easily obtained through the Python
+package manager included with the installed Python distribution. The table below lists the non-standard packages that
+are used at the time of writing. Note that each of these packages may have additional dependencies, requiring other
+packages to be installed as well.
+
+Package      | Description
+-------------|------------
+python       | Python language environment
+numpy        | General-purpose array-processing and math
+scipy        | Mathematics and scientific library
+matplotlib   | Plotting
+astropy      | Community python library for astronomy
+lxml         | Support for XML and XSLT
+pillow (PIL) | Basic image processing
+reportlab    | Direct PDF file generator
+ipywidgets   | Interactive widgets for Jupyter notebook
+
+Once PTS has been properly installed, you can obtain a list of the current (direct) package dependencies by entering
+the following terminal command:
+
+    pts list_dependencies
 
 */

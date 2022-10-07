@@ -12,7 +12,7 @@
 #
 # Instructions:
 #   - use on macOS only
-#   - place the ResourcesC directory next to Web9 in a common parent directory
+#   - place the Resources9 and ResourcesC directories next to Web9 in a common parent directory
 #   - place the SKIRT9 and PTS9 repositories next to Web9 in a common parent directory
 #   - git pull the most recent master branch version of both SKIRT9 and PTS9
 #   - build that version of SKIRT9, including MakeUp (to generate the skirt.smile file)
@@ -31,6 +31,7 @@
 mkdir -p root/text-generated
 python/makePublicationPages.py root/text/21-Publications ../../ResourcesC/Publications root/text-generated
 python/makeSkiFileHelpPages.py ../../SKIRT9/release/MakeUp/schemas root/text-generated
+python/makeDownloadPage.py ../../Resources9/Publish root/text-generated
 
 # Generate html documentation in the staging area next to our git folder
 mkdir -p ../stage
