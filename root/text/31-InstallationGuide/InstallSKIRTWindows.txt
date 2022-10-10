@@ -54,12 +54,14 @@ To configure a faster \em Release build, proceed as follows:
   down and select the "x64-Release" item. Press the "Select" button to close the dialog.
 
 - In the fields to the right:
+   - Change the "Configuration Name" to "MyRelease".
    - Change the "Configuration Type" to "Release".
    - Change the "Build Root" to \c ~\\SKIRT\\release, where the tilde is replaced with an absolute path
      so that the \c release directory is next to the \c git directory.
 
-- Save the configuration document by pressing the "Save" icon in the toolbar at the top. This should automatically
-  update the popup button in the toolbar to display "x64-Release".
+- Save the configuration document by pressing the "Save" icon in the toolbar at the top.
+
+- Click the popup button in the toolbar at the top and select "MyRelease".
 
 - In the Visual Studio menu bar, select "Build->Build All" to build the SKIRT code.
 
@@ -67,13 +69,10 @@ To configure a faster \em Release build, proceed as follows:
 
 To adjust build options (see \ref InstallSKIRTOptions for a list of options):
 
-- With the SKIRT project open in Visual Studio, click the popup button displaying "x64-Release" in the toolbar
+- With the SKIRT project open in Visual Studio, click the popup button displaying "MyRelease" in the toolbar
   at the top, and select the "Manage Configurations..." menu item. The editor called "CMake Settings" reappears.
 
-- Add any build options to the field "CMake arguments", preceded by "-D" and separated by a space. For example,
-  to also build the \c smiletool command line program (for developers), enter:
-
-      -DBUILD_SMILE_TOOL=ON
+- In the table under the header "CMake variables and cache", enable the check box(es) for the desired option(s).
 
 - Save the configuration document by pressing the "Save" icon in the toolbar at the top.
 
@@ -95,7 +94,7 @@ On Windows there is no automated resource download procedure. Instead, proceed a
 - From the \ref DownloadResourcePacks page, download the desired resource packs (at least the latest version of the
   Core resource pack) as ZIP archive(s).
 
-- Extract the complete contents of each ZIP archive into the directory \c ~\\SKIRT\\resources, again replacing
+- Extract the complete contents of each ZIP archive into some subdirectory of \c ~\\SKIRT\\resources, again replacing
   the tilde with an absolute path so that the \c resources directory is next to the \c git directory.
 
 The files extracted from the archive should now have been placed in a subdirectory of the \c resources directory.
@@ -112,6 +111,7 @@ To verify your installation of the SKIRT project:
 - Launch a command prompt window and change the current directory (\c cd) to the working directory you just created.
 
 - Enter <tt>..\\release\\SKIRT\\main\\skirt.exe</tt> without any command-line arguments.
-  If the SKIRT project has been successfully installed, you should see the SKIRT welcome message.
+  If the SKIRT project has been successfully installed, SKIRT should display its welcome message
+  and ask for the name of the ski file to be created, without complaining about missing resources.
 
 */

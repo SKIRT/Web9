@@ -194,18 +194,15 @@ repository, push changes to their personal fork, and initiate a pull request. Th
 original repository by a core team member, possibly after discussion and/or being adjusted in one or more iterations.
 
 To get started with contributing to one of the SKIRT project repositories:
- - On the GitHub web site, fork the relevant repository (for a list, see section \ref ContributingRepositories above).
- - Clone this personal fork to your computer (possibly replacing your direct clone of the original repository).
+ - On the GitHub web site, fork the relevant repository (see section \ref ContributingRepositories above).
+ - Clone this personal fork to your computer, possibly replacing your direct clone of the original repository.
 
 To initiate a pull request:
- - On the GitHub web site, synchronize your personal fork with the upstream repository.
- - On your local (cloned) copy, pull the latest version, and create a new topic branch for your changes.
  - Make the desired changes, commit them, and push them to your personal fork.
  - Test your changes, and repeat the previous line as many times as needed.
- - On the GitHub web site, go to the upstream repository.
- - Create a pull request for the topic branch of your fork to be merged into the master branch of the upstream repository.
+ - On the GitHub web site, create a pull request from your fork.
  - Wait for feedback from the core team.
 
-This worklow is discussed in more detail in \ref GitHubWorkFlow.
+This worklow is described in much more detail in \ref GitHubWorkFlow.
 
 */

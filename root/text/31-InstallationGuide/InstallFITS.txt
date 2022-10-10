@@ -15,7 +15,7 @@ The Python language ecosystem has extensive support for both data formats. The a
 Python package [astropy](https://www.astropy.org) supports reading FITS data into numpy arrays. Once in memory, these
 data can be further processed at will.
 
-Based on these packages, the [Python toolkit for SKIRT](../pts9/_p_t_s.html) or \c PTS offers functions to read
+Based on these packages, the \ref HomeFeaturesPTS "Python Toolkit for SKIRT (PTS)" offers functions to read
 SKIRT output files with some extra intelligence (e.g., interpreting units), and it offers high-level commands to
 rapidly visualize some specific SKIRT output.
 
@@ -44,11 +44,11 @@ the command line.
 
 \section InstallFITSGraphical Using a graphical installer
 
-A graphical installer is available for most platforms (Linux, Mac, Windows). Browse to the
+A graphical installer is available for most platforms (Linux, macOS, Windows). Browse to the
 [SAOImage DS9 download page](http://ds9.si.edu/site/Download.html) and select the appropriate operating system version.
 Once the installer has been downloaded, launch it and follow the instructions.
 
-For example, on Mac OS X, double click the downloaded \c .dmg file, and in the displayed window, drag the \c
+For example, on macOS, double click the downloaded \c .dmg file, and in the displayed window, drag the \c
 SAOImageDS9.app icon to the Applications folder.
 
 */

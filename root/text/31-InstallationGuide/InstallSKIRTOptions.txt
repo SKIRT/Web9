@@ -7,9 +7,9 @@ This topic contains the following sections:
 - \ref InstallSKIRTOptionsList
 
 For instructions on how to configure build options, see one of the following:
-- \ref InstallSKIRTUnixBuild
-- \ref InstallSKIRTWindowsBuild
-- \ref InstallSKIRTQtBuild
+- \ref InstallSKIRTUnixBuild "Configure and build the code on Unix or macOS using the command line"
+- \ref InstallSKIRTWindowsBuild "Configure and build the code on Microsoft Windows using Visual Studio"
+- \ref InstallSKIRTQtBuild "Configure and build the code using Qt Creator (all platforms)"
 
 \section InstallSKIRTOptionsIntro Introduction to build options
 
@@ -49,7 +49,7 @@ hopefully guide you to the answer.
         see \ref DevSmileCompTool)</TD></TR>
 <TR><TD>BUILD_WITH_MPI</TD>   <TD>OFF</TD> <TD></TD>
         <TD>If ON, use the message-passing interface (MPI) to enable multi-processing in SKIRT,
-        see \ref InstallMPI</TD></TR>
+        see \ref InstallSKIRTMPI</TD></TR>
 <TR><TD>CMAKE_BUILD_TYPE</TD>   <TD>Release</TD> <TD></TD>
         <TD>The type of build, usually Release or Debug.</TD></TR>
 <TR><TD>CMAKE_CXX_COMPILER</TD>   <TD>\em auto (*)</TD> <TD></TD>

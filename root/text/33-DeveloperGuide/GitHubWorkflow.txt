@@ -8,16 +8,19 @@ The repositories in the SKIRT organization use the GitHub \em fork \em and \em p
 repository, push changes to their personal fork, and initiate a pull request. The changes can be pulled into the
 original repository by a core team member, possibly after discussion and/or being adjusted in one or more iterations.
 
+You will need to login to the <a href="https://github.com">GitHub website</a>. If you do not already have a GitHub
+account, create one by pressing the "Sign Up" button at the top of the site's home page and following the instructions.
+
 To get started with contributing to one of the SKIRT project repositories:
- - On the GitHub web site, fork the relevant repository (for a list, see section \ref ContributingRepositories above).
- - Clone this personal fork to your computer (possibly replacing your direct clone of the original repository).
+ - On the GitHub web site, fork the relevant repository (for a list, see section \ref ContributingRepositories).
+ - Clone this personal fork to your computer, possibly replacing your direct clone of the original repository.
 
 To initiate a pull request:
- - On the GitHub web site, synchronize your personal fork with the upstream repository.
- - On your local (cloned) copy, pull the latest version, and create a new topic branch for your changes.
+ - Ensure that your personal fork and local copy are up to date with the upstream repository.
+ - On your local copy, create a new topic branch for your changes.
  - Make the desired changes, commit them, and push them to your personal fork.
  - Test your changes, and repeat the previous line as many times as needed.
- - On the GitHub web site, go to the upstream repository.
+ - On the GitHub web site, go to your personal fork or to the upstream repository.
  - Create a pull request for the topic branch of your fork to be merged into the master branch of the upstream repository.
  - Wait for feedback from the core team.
 
@@ -29,6 +32,19 @@ refer to GitHub help topics, including:
  - [Workflow](https://help.github.com/en/articles/github-flow)
  - [Branches](https://help.github.com/en/articles/about-branches)
  - [Pull requests](https://help.github.com/en/articles/about-pull-requests)
+
+
+## Configuring git
+
+Configure \c git so that your identity will be attached to your commits (include the quotation marks):
+
+\verbatim
+# Link your commits to your name and GitHub account
+git config --global user.name "USERNAME"
+git config --global user.email "name@domain.com"
+\endverbatim
+
+In these lines, replace \c USERNAME by your GitHub user name and \c name@domain.com by your email address.
 
 
 ## Creating a fork
@@ -55,7 +71,7 @@ git clone https://github.com/USERNAME/SKIRT9.git .
 \endverbatim
 
 In the last line, replace "USERNAME" by your GitHub user name and don't forget the dot at the end to indicate the
-current directory. On your computer, git will now refer to the forked repo as the "origin" remote. Remotes are
+current directory. On your computer, \c git will now refer to the forked repo as the "origin" remote. Remotes are
 repositories hosted on GitHub. You can list them as follows:
 
 \verbatim
@@ -72,14 +88,6 @@ git remote add upstream https://github.com/SKIRT/SKIRT9.git
 
 # Verify the new remote named 'upstream'
 git remote -v
-\endverbatim
-
-Configure git so that your identity will be attached to your commits (include the quotation marks):
-
-\verbatim
-# Link your commits to your name and GitHub account
-git config --global user.name "USERNAME"
-git config --global user.email "name@domain.com"
 \endverbatim
 
 

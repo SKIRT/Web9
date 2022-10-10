@@ -13,4 +13,10 @@ Here we link also link to the ski file tables:
 - \ref SkiFileHelpProperties
 - \ref SkiFileHelpSubclasses
 
+
+\section UserMakeUp MakeUp
+
+This section is referenced from the installation guide. It will be provided somewhere in the developer guide and should
+provide information on how to use MakeUp to configure ski files.
+
 */

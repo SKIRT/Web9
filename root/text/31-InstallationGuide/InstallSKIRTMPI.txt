@@ -1,10 +1,9 @@
 /**
 
-\page InstallSKIRTMPI Enable multiprocessing for SKIRT (Unix or macOS)
+\page InstallSKIRTMPI Enable multi-processing for SKIRT (Unix or macOS)
 
 \note The SKIRT command line program can always run multiple execution threads within a single process. The
 information below is relevant only if you want to run multiple parallel processes, possibly on multiple compute nodes.
-See also the concept note on \ref Parallelization.
 
 To enable the multi-processing capabilities of the SKIRT command line program, the host
 operating system must provide an implementation of the standard Message Passing Interface (MPI), and the SKIRT
@@ -31,7 +30,7 @@ code. For example:
     module load intel_comp/2019-update2
     module load intel_mpi/2019-update2
 
-\subsection InstallSKIRTMPIInstallMac Mac OS X
+\subsection InstallSKIRTMPIInstallMac MacOS
 
 For testing purposes, it might be useful to run SKIRT in multi-processing mode on a laptop or desktop
 computer. OpenMPI (not to be confused with OpenMP) is a freely available MPI implementation that is a good choice
@@ -88,7 +87,7 @@ Respond affirmative unless you see a good reason not to.
 
 Once the above has completed successfully, verify the installation by entering the following command:
 
-    mpirun --version"
+    mpirun --version
 
 
 \section InstallSKIRTMPIEnable Enable the MPI build option
@@ -96,9 +95,9 @@ Once the above has completed successfully, verify the installation by entering t
 Once you have verified that the host system provides an MPI implementation, you need to enable the \c BUILD_WITH_MPI
 build option and rebuild the SKIRT code:
 
-- For information about build options, see \ref InstallOptions.
+- For information about build options, see \ref InstallSKIRTOptions.
 - For instructions on how to configure build options, see one of:
-   - \ref InstallUnixBuild;
-   - \ref InstallQtBuild.
+    - \ref InstallSKIRTUnixBuild "Configure and build the code on Unix or macOS using the command line"
+    - \ref InstallSKIRTQtBuild "Configure and build the code using Qt Creator (all platforms)"
 
 */

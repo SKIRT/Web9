@@ -7,4 +7,24 @@ Here we also link to:
 - \ref Contributing
 - \ref GitHubWorkFlow
 
+\section DevCodingStyleFormat Coding style - automatic formatting
+
+This section is referenced from the installation guide. It will be provided somewhere in the developer guide and should
+provide information on how to use the source code formatter (clang-format) and the documentation formatter (doxstyle).
+
+\section DevDocsGenerate Generating documentation from source code
+
+This section is referenced from the installation guide. It will be provided somewhere in the developer guide and should
+provide information on how to use Doxygen to build the SKIRT and PTS documentation.
+
+
+\section DevSmileCompShapes SMILE component: shapes
+
+This section is referenced from the installation guide. It will be provided somewhere in the developer guide.
+
+\section DevSmileCompTool SMILE component: smiletool
+
+This section is referenced from the installation guide. It will be provided somewhere in the developer guide.
+
+
 */
