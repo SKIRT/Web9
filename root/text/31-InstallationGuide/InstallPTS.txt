@@ -4,8 +4,8 @@
 
 \section InstallPTSclone Getting the source code
 
-To work with PTS you need to copy the source code to your local file system. First create a directory hierarchy that
-will hold the PTS source code and run-time information. The top-level directory can have any name (for example \c
+To work with PTS you need to copy the Python source code to your local file system. First create a directory hierarchy
+that will hold the PTS source code and run-time information. The top-level directory can have any name (for example \c
 PTS) and can be located anywhere (for example in your home directory), but the subdirectories should be named as
 indicated below. Execute the following commands in a Terminal window to create the PTS directory in your \em home
 folder.
@@ -31,8 +31,7 @@ it, use:
 If you plan to make code contributions, you should create an account at <a href="https://github.com">GitHub.com</a>,
 fork the <a href="https://github.com/SKIRT/PTS9">PTS repository</a> and then clone this forked repository. This allows
 you to push modifications to your own fork and initiate a pull request when you want to contribute the changes to the
-project. Refer to <a href="../root/_contributing.html">Contributing to the <tt>SKIRT</tt> project</a> for more
-information.
+project. Refer to \ref Contributing and \ref GitHubWorkFlow for more information.
 
 
 \section InstallPTSalias Configuring PTS paths and aliases

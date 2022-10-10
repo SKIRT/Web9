@@ -9,9 +9,9 @@ See \ref RecentChanges for a list of recent updates to SKIRT and PTS.
 
 \section InstallTypes Types of installation
 
-SKIRT and PTS can be installed on any recent 64-bit version of Unix, macOS, and Microsoft Windows (for more details,
-see \ref InstallRequirements below). Your approach will depend on your usage intentions and computer system. We can
-distinguish two main types of environment:
+SKIRT and the Python Toolkit for SKIRT (PTS) can be installed on any recent 64-bit version of Unix, macOS, and
+Microsoft Windows (for more details, see \ref InstallRequirements below). Your approach will depend on your usage
+intentions and computer system. We can distinguish two main types of environment:
 
 - A laptop or desktop computer running macOS, a Linux distribution such as Ubuntu, or Microsoft Windows. In this
 environment you probably want to install both SKIRT and PTS, and you are likely to select tools that offer a graphical
