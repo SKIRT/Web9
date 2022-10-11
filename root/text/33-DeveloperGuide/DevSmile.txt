@@ -1,0 +1,14 @@
+/**
+
+\page DevSmile The SMILE metadata subproject
+
+\section DevSmileCompShapes SMILE component: shapes
+
+This section is referenced from the installation guide.
+
+\section DevSmileCompTool SMILE component: smiletool
+
+This section is referenced from the installation guide.
+
+
+*/

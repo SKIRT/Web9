@@ -25,7 +25,7 @@ To install the Anaconda distribution, follow the steps outlined below.
 
 - Locate and click the appropriate download link for:
    - the graphical installer
-   - a recent version of Python 3
+   - Python 3.7 or later
    - your operating system (macOS in our example)
 
 - After the download completes, locate and launch the installer (probably named similar to

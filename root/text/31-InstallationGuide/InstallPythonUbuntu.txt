@@ -28,8 +28,8 @@ outlined below to install the Anaconda distribution.
 
 - Using the options on that page, switch to the correct target operating system (Linux in our example).
 
-- Locate the link to the installer for a recent version of Python 3 and for the appropriate system architecture
-  (64-bit x86 in most cases).
+- Locate the link to the installer for Python 3.7 or later and for the appropriate system architecture (64-bit x86 in
+most cases).
 
 - Right-click on the link, select "Copy Link" from the context menu and paste the result in a plain text editor
   or terminal window, or otherwise figure out the full absolute URL to the installer. At the time of writing the URL is

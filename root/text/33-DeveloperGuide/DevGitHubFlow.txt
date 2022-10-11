@@ -1,6 +1,6 @@
 /**
 
-\page GitHubWorkFlow The GitHub workflow for the SKIRT project
+\page DevGitHubFlow The GitHub workflow for the SKIRT project
 
 ## Introduction
 

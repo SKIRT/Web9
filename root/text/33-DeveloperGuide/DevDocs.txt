@@ -1,0 +1,72 @@
+/**
+
+\page DevDocs Generating the SKIRT project documentation
+
+The documentation for the SKIRT project, including this web site, is generated using the freely available utility
+<a href="http://www.doxygen.nl">Doxygen</a>. For information on how to install this utility, refer to \ref
+InstallSKIRTDevDoxygen.
+
+\section DevDocsRef Reference documentation
+
+The reference documentation is generated directly from the SKIRT C++ header files and the PTS Python source files.
+When you add or adjust code, it is important to provide proper documentation in the header file, in Doxygen format. To
+verify that everything looks as intended, especially when including formulas in mathematical notation, you should build
+the HTML documentation and open the resulting page(s) in a web browser.
+
+In both the SKIRT and PTS repositories, the \c git directory contains a shell script for building the documentation.
+The script is designed for use on macOS and will need to be adjusted for use on other systems. For example, the
+absolute path to the Doxygen executable will need to be updated, and the html.doxygen parameter file may need some
+tweaking as well.
+
+Before invoking the script for the first time, you may need to make it executable as follows:
+
+    cd ~/SKIRT/git
+    chmod +rx makeHTML.sh
+    cd ~/PTS/git
+    chmod +rx makeHTML.sh
+
+To build the HTML reference documentation, enter:
+
+    cd ~/SKIRT/git
+    ./makeHTML.sh
+    cd ~/PTS/git
+    ./makeHTML.sh
+
+The resulting HTML files are placed in the \c html directory next to (i.e. at the same level as) the \c git directory
+(for SKIRT) or the \c pts directory (for PTS). As usual, the file \c index.html provides the starting point for browsing.
+
+When you run the script for the first time, Doxygen creates the \c html directory and it contents from scratch. This
+takes a long time. If you run the script again after you modified the source code (or the extra documentation files),
+Doxygen only processes the changes so it completes a lot faster.
+
+
+\section DevDocsExtra Additional documentation
+
+The additional documentation made available on the SKIRT project web site, including the community section and the
+installation, user and developer guides, is \em not part of the SKIRT or PTS repositories. Also authored as a set of
+text files in Doxygen format (i.e. special comment blocks without actual source code), these source files are contained
+in a separate public GitHub repository. This enables a fully collaborative workflow using pull requests and issues for
+the documentation just as for the actual source code.
+
+The following table lists the involved respositories in the SKIRT organization:
+
+| Repository name | Description
+|-----------------|-------------
+| SKIRT9 | SKIRT 9 C++ source code
+| PTS9   | Python Toolkit for SKIRT 9
+| Web9   | Additional documentation for SKIRT web site
+
+Each repository includes a \c makeHTML.sh procedure that drives Doxygen to locally build HTML pages from the comment
+blocks embedded in the source code or text files in the repository. This procedure converts LaTeX formulas to images,
+performing a full LaTeX syntax check along the way. As a result, this procedure enables contributors to verify changes
+in the documentation before initiating a pull request (assuming Doxygen is installed on their system).
+
+The SKIRT web site combines the documentation from the various repositories. In addition to its own makeHTML.sh
+procedure, the Web9 repository therefore contains a \c stageWebsite.sh procedure to locally build the complete web site
+from a local copy of all relevant repositories. This procedure uses MATHJAX to render LaTeX formulas, which avoids the
+many images created by an explicit conversion, and leads to a much more pleasing formula presentation.
+
+While any contributor can stage the web site, assuming they have a local copy of all relevant repositories, only a core
+team member can actually publish the website because it requires write access rights to the web server.
+
+*/

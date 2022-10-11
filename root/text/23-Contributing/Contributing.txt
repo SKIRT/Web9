@@ -203,6 +203,6 @@ To initiate a pull request:
  - On the GitHub web site, create a pull request from your fork.
  - Wait for feedback from the core team.
 
-This worklow is described in much more detail in \ref GitHubWorkFlow.
+This worklow is described in much more detail in \ref DevGitHubFlow.
 
 */

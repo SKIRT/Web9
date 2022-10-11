@@ -2,29 +2,46 @@
 
 \page DeveloperGuide Developer Guide
 
-Here we also link to:
+This guide provides information on how to adjust or extend the SKIRT code and/or the Python Toolkit for SKIRT (PTS).
 
-- \ref Contributing
-- \ref GitHubWorkFlow
+The SKIRT project will never be finished. Fundamental changes and additions will likely be developed in cooperation
+with the core team. However, you may want to adjust the code in simple ways to fit the needs of your particular
+radiative transfer problem. Many features can be added without the need for an expert software development background.
+We explicitly invite your open contributions to the project. A contribution can take many forms, from asking a question
+to implementing a set of new classes. Information on how to contribute can be found in the \ref Contributing section of
+this web site.
 
-\section DevCodingStyleFormat Coding style - automatic formatting
+Before venturing into the development realm, it is obviously important to gain experience as a SKIRT user in your own
+application domain. As a start, perform the tutorials and review the relevant topics provided in the \ref UserGuide. If
+you plan to do substantial development, also consider the suggestions listed in \ref InstallSKIRTDev and \ref
+DevGitHubFlow.
 
-This section is referenced from the installation guide. It will be provided somewhere in the developer guide and should
-provide information on how to use the source code formatter (clang-format) and the documentation formatter (doxstyle).
+The developer guide includes the following topics:
 
-\section DevDocsGenerate Generating documentation from source code
+###SKIRT
 
-This section is referenced from the installation guide. It will be provided somewhere in the developer guide and should
-provide information on how to use Doxygen to build the SKIRT and PTS documentation.
+- \ref DevStructSKIRT
+- \ref DevItems
+- \ref DevGeometry
+- \ref DevCoding
+<p>
+- \ref DevParallel
+- \ref DevPolarize
+- \ref DevLymanAlpha
+- \ref DevPerspective
+- \ref DevSmile
+<p>
+- \ref DevCfitsio
+- \ref DevVoroPlusPlus
 
+###PTS
 
-\section DevSmileCompShapes SMILE component: shapes
+- \ref DevStructPTS
+- \ref DevCodingPTS
 
-This section is referenced from the installation guide. It will be provided somewhere in the developer guide.
+###Common
 
-\section DevSmileCompTool SMILE component: smiletool
-
-This section is referenced from the installation guide. It will be provided somewhere in the developer guide.
-
+- \ref DevGitHubFlow
+- \ref DevDocs
 
 */

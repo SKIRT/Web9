@@ -14,9 +14,13 @@ Here we link also link to the ski file tables:
 - \ref SkiFileHelpSubclasses
 
 
-\section UserMakeUp MakeUp
+\section UserMakeUp Using MakeUp
 
-This section is referenced from the installation guide. It will be provided somewhere in the developer guide and should
-provide information on how to use MakeUp to configure ski files.
+This section should provide information on how to use MakeUp to configure ski files.
+
+\section UserCmdLine Using SKIRT on the command line
+
+This section should provide information on how to use SKIRT from the command line.
+
 
 */

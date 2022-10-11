@@ -31,13 +31,13 @@ it, use:
 If you plan to make code contributions, you should create an account at <a href="https://github.com">GitHub.com</a>,
 fork the <a href="https://github.com/SKIRT/PTS9">PTS repository</a> and then clone this forked repository. This allows
 you to push modifications to your own fork and initiate a pull request when you want to contribute the changes to the
-project. Refer to \ref Contributing and \ref GitHubWorkFlow for more information.
+project. Refer to \ref Contributing and \ref DevGitHubFlow for more information.
 
 
 \section InstallPTSalias Configuring PTS paths and aliases
 
 It is important that your Python install can automatically locate the PTS source code so that it can execute PTS
-commands and import PTS modules regardless of the current directory. Furthermore it is handy to provide an alias so
+commands and import PTS packages regardless of the current directory. Furthermore it is handy to provide an alias so
 that you can easily access PTS from the command line.
 
 To accomplish this, you will have to add the following lines to your login script (<tt>.profile</tt> or

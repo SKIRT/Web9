@@ -1,0 +1,11 @@
+/**
+
+\page DevCoding Design principles and coding style
+
+\section DevCodingStyleFormat Coding style - automatic formatting
+
+This section is referenced from the installation guide. It should provide information on how to use the source code
+formatter (clang-format) and the documentation formatter (doxstyle).
+
+
+*/

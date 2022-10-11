@@ -33,10 +33,10 @@ The ski file reference material comes in very handy when manually adjusting a sk
 
 <H2>PTS Reference</H2>
 
-The Python Toolkit for SKIRT (PTS) reference material includes detailed documentation for every module, class and
+The Python Toolkit for SKIRT (PTS) reference material includes detailed documentation for every package, class and
 function defined in the PTS Python code. There is a single entry point into the documentation:
 
-- <a href="../pts9/namespaces.html">PTS Reference</a>: a hierarchical list of modules, classes, and functions. Click on
-a triangle to open or close a node in the hierarchy.
+- <a href="../pts9/namespaces.html">PTS Reference</a>: a hierarchical list of packages, classes, and functions.
+  Click on a triangle to open or close a node in the hierarchy.
 
 */

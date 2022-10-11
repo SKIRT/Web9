@@ -70,7 +70,7 @@ verify that the formatting instructions and formulae in your source code comment
 documentation, you can install the appropriate tools as described in this section.
 
 For information on how to actually generate the documentation for the SKIRT code after installing
-these tools, see \ref DevDocsGenerate.
+these tools, see \ref DevDocs.
 
 \subsection InstallSKIRTDevDoxygenVersion Version info
 
@@ -206,7 +206,7 @@ To initiate a pull request:
  - On the GitHub web site, create a pull request from your fork.
  - Wait for feedback from the core team.
 
-This worklow is described in much more detail in \ref GitHubWorkFlow.
+This worklow is described in much more detail in \ref DevGitHubFlow.
 
 For more information about contributing to the SKIRT project in general, see \ref Contributing.
 

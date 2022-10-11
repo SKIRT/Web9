@@ -1,0 +1,6 @@
+/**
+
+\page DevPerspective The perspective instrument
+
+
+*/

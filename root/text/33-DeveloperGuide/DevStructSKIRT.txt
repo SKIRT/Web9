@@ -1,0 +1,122 @@
+/**
+
+\page DevStructSKIRT Overall structure of the SKIRT code
+
+\section DevStructSKIRTDirs Directory structure
+
+The SKIRT source code is contained in an online repository and can be obtained as described in the \ref
+InstallationGuide. The files are organized in a nested directory hierarchy; your local copy may look as follows:
+
+    ~/SKIRT
+        debug
+        git
+            Docs
+            MakeUp
+            SKIRT
+            SMILE
+        release
+            ...
+            MakeUp
+            SKIRT
+            ...
+        resources
+            ...
+            SKIRT9_Resources_Core
+        run
+
+The \c git directory contains an identical copy of the online SKIRT repository; it is usually placed inside a local
+directory called \c SKIRT in your home directory. The \c debug and \c release directories contain the result of
+building the SKIRT code, including the executables. Always use the \c release build for "production" simulations;
+the code in the \c debug build is not optimized and runs several times slower. The \c resources directory contains
+resource files required by SKIRT and downloaded from the SKIRT web site. The \c run directory may contain
+input/output files involved in actually running SKIRT. The information in these last four directories is not part of
+the source code repository, which is why these directories are \em not inside the \c git directory.
+
+Immediately inside the \c git directory reside the main project file \c CMakeLists.txt and some shell scripts used for
+building SKIRT or its documentation. For more information, see the \ref InstallationGuide and \ref DevDocs.
+
+The highest-level \c git subdirectories (\c MakeUp, \c SKIRT, \c SMILE) each represent a \em subproject of the SKIRT
+project. In their turn, they have nested subdirectories organizing the source code and related support files into \em
+modules.
+
+\section DevStructSKIRTModules Subprojects and modules
+
+\image html DevProjectStructure.png
+
+The above diagram lists the various subprojects and modules in the SKIRT code. Boxes with a gray background depict a
+subproject; the other boxes depict a module. A colored border indicates that the module contains supporting data files
+rather than source code. Most module boxes represent a static library that can be used by other modules; those with a
+symbol in the upper right corner represent an executable program.
+
+The symbols in the upper left corner of each module box indicate internal and external dependencies. Refer to the
+diagram legend for details. Note that there are no two-way or circular dependencies between modules. When adjusting or
+extending the code, it is important not to inadvertently create new inter-module dependencies. In any case, circular
+dependencies between modules are not allowed.
+
+These are the subprojects of the SKIRT code:
+ - \c SMILE -- contains the code for generic, fundamental facilities, including those for handling XML-based
+   configuration files; see \ref DevSmile.
+ - \c SKIRT -- contains the code for the SKIRT command line program, performing radiative transfer simulations;
+   see \ref UserCmdLine.
+ - \c MakeUp -- contains the code for the MakeUp tool that provides a graphical user interface for configuring
+   SKIRT; see \ref UserMakeUp.
+ - \c Docs -- contains data files and a helper tool that support writing and building the reference documentation
+   for the SKIRT code; see \ref DevDocs.
+
+Below is a brief description of the modules in each of these subproject, listed in order of appearance in the above
+diagram.
+
+SMILE subproject (also see \ref DevSmile):
+
+ - \c build -- This small library allows retrieving versioning information about the current build. It cooperates
+   with the build system to provide information such as the time when the current executable was built.
+ - \c fundamentals -- This library offers generic functionality that is used by other modules throughout the project,
+   including platform-independent system interaction, basic string handling, and low-level XML processing.
+ - \c schema -- This library contains the meat of the SMILE functionality, including facilities for processing SMILE
+   schemas, representing SMILE datasets in memory, and performing introspection on C++ classes in SMILE client code.
+ - \c serialize -- This library uses the capabilities of the \c schema module to serialize and deserialize SMILE data
+   sets, and to resurrect a client's C++ object hierarchy from a SMILE dataset.
+ - \c wizard -- This library implements the graphical wizard that allows creating or editing a SMILE dataset,
+   given the corresponding SMILE schema file.
+ - \c smiletool -- This command-line tool can work with SMILE datasets corresponding to a given SMILE schema file.
+   The tool can conduct a text-based question and answer session to create a dataset, produce a LaTeX description
+   for an existing dataset, and more.
+ - \c shapes -- This command-line program serves as an example of the typical SMILE library use case (similar to
+   but a lot less complex than SKIRT).
+
+SKIRT subproject (also see \ref UserCmdLine):
+
+ - \c resources -- This module includes information on which resource data files are required by the various classes
+   in the <tt>SKIRT/core</tt> module.
+ - \c fitsio -- This library provides input/output capabilities for FITS files. It contains a subset of the cfitsio
+   source files available from NASA's HEASARC software site. For more information see \ref DevCfitsio.
+ - \c voro -- This library provides support for building Voronoi tessellations.
+   The source code is adapted from the Voro++ library written by Chris H. Rycroft (LBL / UC Berkeley).
+   For more information see \ref DevVoroPlusPlus.
+ - \c mpi -- This library encapsulates any and all invocations of the Message Passing Interface (MPI) optionally
+   linked in as an external library. Concentrating all MPI calls in a single module allows the code in other modules
+   to be compiled without the MPI extra's.
+ - \c utils -- This library provides some basic SKIRT-specific functionality that does \em not depend on
+   the SimulationItem class.
+ - \c core -- This library provides the core SKIRT functionality for setting up and performing a simulation. It
+   includes all SimulationItem subclasses and the corresponding registry. Also see \ref DevItems.
+ - \c main -- This is the SKIRT console application. It handles the command line arguments and links in everything
+   else from other libraries.
+
+MakeUp subproject (also see \ref UserMakeUp):
+
+ - \c main -- This desktop program displays a graphical user interface for editing configuration files. The code
+   in this module essentially invokes the functionality provided by the wizard module in the SMILE project.
+
+Docs subproject (also see \ref DevDocs):
+
+ - \c templates -- This module includes some developer support data files, such as the license template to be included
+   in every source file.
+ - \c doxygen -- This module includes some data files to support the generation of reference documentation from the
+   project source code through the Doxygen utility.
+ - \c doxstyle -- This console application can be invoked from the Qt Creator code editor to help streamline
+   Doxygen documentation blocks, as explained in \ref DevCodingStyleFormat. The code in this module depends only on the
+   \c fundamentals module in the SMILE subproject; it is included here so that it would be easily available to
+   any SKIRT developer.
+
+*/

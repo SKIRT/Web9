@@ -1,0 +1,6 @@
+/**
+
+\page DevParallel Hybrid parallelization using threads and processes
+
+
+*/

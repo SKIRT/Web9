@@ -1,0 +1,79 @@
+/**
+
+\page DevCodingPTS PTS coding style
+
+
+\section DevCodingPTSConv Basic conventions
+
+PTS is written for Python 3.7 or later and, in general, uses the coding style, language capabilities and standard
+library functions corresponding to that language version.
+
+As an important exception to this rule, the comment blocks preceding classes and functions in the code use the \# style
+as opposed to the more pythonic doc-string style. The main reason is that older versions of Doxygen (see \ref
+DevDocs) did not recognize the special commands for LaTeX formulas and extra formatting in doc strings.
+
+The following table summarizes the PTS naming conventions used for Python language entities:
+
+Entity | Convention | Example
+-------|------------|--------
+Package (directory) | All lowercase letters, no separators | storedtable
+Module (file) | All lowercase letters, no separators | skirtsimulation
+Class | Camel case starting with upper case letter | SkiFile
+Function | Camel case starting with lower case letter | performSimulation()
+-> getter | name of property | backgroundColor()
+-> setter | set + capitalized name of property | setBackgroundColor()
+Variable | Camel case starting with lower case letter; or all lowercase letters, no separators | nx, fluxDensity
+Data member  | Leading underscore plus variable name (all data members are private) | _nx, _fluxDensity
+
+\section DevCodingPTSExpose Organizing package functionality
+
+Each PTS package (a directory, see \ref DevStructPTS) exposes all public functions and classes (i.e. those intended for
+use outside of the package) at the package level. The functionality is implemented in various modules (python source
+files) residing inside the package. The initialization file for each package places the public names into the package
+namespace using explicit imports.
+
+\section DevCodingPTSImport Importing packages
+
+Default style for importing external packages (including standard-library packages):
+
+    import os.path
+    import pathlib
+
+External packages imported with a local name:
+
+    import astropy.constants as const
+    import astropy.io.fits as fits
+    import astropy.units as u
+    import lxml.etree as etree
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+Importing other PTS packages (or same package from within do subdirectory):
+
+    import pts.admin as adm
+    import pts.band as bnd
+    import pts.do as do
+    import pts.simulation as sm
+    import pts.storedtable as stab
+    import pts.utils as ut
+    import pts.visual as vis
+
+Importing symbols from within the same package, including initialization file:
+
+    from .module import name      # default style is to use explicit import
+    from .module import *         # exceptional style, for example in conversionspec.py
+
+\section DevCodingPTSDep External dependencies
+
+Any PTS code may depend on any of the standard Python 3.7 packages without further mention. In addition, some of the
+PTS facilities may require non-standard Python packages to be installed. Developers are urged to avoid additional
+dependencies where possible, and to use only packages that are readily available from the common distribution channels.
+
+Refer to \ref InstallReqPTS "the required non-standard packages" for a list at the time of writing.
+To obtain a list of the current package dependencies, make sure that PTS is properly installed and enter the
+following terminal command:
+
+    pts list_dependencies
+
+
+*/
