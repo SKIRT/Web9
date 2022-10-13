@@ -8,7 +8,7 @@ The Geometry::generatePosition() returns a random position.
 
 In PTS, pts.simulation.simulation.createSimulation returns a pts.simulation.simulation.Simulation object.
 
-Here we link also link to the ski file tables:
+Here we can also link to the ski file tables:
 
 - \ref SkiFileHelpProperties
 - \ref SkiFileHelpSubclasses
@@ -21,6 +21,10 @@ This section should provide information on how to use MakeUp to configure ski fi
 \section UserCmdLine Using SKIRT on the command line
 
 This section should provide information on how to use SKIRT from the command line.
+
+\section UserParamFileStruct The structure of a SKIRT configuration file
+
+This section should provide more information on ski files.
 
 
 */
