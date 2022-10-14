@@ -26,5 +26,10 @@ This section should provide information on how to use SKIRT from the command lin
 
 This section should provide more information on ski files.
 
+\section UserParallel Using SKIRT with parallel threads and/or processes
+
+This section should explain how to use SKIRT with parallel threads and/or processes, including the
+mode for running multiple simulations in parallel.
+
 
 */
