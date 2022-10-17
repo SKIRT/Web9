@@ -3,15 +3,8 @@
 \page DevPolarize Polarization by spherical grains
 
 This page describes how SKIRT implements the effects on the polarization of radiation when it is scattered by spherical
-entities including dust grains and electrons.
-
-To actually enable polarization support in a SKIRT simulation:
-  - Ensure that all configured material mixes support polarization and have polarization enabled;
-    see e.g. the MeanTrustBenchmarkDustMix, PolarizedGraphiteGrainComposition, PolarizedSilicateGrainComposition,
-    ElectronMix, and LyaNeutralHydrogenGasMix classes.
-  - Configure instruments to record polarization characteristics, i.e. Stokes vector elements;
-    see the Instrument class.
-
+entities including dust grains and electrons. To actually enable polarization support in a SKIRT simulation, see \ref
+UserPolarize.
 
 \section DevPolarizeBack Background
 

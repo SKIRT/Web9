@@ -31,5 +31,26 @@ This section should provide more information on ski files.
 This section should explain how to use SKIRT with parallel threads and/or processes, including the
 mode for running multiple simulations in parallel.
 
+\section UserPolarize Simulating polarized radiation
+
+This section should explain how to configure SKIRT for polarization.
+(primary emission, scattering by spherical grains, emission by aligned spheroidal grains)
+
+To actually enable polarization support in a SKIRT simulation:
+  - Ensure that all configured material mixes support polarization and have polarization enabled;
+    see e.g. the MeanTrustBenchmarkDustMix, PolarizedGraphiteGrainComposition, PolarizedSilicateGrainComposition,
+    ElectronMix, and LyaNeutralHydrogenGasMix classes.
+  - Configure instruments to record polarization characteristics, i.e. Stokes vector elements;
+    see the Instrument class.
+
+\section UserLymanAlpha Simulating Lyman-alpha resonant line transfer
+
+This section should explain how to configure SKIRT for Lyman-alpha resonant line transfer.
+
+\section UserRedshift Placing models at a nonzero redshift
+
+This section should explain how to work with nonzero redshift.
+
+
 
 */
