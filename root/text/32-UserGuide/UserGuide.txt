@@ -2,55 +2,43 @@
 
 \page UserGuide User Guide
 
-The MonteCarloSimulation class is the main driver of the photon cycle.
-We also have many Geometry subclasses.
-The Geometry::generatePosition() returns a random position.
+This guide describes how to use the SKIRT code and the Python Toolkit for SKIRT (PTS). The table below lists the
+various topics. You can review them in the presented order or simply skip to topics of interest. <span
+style="color:teal"><em>We highly recommend that you work through the tutorials before reading the more advanced
+material.</em></span> See the \ref UserGuideLegend at the end of the page, below the table.
 
-In PTS, pts.simulation.simulation.createSimulation returns a pts.simulation.simulation.Simulation object.
-
-Here we can also link to the ski file tables:
-
-- \ref SkiFileHelpProperties
-- \ref SkiFileHelpSubclasses
+Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; \ref RecentChanges
 
 
-\section UserMakeUp Using MakeUp
+Level | Type | Topic
+------|------|------
+\image html UserLevel1.png | \image html UserReading.png  | \ref UserComponents
+\image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialBasicsMono
+\image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialBasicsPan
+\image html UserLevel1.png | \image html UserReading.png  | \ref UserMakeUp
+\image html UserLevel2.png | \image html UserReading.png  | \ref UserCmdLine
+\image html UserLevel2.png | \image html UserReading.png  | \ref UserParamFile
+\image html UserLevel2.png | \image html UserReading.png  | \ref UserUnits
+\image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialHydroSPH
+\image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialHydroAMR
+\image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialGridsTreeVoro
+\image html UserLevel2.png | \image html UserReading.png  | \ref UserRedshift
+\image html UserLevel2.png | \image html UserReading.png  | \ref UserParallel
+\image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialPolarization
+\image html UserLevel2.png | \image html UserReading.png  | \ref UserPolarize
+\image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialCustomDust
+\image html UserLevel3.png | \image html UserReading.png  | \ref UserLymanAlpha
 
-This section should provide information on how to use MakeUp to configure ski files.
 
-\section UserCmdLine Using SKIRT on the command line
+\section UserGuideLegend Icon legend
 
-This section should provide information on how to use SKIRT from the command line.
-
-\section UserParamFileStruct The structure of a SKIRT configuration file
-
-This section should provide more information on ski files.
-
-\section UserParallel Using SKIRT with parallel threads and/or processes
-
-This section should explain how to use SKIRT with parallel threads and/or processes, including the
-mode for running multiple simulations in parallel.
-
-\section UserPolarize Simulating polarized radiation
-
-This section should explain how to configure SKIRT for polarization.
-(primary emission, scattering by spherical grains, emission by aligned spheroidal grains)
-
-To actually enable polarization support in a SKIRT simulation:
-  - Ensure that all configured material mixes support polarization and have polarization enabled;
-    see e.g. the MeanTrustBenchmarkDustMix, PolarizedGraphiteGrainComposition, PolarizedSilicateGrainComposition,
-    ElectronMix, and LyaNeutralHydrogenGasMix classes.
-  - Configure instruments to record polarization characteristics, i.e. Stokes vector elements;
-    see the Instrument class.
-
-\section UserLymanAlpha Simulating Lyman-alpha resonant line transfer
-
-This section should explain how to configure SKIRT for Lyman-alpha resonant line transfer.
-
-\section UserRedshift Placing models at a nonzero redshift
-
-This section should explain how to work with nonzero redshift.
-
+Icon | Description
+-----|------------
+\image html UserLevel1.png | Basic level
+\image html UserLevel2.png | Regular level
+\image html UserLevel3.png | Expert level
+\image html UserReading.png | Reading material
+\image html UserTutorial.png | Hands-on tutorial
 
 
 */

@@ -1,0 +1,11 @@
+/**
+
+\page UserParallel Using SKIRT with parallel threads and/or multiple processes
+
+This topic should explain how to use SKIRT with parallel threads and/or processes, including the
+mode for running multiple simulations in parallel.
+
+
+\section UserParallelProcesses Multiple processes
+
+*/

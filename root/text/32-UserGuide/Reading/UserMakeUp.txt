@@ -1,0 +1,8 @@
+/**
+
+\page UserMakeUp Using MakeUp, the graphical user interface for configuration files
+
+This topic should provide information on how to use MakeUp to configure ski files.
+
+
+*/

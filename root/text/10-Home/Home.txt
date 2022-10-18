@@ -34,7 +34,7 @@ PS: You can navigate this web site by clicking a tab in the bar at the top, or b
 appear when hovering over these tabs.
 
 
-\subsection HomeFeaturesSKIRT Key features: the SKIRT code
+\subsection HomeFeaturesSKIRT Key features of the SKIRT code
 
 Model:
 - Configure any one-, two- or three-dimensional geometry without limitation.
@@ -87,7 +87,7 @@ Code design:
 - Extensively documented source code.
 
 
-\subsection HomeFeaturesPTS Key features: the Python Toolkit for SKIRT (PTS)
+\subsection HomeFeaturesPTS Key features of the Python Toolkit for SKIRT (PTS)
 
 Working with SKIRT:
 - Interact with SKIRT configuration files.

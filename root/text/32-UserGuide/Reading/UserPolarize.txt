@@ -1,0 +1,16 @@
+/**
+
+\page UserPolarize Simulating polarized radiation
+
+This topic should explain how to configure SKIRT for polarization.
+(primary emission, scattering by spherical grains, emission by aligned spheroidal grains)
+
+To actually enable polarization support in a SKIRT simulation:
+  - Ensure that all configured material mixes support polarization and have polarization enabled;
+    see e.g. the MeanTrustBenchmarkDustMix, PolarizedGraphiteGrainComposition, PolarizedSilicateGrainComposition,
+    ElectronMix, and LyaNeutralHydrogenGasMix classes.
+  - Configure instruments to record polarization characteristics, i.e. Stokes vector elements;
+    see the Instrument class.
+
+
+*/

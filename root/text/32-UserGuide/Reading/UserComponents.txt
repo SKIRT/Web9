@@ -1,0 +1,8 @@
+/**
+
+\page UserComponents Components of the SKIRT project
+
+This topic should provide a brief overview of SKIRT, MakeUp and PTS.
+
+
+*/

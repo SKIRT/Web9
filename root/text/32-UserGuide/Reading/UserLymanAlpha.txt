@@ -1,0 +1,9 @@
+/**
+
+\page UserLymanAlpha Simulating Lyman-alpha resonant line transfer
+
+This topic should explain how to configure SKIRT for Lyman-alpha resonant line transfer.
+Include a warning about spatial grid resolution.
+
+
+*/

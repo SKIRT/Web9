@@ -1,0 +1,861 @@
+/**
+
+\page TutorialBasicsMono Monochromatic simulation of a dusty disk galaxy with SKIRT
+
+\image html TutorialBasicsMonoBrightness.png
+
+In this tutorial you will use SKIRT to produce a nearly edge-on V-band image of a dusty disk galaxy model (see
+illustration above). You will create a \em ski file containing the appropriate simulation parameters, and then you will
+actually perform the simulation and review its results. Finally you will adjust the \em ski file and perform a second
+simulation with slightly different parameters.
+
+\section TutorialBasicsMonoPre Getting ready
+
+Before starting this tutorial, you should have installed the SKIRT code as described in the Installation Guide, and
+optionally the Python Toolkit for SKIRT (\c PTS) as well. There are two equivalent ways of creating the \em ski
+files for this and other tutorials:
+
+ - Using a SKIRT console question and answer (Q&A) session, running in a Terminal window. The text in the tutorials
+   assumes that you use this default option. You need to open a Terminal window so that you can enter commands at the
+   prompt.
+ - Using the optional \c MakeUp desktop tool that can be built as part of the SKIRT project, assuming that
+   the appropriate external libraries are installed on your computer (see the Installation Guide). This tool offers
+   a graphical wizard that follows the same Q&A logic as the SKIRT console, with a nicer interface (see the
+   \c MakeUp User Guide for more information).
+
+For brevity, the examples in the tutorials omit portions of the SKIRT output, such as the time stamp preceding
+each line and the version information on the welcome line.
+
+\section TutorialBasicsMonoSki Creating the ski file
+
+\subsection TutorialBasicsMonoStart Starting the SKIRT Q&A
+
+SKIRT stores all parameter values describing a particular simulation in a file with the ".ski" filename extension.
+To create a new \em ski file, you need to start SKIRT without any command line arguments. The \em ski file will be
+created in the current directory; for this tutorial you could use the \c run directory you created during SKIRT
+installation. Enter the following commands in a Terminal window:
+
+\verbatim
+$ cd ~/SKIRT/run
+$ skirt
+\endverbatim
+
+If SKIRT is not in your system path, you must replace the last line by the absolute or relative path of the \c skirt
+executable; for example:
+
+\verbatim
+$ cd ~/SKIRT/run
+$ ../release/SKIRT/main/skirt
+\endverbatim
+
+SKIRT responds with a welcome message and starts an interactive session in the terminal window, during which it will
+prompt you for all the information describing a particular simulation:
+
+\verbatim
+   Welcome to SKIRT v___
+   Running on ___ for ___
+   Interactively constructing a simulation...
+ ? Enter the name of the ski file to be created: MonoDisk
+\endverbatim
+
+The first question is for the filename of the \em ski file. For this tutorial, enter "MonoDisk". SKIRT then starts
+the Q&A sequence that determines the contents of the \em ski file. In case there is only one possible answer to a
+particular question, the answer is provided without prompting the user:
+
+\verbatim
+   Possible choices for a Monte Carlo simulation:
+      1. A Monte Carlo simulation
+   Automatically selected the only choice: 1
+\endverbatim
+
+A \em ski file always describes a Monte Carlo simulation, so this question is processed automatically.
+
+\subsection TutorialBasicsMonoLev Experience level
+
+\verbatim
+   Possible choices for the user experience level:
+      1. Basic: for beginning users (hides many options)
+      2. Regular: for regular users (hides esoteric options)
+      3. Expert: for expert users (hides no options)
+ ? Enter one of these numbers [1,3] (2): 1
+\endverbatim
+
+The Q&A session can be tailored to the experience level of the user:
+ - \em Basic: hides many options and provides appropriate default values where needed; only the basic SKIRT
+   capabilities can be configured in this mode.
+ - \em Regular: hides esoteric options that would be relevant only to expert users in rare use cases; essentially all
+   regularly-used SKIRT capabilities can be configured in this mode.
+ - \em Expert: exposes all options including the esoteric ones.
+
+Because this tutorial is intended for beginning users, select \em Basic level here. Once you are comfortable with the
+SKIRT configuration process, you can start using \em Regular level (the default choice).
+
+\subsection TutorialBasicsMonoUni Units
+
+\verbatim
+   Possible choices for the units system:
+      1. SI units
+      2. Stellar units (length in AU, distance in pc)
+      3. Extragalactic units (length in pc, distance in Mpc)
+ ? Enter one of these numbers [1,3] (3):
+\endverbatim
+
+SKIRT offers three sets of input/output units:
+
+ - SI units: standard international units. SKIRT always uses SI units for internal computations; the other
+   unit systems are provided for user convenience: all values are converted to SI units during input and
+   from SI units during output.
+ - Stellar units: use AU as the unit of length, parsec as the unit of distance, micron as the unit of wavelength,
+   and \f$M_\odot\f$ as the unit of mass.
+ - Extragalactic units: use parsec as the unit of length, Mpc as the unit of distance, micron as the unit of wavelength,
+   and \f$M_\odot\f$ as the unit of mass.
+
+Since you will be simulating a galaxy, select extragalactic units (the default choice).
+
+\verbatim
+   Possible choices for the output style for flux density and surface brightness:
+      1. Neutral: λ F_λ = ν F_ν
+      2. Wavelength: F_λ
+      3. Frequency: F_ν
+ ? Enter one of these numbers [1,3] (3): 3
+\endverbatim
+
+There are three options for the output style of flux-related values, summarized in the following table, using
+uppercase \f$F\f$ for spatially integrated flux (per wavelength or frequency unit), and lowercase \f$f\f$
+for surface brightness.
+
+<TABLE>
+<TR><TD>Style</TD>      <TD>Quantity</TD> <TD>SI units</TD></TR> <TD>Stellar & Extragal. units</TD></TR>
+<TR><TD>Neutral</TD>    <TD>\f$\lambda F_\lambda = \nu F_\nu\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\f$</TD></TR>
+<TR><TD></TD>           <TD>\f$\lambda f_\lambda = \nu f_\nu\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\,\mathrm{sr}^{-1}\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\,\mathrm{arcsec}^{-2}\f$</TD></TR>
+<TR><TD>Wavelength</TD> <TD>\f$F_\lambda\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-3}\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\,\mu\mathrm{m}^{-1}\f$</TD></TR>
+<TR><TD></TD>           <TD>\f$f_\lambda\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-3}\,\mathrm{sr}^{-1}\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\,\mu\mathrm{m}^{-1}\,\mathrm{arcsec}^{-2}\f$</TD></TR>
+<TR><TD>Frequency</TD>  <TD>\f$F_\nu\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\,\mathrm{Hz}^{-1}\f$</TD>
+                            <TD>\f$\mathrm{Jy}\f$</TD></TR>
+<TR><TD></TD>           <TD>\f$f_\nu\f$</TD>
+                            <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\,\mathrm{Hz}^{-1}\,\mathrm{sr}^{-1}\f$</TD>
+                            <TD>\f$\mathrm{MJy}\,\mathrm{sr}^{-1}\f$</TD></TR>
+</TABLE>
+
+For this tutorial, select the \em Frequency option (the default choice) to get surface brightness values in MJy/sr.
+
+\subsection TutorialBasicsMonoSim Simulation mode
+
+\verbatim
+   Possible choices for the overall simulation mode:
+      1. No medium - oligochromatic regime (a few discrete wavelengths)
+      2. Extinction only - oligochromatic regime (a few discrete wavelengths)
+      3. No medium (primary sources only)
+      4. Extinction-only (no secondary emission)
+      5. With secondary emission from dust
+      6. With secondary emission from dust and iterations for dust self-absorption
+ ? Enter one of these numbers [1,6] (4): 2
+\endverbatim
+
+First of all, SKIRT can work in one of two wavelength regimes:
+
+- An <em>oligochromatic</em> simulation operates at one or more distinct wavelengths rather than a discretized range.
+Such a simulation can include primary radiation sources and can calculate the extinction effects (absorption and
+scattering) of a medium such as dust on the primary radiation. However, by definition, there is no secondary emission
+by the medium. This is so because calculating the secondary emission spectrum, for example for thermal dust emission,
+requires integrating the radiation field over a range of wavelengths.
+
+- A <em>panchromatic</em> simulation operates at a range of wavelengths often spanning UV, optical and infrared bands.
+Such a simulation can include secondary emission by the medium in addition to the primary sources, and of course it can
+calculate the extinction effects of a medium on both primary and secondary radiation. As a result, this is the most
+powerful wavelength regime, and also the most expensive one in terms of execution time.
+
+The first two simulation modes in the list above correspond to the oligochromatic wavelength regime; the other modes
+correspond to the panchromatic wavelength regime. Within these regimes, each simulation mode defines more precisely
+which overall physical processes will be included in the simulation:
+
+- No medium: primary sources only; no effects of extinction (because there is no medium).
+- Extinction only: primary sources and effects of extinction by a medium; no secondary emission by the medium.
+- With secondary emission from dust: primary sources, secondary dust emission, and effects of extinction by the dust.
+- With .. and .. dust self-absorption: same as above, iteratively calculating the effects of dust self-absorption.
+
+More simulation modes may be added as SKIRT's capabilities expand.
+
+The simulation in this tutorial will calculate the effects of dust extinction at a single wavelength in the V-band,
+where thermal dust emission has no effect. An oligochromatic simulation is sufficient and most performance-effective
+for these purposes. Therefore, select the "Extinction only - oligochromatic regime" simulation mode.
+
+\subsection TutorialBasicsMonoPho Photon packets
+
+\verbatim
+ ? Enter the default number of photon packets launched per simulation segment [0,1e19] (1e6):
+\endverbatim
+
+The number of photon packets launched during the simulation is a very important parameter, since it determines the
+level of signal to noise in the results. On the other hand, the simulation run time essentially scales with the number
+of photon packets. An appropriate number is usually determined experimentally: first run the simulation with a modest
+number of photon packets, evaluate the results and then run the simulation again with more photon packets if needed.
+
+For your first simulation, leave the number of photon packets at the default value of \f$10^6\f$.
+
+\subsection TutorialBasicsMonoSrc Source system
+
+\verbatim
+   Possible choices for the source system:
+      1. A primary source system
+   Automatically selected the only choice: 1
+\endverbatim
+
+Each SKIRT simulation includes a source system, which holds one or more primary radiation sources. Each of these
+sources has specific geometric and emission properties which can be configured using built-in features or may be
+imported from the output of a hydrodynamical simulation in various formats. Since there is only one type of source
+system, it is automatically selected.
+
+\verbatim
+ ? Enter the wavelengths of photon packets launched from primary sources [0.0001 micron,1e6 micron] (0.55 micron):
+\endverbatim
+
+For an oligochromatic simulation, the source system requests the list of distinct wavelengths for which to launch
+photon packets. To obtain an image in the V band, enter a wavelength "list" containing the single value
+\f$\lambda=0.55~\mu{\text{m}}\f$ (the default value).
+
+\verbatim
+   Possible choices for item #1 in the primary sources list:
+      1. A primary point source
+      2. A primary source with a built-in geometry
+      3. A primary source imported from smoothed particle data
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,5] (2):
+\endverbatim
+
+The source system in this tutorial simulation is composed of two components, a stellar disk and a stellar bulge, which
+are configured using built-in features. So you need to select the "built-in geometry" primary source type (the default
+value).
+
+\verbatim
+   Possible choices for the geometry of the spatial luminosity distribution for the source:
+      1. A Plummer geometry
+      2. A gamma geometry
+         ...
+      7. An exponential disk geometry
+         ...
+     14. A decorator that adds an offset to any geometry
+         ...
+ ? Enter one of these numbers [1,20] (1): 7
+ ? Enter the scale length ]0 pc,∞ pc[: 4000
+ ? Enter the scale height ]0 pc,∞ pc[: 350
+ ? Enter the radius of the central cavity [0 pc,∞ pc] (0 pc):
+\endverbatim
+
+Each source component is characterized by a particular spatial geometry. For the stellar disk geometry, select an
+exponential disk with a scale length of 4 kpc and a scale height of 350 pc, and without a central cavity.
+
+\verbatim
+   Possible choices for the spectral energy distribution for the source:
+      1. A black-body spectral energy distribution
+      2. The spectral energy distribution of the Sun
+      ...
+ ? Enter one of these numbers [1,7] (2): 1
+ ? Enter the black body temperature ]0 K,∞ K[ (5000 K):
+   Possible choices for the type of luminosity normalization for the source:
+      1. Source normalization through the integrated luminosity for a given wavelength range
+      2. Source normalization through the specific luminosity at a given wavelength
+      3. Source normalization through the specific luminosity for a given wavelength band
+ ? Enter one of these numbers [1,3] (1): 2
+ ? Enter the wavelength at which to provide the specific luminosity [0.0001 micron,1e6 micron]: 0.55
+   Possible choices for the luminosity unit style:
+      1. Per unit of wavelength: L_λ
+      2. Per unit of frequency: L_ν
+      3. Neutral: λ L_λ = ν L_ν
+ ? Enter one of these numbers [1,3] (1):
+ ? Enter the specific luminosity at the given wavelength ]0 Lsun/micron,∞ Lsun/micron[: 5e9
+\endverbatim
+
+Because this tutorial simulation includes just a single wavelength, the emission spectrum of the source does not really
+matter; we just need to specify the luminosity at that wavelength. However, the Q&A questions handle the general case
+where both the emission spectrum and some normalization for the luminosity of each source must be specified.
+
+For this tutorial, (arbitrarily) select a black-body spectrum with the default temperature. Then select normalization
+through the specific luminosity at a given wavelength, with a "per unit of wavelength" luminosity unit style. Finally,
+specify a luminosity at \f$\lambda=0.55~\mu\text{m}\f$ (the wavelength specified previously) of \f$L_\lambda =
+5\times10^9~\text{L}_\odot/\mu\text{m}\f$.
+
+\verbatim
+   Possible choices for item #2 in the primary sources list:
+      1. A primary point source
+      2. A primary source with a built-in geometry
+      ...
+ ? Enter one of these numbers or zero to terminate the list [0,5] (2):
+   Possible choices for the geometry of the spatial luminosity distribution for the source:
+      ...
+      2. A gamma geometry
+      3. A Sérsic geometry
+      ...
+     15. A decorator that adds a rotation to any geometry
+     16. A decorator that constructs a spheroidal variant of any spherical geometry
+     ...
+ ? Enter one of these numbers [1,20] (1): 16
+   Possible choices for the spherical geometry to be made spheroidal:
+      1. A Plummer geometry
+      2. A gamma geometry
+      3. A Sérsic geometry
+      ...
+ ? Enter one of these numbers [1,6] (1): 3
+ ? Enter the effective radius ]0 pc,∞ pc[: 1600
+ ? Enter the Sérsic index n ]0.5,10] (1): 2
+ ? Enter the flattening parameter q ]0,∞[ (1): 0.7
+\endverbatim
+
+For the second source component, again select the "built-in geometry" source type. For the geometry, select a
+spheroidal variant of the Sersic model with effective radius \f$R_{\text{e}} = 1.6\f$ kpc, Sersic index \f$n=2\f$, and
+flattening parameter \f$q=0.7\f$. SKIRT offers a number of geometry decorators that modify other geometries in
+various ways, including off-center translation, adding clumpiness, and spheroidal or triaxial flattening. You must
+select the decorator geometry \em before the geometry being decorated. Decorator geometries can be nested, for example
+to form a clumpy triaxial Einasto geometry.
+
+\verbatim
+   Possible choices for the spectral energy distribution for the source:
+      1. A black-body spectral energy distribution
+      ...
+ ? Enter one of these numbers [1,7] (2): 1
+ ? Enter the black body temperature ]0 K,∞ K[ (5000 K):
+   Possible choices for the type of luminosity normalization for the source:
+      1. Source normalization through the integrated luminosity for a given wavelength range
+      2. Source normalization through the specific luminosity at a given wavelength
+      3. Source normalization through the specific luminosity for a given wavelength band
+ ? Enter one of these numbers [1,3] (1): 2
+ ? Enter the wavelength at which to provide the specific luminosity [0.0001 micron,1e6 micron]: 0.55
+   Possible choices for the luminosity unit style:
+      1. Per unit of wavelength: L_λ
+      2. Per unit of frequency: L_ν
+      3. Neutral: λ L_λ = ν L_ν
+ ? Enter one of these numbers [1,3] (1):
+ ? Enter the specific luminosity at the given wavelength ]0 Lsun/micron,∞ Lsun/micron[: 3e9
+\endverbatim
+
+Further specify the second source component's luminosity at wavelength \f$\lambda=0.55~\mu\text{m}\f$ as \f$L_\lambda =
+3\times10^9~\text{L}_\odot/\mu\text{m}\f$, similar to the procedure used before.
+
+\verbatim
+   Possible choices for item #3 in the primary sources list:
+      1. A primary point source
+      2. A primary source with a built-in geometry
+      ...
+ ? Enter one of these numbers or zero to terminate the list [0,5] (2): 0
+\endverbatim
+
+When asked for the third source component, terminate the list by entering zero.
+
+\subsection TutorialBasicsMonoMed Medium system
+
+\verbatim
+   Possible choices for the medium system:
+      1. A medium system
+   Automatically selected the only choice: 1
+   ...
+\endverbatim
+
+The medium system contains all the information related to the media in a SKIRT simulation, including:
+  - a description of the spatial distribution for and material properties of one or more medium components;
+  - a definition of the spatial grid on which this distribution is discretized;
+  - extra options related to the photon lifecycle and its interactions with the media.
+
+There is only one type of medium system, so it is automatically selected. Also, when the user experience level is
+set to \em Basic, default values are used for all of the extra photon lifecycle options.
+
+\verbatim
+   Possible choices for item #1 in the transfer media list:
+      1. A transfer medium with a built-in geometry
+      2. A transfer medium imported from smoothed particle data
+      ...
+ ? Enter one of these numbers [1,4] (1):
+\endverbatim
+
+Similar as for the source system, the medium system can contain a number of medium components (or "media"), each with a
+specific spatial distribution and material properties. The spatial distribution can be defined through built-in
+geometries, or it can be loaded from the output of a hydrodynamical simulation. The medium system in this tutorial
+simulation consists of a single disk of dust, so you need to select a "medium with a built-in geometry" (the default
+choice).
+
+\verbatim
+   Possible choices for the geometry of the spatial density distribution for the medium:
+      1. A Plummer geometry
+      ...
+      7. An exponential disk geometry
+         ...
+ ? Enter one of these numbers [1,20] (1): 7
+ ? Enter the scale length ]0 pc,∞ pc[: 4000
+ ? Enter the scale height ]0 pc,∞ pc[: 140
+ ? Enter the radius of the central cavity [0 pc,∞ pc[ (0 pc):
+\endverbatim
+
+For the geometry, select an exponential disk with a scale length of 4 kpc and a scale height of 140 pc, without central
+cavity. Note that the dust scale height is much smaller than the stellar scale height, which should produce a nice dust
+lane when viewing the galaxy edge-on.
+
+\verbatim
+   Possible choices for the material type and properties throughout the medium:
+      1. A typical interstellar dust mix (mean properties)
+      2. A THEMIS (Jones et al. 2017) dust mix
+      ...
+      7. A population of electrons
+ ? Enter one of these numbers [1,7] (1):
+   Possible choices for the type of normalization for the amount of material:
+      1. Normalization by defining the total mass
+      2. Normalization by defining the optical depth along a coordinate axis
+      ...
+ ? Enter one of these numbers [1,4] (2):
+   Possible choices for the axis along which to specify the normalization:
+      1. The X axis of the model coordinate sytem
+      2. The Y axis of the model coordinate sytem
+      3. The Z axis of the model coordinate sytem
+ ? Enter one of these numbers [1,3] (3):
+ ? Enter the wavelength at which to specify the optical depth [0.0001 micron,1e6 micron]: 0.55
+ ? Enter the optical depth along this axis at this wavelength ]0,∞[: 1
+\endverbatim
+
+In addition to a geometry (determining the spatial distribution), each medium component is characterized by a material
+mix (determining the optical properties of the medium) and a normalization (determining the total amount of material in
+the component).
+
+For this tutorial, select a basic dust mixture based on the average properties of the diffuse dust in the Milky Way
+(the default choice). Further specify a normalization based on a face-on (Z-axis) optical depth of 1 at wavelength
+\f$\lambda=0.55~\mu{\text{m}}\f$.
+
+\verbatim
+  Possible choices for item #2 in the transfer media list:
+      1. A transfer medium with a built-in geometry
+      ...
+ ? Enter one of these numbers or zero to terminate the list [0,4] (1): 0
+\endverbatim
+
+When asked for the second medium component, terminate the list by entering zero.
+
+\subsection TutorialBasicsMonoGrid Spatial grid
+
+\verbatim
+   Possible choices for the spatial grid:
+      1. An axisymmetric spatial grid in cylindrical coordinates
+      2. A Cartesian spatial grid
+      3. A tree-based spatial grid
+ ? Enter one of these numbers [1,3] (1):
+ ? Enter the cylindrical radius of the grid [0 pc,∞ pc]: 20000
+ ? Enter the start point of the cylinder in the Z direction [-∞ pc,∞ pc]: -5000
+ ? Enter the end point of the cylinder in the Z direction [-∞ pc,∞ pc]: 5000
+   Possible choices for the bin distribution in the radial direction:
+      1. A linear mesh
+      2. A power-law mesh
+      3. A symmetric power-law mesh
+      4. A logarithmic mesh
+ ? Enter one of these numbers [1,4] (1): 2
+ ? Enter the number of bins in the mesh [1,100000] (100): 100
+ ? Enter the bin width ratio between the last and the first bin ]0,∞[ (1): 20
+   Possible choices for the bin distribution in the Z direction:
+      1. A linear mesh
+      2. A power-law mesh
+      3. A symmetric power-law mesh
+ ? Enter one of these numbers [1,3] (1): 3
+ ? Enter the number of bins in the mesh [1,100000] (100): 100
+ ? Enter the bin width ratio between the outermost and the innermost bins ]0,∞[ (1): 30
+\endverbatim
+
+As mentioned above, SKIRT discretizes the spatial domain on a grid, i.e. a collection of small cells covering
+three-dimensional space. Within each cell, the density of the medium and quantities such as the radiation field are
+considered to be constant. SKIRT offers several types of spatial grids, which can be selected depending on the
+requirements of the simulation. Depending on the symmetries in the source and medium distributions, SKIRT supports
+1D spherical grids (the grid cells are thin concentric shells), 2D axisymmetric grids (the grid cells have the form of
+a torus), 3D cartesian grids (the grid cells are little cuboids), and unstructured Voronoi grids (each cell is a convex
+polyhedron). Simulations in a 1D or 2D grid, when allowed by the system's symmetries, are much more efficient than
+simulations in a full 3D grid.
+
+Each grid type features parameters to set the detailed grid cell distribution in each direction. This is one of the
+most difficult tasks during model setup. The grid must be chosen in such a way that the entire configuration space is
+covered and with the resolution highest in those parts where the medium density is highest or the radiation field
+changes most. In many cases, a linear distribution is not the best choice. A logarithmic grid is denser in the center
+than in the outer regions, which is often required. A logarithmic grid however, has the drawback that it does not go
+all the way down to zero. A useful alternative is the power-law grid, in which the spatial cells are also gradually
+bigger when they are farther away from the center.
+
+For this tutorial simulation, select a 2D axisymmetric grid in cylindrical coordinates with a power-law mesh in the
+radial direction and a symmetric power-law mesh in the vertical direction. Choosing a symmetric vertical mesh ensures
+that the grid cells are small in the center of the mesh and larger to the top and bottom of the mesh. The radial mesh
+is symmetric relative to the origin by definition. Here we want the grid cells to be small near \f$R=0\f$, i.e. at the
+lower coordinate of the mesh. Specify a grid radius of 20 kpc and grid height of 10 kpc centered on the origin. This
+grid size should be sufficient to contain the vast majority of the dust in the exponential disk configured earlier.
+Specify 100 cells in each direction, so that there are 10000 cylindrical cells in total. Further specify a ratio of the
+width of the outermost to the innermost bin of 20 in the radial and 30 in the vertical direction; the ratio is somewhat
+larger in the vertical direction because we want a higher resolution there in the inner regions.
+
+\subsection TutorialBasicsMonoInst Instrument system
+
+\verbatim
+   Possible choices for the instrument system:
+      1. An instrument system
+   Automatically selected the only choice: 1
+\endverbatim
+
+Running a radiative transfer simulation is not particularly useful unless the results are registered by one or more
+instruments, which collect the photon packets that leave the system, in a process similar to the operation of real
+instruments at a telescope.
+
+The SKIRT instruments essentially emulate imaging spectrometers, i.e. 3D spectrographs with one wavelength dimension
+(determined by the simulation's wavelength grid) and two spatial directions on the plane of the sky. Each instrument is
+characterized by its own frame properties (pixel size and field of view) and by its position with respect to the system
+(for axisymmetric systems, this means the inclination and distance).
+
+The instrument system contains one or more instruments. It should be noted that the number of instruments, and the
+pixel size of these instruments, influence both memory consumption (for storing the data cubes) and simulation run time
+(for peeling off photon packets in the direction of each instrument).
+
+There is only one type of instrument system (simply a list of instruments) so the default choice is automatically
+selected.
+
+\verbatim
+   Possible choices for item #1 in the instruments list:
+      1. A distant instrument that outputs the spatially integrated flux density as an SED
+      2. A distant instrument that outputs the surface brightness in every pixel as a data cube
+      3. A distant instrument that outputs both the flux density (SED) and surface brightness (data cube)
+ ? Enter one of these numbers or zero to terminate the list [0,3] (1): 2
+ ? Enter the name for this instrument: i88
+ ? Enter the distance to the system ]0 Mpc,∞ Mpc[: 10
+ ? Enter the inclination angle θ of the detector [0 deg,180 deg] (0 deg): 88
+ ? Enter the total field of view in the horizontal direction ]0 pc,∞ pc[: 40000
+ ? Enter the number of pixels in the horizontal direction [1,10000] (250): 800
+ ? Enter the total field of view in the vertical direction ]0 pc,∞ pc[: 10000
+ ? Enter the number of pixels in the vertical direction [1,10000] (250): 200
+ ? Do you want to record flux components separately? [yes/no] (no):
+\endverbatim
+
+For the first (and only) instrument in this tutorial simulation, select a distant instrument that outputs the
+surface brightness in every pixel. Since you will be shooting photon packets at a single wavelength only, the "data
+cube" will have only one frame, and it doesn't make much sense to produce an SED.
+
+Specify an appropriate name for the instrument. This name is used to identify the output files for the instrument. This
+is not so relevant here, but it becomes important when there are multiple instruments. Further specify a size of 800
+times 200 pixels with a scale of 50 pc, a distance of 10 Mpc from the galaxy, and an inclination of 88 degrees. You
+don't need to turn on the option to record flux components separately.
+
+\verbatim
+   Possible choices for item #2 in the instruments list:
+      1. A distant instrument that outputs the spatially integrated flux density as an SED
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,3] (1): 0
+\endverbatim
+
+When asked for the second instrument, enter zero to terminate the list.
+
+\subsection TutorialBasicsMonoProb Probe system
+
+\verbatim
+   Possible choices for the probe system:
+      1. A probe system
+   Automatically selected the only choice: 1
+\endverbatim
+
+SKIRT offers two kinds of output. Most importantly, at the end of the simulation run, the instruments described in
+the previous section output "mock observations", i.e. fluxes obtained by detecting photon packages during the
+simulation. This kind of output is often the main simulation result.
+
+It is, however, often meaningful to also output information on data structures constructed in preparation for or during
+the simulation run. This may include internal diagnostics (such as a list of coordinates that allow plotting the
+spatial grid), and it may include physical quantities that are computed by the simulation but cannot be "observed" from
+the outside, such as the local radiation field throughout the spatial domain. This kind of output is produced by a
+separate set of objects, called "probes".
+
+Depending on a probe's type, it is invoked at one of two points in the simulation run to produce its output: at the end
+of the setup phase, or at the very end of the simulation run. Each probe has a name, serving to unambiguously
+distinguish its output files, and some probe types offer additional options. It possible (and often useful) to include
+(differently configured) multiple probes of the same type.
+
+All probes are part of the probe system. Because there is only one type of probe system, it is selected automatically.
+
+\verbatim
+   Possible choices for item #1 in the probes list:
+      1. The instrument wavelength grids
+      2. The primary source luminosities
+      3. Data files for plotting the structure of the grid
+      4. Convergence information on the spatial grid
+      5. Cuts of the media densities along the coordinate planes
+      6. Aggregate optical material properties for each medium
+ ? Enter one of these numbers or zero to terminate the list [0,6] (4): 4
+ ? Enter the name for this probe: cnv
+
+   Possible choices for item #2 in the probes list:
+      ...
+      6. Aggregate optical material properties for each medium
+      ...
+   ? Enter one of these numbers or zero to terminate the list [0,6] (4): 6
+   ? Enter the name for this probe: opt
+
+   Possible choices for item #3 in the probes list:
+      ...
+      5. Cuts of the media densities along the coordinate planes
+      ...
+ ? Enter one of these numbers or zero to terminate the list [0,6] (4): 5
+ ? Enter the name for this probe: cut
+
+   Possible choices for item #4 in the probes list:
+      ...
+      3. Data files for plotting the structure of the grid
+      ...
+ ? Enter one of these numbers or zero to terminate the list [0,6] (4): 3
+ ? Enter the name for this probe: grid
+   Possible choices for item #5 in the probes list:
+      1. The instrument wavelength grids
+      ...
+ ? Enter one of these numbers or zero to terminate the list [0,6] (4): 0
+\endverbatim
+
+Configure the following probes, in arbitrary order, and specify their names as follows.
+
+| Probe type | Probe name
+|------------|-----------
+| Convergence information on the spatial grid             | cnv
+| Aggregate optical material properties for each medium   | opt
+| Cuts of the media densities along the coordinate planes | cut
+| Data files for plotting the structure of the grid       | grid
+
+Finally, when asked for the subsequent probe, enter zero to terminate the list.
+
+\subsection TutorialBasicsMonoEnd The end
+
+\verbatim
+   Successfully created ski file 'MonoDisk.ski'.
+   To run the simulation use the command: skirt MonoDisk
+\endverbatim
+
+After all questions have been answered, SKIRT writes out the resulting ski file and exits.
+
+
+\section TutorialBasicsMonoRun Running the simulation
+
+To actually run the simulation, enter the following command (with the same current directory):
+
+\verbatim
+$ skirt MonoDisk
+\endverbatim
+
+Or if SKIRT is not in your system path, include the absolute or relative path of the \c skirt executable;
+for example:
+
+\verbatim
+$ ../release/SKIRT/main/skirt MonoDisk
+\endverbatim
+
+\subsection TutorialBasicsMonoCons Console log
+
+SKIRT responds with a welcome message and immediately starts performing the simulation. In this mode SKIRT never
+asks a question so it can be left to run unattended:
+
+\verbatim
+   Welcome to SKIRT v___
+   Running on ___ for ___
+   Constructing a simulation from ski file 'MonoDisk.ski'...
+   Starting simulation MonoDisk using __ threads and a single process...
+   Starting setup...
+     Oligochromatic wavelength regime
+     With transfer medium
+     Model and grid symmetry: 2D
+   ...
+ - Finished simulation MonoDisk using __ threads and a single process in __ s.
+   Available memory: 16 GB -- Peak memory usage: 24.7 MB (0.2%)
+\endverbatim
+
+SKIRT produces various log messages to report on specific activities and overall progress.
+The execution of a simulation progresses in several distinct stages:
+  - During \em construction, an internal data structure is created representing the simulation, based on the
+    contents of the specified ski file. In addition to remembering all ski file parameters, the data structure
+    provides room for all data used and/or produced during the simulation. Since the data is not yet initialized,
+    construction completes in a fraction of a second (or fails if there is a problem with the ski file).
+  - During \em setup, all simulation data structures are initialized. For example, material properties are read from
+    resource files, and the medium density is computed for all cells in the spatial grid. Depending on the simulation
+    model and parameters, setup may take seconds, minutes or even hours.
+  - During \em setup \em output, the relevant probes are invoked to produce output reflecting the data structures
+    created during setup.
+  - During the simulation \em run, photon packets are traced through the spatial domain and detected by instruments.
+    For an oligochromatic simulation, there is just a primary emission phase.
+    In panchromatic simulations, there can also be (potentially iterative) secondary emission phases.
+  - During \em final \em output, the instruments are requested to ouput the detected mock observations, and the
+    relevant probes are invoked to produce output reflecting the data structures created during the simulation run.
+
+\subsection TutorialBasicsMonoOutput Output files
+
+The output files for this tutorial simulation are written in the current directory. All filenames start with
+"MonoDisk", i.e. the name of the ski file. Two files are always generated for every simulation:
+ - \c MonoDisk_log.txt contains the progress log as it was written to the console.
+ - \c MonoDisk_parameters.xml contains a copy of the ski file, with a time stamp of when the simulation was run.
+
+During the setup output stage, the probes configured for this tutorial simulation generated the following files:
+
+ - \c MonoDisk_cnv_convergence.dat is a short text file providing a consistency check on the spatial grid. It lists the
+ total dust mass as well as the optical depth of the dust along each of the coordinate axes (a) as expected from the
+ input configuration and (b) obtained by integrating over the spatial grid after discretizing the dust distribution. If
+ these numbers match within a few percent, the spatial grid samples the dust density well. If there are large
+ deviations, it might be useful to consider a different grid cell distribution (e.g. with a larger extent, with more
+ resolution, or with more or less contrast between inner and outer cells).
+
+ - \c MonoDisk_opt_opticalprops_0.dat lists various aggregate optical properties (such as absorption and scattering
+ cross sections) of the material mix used in the simulation at the single oligochromatic wavelength configured for the
+ simulation. The number in the filename indicates the zero-based index of the medium component to which the properties
+ correspond. In this tutorial simulation, there is only a single medium component so there is only one file.
+
+ - \c MonoDisk_cut_dust_t_xy.fits & \c MonoDisk_cut_dust_t_xz.fits (\c t for "theorical") are single-frame FITS data
+ files, each providing a 1024 x 1024 pixel map of the theoretical dust density in a coordinate plane, across the total
+ extent of the spatial grid. These density values are determined from the medium distribution as if there is an
+ infinitely fine spatial grid.
+
+ - \c MonoDisk_cut_dust_g_xy.fits & \c MonoDisk_cut_dust_g_xz.fits (\c g for "gridded") are single-frame FITS data
+ files, each providing a 1024 x 1024 pixel map of the grid-discretized dust density in a coordinate plane, across the
+ total extent of the spatial grid. These density values are read from the finite-resolution spatial grid constructed
+ for the simulation.
+
+ - \c MonoDisk_grid_grid_xy.dat & \c MonoDisk_grid_grid_xz.dat are data files in a text format that can be easily
+ plotted. Each file describes the intersection of the spatial grid with one of the coordinate planes.
+
+During the final output stage, the instrument configured for this tutorial simulation also produces an output file:
+
+ - \c MonoDisk_i88_total.fits (where "i88" is the specified instrument name) is a FITS file containing the data cube
+ with the total surface brightness for each pixel as detected by the instrument. Since the simulation has only one
+ wavelength, there is only a single frame in the output file.
+
+\section TutorialBasicsMonoPTS Visualizing the results
+
+\subsection TutorialBasicsMonoFormats SKIRT output formats
+
+With few exceptions, SKIRT produces data (mock observables and diagnostic information) in two formats:
+  - Tabular data as ASCII text column files.
+  - Image frames or 3D data cubes in the [FITS file format](https://fits.gsfc.nasa.gov/fits_standard.html),
+    which is frequently used in astronomy because each pixel can be represented by a floating point value,
+    allowing for a large dynamic range.
+
+ASCII text files can be viewed using any text editor and can easily be processed by many software tools.
+FITS files can be viewed with a dedicated FITS viewer such as [SAOImage DS9](http://ds9.si.edu/site/Home.html),
+which you may want to install as described in the SKIRT installation manual.
+
+The Python language ecosystem also has extensive support for both data formats. The almost standard Python package
+[numpy](https://www.numpy.org) supports reading text column files into numpy arrays, and the well-known astronomy
+Python package [astropy](https://www.astropy.org) supports reading FITS data into numpy arrays. Once in memory, these
+data can be further processed at will.
+
+Based on these packages, the [Python toolkit for SKIRT](../pts9/_p_t_s.html) or \c PTS offers functions to read \c
+SKIRT output files with some extra intelligence (e.g., interpreting units), and it offers high-level commands to
+rapidly visualize some specific SKIRT output. In the following subsections, you will use some of the high-level \c
+PTS commands to visualize results of the simulation configured and performed in this tutorial.
+
+\subsection TutorialBasicsMonoDensity Density cuts
+
+It is often instructive to compare the theoretical and gridded dust density cuts produced by the probe configured as
+"cut" in this simulation. \c PTS offers a convenient way to do this. With the simulation results residing in the
+current directory, enter the following command:
+
+\verbatim
+$ pts plot_density_cuts .
+\endverbatim
+
+The dot at the end tells the command to look for simulation results in the current directory. The command name
+can be shortened to its first portion (e.g. "plot_dens") as long as the shorthand defines a unique command name.
+\c PTS should respond with messages indicating that two PDF files have been created: \c MonoDisk_cut_dust_xy.pdf
+and \c /MonoDisk_cut_dust_xz.pdf.
+
+Open these files in a PDF viewer. The second one should look similar to the example below:
+
+\image html TutorialBasicsMonoDensity.png
+
+The lefthand side shows a vertical cut through the theoretical dust density, and the righthand side shows the same cut
+through the gridded dust density. When you look closely or zoom in on the PDF (it is hard to see on the example above),
+the cellular structure of the gridded cut becomes apparent.
+
+\subsection TutorialBasicsMonoGridStruct Spatial grid structure
+
+Similarly, \c PTS offers a command to create PDF files plotting the spatial grid structure used in a SKIRT
+simulation. Again with the SKIRT output directory as your current directory, enter the command (be sure to include
+the dot at the end):
+
+\verbatim
+$ pts plot_grids .
+\endverbatim
+
+\c PTS now creates the files \c MonoDisk_grid_grid_xy.pdf and \c MonoDisk_grid_grid_xz.pdf. Open these files in a PDF
+viewer. Compare the grid structure to the cellular structure of the gridded density cuts plotted in the previous
+subsection.
+
+\subsection TutorialBasicsMonoBrightness Surface brightness
+
+Finally, you want to have a look at the actual simulation result, i.e. the surface brightness detected and output by
+the instrument in your simulation. An excellent option is to open the \c MonoDisk_i88_total.fits file in an interactive
+FITS viewer. If the viewer allows it, set the scale for displaying the pixel values to logarithmic.
+
+Alternatively, \c PTS offers a command to create a regular RGB image in PNG format for the FITS files generated by \c
+SKIRT instruments. By default \c PTS uses the first FITS frame for the Blue channel, the last FITS frame for the Red
+channel, and some frame in the middle for the Green channel. Because this tutorial simulation is monochromatic, all
+three frames are identical so that the result is actually a grayscale image.
+
+Again with the SKIRT output directory as your current directory, enter the command (be sure to include the dot at
+the end):
+
+\verbatim
+$ pts make_images .
+\endverbatim
+
+\c PTS now creates the file \c MonoDisk_i88_total.png. Open this file with an image viewer. It should look similar to
+the image at the start of this tutorial (see \ref TutorialBasicsMono), except that your image shows substantially more
+noise that the image shown as part of this tutorial. Improving the signal-to-noise ratio for the results of a SKIRT
+simulation is conceptually simple: shoot (many) more photon packets...
+
+
+\section TutorialBasicsMonoEdit Adjusting the ski file
+
+There is no need to go through the lengthy interactive Q&A process again if you just want to re-run a simulation with
+slightly adjusted parameters. You can manually edit the ski file instead. Duplicate the file \c MonoDisk.ski to a new
+file named \c MonoDisk2.ski and open this new file in any decent text editor. It should look similar to the following
+snippet, where "..." indicates omitted information:
+
+\verbatim
+...
+<skirt-simulation-hierarchy type="MonteCarloSimulation" ...>
+    <MonteCarloSimulation userLevel="Basic" simulationMode="OligoExtinctionOnly" numPackets="1e6">
+        ...
+        <sourceSystem type="SourceSystem">
+            ...
+        </sourceSystem>
+        <mediumSystem type="MediumSystem">
+            ...
+        </mediumSystem>
+        <instrumentSystem type="InstrumentSystem">
+            <InstrumentSystem>
+                <instruments type="Instrument">
+                    <FrameInstrument instrumentName="i88" distance="10 Mpc"
+                            inclination="88 deg" azimuth="0 deg" roll="0 deg"
+                            fieldOfViewX="4e4 pc" numPixelsX="800" centerX="0 pc"
+                            fieldOfViewY="1e4 pc" numPixelsY="200" centerY="0 pc"
+                            recordComponents="false" numScatteringLevels="0"
+                            recordPolarization="false" recordStatistics="false"/>
+                </instruments>
+            </InstrumentSystem>
+        </instrumentSystem>
+        <probeSystem type="ProbeSystem">
+            ...
+        </probeSystem>
+    </MonteCarloSimulation>
+</skirt-simulation-hierarchy>
+\endverbatim
+
+Make the following changes:
+ - increase the number of photon packets by a factor of five (replace "1e6" by "5e6");
+ - add a second instrument by duplicating the <tt>\<FrameInstrument ... /\></tt> element;
+ - change the new instrument's name to i84 and adjust its inclination to 84 degrees.
+
+Save your changes and execute the adjusted simulation using the command "skirt MonoDisk2". The simulation will run
+substantially slower because it is launching more photon packets and because there are more instruments.
+
+Look at the differences between output files:
+ - \c MonoDisk_i88_total.fits and \c MonoDisk2_i88_total.fits (more photon packets)
+ - \c MonoDisk2_i84_total.fits and \c MonoDisk2_i88_total.fits (different inclination)
+
+<b><i>Congratulations, you made it to the end of this tutorial!</i></b>
+
+*/
