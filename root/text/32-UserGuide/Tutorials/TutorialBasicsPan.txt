@@ -474,9 +474,9 @@ spectrum in each spatial cell.
 
 During setup, SKIRT issues two warning messages. The first one states that the solar spectrum is not available for the
 complete source wavelength range (\f$0.09~\mu{\text{m}} <= \lambda <= 1000~\mu{\text{m}}\f$) requested in the
-configuration. Upon closer inspection, the missing range is very small so this will have no significant effect on the
+parameter file. Upon closer inspection, the missing range is very small so this will have no significant effect on the
 simulation results. The second warning indicates that the optical properties for the Zubko et al. 2004 dust model are
-not available for wavelengths longer than \f$1000~\mu{\text{m}}\f$. Even if the configuration for this tutorial does
+not available for wavelengths longer than \f$1000~\mu{\text{m}}\f$. Even if the parameter file for this tutorial does
 not specify any wavelengths beyond \f$1000~\mu{\text{m}}\f$, SKIRT uses wavelengths up to slightly over
 \f$2000~\mu{\text{m}}\f$ to calculate the dust temperature based on the radiation field, causing this warning. However,
 the effect on the simulation results will again be negligible. Hence, in this case, you can safely ignore these

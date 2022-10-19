@@ -4,11 +4,11 @@
 
 \section DevSmileIntro Introduction
 
-The SMILE subproject implements the mechanisms for handling configuration files in SKIRT and MakeUp. The code in
+The SMILE subproject implements the mechanisms for handling SKIRT parameter files in SKIRT and MakeUp. The code in
 this subproject is designed as a generic framework that can be used ouside of the SKIRT project as well.
 
 The SMILE acronym stands for "Simple Metadata Interactive Language Editing". SMILE is a metadata language that can
-represent configuration files for software programs or other simple datasets; see \ref DevSmileLang below for more
+represent parameter files for software programs or other simple datasets; see \ref DevSmileLang below for more
 information.
 
 The SMILE project supports the SMILE metadata language. It includes utilities for creating and editing SMILE datasets,
@@ -72,8 +72,8 @@ constructing an aggregation of instances of these classes at run time, and setti
 simulation is then executed by the code in the various classes, fully depending on the configured run-time structure
 and property values. SKIRT uses the SMILE library to save a SMILE schema reflecting its simulation class hierarchy.
 This schema can then be loaded into one of the independent, generic SMILE utilities for creating or editing a SMILE
-data set acting as a configuration file for SKIRT. Subsequently, SKIRT uses the SMILE library to construct a
-run-time object hierarchy (instantiating the SKIRT client classes) mirroring the configuration file, and which is
+data set acting as a parameter file for SKIRT. Subsequently, SKIRT uses the SMILE library to construct a
+run-time object hierarchy (instantiating the SKIRT client classes) mirroring the parameter file, and which is
 used to perform the requested simulation. As an alternative for the user who doesn't have access to the seperate SMILE
 dataset editing utilities, SKIRT uses the SMILE library to implement a built-in console query and answer session.
 
@@ -88,7 +88,7 @@ in memory.
 
 \subsection DevSmileLangOver Overview
 
-SMILE is a metadata language that can represent simple datasets such as property lists or configuration files for
+SMILE is a metadata language that can represent simple datasets such as property lists or parameter files for
 software programs. A SMILE dataset can be stored as a text file using a subset of the standard XML format, which makes
 it easy to create, modify and use electronically. In addition, the SMILE XML format is fairly accessable for direct
 viewing and editing by a moderately advanced user.

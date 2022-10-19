@@ -216,7 +216,7 @@ thread manages its own cache. For more information, see the SourceSystem, Import
 classes.
 
 The second complexity arises when recording statistics for observed fluxes in the instruments (an optional feature that
-can be enabled as part of the user configuration). This process requires accumulating the contributions of each
+can be enabled in the SKIRT parameter file). This process requires accumulating the contributions of each
 indvidual photon packet to a given flux bin (for example, caused by the peel-off from multiple scattering events). The
 intermediate result for each photon packet, and per flux bin, must thus be cached during the packet's life cycle. In
 this case, we need a copy of the cache for each execution thread \em and \em for \em each \em instrument. To achieve

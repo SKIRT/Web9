@@ -161,7 +161,7 @@ respective class definitions. This means that:
 
  - All information about a simulation item is defined in a single place.
  - When adding a new type of simulation item, there is no need to add specific code for querying, saving or loading.
- - New capabilities (such as a graphical user interface for editing configuration files) can be added without changing
+ - New capabilities (such as a graphical user interface for editing SKIRT parameter files) can be added without changing
    the existing class definitions.
 
 

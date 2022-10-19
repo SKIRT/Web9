@@ -24,7 +24,7 @@ exceptions to this rule are:
 The user interface, implementation and documentation are written in US English
 without any consideration towards internationalization (except for Unicode compatibility, see below).
 This design choice substantially simplifies the implementation, for example in the following areas:
-  - human readable descriptions loaded from configuration files;
+  - human readable descriptions loaded from resource files;
   - hardcoded strings for labels and other user interface elements;
   - calculated strings, obtained by combining string segments or switching to uppercase at the start of a sentence.
 

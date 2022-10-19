@@ -38,8 +38,8 @@ following table lists the packages in PTS with an indication of their functional
 |---------|------------
 | admin | Administrative functions, such as listing PTS package dependencies and creating archives for backup purposes
 | band | Representing broadband filters, including transmission curve data for a set of standard bands
-| simulation | Interfacing with the SKIRT executable, the configuration file, and SKIRT output files (with units)
-| skiupgrade | Procedures for upgrading configuration files (ski files) to the most recent SKIRT version
+| simulation | Interfacing with the SKIRT executable, SKIRT parameter files, and SKIRT output files (with units)
+| skiupgrade | Procedures for upgrading SKIRT parameter files to the most recent SKIRT version
 | storedtable | Converting third-party data to SKIRT stored table format and otherwise accessing files in this format
 | test | Performing and reporting on SKIRT functional tests
 | utils | Basic utilities for use by other packages

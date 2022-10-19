@@ -1,6 +1,6 @@
 /**
 
-\page UserMakeUp Using MakeUp, the graphical user interface for configuration files
+\page UserMakeUp Using MakeUp, the graphical interface for SKIRT parameter files
 
 This topic should provide information on how to use MakeUp to configure ski files.
 

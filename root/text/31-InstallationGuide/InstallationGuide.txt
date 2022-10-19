@@ -15,7 +15,7 @@ intentions and computer system. We can distinguish two main types of environment
 
 - A laptop or desktop computer running macOS, a Linux distribution such as Ubuntu, or Microsoft Windows. In this
 environment you probably want to install both SKIRT and PTS, and you are likely to select tools that offer a graphical
-user interface. If you'd like to manage SKIRT configuration files with the graphical wizard offered by the MakeUp tool,
+user interface. If you'd like to manage SKIRT parameter files with the graphical wizard offered by the MakeUp tool,
 then you need to install the Qt libraries. In that case, you can just as well use Qt Creator to build the SKIRT code.
 Alternatively, you can skip graphical user interfaces entirely and perform all tasks on the command line.
 

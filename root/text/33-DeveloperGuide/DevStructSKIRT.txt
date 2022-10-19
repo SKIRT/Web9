@@ -55,7 +55,7 @@ dependencies between modules are not allowed.
 
 These are the subprojects of the SKIRT code:
  - \c SMILE -- contains the code for generic, fundamental facilities, including those for handling XML-based
-   configuration files; see \ref DevSmile.
+   parameter files; see \ref DevSmile.
  - \c SKIRT -- contains the code for the SKIRT command line program, performing radiative transfer simulations;
    see \ref UserCmdLine.
  - \c MakeUp -- contains the code for the MakeUp tool that provides a graphical user interface for configuring
@@ -105,7 +105,7 @@ SKIRT subproject (also see \ref UserCmdLine):
 
 MakeUp subproject (also see \ref UserMakeUp):
 
- - \c main -- This desktop program displays a graphical user interface for editing configuration files. The code
+ - \c main -- This desktop program displays a graphical user interface for editing parameter files. The code
    in this module essentially invokes the functionality provided by the wizard module in the SMILE project.
 
 Docs subproject (also see \ref DevDocs):
