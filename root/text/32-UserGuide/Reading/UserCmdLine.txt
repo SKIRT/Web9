@@ -5,14 +5,14 @@
 \section UserCmdLineOver Overview
 
 The SKIRT radiation transfer simulation code is exposed to the user as a command line program to be executed in a
-Terminal window. SKIRT features a wealth of built-in models, mechanisms, and options that require configuring by the
+terminal window. SKIRT features a wealth of built-in models, mechanisms, and options that require configuring by the
 user. All options defining a single, complete SKIRT simulation are stored in a SKIRT parameter file with the
 filename extension ".ski". Such a parameter file is customary called a \em ski file (pronounced to rhyme with "me").
 The data format of \em ski files allows efficient manipulation by computers, while being sufficiently transparent for
 viewing and editing by humans. The \em ski file format is further discussed in \ref UserParamFile.
 
 The SKIRT command line program can be invoked in one of two modes (depending on the command line arguments):
- - In interactive mode, SKIRT asks the user a series of questions (via console input/output in the Terminal
+ - In interactive mode, SKIRT asks the user a series of questions (via console input/output in the terminal
    window), and it constructs a \em ski file based on the user's responses. The resulting \em ski file is saved for
    later use, without actually performing a simulation at this point.
  - In non-interactive mode, SKIRT performs one or more simulations as specified in preconfigured \em ski files
@@ -26,6 +26,7 @@ When invoked without any command line arguments, SKIRT enters interactive mode. 
 \verbatim
 $ skirt
    Welcome to SKIRT v___
+   Running on ___ for ___
    Interactively constructing a simulation...
  ? Enter the name of the ski file to be created: example
 
@@ -87,6 +88,7 @@ and placing any output files in the current directory as well. For example:
 \verbatim
 $ skirt example
    Welcome to SKIRT v___
+   Running on ___ for ___
    Constructing a simulation from ski file 'example.ski'...
    Starting simulation example...
 
@@ -106,13 +108,14 @@ according to the following syntax:
        [-r] {<filepath>}*
 \endverbatim
 
-- The -t option specifies the number of parallel threads used for each simulation. The default value is the number of
-  logical cores on the computer running SKIRT, with a maximum of 24. On desktop computers this default number is
-  usually appropriate. On larger computing systems it is often wise to explicitly specify the number of threads.
-  Although the system might have many processing cores, it is almost never meaningful to run SKIRT with more than
-  24 threads per process.
+- The -t option specifies the number of parallel execution threads used for each simulation. The default value is the
+  number of logical cores on the computer running SKIRT, with a maximum of 24. On desktop computers this default number
+  is usually appropriate. On larger computing systems it is often wise to explicitly specify the number of threads.
+  Although the system might have many processing cores, it is almost never meaningful to run SKIRT with more than 24
+  threads per process. For more information, see \ref UserParallelThreads.
 
 - The -s option specifies the number of simulations to be executed in parallel. The default value is one.
+  For more information, see \ref UserParallelSimulations.
 
 - The -b option forces brief console logging, i.e. only success and error messages are shown rather than all progress
   messages. If there are multiple parallel simulations (see the -s option), the -b option is turned on automatically
@@ -180,7 +183,7 @@ Many of the other output files are described in the tutorials offered in the
 \section UserCmdLineEmul Emulation mode
 
 To get an estimate of the amount of memory required for a particular SKIRT simulation, SKIRT can be executed in
-\em emulation mode. In this mode, SKIRT will limit the amount of computation while still traversing all relevant
+\em emulation mode. In this mode, SKIRT will limit the amount of computation while still traversing most relevant
 simulation steps. At the end, an estimate of the amount of required memory will be stated. Emulation mode can
 be invoked by passing the '-e' command line option to the SKIRT executable.
 
@@ -189,11 +192,10 @@ skirt -e example.ski
 \endverbatim
 
 The behaviour of the other command-line arguments is unchanged when using the emulation option. Multiprocessing is also
-supported (see \ref UserParallelProcesses), because memory consumption may differ between processes. To invoke
-emulation mode with multiple processes, use, for example:
+supported (see \ref UserParallelProcesses). To invoke emulation mode with multiple processes, use, for example:
 
 \verbatim
-mpirun -np 2 skirt -e -v example.ski
+mpirun -np 2 /path/to/executable/skirt -e -v example.ski
 \endverbatim
 
 The amount of memory stated at the end of the console output applies to just the root process. The memory

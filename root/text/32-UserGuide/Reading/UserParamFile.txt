@@ -4,28 +4,27 @@
 
 \section UserParamFileStruct Structure of a ski file
 
-A SKIRT parameter file is an XML document stored using UTF-8 encoding. The structure of the XML elements and
-attributes closely mimics the run-time object hierarchy representing a simulation in the SKIRT code. For
-example:
+A SKIRT parameter file (\em ski file) is an XML document stored using UTF-8 encoding. The structure of the XML elements
+and attributes closely mimics the run-time object hierarchy representing a simulation in the SKIRT code. For example,
+here is the contents of a minimal "no-operation" ski file:
 
 \verbatim
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- A SKIRT parameter file -->
+<!-- A SKIRT parameter file © Astronomical Observatory, Ghent University -->
 <skirt-simulation-hierarchy type="MonteCarloSimulation" format="9">
-    <MonteCarloSimulation userLevel="Regular" simulationMode="ExtinctionOnly" numPackets="1e6">
+    <MonteCarloSimulation userLevel="Basic" simulationMode="OligoNoMedium" numPackets="0">
         <units type="Units">
-            <ExtragalacticUnits fluxOutputStyle="Frequency"/>
+            <ExtragalacticUnits wavelengthOutputStyle="Wavelength" fluxOutputStyle="Frequency"/>
         </units>
-        <sourceSystem type="SourceSystem">
-            <SourceSystem minWavelength="0.09 micron" maxWavelength="100 micron">
-
-                ... more ...
-
-            </SourceSystem>
+        <sourceSystem type="SourceSystem" wavelengths="0.55 micron">
+            <SourceSystem/>
         </sourceSystem>
         <instrumentSystem type="InstrumentSystem">
             <InstrumentSystem/>
         </instrumentSystem>
+        <probeSystem type="ProbeSystem">
+            <ProbeSystem/>
+        </probeSystem>
     </MonteCarloSimulation>
 </skirt-simulation-hierarchy>
 \endverbatim
@@ -55,7 +54,11 @@ indirectly specifies the names of the XML element or elements that can be immedi
 type corresponds to the name of an abstract C++ class, and the names of the immediately contained element(s) must
 correspond to a C++ class that inherits the specified class.
 
-The root element always has type MonteCarloSimulation.
+\section UserParamFileUnits Supported units
+
+When SKIRT outputs a parameter file, it always uses the defaults of the units system selected by the ski file.
+However, when reading parameters in ski files and in interactive mode, SKIRT recognizes various unit abbreviations
+for physical quantities as listed in \ref UserUnits.
 
 \section UserParamFileEdit Editing a ski file
 
@@ -76,17 +79,11 @@ about a particular option in the SKIRT reference documentation, even if you are 
    in the C++ class corresponding to the name of the XML element in which the non-capitalized element resides. For
    example, sourceSystem() is a function in the MonteCarloSimulation class.
  - An XML attribute name (except \c type) corresponds to a function name in the C++ class corresponding to the name
-   of the element carrying the attribute. For example, minWavelength() is a function in the SourceSystem class.
+   of the element carrying the attribute. For example, wavelengths() is a function in the SourceSystem class.
 
 Quick reference help for manual ski file editing can be found here:
 
   - \ref SkiFileHelpSubclasses
   - \ref SkiFileHelpProperties
-
-\section UserParamFileUnits Supported units
-
-When SKIRT outputs a parameter file, it always uses the defaults of the units system selected by the ski file.
-However, when reading parameters in ski files and in interactive mode, SKIRT recognizes various unit abbreviations
-for physical quantities as listed in \ref UserUnits.
 
 */

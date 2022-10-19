@@ -2,7 +2,57 @@
 
 \page UserMakeUp Using MakeUp, the graphical interface for SKIRT parameter files
 
-This topic should provide information on how to use MakeUp to configure ski files.
+\section UserMakeUpIntro Introduction
+
+The MakeUp utility is an optional component of the SKIRT project that requires installation of the Qt libraries.
+Assuming you have built MakeUp (see \ref InstallationGuide), you can create and edit parameter files for SKIRT through
+a graphical wizard-like user interface.
+
+MakeUp is built as a separate program, so it does not need to run on the same computer as the SKIRT command line
+program. The consecutive wizard panes follow the same pattern as the Q&A session driven by the command-line program
+(see \ref UserCmdLineInter), with important benefits offered by the graphical user interface:
+
+- You can modify existing SKIRT parameter files (\em ski files) without having to open them in a text
+  editor and manually changing values. Sometimes changing a certain parameter requires other additional parameters to
+  be set or others to be deleted from the parameter file, which is not easily done by hand. The MakeUp
+  interface will automatically adapt its questions after you change such a parameter.
+- You can go back to the preceding wizard panes. With the command line Q&A session, when you
+  enter an incorrect value, you either have to abort the session and start over, or you have to remember to change the
+  value once the parameter file has been created. And when you select a parameter value that influences the course of
+  the session (e.g. you add the wrong type of geometry), you have no other choice than to start over.
+- When adding components to a list (instruments, geometries, stellar or dust components), you get a visualization of
+  the components already added. You also have the option to edit any component in the list, or to remove one.
+- You can get context-sensitive help on the items and properties being configured through built-in links
+  to the SKIRT web site.
+
+\section UserMakeUpUsing Using MakeUp
+
+Once the SKIRT project has been built with the appropriate build options (see \ref InstallationGuide), the executable
+for MakeUp can be found in a directory called <tt>~/SKIRT/release/MakeUp/main</tt>. On some platforms, such as macOS,
+you can double-click the application icon to launch MakeUp. On other platforms, it has to be launched from the command
+line. In any case, there are no command line options.
+
+After MakeUp has been launched, the following window appears:
+
+\image html UserMakeUpStart.png
+
+In this window, MakeUp offers the possibility of creating a new parameter file for SKIRT or editing an existing
+one. Selecting one of the options and pressing "Continue" will take you into a wizard session that follows the same
+pattern as the command line interface invoked by launching SKIRT in a terminal window without command line
+arguments. For example, when adding an instrument that records IFU data cubes, the wizard pane may look like this:
+
+\image html UserMakeUpInstrument.png
+
+In the configuration pane for a particular property, there are two noteworthy user-assistance features:
+
+- When you right-click on the text describing a property or option, MakeUp displays a context-sensitive popup menu
+  with a list of help options. Selecting one of these options opens the corresponding online SKIRT documentation
+  in your default web browser.
+- The lower left corner of the MakeUp window shows the name and "path" of the property being configured
+  as it would appear in a \em ski file. This can help locating the property in ski files for manual editing.
+
+At the end of the session, a final wizard pane asks the user to save the new or adjusted configuration in a
+parameter file on disk.
 
 
 */
