@@ -275,7 +275,7 @@ exponential disk with a scale length of 4 kpc and a scale height of 350 pc, and 
    Possible choices for the spectral energy distribution for the source:
       1. A black-body spectral energy distribution
       2. The spectral energy distribution of the Sun
-      ...
+         ...
  ? Enter one of these numbers [1,9] (1):
  ? Enter the black body temperature ]0 K,∞ K[ (5000 K):
    Possible choices for the type of luminosity normalization for the source:
@@ -306,22 +306,22 @@ specify a luminosity at \f$\lambda=0.55~\mu\text{m}\f$ (the wavelength specified
    Possible choices for item #2 in the primary sources list:
       1. A primary point source
       2. A primary source with a built-in geometry
-      ...
+         ...
  ? Enter one of these numbers or zero to terminate the list [0,6] (2):
    Possible choices for the geometry of the spatial luminosity distribution for the source:
-      ...
+         ...
       2. A gamma geometry
       3. A Sérsic geometry
-      ...
+         ...
      16. A decorator that adds a rotation to any geometry
      17. A decorator that constructs a spheroidal variant of any spherical geometry
-     ...
+         ...
  ? Enter one of these numbers [1,21] (1): 17
    Possible choices for the spherical geometry to be made spheroidal:
       1. A Plummer geometry
       2. A gamma geometry
       3. A Sérsic geometry
-      ...
+         ...
  ? Enter one of these numbers [1,6] (1): 3
  ? Enter the effective radius ]0 pc,∞ pc[: 1600
  ? Enter the Sérsic index n ]0.5,10] (1): 2
@@ -338,7 +338,7 @@ to form a clumpy triaxial Einasto geometry.
 \verbatim
    Possible choices for the spectral energy distribution for the source:
       1. A black-body spectral energy distribution
-      ...
+         ...
  ? Enter one of these numbers [1,9] (1):
  ? Enter the black body temperature ]0 K,∞ K[ (5000 K):
    Possible choices for the type of luminosity normalization for the source:
@@ -363,7 +363,7 @@ Further specify the second source component's luminosity at wavelength \f$\lambd
    Possible choices for item #3 in the primary sources list:
       1. A primary point source
       2. A primary source with a built-in geometry
-      ...
+         ...
  ? Enter one of these numbers or zero to terminate the list [0,5] (2): 0
 \endverbatim
 
@@ -390,7 +390,7 @@ set to \em Basic, default values are used for all of the extra photon lifecycle 
    Possible choices for item #1 in the transfer media list:
       1. A transfer medium with a built-in geometry
       2. A transfer medium imported from smoothed particle data
-      ...
+         ...
  ? Enter one of these numbers [1,5] (1):
 \endverbatim
 
@@ -403,7 +403,7 @@ choice).
 \verbatim
    Possible choices for the geometry of the spatial density distribution for the medium:
       1. A Plummer geometry
-      ...
+         ...
       7. An exponential disk geometry
          ...
  ? Enter one of these numbers [1,21] (1): 7
@@ -420,13 +420,13 @@ lane when viewing the galaxy edge-on.
    Possible choices for the material type and properties throughout the medium:
       1. A typical interstellar dust mix (mean properties)
       2. A THEMIS (Jones et al. 2017) dust mix
-      ...
+         ...
  ? Enter one of these numbers [1,10] (1):
    Possible choices for the type of normalization for the amount of material:
       1. Normalization by defining the total mass
       2. Normalization by defining the total number of entities
       3. Normalization by defining the optical depth along a coordinate axis
-      ...
+         ...
  ? Enter one of these numbers [1,5] (3):
    Possible choices for the axis along which to specify the normalization:
       1. The X axis of the model coordinate sytem
@@ -448,7 +448,7 @@ For this tutorial, select a basic dust mixture based on the average properties o
 \verbatim
   Possible choices for item #2 in the transfer media list:
       1. A transfer medium with a built-in geometry
-      ...
+         ...
  ? Enter one of these numbers or zero to terminate the list [0,5] (1): 0
 \endverbatim
 
@@ -606,27 +606,27 @@ All probes are part of the probe system. Because there is only one type of probe
  ? Enter the name for this probe: cnv
 
    Possible choices for item #2 in the probes list:
-      ...
+         ...
       2. Convergence: cuts of the medium density along the coordinate planes
-      ...
+         ...
    ? Enter one of these numbers or zero to terminate the list [0,8] (1): 2
    ? Enter the name for this probe: cut
 
    Possible choices for item #3 in the probes list:
-      ...
+         ...
       7. Properties: data files for plotting the structure of the grid
-      ...
+         ...
  ? Enter one of these numbers or zero to terminate the list [0,8] (1): 7
  ? Enter the name for this probe: grid
 
    Possible choices for item #4 in the probes list:
-      ...
+         ...
       8. Properties: aggregate optical material properties for each medium
  ? Enter one of these numbers or zero to terminate the list [0,8] (1): 8
  ? Enter the name for this probe: opt
    Possible choices for item #5 in the probes list:
       1. Convergence: information on the spatial grid
-      ...
+         ...
  ? Enter one of these numbers or zero to terminate the list [0,8] (1): 0
 \endverbatim
 

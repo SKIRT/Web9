@@ -1,6 +1,6 @@
 /**
 
-\page TutorialBasicsPan Panchromatic simulation of a dust torus with SKIRT
+\page TutorialBasicsPan Panchromatic simulation of a dust torus
 
 \image html TutorialBasicsPanSpectra.png
 
@@ -10,16 +10,15 @@ appropriate simulation parameters, perform the simulation, and review and interp
 
 \section TutorialBasicsPanPre Getting ready
 
-This tutorial assumes that you have completed the introductory SKIRT tutorial \ref TutorialBasicsMono, or that you
-have otherwise acquired the working knowlegde introduced there. At the very least, before starting this tutorial, you
-should have installed the SKIRT code, and preferably a FITS file viewer such as DS9 and the Python toolkit for \c
-SKIRT (\c PTS).
+This tutorial assumes that you have completed the introductory SKIRT tutorial \ref TutorialBasicsMono, or that you have
+otherwise acquired the working knowlegde introduced there. At the very least, before starting this tutorial, you should
+have installed the SKIRT code, and preferably also PTS and a FITS file viewer such as DS9 (see \ref InstallationGuide).
 
 \section TutorialBasicsPanSki Creating the ski file
 
 \subsection TutorialBasicsPanStart Starting the SKIRT Q&A
 
-In a Terminal window, with an appropriate current directory, start SKIRT without any command line arguments. \c
+In a terminal window, with an appropriate current directory, start SKIRT without any command line arguments.
 SKIRT responds with a welcome message and starts an interactive session in the terminal window, during which it will
 prompt you for all the information describing a particular simulation:
 
@@ -56,17 +55,24 @@ experience level of the user. Because the current tutorial is intended for begin
       2. Stellar units (length in AU, distance in pc)
       3. Extragalactic units (length in pc, distance in Mpc)
  ? Enter one of these numbers [1,3] (3): 2
+   Possible choices for the output style for wavelengths:
+      1. As photon wavelength: λ
+      2. As photon frequency: ν
+      3. As photon energy: E
+ ? Enter one of these numbers [1,3] (1):
    Possible choices for the output style for flux density and surface brightness:
       1. Neutral: λ F_λ = ν F_ν
-      2. Wavelength: F_λ
-      3. Frequency: F_ν
- ? Enter one of these numbers [1,3] (3): 3
+      2. Per unit of wavelength: F_λ
+      3. Per unit of frequency: F_ν
+      4. Counts per unit of energy: F_E
+  ? Enter one of these numbers [1,4] (3):
 \endverbatim
 
-As discussed in the previous tutorial (see \ref TutorialBasicsMonoUni), SKIRT offers several output unit systems.
-For the current tutorial, you will be setting up a dust torus surrounding a stellar source, so it is most convenient to
-use stellar units with sizes expressed in astronomical units. Select the frequency output style, expressing integrated
-fluxes in Jy and surface densities in MJy/sr.
+As discussed in the previous tutorial (see \ref TutorialBasicsMonoUni), SKIRT offers several output unit options. For
+the current tutorial, you will be setting up a dust torus surrounding a stellar source, so it is most convenient to use
+stellar units with sizes expressed in astronomical units. Select the wavelength output style for the spectral variable
+and the per unit of frequency style for fluxes (expressing integrated flux density in Jy and surface brightness in
+MJy/sr).
 
 \subsection TutorialBasicsPanSim Simulation mode
 
@@ -75,10 +81,12 @@ fluxes in Jy and surface densities in MJy/sr.
       1. No medium - oligochromatic regime (a few discrete wavelengths)
       2. Extinction only - oligochromatic regime (a few discrete wavelengths)
       3. No medium (primary sources only)
-      4. Extinction-only (no secondary emission)
-      5. With secondary emission from dust
-      6. With secondary emission from dust and iterations for dust self-absorption
- ? Enter one of these numbers [1,6] (4): 5
+      4. Extinction only (no secondary emission)
+      5. Extinction only with Lyman-alpha line transfer
+      6. With secondary emission from dust
+      7. With secondary emission from gas
+      8. With secondary emission from dust and gas
+ ? Enter one of these numbers [1,8] (4): 6
 \endverbatim
 
 As discussed in the previous tutorial (see \ref TutorialBasicsMonoSim), the answer to this question determines the
@@ -96,7 +104,7 @@ emission). In other words, you need the panchromatic wavelength regime "with sec
 \endverbatim
 
 Because the simulation in this tutorial covers a broad wavelength range, the number of photon packets must be higher
-than the default value to obtain an acceptable signal to noise ratio. Keep in mind though that the run time of a \c
+than the default value to obtain an acceptable signal to noise ratio. Keep in mind though that the run time of a
 SKIRT simulation is roughly proportional to the number of photon packets being launched. To limit the run time for this
 tutorial, set the number of photon packets to \f$10^7\f$. This number is sufficient to produce a reasonable %SED for
 the simple 2D tutorial model, but the frames in the data cube will be quite noisy.
@@ -105,8 +113,8 @@ the simple 2D tutorial model, but the frames in the data cube will be quite nois
 \subsection TutorialBasicsPanSrc Source system
 
 \verbatim
- ? Enter the shortest wavelength of photon packets launched from primary sources [0.0001 micron,1e6 micron] (0.09 micron):
- ? Enter the longest wavelength of photon packets launched from primary sources [0.0001 micron,1e6 micron] (100 micron):
+ ? Enter the shortest wavelength of photon packets launched from primary sources [1e-6 micron,1e6 micron] (0.09 micron):
+ ? Enter the longest wavelength of photon packets launched from primary sources [1e-6 micron,1e6 micron] (100 micron):
 \endverbatim
 
 For a panchromatic simulation, the source system requests the limits of the wavelength range to be considered for
@@ -119,7 +127,7 @@ primary sources. For this tutorial, simply accept the suggested default values, 
       2. A primary source with a built-in geometry
       3. A primary source imported from smoothed particle data
          ...
- ? Enter one of these numbers or zero to terminate the list [0,5] (2): 1
+ ? Enter one of these numbers or zero to terminate the list [0,6] (2): 1
  ? Enter the position of the point source, x component ]-∞ AU,∞ AU[ (0 AU):
  ? Enter the position of the point source, y component ]-∞ AU,∞ AU[ (0 AU):
  ? Enter the position of the point source, z component ]-∞ AU,∞ AU[ (0 AU):
@@ -133,7 +141,7 @@ the offered list of options, and leave its position coordinates at the default v
       1. A black-body spectral energy distribution
       2. The spectral energy distribution of the Sun
          ...
- ? Enter one of these numbers [1,7] (1): 2
+ ? Enter one of these numbers [1,9] (1): 2
    Possible choices for the type of luminosity normalization for the source:
       1. Source normalization through the integrated luminosity for a given wavelength range
       2. Source normalization through the specific luminosity at a given wavelength
@@ -158,10 +166,11 @@ luminosity of the Sun. When asked for a second stellar component, enter zero to 
       1. A logarithmic wavelength grid
       2. A nested logarithmic wavelength grid
       3. A linear wavelength grid
- ? Enter one of these numbers [1,3] (1): 1
- ? Enter the shortest wavelength [0.0001 micron,1e6 micron]: 0.09
- ? Enter the longest wavelength [0.0001 micron,1e6 micron]: 100
- ? Enter the number of wavelength grid points [3,2000000000] (25):
+         ...
+ ? Enter one of these numbers [1,7] (1): 1
+ ? Enter the shortest wavelength [1e-6 micron,1e6 micron]: 0.09
+ ? Enter the longest wavelength [1e-6 micron,1e6 micron]: 100
+ ? Enter the number of wavelength grid points [2,2000000000] (25):
 \endverbatim
 
 Primary sources assign randomly sampled wavelengths to the launched photon packets. These wavelengths can have any
@@ -172,9 +181,9 @@ be stored in a finite number of wavelength bins. Because there may be many spati
 of wavelength bins used for storing the radiation field has a substantial effect on the memory consumption of the
 simulation.
 
-SKIRT offers several types of wavelength grids that can be used for discretizing a wavelength range:
+SKIRT offers several types of wavelength grids that can be used for discretizing a wavelength range. For example:
   - A logarithmic grid creates wavelength bins of equal width in logarithmic space; this is usually the appropriate
-    choice for large wavelength ranges.
+    choice for wide wavelength ranges.
   - A nested logarithmic grid merges a narrow fine logarithmic grid into a wider coarse grid; this is
     useful to provide higher wavelength resolution in a given subrange.
   - A linear grid creates wavelength bins of equal width in linear space; this can be useful to cover narrow
@@ -189,10 +198,11 @@ of 25 bins.
       1. A logarithmic wavelength grid
       2. A nested logarithmic wavelength grid
       3. A linear wavelength grid
- ? Enter one of these numbers [1,3] (1): 1
- ? Enter the shortest wavelength [0.0001 micron,1e6 micron]: 1
- ? Enter the longest wavelength [0.0001 micron,1e6 micron]: 1000
- ? Enter the number of wavelength grid points [3,2000000000] (25): 100
+         ...
+ ? Enter one of these numbers [1,7] (1): 1
+ ? Enter the shortest wavelength [1e-6 micron,1e6 micron]: 1
+ ? Enter the longest wavelength [1e-6 micron,1e6 micron]: 1000
+ ? Enter the number of wavelength grid points [2,2000000000] (25): 100
 \endverbatim
 
 Similarly, the thermal emission spectrum for the dust in each spatial cell can only be calculated at a finite number of
@@ -209,8 +219,8 @@ range of \f$1~\mu{\text{m}} <= \lambda <= 1000~\mu{\text{m}}\f$ and with 100 wav
    Possible choices for item #1 in the transfer media list:
       1. A transfer medium with a built-in geometry
       2. A transfer medium imported from smoothed particle data
-      ...
- ? Enter one of these numbers [1,4] (1):
+         ...
+ ? Enter one of these numbers [1,5] (1):
 \endverbatim
 
 The medium system in this tutorial simulation contains just a single built-in component describing a torus. So you need
@@ -222,7 +232,7 @@ to select the "built-in geometry" medium component type.
          ...
       9. A torus geometry
          ...
- ? Enter one of these numbers [1,20] (1): 9
+ ? Enter one of these numbers [1,21] (1): 9
  ? Enter the radial powerlaw exponent p of the torus [0,∞[: 0
  ? Enter the polar index q of the torus [0,∞[: 0
  ? Enter the half opening angle of the torus [0 deg,90 deg]: 10
@@ -240,16 +250,14 @@ density distribution is not very realistic, but it facilitates interpreting the 
       2. A THEMIS (Jones et al. 2017) dust mix
       3. A Draine and Li (2007) dust mix
       4. A Zubko et al. (2004) dust mix
-      5. A Weingartner and Draine (2001) dust mix
-      6. An MRN (1997) dust mix
-      7. A population of electrons
- ? Enter one of these numbers [1,7] (1): 4
+         ...
+ ? Enter one of these numbers [1,10] (1): 4
  ? Enter the number of silicate grain size bins [1,2000000000] (5):
  ? Enter the number of graphite grain size bins [1,2000000000] (5):
  ? Enter the number of neutral and ionized PAH size bins (each) [1,2000000000] (5):
 \endverbatim
 
-In addition to the spatial distribution of the dust, you need to provide its optical and calorimetric properties. \c
+In addition to the spatial distribution of the dust, you need to provide its optical and calorimetric properties.
 SKIRT offers a wide range of options to define material properties. On the most basic level, SKIRT includes built-in
 dust mixes that offer "mean" properties only. With these mean properties SKIRT can produce an exact solution for
 dust extinction effects, but not for thermal dust emission. A more accurate calculation of the dust emission spectrum
@@ -265,10 +273,11 @@ default value of 5.
 \verbatim
    Possible choices for the type of normalization for the amount of material:
       1. Normalization by defining the total mass
-      2. Normalization by defining the optical depth along a coordinate axis
-      3. Normalization by defining the mass column density along a coordinate axis
-      4. Normalization by defining the number column density along a coordinate axis
- ? Enter one of these numbers [1,4] (2): 2
+      2. Normalization by defining the total number of entities
+      3. Normalization by defining the optical depth along a coordinate axis
+      4. Normalization by defining the mass column density along a coordinate axis
+      5. Normalization by defining the number column density along a coordinate axis
+ ? Enter one of these numbers [1,5] (3): 3
    Possible choices for the axis along which to specify the normalization:
       1. The X axis of the model coordinate sytem
       2. The Y axis of the model coordinate sytem
@@ -328,10 +337,10 @@ a ratio of the width of the outermost to the innermost bin of 20 in both directi
       1. A logarithmic wavelength grid
       2. A nested logarithmic wavelength grid
          ...
- ? Enter one of these numbers [1,4] (1): 1
- ? Enter the shortest wavelength [0.0001 micron,1e6 micron]: 0.09
- ? Enter the longest wavelength [0.0001 micron,1e6 micron]: 1000
- ? Enter the number of wavelength grid points [3,2000000000] (25): 200
+ ? Enter one of these numbers [1,8] (1): 1
+ ? Enter the shortest wavelength [1e-6 micron,1e6 micron]: 0.09
+ ? Enter the longest wavelength [1e-6 micron,1e6 micron]: 1000
+ ? Enter the number of wavelength grid points [2,2000000000] (25): 200
 \endverbatim
 
 Similar to the situation with recording the radiation field, instruments need to detect and store wavelength dependent
@@ -384,26 +393,55 @@ When asked for a third instrument, enter zero to terminate the list.
 
 \verbatim
    Possible choices for item #1 in the probes list:
-      1. The instrument wavelength grids
-      2. The primary source luminosities
-      3. Data files for plotting the structure of the grid
-      4. Convergence information on the spatial grid
-      5. Cuts of the media densities along the coordinate planes
-      6. Aggregate optical material properties for each medium
-      7. Dust grain population mass and size information
-      8. Dust grain size distribution
-      9. Cuts of the mean radiation field intensity along the coordinate planes
-     10. Cuts of the indicative dust temperature along the coordinate planes
- ? Enter one of these numbers or zero to terminate the list [0,10] (4):
+      1. Convergence: information on the spatial grid
+      2. Convergence: cuts of the medium density along the coordinate planes
+      3. Source: luminosities of primary sources
+      4. Internal spatial grid: density of the medium
+      5. Internal spatial grid: opacity of the medium
+      6. Internal spatial grid: indicative temperature of the medium
+      7. Properties: basic info for each spatial cell
+      8. Properties: data files for plotting the structure of the grid
+      9. Properties: aggregate optical material properties for each medium
+ ? Enter one of these numbers or zero to terminate the list [0,9] (1): 1
+ ? Enter the name for this probe: cnv
+
+   Possible choices for item #2 in the probes list:
+         ...
+      2. Convergence: cuts of the medium density along the coordinate planes
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,9] (1): 2
+ ? Enter the name for this probe: dns
+
+   Possible choices for item #3 in the probes list:
+         ...
+      6. Internal spatial grid: indicative temperature of the medium
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,9] (1): 6
+ ? Enter the name for this probe: tmp
+   Possible choices for the form describing how this quantity should be probed:
+      1. Default planar cuts along the coordinate planes
+      2. A text column file with values for each spatial cell
+ ? Enter one of these numbers [1,2] (1): 1
+
+   Possible choices for item #4 in the probes list:
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,9] (1): 0
 \endverbatim
 
 Configure the following probes, in arbitrary order, and specify their names as follows.
 
-| Probe type | Probe name
-|------------|-----------
-| Convergence information on the spatial grid                         | cnv
-| Cuts of the media densities along the coordinate planes             | dns
-| Cuts of the indicative dust temperature along the coordinate planes | tmp
+| %Probe type | %Probe name
+|-------------|-----------
+| Convergence: information on the spatial grid                        | cnv
+| Convergence: cuts of the medium density along the coordinate planes | dns
+| Internal spatial grid: indicative temperature of the medium         | tmp
+
+For the temperature probe, you can choose the "form" in which the quantity should be probed. This is so because various
+types of output can be produced for a given quantity (in this case the temperature). In \em Basic mode, there are just
+two options: FITS files showing a planar cut along each coordinate plane, or a text file listing the temperature for
+every cell in the spatial grid. In \em Regular mode, additional options become available, including for example
+parallel projection along a specified line of sight. For this tutorial, select the option to produce planar cuts along
+the coordinate planes.
 
 Finally, when asked for the subsequent probe, enter zero to terminate the list.
 
@@ -424,6 +462,27 @@ the strength of radiation field in each spatial cell at each wavelength in the c
 grid. During the secondary emission phase, SKIRT uses this information to calculate the secondary dust emission
 spectrum in each spatial cell.
 
+\verbatim
+ ! SunSED available spectrum does not fully cover the configured source wavelength range
+ !   Configured: 0.09 micron - 100 micron
+ !   Available: 0.0915 micron - 160 micron
+   ...
+ ! ZubkoDustMix dust properties are not available for full simulation wavelength range
+ !   Required: 0.0769 micron - 2.02e+03 micron
+ !   Available: 0.001 micron - 1e+03 micron
+\endverbatim
+
+During setup, SKIRT issues two warning messages. The first one states that the solar spectrum is not available for the
+complete source wavelength range (\f$0.09~\mu{\text{m}} <= \lambda <= 1000~\mu{\text{m}}\f$) requested in the
+configuration. Upon closer inspection, the missing range is very small so this will have no significant effect on the
+simulation results. The second warning indicates that the optical properties for the Zubko et al. 2004 dust model are
+not available for wavelengths longer than \f$1000~\mu{\text{m}}\f$. Even if the configuration for this tutorial does
+not specify any wavelengths beyond \f$1000~\mu{\text{m}}\f$, SKIRT uses wavelengths up to slightly over
+\f$2000~\mu{\text{m}}\f$ to calculate the dust temperature based on the radiation field, causing this warning. However,
+the effect on the simulation results will again be negligible. Hence, in this case, you can safely ignore these
+warnings.
+
+
 \subsection TutorialBasicsPanOutput Output files
 
 Most of the output files for this tutorial are similar to those already described for the previous tutorial (see \ref
@@ -435,40 +494,39 @@ The instruments used in this tutorial each produce two files:
 - \c PanTorus_iNN_sed.dat is a column text data file representing the spectral energy distribution of the photon
   packets detected by the instrument; there are two columns (wavelength, flux) that can easily be plotted.
 
-There are some additional files produced by the indicative dust temperature probe (named "tmp" in the table above):
- - \c PanTorus_tmp_dust_T_xy.fits & \c PanTorus_tmp_dust_T_xz.fits ("temperature") are FITS data files containing
-   a 1024 x 1024 pixel map of the indicative dust temperature in a coordinate plane, across the total extension of
+There are some additional files produced by the temperature probe (named "tmp" in the table above):
+ - \c PanTorus_tmp_dust_T_xy.fits & \c PanTorus_tmp_dust_T_xz.fits are FITS data files containing
+   a 1024 x 1024 pixel map of the indicative dust temperature in a coordinate plane, across the total extent of
    the spatial grid.
 
-The output of the indicative dust temperature probe is meaningful only for panchromatic simulations that track the
+For dust media, the output of the temperature probe is meaningful only for panchromatic simulations that track the
 radiation field over a sufficiently wide wavelength range to properly calculate the thermal state of the dust grains.
-
-Note that the indicative dust temperature calculated by this and other probes does not correspond to a physical
-temperature. The dust grain population of a typical dust mix, when embedded in a particular radiation field, shows a
-temperature distribution rather than a single temperature. To calculate the indicative dust temperature for a given
-spatial cell, SKIRT uses a straightforward averaging mechanism. However, there are several methods to obtain such a
-representative temperature, and in general each method yields a different value.
+Furthermore, the indicative dust temperature calculated by this probe does not correspond to a physical temperature.
+The dust grain population of a typical dust mix, when embedded in a particular radiation field, shows a temperature
+distribution rather than a single temperature. To calculate the indicative dust temperature for a given spatial cell,
+SKIRT uses a straightforward averaging mechanism. However, there are several methods to obtain such a representative
+temperature, and in general each method yields a different value.
 
 \subsection TutorialBasicsPanDens Dust density
 
 As always it is a good idea to open the file \c PanTorus_cnv_convergence.dat in a text editor and check the dust grid
 convergence metrics. The expected values should be within a few percent of the actual values. It is also instructive to
 compare the theoretical and gridded dust density cuts (e.g. \c PanTorus_dns_dust_t_xz.fits and \c
-PanTorus_dns_dust_g_xz.fits) in an interactive FITS viewer or by plotting them using the following \c PTS command:
+PanTorus_dns_dust_g_xz.fits) in an interactive FITS viewer or by plotting them using the following PTS command:
 
 \verbatim
-pts plot_density_cuts . --prefix=PanTorus --dex 2
+pts plot_convergence . --prefix=PanTorus --dex 2
 \endverbatim
 
 Note, for example, the grid effects and the varying cell sizes at the edges of the torus in this tutorial model.
 
 \subsection TutorialBasicsPanTemp Dust temperature
 
-Open the temperature maps (\c PanTorus_tmp_dust_T_xy.fits and \c PanTorus_tmp_dust_T_xz.fits) in an interactive FITS
-viewer or by plotting them using the following \c PTS command:
+View the temperature maps (\c PanTorus_tmp_dust_T_xy.fits and \c PanTorus_tmp_dust_T_xz.fits) in an interactive FITS
+viewer or by plotting them using the following PTS command:
 
 \verbatim
-pts plot_temperature_cuts . --prefix=PanTorus
+pts plot_temperature . --prefix=PanTorus
 \endverbatim
 
 The contents of the resulting PDF file should look like this:
@@ -482,7 +540,7 @@ mixture.
 
 \subsection TutorialBasicsPanSpectra Spectra
 
-\c PTS offers a simple way to create a plot of the spectral energy distributions (SEDs) produced by a SKIRT
+PTS offers a simple way to create a plot of the spectral energy distributions (SEDs) produced by a SKIRT
 simulation. The SEDs for all instruments are combined on the same figure. After the simulation has completed, make sure
 that the output directory is your current directory, and enter the following command:
 
@@ -491,7 +549,7 @@ $ pts plot_seds . --prefix=PanTorus --dex=1.5 --wmin=0.1 --wmax=200
 \endverbatim
 
 which includes these arguments:
-- \c plot_seds is the name of the \c PTS command to be performed.
+- \c plot_seds is the name of the PTS command to be performed.
 - The dot indicates that the SKIRT output resides in the current directory.
 - \c --prefix=PanTorus specifies the simulation to be handled (default is to handle all simulations in the directory).
 - \c --dex=1.5 specifies the number of decades on the vertical flux axis of the plot.
