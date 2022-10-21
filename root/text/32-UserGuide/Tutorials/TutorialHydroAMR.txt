@@ -1,6 +1,6 @@
 /**
 
-\page TutorialHydroAMR Scattering off dust in a Kelvin-Helmholtz instability with SKIRT
+\page TutorialHydroAMR Scattering by dust in a Kelvin-Helmholtz instability
 
 \image html TutorialHydroAMRBrightness.png
 
@@ -13,27 +13,29 @@ Adaptive Mesh Refinement) with the MPI-AMRVAC code developed at the K.U.Leuven (
 includes a gas component and a dust component. The resulting spatial dust density distribution has been written to a
 text column file in a format appropriate for importing into SKIRT.
 
-The <a href="../skirt9/_concepts.html">SKIRT concepts section</a> includes a concept note that provides a more general
-overview of SKIRT's capabilities for importing (magneto-)hydrodynamical simulation results.
-
 \section TutorialHydroAmrPre Getting ready
 
-This tutorial assumes that you have completed the introductory SKIRT tutorial \ref TutorialBasicsMono, or that you
-have otherwise acquired the working knowlegde introduced there. At the very least, before starting this tutorial, you
-should have installed the SKIRT code, and preferably a FITS file viewer such as DS9 and the Python toolkit for \c
-SKIRT (\c PTS).
+This tutorial assumes that you have completed the introductory SKIRT tutorial \ref TutorialBasicsMono, or that you have
+otherwise acquired the working knowlegde introduced there. At the very least, before starting this tutorial, you should
+have installed the SKIRT code, and preferably also PTS and a FITS file viewer such as DS9 (see \ref InstallationGuide).
 
 To complete this tutorial, you need the example output file produced by the MPI-AMRVAC simulation. Download the file \c
-kh_amr.txt from the <a href="../version9/_downloads.html">SKIRT downloads page</a> and put it into your local working
-directory.
+kh_amr.txt using the link provided in the table below and put it into your local working directory.
+
+<TABLE>
+<TR><TH>Dust density distribution</TH>
+        <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/kh_amr.txt">kh_amr.txt</a>
+        </TD>
+</TABLE>
+
 
 \section TutorialHydroAmrSki Creating the ski file
 
 \subsection TutorialHydroAmrStart Starting the SKIRT Q&A
 
-In a Terminal window, with an appropriate current directory, start SKIRT without any command line arguments. \c
-SKIRT responds with a welcome message and starts an interactive session in the terminal window, during which it will
-prompt you for all the information describing a particular simulation:
+In a terminal window, with your local working directory as the current directory, start SKIRT without any command line
+arguments. \c SKIRT responds with a welcome message and starts an interactive session in the terminal window, during
+which it will prompt you for all the information describing a particular simulation:
 
 \verbatim
    Welcome to SKIRT v___
@@ -57,9 +59,9 @@ these questions are provided without prompting the user, and listing them here w
  ? Enter one of these numbers [1,3] (2): 2
 \endverbatim
 
-As discussed in a previous tutorial (see \ref TutorialBasicsMonoLev), the Q&A session can be tailored to the
-experience level of the user. In this tutorial, you will be using a few features that would be hidden in the
-\em Basic level. Thus, you need to select \em Regular level.
+As discussed in a previous tutorial (see \ref TutorialBasicsMonoLev), the Q&A session can be tailored to the experience
+level of the user. In this tutorial, you will be using just a few features that would be hidden in the \em Basic level.
+Thus, you need to select the \em Regular level.
 
 \subsection TutorialHydroAmrUni Units
 
@@ -69,17 +71,24 @@ experience level of the user. In this tutorial, you will be using a few features
       2. Stellar units (length in AU, distance in pc)
       3. Extragalactic units (length in pc, distance in Mpc)
  ? Enter one of these numbers [1,3] (3): 2
+   Possible choices for the output style for wavelengths:
+      1. As photon wavelength: λ
+      2. As photon frequency: ν
+      3. As photon energy: E
+ ? Enter one of these numbers [1,3] (1):
    Possible choices for the output style for flux density and surface brightness:
       1. Neutral: λ F_λ = ν F_ν
-      2. Wavelength: F_λ
-      3. Frequency: F_ν
- ? Enter one of these numbers [1,3] (3): 3
+      2. Per unit of wavelength: F_λ
+      3. Per unit of frequency: F_ν
+      4. Counts per unit of energy: F_E
+  ? Enter one of these numbers [1,4] (3):
 \endverbatim
 
-As discussed in a previous tutorial (see \ref TutorialBasicsMonoUni), SKIRT offers several output unit systems. For
-the current tutorial, you will be modelling a molecular cloud, so it is most convenient to use stellar units. You can
-still use any of the supported units to enter parameter values, which will be handy to avoid manual unit conversions in
-a few places. Select the frequency output style, expressing integrated fluxes in Jy and surface densities in MJy/sr.
+As discussed in a previous tutorial (see \ref TutorialBasicsMonoUni), SKIRT offers several output unit options. For the
+current tutorial, you will be modelling a molecular cloud, so it is most convenient to use stellar units. You can still
+use any of the supported units to enter parameter values, which will be handy to avoid manual unit conversions in a few
+places. Thus, select stellar units with the wavelength output style for the spectral variable and per-frequency output
+style for fluxes, expressing integrated flux density in Jy and surface brightness in MJy/sr.
 
 \subsection TutorialHydroAmrSim Simulation mode
 
@@ -88,7 +97,7 @@ a few places. Select the frequency output style, expressing integrated fluxes in
       1. No medium - oligochromatic regime (a few discrete wavelengths)
       2. Extinction only - oligochromatic regime (a few discrete wavelengths)
       ...
- ? Enter one of these numbers [1,6] (4): 2
+ ? Enter one of these numbers [1,8] (4): 2
 \endverbatim
 
 As discussed in a previous tutorial (see \ref TutorialBasicsMonoSim), the answer to this question determines the
@@ -111,10 +120,22 @@ the observed scattered radiation. To limit the run time for this tutorial, set t
 \f$10^7\f$. This number is sufficient to produce a results for this tutorial, but would likely be insufficient in an
 actual research setting.
 
+\subsection TutorialHydroAmrRed Redshift
+
+\verbatim
+   Possible choices for the cosmology parameters:
+      1. The model is at redshift zero in the Local Universe
+      2. The model is at a given redshift in a flat universe
+ ? Enter one of these numbers [1,2] (1):
+\endverbatim
+
+SKIRT allows placing a simulated model at a specified nonzero redshift. For this tutorial, however, select the default
+option to place the model in the Local Universe.
+
 \subsection TutorialHydroAmrSrc Source system
 
 \verbatim
- ? Enter the wavelengths of photon packets launched ... [0.0001 micron,1e6 micron] (0.55 micron): 0.3, 0.55, 0.8
+ ? Enter the wavelengths of photon packets launched ... [1e-6 micron,1e6 micron] (0.55 micron): 0.3, 0.55, 0.8
 \endverbatim
 
 For an oligochromatic simulation, the source system requests the list of distinct wavelengths for which to launch
@@ -127,44 +148,46 @@ range: \f$\lambda_{1,2,3}=0.3,0.55,0.8\,\mu\textrm{m}\f$. The values must be sep
       2. A primary source with a built-in geometry
       3. A primary source imported from smoothed particle data
          ...
- ? Enter one of these numbers or zero to terminate the list [0,5] (2):
+ ? Enter one of these numbers or zero to terminate the list [0,6] (2):
    Possible choices for the geometry of the spatial luminosity distribution for the source:
       1. A Plummer geometry
       2. A gamma geometry
          ...
- ? Enter one of these numbers [1,20] (1): 1
+ ? Enter one of these numbers [1,20] (1):
  ? Enter the scale length ]0 AU,.. AU[: 0.03e18 cm
 \endverbatim
 
 Since the data file provided for this tutorial has no information on radiation sources, you need to configure an
 artificial stellar system to illuminate the dust. The suggested option is to use a Plummer profile with a scale length
-comparable to the size of the dust distribution (i.e. \f$0.03\times 10^{18}\,\mathrm{cm}\f$); this creates a fairly
-constant source of light across the configuration space.
+comparable to the size of the dust distribution (i.e. \f$0.03\times 10^{18}\,\mathrm{cm}\f$); this creates a nearly
+uniform radiation source across the configuration space.
 
 \verbatim
    Possible choices for the spectral energy distribution for the source:
       1. A black-body spectral energy distribution
          ...
-     10. A spectral energy distribution specified inside the configuration file
- ? Enter one of these numbers [1,10] (1): 10
- ? Enter the wavelengths at which to specify the specific luminosity [0.0001 micron,1e6 micron]: 0.2, 1
+     12. A spectral energy distribution specified inside the configuration file
+ ? Enter one of these numbers [1,12] (1): 12
+ ? Enter the wavelengths at which to specify the specific luminosity [1e-6 micron,1e6 micron]: 0.2, 1
    Possible choices for the luminosity unit style:
-      1. Per unit of wavelength: L_λ
-      2. Per unit of frequency: L_ν
-      3. Neutral: λ L_λ = ν L_ν
- ? Enter one of these numbers [1,3] (1): 2
+      1. Neutral: λ L_λ = ν L_ν
+      2. Per unit of wavelength: L_λ
+      3. Per unit of frequency: L_ν
+      4. Counts per unit of energy: L_E
+ ? Enter one of these numbers [1,4] (2): 3
  ? Enter the specific luminosities at each of the given wavelengths ]0 W/Hz,∞ W/Hz[: 1, 1
    Possible choices for the type of luminosity normalization for the source:
       1. Source normalization through the integrated luminosity for a given wavelength range
       2. Source normalization through the specific luminosity at a given wavelength
       3. Source normalization through the specific luminosity for a given wavelength band
  ? Enter one of these numbers [1,3] (1): 2
- ? Enter the wavelength at which to provide the specific luminosity [0.0001 micron,1e6 micron]: 0.55
+ ? Enter the wavelength at which to provide the specific luminosity [1e-6 micron,1e6 micron]: 0.55
    Possible choices for the luminosity unit style:
-      1. Per unit of wavelength: L_λ
-      2. Per unit of frequency: L_ν
-      3. Neutral: λ L_λ = ν L_ν
- ? Enter one of these numbers [1,3] (1): 1
+      1. Neutral: λ L_λ = ν L_ν
+      2. Per unit of wavelength: L_λ
+      3. Per unit of frequency: L_ν
+      4. Counts per unit of energy: L_E
+ ? Enter one of these numbers [1,4] (2): 2
  ? Enter the specific luminosity at the given wavelength ]0 Lsun/micron,∞ Lsun/micron[: 1
 \endverbatim
 
@@ -173,8 +196,8 @@ study the effects of the wavelength-dependent dust properties, and so it is most
 luminosity for each of the three wavelengths in the simulation. At the start of the configuration process you chose to
 output the surface brightness in "per frequency" units, so you now need to configure the input luminosities to be
 identical for the three wavelengths in those same "per frequency" units. This can be accomplished by configuring a
-"custom" SED, for which you can specify a tabulated functional form within the configuration file itself. You could
-also load a custom SED from a file, but in this case it seems overkill to create yet another input file.
+custom %SED, for which you can specify a tabulated functional form within the configuration file itself. You could
+also load a custom %SED from a file, but in this case it seems overkill to create yet another input file.
 
 Proceed as follows:
 - Select the "spectral energy distribution specified inside the configuration file" option.
@@ -188,7 +211,7 @@ Proceed as follows:
 - Select the "per wavelength" style for the specific luminosity units.
 - Specify a the specific luminosity at that wavelength of \f$L_\lambda = 1~\text{L}_\odot/\mu\text{m}\f$.
 
-Note there is no inconsistency in using "per frequency" style for configuring the spectrum and "per wavelength" style
+There is no inconsistency in using "per frequency" style for configuring the spectrum and "per wavelength" style
 for the normalization. The former is to ensure a flat spectrum in the units used for output; the latter is to provide a
 normalization value in units that are intuitive in the context of a molecular cloud.
 
@@ -197,20 +220,13 @@ When asked for a second stellar component, enter zero to terminate the list.
 \subsection TutorialHydroAmrMed Medium system
 
 \verbatim
-   ...
- ? Enter the number of random density samples for determining spatial cell mass [10,1000] (100):
-\endverbatim
-
-This option allows configuring the number of samples taken from the spatial density distribution when determining the
-total dust mass in each grid cell. Leave it at the default value.
-
-\verbatim
    Possible choices for item #1 in the transfer media list:
       1. A transfer medium with a built-in geometry
       2. A transfer medium imported from smoothed particle data
-      3. A transfer medium imported from data represented on an adaptive mesh (AMR grid)
-      4. A transfer medium imported from data represented on a Voronoi mesh
- ? Enter one of these numbers [1,4] (1): 3
+      3. A transfer medium imported from cuboidal cell data
+      4. A transfer medium imported from data represented on an adaptive mesh (AMR grid)
+      5. A transfer medium imported from data represented on a Voronoi mesh
+ ? Enter one of these numbers [1,5] (1): 4
  ? Enter the name of the file to be imported: kh_amr.txt
  ? Enter the start point of the domain in the X direction ]-∞ AU,∞ AU[: -0.03e18 cm
  ? Enter the end point of the domain in the X direction ]-∞ AU,∞ AU[: 0.03e18 cm
@@ -229,9 +245,8 @@ is not included in the import data file.
    Possible choices for the type of mass quantity to be imported:
       1. Mass density
       2. Mass (volume-integrated mass density)
-      3. Number density
-      4. Number (volume-integrated number density)
- ? Enter one of these numbers [1,4] (1): 1
+         ...
+ ? Enter one of these numbers [1,6] (1): 1
  ? Enter the fraction of the mass to be included (or one to include all) [0,1] (1): 1e-21
  ? Do you want to import a metallicity column? [yes/no] (no):
  ? Do you want to import a temperature column? [yes/no] (no):
@@ -262,25 +277,33 @@ The comments line starting with "Column 1" is recognized by SKIRT as a column de
 on the first (and only) column in the file. SKIRT recognizes and uses the units specified between parentheses.
 However, the values are actually given in units of  \f$10^{-21}\,\mathrm{g}\,\mathrm{cm^{-3}}\f$. The additional
 conversion factor of \f$10^{-21}\f$ can be applied by specifying it as the fraction of the mass to be included.
-
-\note This option is intended to configure the fraction of metallic gas locked into dust; it is "abused" here to
+This option is actually intended to configure the fraction of metallic gas locked into dust but we can use it to
 implement a unit conversion factor. Alternatively, we could have adjusted the values in the input file itself.
+
+Thus, in summary, select the "mass density" option, enter the \f$10^{-21}\f$ factor as a mass fraction, and leave the
+three extra import options to their default value of "no".
 
 \verbatim
    Possible choices for the material type and properties throughout the medium:
       1. A typical interstellar dust mix (mean properties)
       2. A TRUST benchmark dust mix (mean properties, optionally with polarization)
          ...
-     15. A population of electrons
- ? Enter one of these numbers [1,15] (1):
+ ? Enter one of these numbers [1,19] (1):
 \endverbatim
 
-For this tutorial, simply select the default dust mix. In an actual research setting, you would probably configure more
-specific dust properties.
+For this tutorial, simply select the default interstellar dust mix. In an actual research setting, you would probably
+configure more specific dust properties.
 
 When asked for a second medium component, enter zero to terminate the list.
 
 \subsection TutorialHydroAmrGrid Spatial grid
+
+\verbatim
+ ? Enter the number of random density samples for determining spatial cell mass [1,1000] (100):
+\endverbatim
+
+This option allows configuring the number of samples taken from the spatial density distribution when determining the
+total dust mass in each grid cell. Leave it at the default value.
 
 \verbatim
    Possible choices for the spatial grid:
@@ -293,14 +316,15 @@ When asked for a second medium component, enter zero to terminate the list.
 \endverbatim
 
 SKIRT discretizes the spatial domain using a grid, i.e. a collection of small cells in which properties such as dust
-density are considered to be constant. You could select any of the 3D dust grids offered by SKIRT. The tree-based
-grid, for example, builds a grid adapted to the dust density distribution based on some given parameters. When
-importing a dust distribution from an adaptive mesh data file, SKIRT also offers the option to directly use the
-adaptive mesh (defined by the data file) as a dust grid. The dust grid then exactly mirrors the resolution structure of
-the hydrodynamical simulation, which seems a natural thing to do. On the other hand, in some cases building a new grid
-(perhaps with less cells) may prove meaningful. Indeed, the hydrodynamical simulation and the radiative transfer
-post-processing might have different resolution requirements. Regridding may help to place smaller cells in regions
-where it matters for radiaton transport, and/or to reduce the runtime of the SKIRT simulation.
+density are considered to be uniform. You could select any of the 3D dust grids offered by SKIRT. The tree-based grid,
+for example, builds a grid adapted to the dust density distribution based on some given parameters. When importing a
+dust distribution from an adaptive mesh data file, SKIRT also offers the option to directly use the adaptive mesh
+defined by the data file as a spatial grid for the radiative transfer simulation. The radiative transfer grid then
+exactly mirrors the resolution structure of the hydrodynamical simulation, which seems a natural thing to do. On the
+other hand, in some cases building a new grid (perhaps with fewer cells) may prove meaningful. Indeed, the
+hydrodynamical simulation and the radiative transfer post-processing might have different resolution requirements.
+Regridding may help to place smaller cells in regions where it matters for radiaton transport, and/or to reduce the
+runtime of the SKIRT simulation.
 
 For this tutorial select the option to use the imported adaptive mesh as a dust grid.
 
@@ -312,7 +336,7 @@ For this tutorial select the option to use the imported adaptive mesh as a dust 
       2. A distant instrument that outputs the surface brightness in every pixel as a data cube
       3. A distant instrument that outputs both the flux density (SED) and surface brightness (data cube)
          ...
- ? Enter one of these numbers or zero to terminate the list [0,5] (1): 2
+ ? Enter one of these numbers or zero to terminate the list [0,6] (1): 2
  ? Enter the name for this instrument: xy
  ? Enter the distance to the system ]0 pc,∞ pc[: 1
  ? Enter the inclination angle θ of the detector [0 deg,180 deg] (0 deg): 0
@@ -331,7 +355,7 @@ For this tutorial select the option to use the imported adaptive mesh as a dust 
 \endverbatim
 
 Since you want to study the scattered surface brightness, you need to select the surface brightness instrument and
-configure it to record individual contributions to the flux. Position the instrument so that it shows a projection of
+configure it to record individual contributions to the flux. %Position the instrument so that it shows a projection of
 the \f$xy\f$ coordinate plane (angles: 0, 0, 90 degrees). This facilitates visual comparison of the recorded fluxes
 with the corresponding cut through the dust density produced by the corresponding probe. The distance of the instrument
 to the model affects all fluxes with the same factor; use a value of your liking (for example 1 pc). Setup a pixel
@@ -345,19 +369,26 @@ When asked for a second instrument, enter zero to terminate the list.
 
 \verbatim
    Possible choices for item #1 in the probes list:
+      1. Convergence: information on the spatial grid
+      2. Convergence: cuts of the medium density along the coordinate planes
          ...
-      5. Convergence information on the spatial grid
-      6. Cuts of the media densities along the coordinate planes
+ ? Enter one of these numbers or zero to terminate the list [0,13] (1): 1
+ ? Enter the name for this probe: cnv
+ ? Enter the wavelength at which to determine the optical depth [1e-6 micron,1e6 micron] (0.55 micron):
+   Possible choices for item #2 in the probes list:
+      1. Convergence: information on the spatial grid
+      2. Convergence: cuts of the medium density along the coordinate planes
          ...
- ? Enter one of these numbers or zero to terminate the list [0,10] (5): 5
+ ? Enter one of these numbers or zero to terminate the list [0,13] (1): 2
+ ? Enter the name for this probe: dns
 \endverbatim
 
 Configure the following probes, in arbitrary order, and specify their names as follows.
 
-| Probe type | Probe name
-|------------|-----------
-| Convergence information on the spatial grid                         | cnv
-| Cuts of the media densities along the coordinate planes             | dns
+| %Probe type | %Probe name
+|-------------|------------
+| Convergence: information on the spatial grid                        | cnv
+| Convergence: cuts of the medium density along the coordinate planes | dns
 
 Finally, when asked for the subsequent probe, enter zero to terminate the list.
 
@@ -365,10 +396,10 @@ Finally, when asked for the subsequent probe, enter zero to terminate the list.
 
 \subsection TutorialHydroAmrRun The simulation
 
-After all questions have been answered, SKIRT writes out the resulting ski file and quits. Start
-SKIRT again, this time specifying the name of the new \em ski file on the command line, to actually perform
-the simulation. If the input data file \c kh_amr.txt is not in your current directory, you can specify the input
-directory on the SKIRT command line. For example:
+After all questions have been answered, SKIRT writes out the resulting ski file and quits. Start SKIRT again, this time
+specifying the name of the new \em ski file on the command line, to actually perform the simulation. If the input data
+file \c kh_amr.txt is not in your current directory, you can specify the input directory on the SKIRT command line. For
+example:
 
 \verbatim
 skirt -i ../in ScatAMR
@@ -385,15 +416,15 @@ there are now three cuts through the dust density (one along each of the coordin
 instrument configured in this tutorial produces multiple files, recording various components of the observed surface
 brightness in separate data cubes (each including three frames, one for each wavelength):
 
- - \c ScatAMR_xy_total.fits contains the total surface brightness detected by the instrument (in this case, the sum of
- the direct and scattered components).
+ - \c ScatAMR_xy_total.fits contains the total surface brightness detected by the instrument; in this case, the sum of
+ the primary direct and primary scattered components.
 
- - \c ScatAMR_xy_primarydirect.fits contains the surface brightness resulting from photon packets originating from a
- primary source (in this case, the Plummer sphere) that directly reach the instrument without being scattered.
+ - \c ScatAMR_xy_primarydirect.fits contains the surface brightness resulting from photon packets originating from the
+ Plummer sphere that directly reach the instrument without being scattered but may be attenuated by dust absorption.
 
- - \c ScatAMR_xy_primaryscattered.fits contains the surface brightness resulting from primary photon packets (in this
- case, the Plummer sphere) that were scattered by the medium (in this case, the imported dust distribution) before
- reaching the instrument.
+ - \c ScatAMR_xy_primaryscattered.fits contains the surface brightness resulting from photon packets originating from
+ the Plummer sphere that were scattered by the dust at least once before reaching the instrument and may be attenuated
+ by dust absorption.
 
  - \c ScatAMR_xy_transparent.fits contains the surface brightness that would be detected by the instrument if there
  were no medium in the system.
@@ -409,11 +440,11 @@ It is also instructive to compare the theoretical and gridded dust density cuts 
 \c PanTorus_dns_dust_g_xy.fits) in an interactive FITS viewer or by plotting them using the following \c PTS command:
 
 \verbatim
-pts plot_density_cuts . --prefix=ScatAMR --dex 3
+pts plot_convergence . --prefix=ScatAMR --dex 3
 \endverbatim
 
-Note again that, for this tutorial, both "gridded" (internal) and "theoretical" (input) values are discretized on the
-same spatial grid.
+Because, for this tutorial, both "input" and "gridded" values are discretized on the same spatial grid, the top and
+bottom rows in the figure should be identical.
 
 \subsection TutorialHydroAmrBrightness Surface brightness
 
@@ -432,8 +463,8 @@ absorption and scattering cross sections of the dust vary with wavelength).
 
 \subsection TutorialHydroAmrRGB Making RGB images
 
-Alternatively, \c PTS offers a command to create a regular RGB image (in PNG format) for the FITS files generated by \c
-SKIRT instruments. By default \c PTS uses the first FITS frame for the Blue channel, the last FITS frame for the Red
+Alternatively, PTS offers a command to create a regular RGB image (in PNG format) for the FITS files generated by
+SKIRT instruments. By default PTS uses the first FITS frame for the Blue channel, the last FITS frame for the Red
 channel, and some frame in the middle for the Green channel. This works well for oligochromatic simulations with 3
 wavelengths such as the one in this tutorial.
 
