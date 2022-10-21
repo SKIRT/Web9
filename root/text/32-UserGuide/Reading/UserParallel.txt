@@ -2,13 +2,195 @@
 
 \page UserParallel Using SKIRT with parallel threads and/or multiple processes
 
-This topic should explain how to use SKIRT with parallel threads and/or processes, including the
-mode for running multiple simulations in parallel.
+This topic describes how to use SKIRT with parallel threads and/or multiple processes to take advantage of multi-core
+or even multi-node computing systems. The discussion is organized in the following sections:
+
+- \ref UserParallelIntro
+- \ref UserParallelThreads
+- \ref UserParallelSimulations
+- \ref UserParallelProcesses
+
+For an overview of the SKIRT command-line options used in the examples for this topic,
+see \ref UserCmdLineNonInter "Command-line options".
+
+
+\section UserParallelIntro Introduction and terminology
+
+\subsection UserParallelIntroInfra Infrastructure
+
+Modern computing systems all have several central processing units (CPUs) and can therefore perform multiple tasks in
+parallel. These \em processors or \em cores can be embedded on the same chip or they can be organized as distinct
+hardware units connected through a bus or a network.
+
+In a <em>shared memory system</em>, all processors are directly linked to a common unit of memory and thus can easily
+access any data stored there. Examples include laptops, desktops and workgroup servers. On the other hand, a
+<em>distributed memory system</em> includes distinct, network-interconnected processing nodes, each with their own
+memory. Each node usually has multiple cores so that it forms a shared memory system in its own right. A
+high-performance computer (HPC) is organized in this way.
+
+A key distinction between these architectures is the nature of the communication paths. The memory link between a
+processing core and the memory inside a node (or laptop or desktop) is extremely fast and transparent for the
+programmer. The network connecting different nodes is substantially slower (even if modern networks achieve surprising
+bandwidths) and, perhaps more importantly, must be managed explicitly by the programmer.
+
+\subsection UserParallelIntroModes Modes of parallel processing
+
+With multiple parallel threads, the code executed by the different processors uses the same memory locations. The
+threads share the entire process state, with all variables and functions. This mode of parallel processing is well
+suited for shared memory systems. With a large number of parallel threads, however, performance goes down because all
+threads are competing for access to the common memory.
+
+With multiple parallel processes, the code is excuted by independent processes, each with its own memory space and
+process state. This avoids many of the performance issues from which multi-threading suffers. On the other hand, this
+mode of parallel processing requires the implementation of explicit calls at any point where communication is needed
+between processes. If implemented efficiently, multi-processing can scale much better than multi-threading for a large
+number of processors. Also, processes can be allocated to different compute nodes, distributing the workload across a
+potentially very large system with a distributed memory architecture.
+
+The combination of multi-threading and multi-processing, called \em hybrid parallelization, allows SKIRT to perform
+efficiently on a wide range of system architectures, from laptops to supercomputers.
+
 
 \section UserParallelThreads Parallel execution threads
 
+By default, SKIRT uses a number of threads that corresponds to the number of logical cores available on the host
+computer, with a maximum of 24. On laptop or desktop computers this default number is usually appropriate. On larger
+computing systems, such as workgroup servers with many cores, it is wise to explicitly specify the number of threads to
+avoid inadvertently and unnecessarily using resources that might be better employed by other processes (of another or
+the same user). In any case, it is almost never meaningful to run SKIRT with more than 24 threads per process.
+
+The "Starting simulation" log message lists the number of threads (and processes) employed. For example:
+
+\verbatim
+$ skirt MonoDisk
+   Welcome to SKIRT v_
+   Running on _ for _
+   Constructing a simulation from ski file 'MonoDisk.ski'...
+   Starting simulation MonoDisk using 16 threads and a single process...
+   ...
+\endverbatim
+\verbatim
+$ skirt -t 12 MonoDisk
+   Welcome to SKIRT v_
+   Running on _ for _
+   Constructing a simulation from ski file 'MonoDisk.ski'...
+   Starting simulation MonoDisk using 12 threads and a single process...
+   ...
+\endverbatim
+
+
 \section UserParallelSimulations Multiple parallel simulations
 
-\section UserParallelProcesses Multiple processes
+SKIRT can perform multiple simulations in parallel inside the same process. In this case, the \c -t command line option
+specifies the number of threads used for each simulation. Also, the -b option is turned on automatically to avoid a
+plethora of randomly intermixing messages. For example:
+
+\verbatim
+$ skirt -t 6 -s 2 MonoDisk PanTorus
+   Welcome to SKIRT v_
+   Running on _ for _
+   Starting a set of 2 simulations, 2 in parallel...
+   ...
+ - Finished simulation MonoDisk using 6 threads and a single process in _ s.
+   ...
+ - Finished simulation PanTorus using 6 threads and a single process in _ s.
+ - Finished a set of 2 simulations, 2 in parallel in _ s.
+\endverbatim
+
+This option is not often used because better performance can almost always be achieved by running these simulations in
+separate processes, launched in the background or from different terminal windows.
+
+
+\section UserParallelProcesses Multiple processes (MPI)
+
+Multi-threading is enabled in SKIRT by default because it does not require any external dependencies. To enable SKIRT's
+multi-processing capabilities, however, an implementation of the Message Passing Interface (MPI) must be installed on
+the host system, and the appropriate build-time option must be turned on before compiling and linking the SKIRT code.
+For further instructions, refer to \ref InstallationGuide and specifically to \ref InstallSKIRTMPI.
+
+\subsection UserParallelProcessesRun Running with multiple processes
+
+Performing a SKIRT simulation in multi-processing mode is straightforward. You will make use of the \c mpirun command,
+which seems to be universal to all MPI implementations, although the precise syntax and semantics of the command line
+arguments differs between implementations. The \c mpirun command essentially launches the requested number of copies of
+the specified program, each in its own process. For example, you can launch \f$N\f$ parallel SKIRT processes with the
+following command:
+
+    $ mpirun -np N /path/to/executable/skirt [skirt-command-line-arguments]
+
+The usual \c skirt command with its command line arguments is thus placed after the <tt>mpirun -np N</tt> command.
+However, the \c skirt alias defined in your login script does not work in this context, so you need to specify the full
+relative or absolute path to the SKIRT executable. For example, a SKIRT simulation with 6 processes and 2 threads per
+process is started by entering:
+
+    $ mpirun -np 6 ../release/SKIRT/main/skirt -t 2 galaxy.ski
+
+You can use any combination of the number of processes and the number of threads. The output of the above command is
+essentially the same as for the regular \c skirt command. However, you will be informed of the number of parallel
+processes in use as illustrated here:
+
+\verbatim
+   Welcome to SKIRT v_
+   Running on _ for _
+   Constructing a simulation from ski file 'galaxy.ski'...
+   Starting simulation galaxy using 2 threads for each of 6 processes...
+   ...
+\endverbatim
+
+\note The \c mpirun command 'works' regardless of whether the program being launched is MPI-enabled. If you launched a
+SKIRT simulation with the <tt>mpirun -np N</tt> command, and SKIRT does not log the correct number of processes,
+this means that SKIRT was not properly built with MPI. In that case, using \c mpirun is useless, as you will have
+\f$N\f$ identical instances of SKIRT, each performing the same simulation and trying to overwrite the same output
+files.
+
+The \c -v command line option causes each parallel process to create its own log file, rather than relying on the root
+process to log all relevant information. This can be useful to analyze the progress of each individual process for
+evaluating load balancing, or to debug parallelization-related issues. The \c -b command line option causes just
+success and error messages to be shown on the console, rather than all progress messages. The complete log output is
+still written to a file (or files) in the output directory. This option is useful when the simulation is performed as
+part of a batch job, where extensive console logging would be a waste of resources. The \c -v and \c -b options can be
+usefully combined; for example:
+
+    $ mpirun -np 6 skirt -t 2 -b -v galaxy.ski
+
+
+\subsection UserParallelProcessesHPC Running on high-performance clusters
+
+TO DO; include two examples.
+
+\subsection UserParallelProcessesWhen When to use multiple processes
+
+Because SKIRT can handle any combination of multiple threads and multiple processing, we need to address the following
+related questions:
+ - When is it meaningful to run SKIRT with multiple processes?
+ - What is the proper balance between the number of processes and the number of threads per process?
+
+On laptops and most desktop computers, the SKIRT multi-threading parallization usually scales well enough that it is
+not worth going through the trouble of installing MPI. And in any case, the heaviest simulations won't be performed on
+these computers. On workgroup servers with 24 or more logical cores, however, splitting the load over multiple
+processes will most likely improve the scaling. And finally, multiple processes represent the only way to distribute
+the load over multiple nodes in a larger system.
+
+When a multi-process job is launched, each process is placed on a given compute node for the lifetime of the job, and
+each process is assigned a given number of execution threads. The execution threads within each process share the same
+memory address space, and the processes communicate with one another through the MPI mechanisms, regardless of whether
+they reside on the same node or not.
+
+In the SKIRT implementation, each process includes a copy of the entire program and of all the data needed for the
+simulation. On the other hand, adding more execution threads to each process has a negligible effect on memory usage.
+As a result, launching SKIRT with N parallel processes requires essentialy N times as much memory as a single-process
+SKIRT invocation, regardless of the number of parallel threads in each process.
+
+There are thus several conflicting considerations when determining the number of processes versus the number of threads
+per process (assuming a given total number of execution threads):
+
+ - The number of processes per node is limited by the memory requirements.
+ - A large number of threads per process lowers efficiency (sometimes dramatically).
+ - A large number of processes lowers efficiency as well, but much less substantially.
+
+It is usually best to keep the number of threads per process in the range from 8 to 16, adjusting the number depending
+on how many processes fit in the available memory. The optimal combination depends on the system architecture and the
+precise nature of the simulation.
+
 
 */
