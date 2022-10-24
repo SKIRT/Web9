@@ -1,6 +1,6 @@
 /**
 
-\page UserMakeUp Using MakeUp, the graphical interface for SKIRT parameter files
+\page UserMakeUp MakeUp, the graphical interface for SKIRT parameter files
 
 \section UserMakeUpIntro Introduction
 

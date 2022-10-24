@@ -1,6 +1,6 @@
 /**
 
-\page UserCmdLine Using SKIRT on the command line
+\page UserCmdLine Command line Q&A & command line options
 
 \section UserCmdLineOver Overview
 

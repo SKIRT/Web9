@@ -1,6 +1,6 @@
 /**
 
-\page UserRedshift Placing models at nonzero redshift and CMB dust heatimg
+\page UserRedshift Nonzero redshift & CMB dust heatimg
 
 \section UserRedshiftIntro Introduction
 

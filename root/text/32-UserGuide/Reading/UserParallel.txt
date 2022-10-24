@@ -1,6 +1,6 @@
 /**
 
-\page UserParallel Using SKIRT with parallel threads and/or multiple processes
+\page UserParallel %Parallel threads and/or multiple processes
 
 This topic describes how to use SKIRT with parallel threads and/or multiple processes to take advantage of multi-core
 or even multi-node computing systems. The discussion is organized in the following sections:
@@ -18,13 +18,13 @@ see \ref UserCmdLineNonInter "Command-line options".
 
 \subsection UserParallelIntroInfra Infrastructure
 
-Modern computing systems all have several central processing units (CPUs) and can therefore perform multiple tasks in
+Modern computing systems have several central processing units (CPUs) and can therefore perform multiple tasks in
 parallel. These \em processors or \em cores can be embedded on the same chip or they can be organized as distinct
 hardware units connected through a bus or a network.
 
-In a <em>shared memory system</em>, all processors are directly linked to a common unit of memory and thus can easily
+In a <em>shared memory</em> system, all processors are directly linked to a common unit of memory and thus can easily
 access any data stored there. Examples include laptops, desktops and workgroup servers. On the other hand, a
-<em>distributed memory system</em> includes distinct, network-interconnected processing nodes, each with their own
+<em>distributed memory</em> system includes distinct, network-interconnected processing nodes, each with their own
 memory. Each node usually has multiple cores so that it forms a shared memory system in its own right. A
 high-performance computer (HPC) is organized in this way.
 
@@ -35,19 +35,19 @@ bandwidths) and, perhaps more importantly, must be managed explicitly by the pro
 
 \subsection UserParallelIntroModes Modes of parallel processing
 
-With multiple parallel threads, the code executed by the different processors uses the same memory locations. The
-threads share the entire process state, with all variables and functions. This mode of parallel processing is well
+With multiple <em>parallel threads</em>, the code executed by the different processors uses the same memory locations.
+The threads share the entire process state, with all variables and functions. This mode of parallel processing is well
 suited for shared memory systems. With a large number of parallel threads, however, performance goes down because all
 threads are competing for access to the common memory.
 
-With multiple parallel processes, the code is excuted by independent processes, each with its own memory space and
-process state. This avoids many of the performance issues from which multi-threading suffers. On the other hand, this
-mode of parallel processing requires the implementation of explicit calls at any point where communication is needed
-between processes. If implemented efficiently, multi-processing can scale much better than multi-threading for a large
-number of processors. Also, processes can be allocated to different compute nodes, distributing the workload across a
-potentially very large system with a distributed memory architecture.
+With multiple <em>parallel processes</em>, the code is excuted by independent processes, each with its own memory space
+and process state. This avoids many of the performance issues from which multi-threading suffers. On the other hand,
+this mode of parallel processing requires the implementation of explicit calls at any point where communication is
+needed between processes. If implemented efficiently, multi-processing can scale much better than multi-threading for a
+large number of processors. Also, processes can be allocated to different compute nodes, distributing the workload
+across a potentially very large system with a distributed memory architecture.
 
-The combination of multi-threading and multi-processing, called \em hybrid parallelization, allows SKIRT to perform
+The combination of multiple threads and multiple processes, called \em hybrid parallelization, allows SKIRT to perform
 efficiently on a wide range of system architectures, from laptops to supercomputers.
 
 
@@ -56,8 +56,9 @@ efficiently on a wide range of system architectures, from laptops to supercomput
 By default, SKIRT uses a number of threads that corresponds to the number of logical cores available on the host
 computer, with a maximum of 24. On laptop or desktop computers this default number is usually appropriate. On larger
 computing systems, such as workgroup servers with many cores, it is wise to explicitly specify the number of threads to
-avoid inadvertently and unnecessarily using resources that might be better employed by other processes (of another or
-the same user). In any case, it is almost never meaningful to run SKIRT with more than 24 threads per process.
+avoid inadvertently and unnecessarily using resources that might be better employed by other processes (initiated by
+another user or by the same user). In any case, it is almost never meaningful to run SKIRT with more than 24 threads
+per process.
 
 The "Starting simulation" log message lists the number of threads (and processes) employed. For example:
 
@@ -106,7 +107,7 @@ separate processes, launched in the background or from different terminal window
 Multi-threading is enabled in SKIRT by default because it does not require any external dependencies. To enable SKIRT's
 multi-processing capabilities, however, an implementation of the Message Passing Interface (MPI) must be installed on
 the host system, and the appropriate build-time option must be turned on before compiling and linking the SKIRT code.
-For further instructions, refer to \ref InstallationGuide and specifically to \ref InstallSKIRTMPI.
+For further instructions, refer to the \ref InstallationGuide and specifically to \ref InstallSKIRTMPI.
 
 \subsection UserParallelProcessesRun Running with multiple processes
 
@@ -156,7 +157,61 @@ usefully combined; for example:
 
 \subsection UserParallelProcessesHPC Running on high-performance clusters
 
-TO DO; include two examples.
+Multi-node HPC computing systems employ workload management software to handle job queues and allocate compute nodes to
+jobs that are allowed to run. Users gain access to the system through a login node, which can be used to setup or build
+the required program versions (see \ref InstallSKIRTMPI), manage data files, and submit jobs to an appropriate queue. A
+job is usually defined by a \c bash shell script augmented with job commands in the format required by the employed
+workload management software.
+
+Two example job scripts are provided below. However, each system has its specific requirements, so you will need to
+refer to the system documentation or system manager for more information. In any case, it is important to ensure an
+identical software environment in the job script as the one used for building the code. For example, use the "module"
+system to load the C++ compiler and MPI implementation that matches those used for building the SKIRT code.
+
+### SLURM job script example
+
+\verbatim
+#!/bin/bash -l
+#SBATCH -o /data/userxxx/BM/joblog_%j.txt
+#SBATCH -e /data/userxxx/BM/joblog_%j.txt
+#SBATCH --ntasks=16
+#SBATCH --cpus-per-task=8
+#SBATCH --time=36:00:00
+#SBATCH -J slabmono
+#SBATCH -D /data/userxxx/BM/
+#SBATCH -p queuexxx
+#SBATCH -A projectxxx
+#SBATCH --exclusive
+#SBATCH --mincpus=16
+#SBATCH --mem=120G
+#SBATCH --hint=memory_bound
+#SBATCH --mem_bind=local
+echo Job started
+export I_MPI_HYDRA_TOPOLIB=ipl
+mpirun -rmk=slurm /home/userxxx/SKIRT/release/SKIRT/main/skirt -t 8 -b slabmono.ski
+echo Job ended
+sacct -j $SLURM_JOBID --format=JobID,JobName,Partition,MaxRSS,Elapsed,ExitCode
+exit
+\endverbatim
+
+### PBS job script example
+
+\verbatim
+#!/bin/bash
+#PBS -N GALAXY
+#PBS -l nodes=4:ppn=16
+#PBS -l mem=10gb
+#PBS -l walltime=3:00:00
+#PBS -o logs/stdout.$PBS_JOBID.$PBS_JOBNAME
+#PBS -e logs/stderr.$PBS_JOBID.$PBS_JOBNAME
+#PBS -m bea
+module purge
+module load OpenMPI/4.1.4-GCC-11.3.0
+module load vsc-mympirun
+cd ${PBS_O_WORKDIR}
+SKIRT="/data/userxxx/SKIRT9/release/SKIRT/main/skirt"
+mympirun --hybrid 2 $SKIRT -b -v -t 8 galaxy.ski
+\endverbatim
 
 \subsection UserParallelProcessesWhen When to use multiple processes
 
