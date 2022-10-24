@@ -18,6 +18,7 @@ Level | Type | Topic
 \image html UserLevel1.png | \image html UserReading.png  | \ref UserCmdLine
 \image html UserLevel1.png | \image html UserReading.png  | \ref UserMakeUp
 \image html UserLevel2.png | \image html UserReading.png  | \ref UserParamFile
+\image html UserLevel2.png | \image html UserReading.png  | \ref UserUpgradeSki
 \image html UserLevel2.png | \image html UserReading.png  | \ref UserUnits
 \image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialHydroSPH
 \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialHydroAMR
