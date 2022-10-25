@@ -6,6 +6,14 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+Monte Carlo radiative transfer with explicit absorption to simulate absorption, scattering, and stimulated emission
+Baes et al.
+A&A
+10 2022
+Technical
+Baes2022b
+2022A&A...666A.101B
+
 CRIRES high-resolution near-infrared spectroscopy of diffuse interstellar band profiles. Detection of 12 new DIBs in the YJ band and the introduction of a combined ISM sight line and stellar analysis approach
 Ebenbichler et al.
 A&A
