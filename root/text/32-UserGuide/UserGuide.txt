@@ -10,26 +10,37 @@ material.</em></span> See the \ref UserGuideLegend at the end of the page, below
 Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; \ref RecentChanges
 
 
-Level | Type | Topic
-------|------|------
-\image html UserLevel1.png | \image html UserReading.png  | \ref UserComponents
-\image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialBasicsMono
-\image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialBasicsPan
-\image html UserLevel1.png | \image html UserReading.png  | \ref UserCmdLine
-\image html UserLevel1.png | \image html UserReading.png  | \ref UserMakeUp
-\image html UserLevel2.png | \image html UserReading.png  | \ref UserParamFile
-\image html UserLevel2.png | \image html UserReading.png  | \ref UserUpgradeSki
-\image html UserLevel2.png | \image html UserReading.png  | \ref UserUnits
-\image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialHydroSPH
-\image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialHydroAMR
-\image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialGridsTreeVoro
-\image html UserLevel2.png | \image html UserReading.png  | \ref UserRedshift
-\image html UserLevel2.png | \image html UserReading.png  | \ref UserParallel
-\image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialPolarization
-\image html UserLevel2.png | \image html UserReading.png  | \ref UserPolarize
-\image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialCustomDust
-\image html UserLevel3.png | \image html UserReading.png  | \ref UserLymanAlpha
-\image html UserLevel1.png | \image html UserReading.png  | \ref UserMaterialMixes
+| Level | Type | Topic |
+|-------|------|-------|
+| \image html UserLevel1.png | \image html UserReading.png  | \ref UserComponents
+| \image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialBasicsMono
+| \image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialBasicsPan
+| \image html UserLevel1.png | \image html UserReading.png  | \ref UserCmdLine
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserCommands
+| \image html UserLevel1.png | \image html UserReading.png  | \ref UserMakeUp
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserParamFile
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserUpgradeSki
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserUnits
+| | | |
+| \image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialHydroSPH
+| \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialHydroAMR
+| \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialGridsTreeVoro
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserSpatialGrids
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserWavelengthGrids
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserMaterialMixes
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserProbes
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserRedshift
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserImportSnap
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserParallel
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserScripts
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserNotebooks
+| | | |
+| \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialPolarization
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserPolarize
+| \image html UserLevel3.png | \image html UserReading.png  | \ref UserIterations
+| \image html UserLevel3.png | \image html UserReading.png  | \ref UserLymanAlpha
+| \image html UserLevel3.png | \image html UserReading.png  | \ref UserPhotonCycle
+| \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialCustomDust
 
 
 \section UserGuideLegend Icon legend

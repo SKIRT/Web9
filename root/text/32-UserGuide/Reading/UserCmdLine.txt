@@ -1,6 +1,6 @@
 /**
 
-\page UserCmdLine Command line Q&A & command line options
+\page UserCmdLine SKIRT Q&A and command line options
 
 \section UserCmdLineOver Overview
 

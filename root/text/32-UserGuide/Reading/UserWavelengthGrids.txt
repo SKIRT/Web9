@@ -1,0 +1,8 @@
+/**
+
+\page UserWavelengthGrids Wavelengths and wavelength grids [TO DO]
+
+This topic should provide an overview of SKIRT's treatment of wavelengths and wavelengths grids.
+Include revised/new material as suggested in GitHub issues
+
+*/

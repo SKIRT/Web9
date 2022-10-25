@@ -1,0 +1,8 @@
+/**
+
+\page UserIterations Self-consistent iterative calculations [TO DO]
+
+This topic should provide an overview of SKIRT's capabilities for the self-consistent iterative calculation
+of the medium state and/or radiation field, with pointers to more information in the class headers.
+
+*/

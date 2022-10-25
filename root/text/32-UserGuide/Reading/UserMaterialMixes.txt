@@ -1,6 +1,6 @@
 /**
 
-\page UserMaterialMixes Material mixes (dust, electrons, gas)
+\page UserMaterialMixes Material mixes (dust, electrons, gas) [TO DO]
 
 This topic should provide an overview of material mixes and their important properties.
 

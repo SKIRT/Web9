@@ -1,6 +1,6 @@
 /**
 
-\page UserPolarize Configuring a simulation with polarized radiation
+\page UserPolarize Configuring for polarized radiation
 
 This topic describes how SKIRT can be configured to track the polarization state of radiation during its interaction
 with certain media. The discussion is organized in the following sections:

@@ -1,6 +1,6 @@
 /**
 
-\page UserRedshift Nonzero redshift & CMB dust heatimg
+\page UserRedshift Nonzero redshift & CMB dust heating
 
 \section UserRedshiftIntro Introduction
 
