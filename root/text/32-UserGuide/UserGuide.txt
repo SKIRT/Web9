@@ -29,6 +29,7 @@ Level | Type | Topic
 \image html UserLevel2.png | \image html UserReading.png  | \ref UserPolarize
 \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialCustomDust
 \image html UserLevel3.png | \image html UserReading.png  | \ref UserLymanAlpha
+\image html UserLevel1.png | \image html UserReading.png  | \ref UserMaterialMixes
 
 
 \section UserGuideLegend Icon legend

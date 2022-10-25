@@ -33,10 +33,10 @@ provided in the table below and put it into your local working directory.
 
 Rename the downloaded SKIRT parameter file to a shorter name of your liking ending with the ".ski" filename extension,
 for example \c Spiral.ski. Run this \em ski file with SKIRT. If SKIRT immediately produces a fatal error while
-constructing the simulation, this probably means that that the \em ski file needs upgrading; see \ref UserUpgradeSki.
+constructing the simulation, this probably means that the \em ski file needs upgrading; see \ref UserUpgradeSki.
 
-While the simulation is running, open the ski file in a text editor and examine its contents. You should recognize the
-following configuration elements (not in this order):
+While the simulation is running, open the \em ski file in a text editor and examine its contents. You should recognize
+the following configuration elements (not in this order):
 
  - an oligochromatic simulation with three wavelengths, using a few million photon packets in total
  - a spatial geometry with four components:

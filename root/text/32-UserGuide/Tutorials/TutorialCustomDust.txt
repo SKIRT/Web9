@@ -17,143 +17,61 @@ including:
 
 \section TutorialCustomDustPre Getting ready
 
-Because this is an advanced tutorial, it assumes that you:
+Because this is an advanced tutorial, it assumes that:
 
- - have installed SKIRT and any relevant visualization tools
-   (see <a href="../skirt9/_installation_guide.html">The SKIRT installation guide</a>);
- - know how to operate SKIRT by completing the introductory SKIRT tutorials;
- - understand the structure of ski files and know how to manually update them
-   (see <a href="../skirt9/_user_param_file.html">The SKIRT parameter file format</a>);
- - have a working knowledge of interstellar dust concepts, including material types, absorption and scattering
+ - you have installed SKIRT and any relevant visualization tools (see \ref InstallationGuide);
+ - you understand the structure of ski files and know how to manually adjust them (see \ref UserParamFile);
+ - you have worked through the introductory SKIRT tutorials (e.g., \ref TutorialBasicsMono and \ref TutorialBasicsPan);
+ - you have a working knowledge of interstellar dust properties, dust material types, absorption and scattering
    processes, grain size distributions, wavelength dependence and so forth;
- - have a basic understanding of how dust mixes are implemented in SKIRT
-   (see <a href="../skirt9/_dust_properties.html">Dust properties in SKIRT</a>).
+ - you have a basic understanding of how dust mixtures are handled in SKIRT (see \ref UserMaterialMixes).
 
-After all of that, you are ready to take a deep dive into the world of custom SKIRT dust mixes...
+After all of that, you are ready to take a deep dive into the world of custom SKIRT dust mixes. This tutorial offers
+a SKIRT parameter file for download to serve as an initial reference model. Download this file using the link
+provided in the table below and put it into your local working directory.
+
+<TABLE>
+<TR><TH>Reference model for customizing dust properties</TH>
+  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialCustomDustReference.ski">TutorialCustomDustReference.ski</a>
+  </TD>
+</TABLE>
 
 
 \section TutorialCustomDustProps Customizing dust properties
 
 ## Reference model
 
-In the first part of the tutorial we study a basic, spherically symmetric SKIRT model with a central point source
-surrounded by a shell of dust. The reference model described in this section uses the built-in Zubko et al. 2004 dust
-mix, which is replaced in later sections by custom dust mix variations.
+Rename the downloaded SKIRT parameter file to a shorter name of your liking ending with the ".ski" filename extension
+and run it with SKIRT. If SKIRT immediately produces a fatal error while constructing the simulation, this probably
+means that the \em ski file needs upgrading; see \ref UserUpgradeSki.
 
-The complete ski file for the reference model is listed below. You can copy and paste it into a text file, run it
-with SKIRT, and manually adjust the dust mix configuration while working through the following sections.
+While the simulation is running, open the \em ski file in a text editor and examine its contents. It configures a
+basic, spherically symmetric model with a central point source surrounded by a shell of dust. The point source is
+assigned the typical spectrum of a fairly young stellar population. The surrounding dust is distributed as a shell with
+a radius of 1 pc and a shallow exponential radial density profile. The total dust mass is set to 1 solar mass. To
+capture as many aspects of the influence of dust properties as possible, the configuration specifies a panchromatic
+simulation from UV to submillimeter wavelengths taking into account stochastic heating of small grains. The built-in
+Zubko et al. 2004 dust mix, which you will replace in later sections by custom dust mix variations, is configured with
+a suffiently large number of size bins to properly resolve the grain size distributions when calculating the emission
+spectrum for each material type and for each representative grain size:
 
 \verbatim
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- A SKIRT parameter file © Astronomical Observatory, Ghent University -->
-<skirt-simulation-hierarchy type="MonteCarloSimulation" format="9">
-    <MonteCarloSimulation userLevel="Regular" simulationMode="DustEmission" numPackets="1e7">
-        <units type="Units">
-            <ExtragalacticUnits fluxOutputStyle="Neutral"/>
-        </units>
-        <sourceSystem type="SourceSystem">
-            <SourceSystem minWavelength="0.01 micron" maxWavelength="160 micron">
-                <sources type="Source">
-                    <PointSource positionX="0 pc" positionY="0 pc" positionZ="0 pc">
-                        <sed type="SED">
-                            <BruzualCharlotSED imf="Chabrier" metallicity="0.002" age="0.5 Gyr"/>
-                        </sed>
-                        <normalization type="LuminosityNormalization">
-                            <IntegratedLuminosityNormalization wavelengthRange="Source"
-                                integratedLuminosity="100 Lsun"/>
-                        </normalization>
-                    </PointSource>
-                </sources>
-            </SourceSystem>
-        </sourceSystem>
-        <mediumSystem type="MediumSystem">
-            <MediumSystem numDensitySamples="100">
-                <dustEmissionOptions type="DustEmissionOptions">
-                    <DustEmissionOptions dustEmissionType="Stochastic">
-                        <radiationFieldWLG type="DisjointWavelengthGrid">
-                            <LogWavelengthGrid
-                                minWavelength="0.02 micron" maxWavelength="10 micron" numWavelengths="40"/>
-                        </radiationFieldWLG>
-                        <dustEmissionWLG type="DisjointWavelengthGrid">
-                            <NestedLogWavelengthGrid
-                                minWavelengthBaseGrid="0.2 micron" maxWavelengthBaseGrid="2000 micron"
-                                numWavelengthsBaseGrid="400"
-                                minWavelengthSubGrid="3 micron" maxWavelengthSubGrid="25 micron"
-                                numWavelengthsSubGrid="200"/>
-                        </dustEmissionWLG>
-                    </DustEmissionOptions>
-                </dustEmissionOptions>
-                <media type="Medium">
-                    <GeometricMedium>
-                        <geometry type="Geometry">
-                            <ShellGeometry minRadius="0.05 pc" maxRadius="1 pc" exponent="0.5"/>
-                        </geometry>
-                        <materialMix type="MaterialMix">
-                            <ZubkoDustMix numSilicateSizes="15" numGraphiteSizes="15" numPAHSizes="10"/>
-                        </materialMix>
-                        <normalization type="MaterialNormalization">
-                            <MassMaterialNormalization mass="1 Msun"/>
-                        </normalization>
-                    </GeometricMedium>
-                </media>
-                <grid type="SpatialGrid">
-                    <Sphere1DSpatialGrid minRadius="0.05 pc" maxRadius="1 pc">
-                        <meshRadial type="Mesh">
-                            <PowMesh numBins="75" ratio="2"/>
-                        </meshRadial>
-                    </Sphere1DSpatialGrid>
-                </grid>
-            </MediumSystem>
-        </mediumSystem>
-        <instrumentSystem type="InstrumentSystem">
-            <InstrumentSystem>
-                <defaultWavelengthGrid type="WavelengthGrid">
-                    <LogWavelengthGrid
-                        minWavelength="0.09 micron" maxWavelength="2000 micron" numWavelengths="500"/>
-                </defaultWavelengthGrid>
-                <instruments type="Instrument">
-                    <SEDInstrument instrumentName="i" distance="1 Mpc"
-                        inclination="0 deg" azimuth="0 deg" roll="0 deg"
-                        recordComponents="true"/>
-                </instruments>
-            </InstrumentSystem>
-        </instrumentSystem>
-        <probeSystem type="ProbeSystem">
-            <ProbeSystem>
-                <probes type="Probe">
-                    <SpatialGridConvergenceProbe probeName="cnv" wavelength="0.55 micron"/>
-                    <DefaultMediaDensityCutsProbe probeName="dns" probeAfter="Setup"/>
-                    <DefaultDustTemperatureCutsProbe probeName="tmp"/>
-                    <OpticalMaterialPropertiesProbe probeName="1"/>
-                    <DustGrainPopulationsProbe probeName="2"/>
-                    <DustGrainSizeDistributionProbe probeName="3" numSamples="250"/>
-                </probes>
-            </ProbeSystem>
-        </probeSystem>
-    </MonteCarloSimulation>
-</skirt-simulation-hierarchy>
+<ZubkoDustMix numSilicateSizes="15" numGraphiteSizes="15" numPAHSizes="10"/>
 \endverbatim
 
-The central point source is assigned the typical spectrum of a fairly young stellar population. The surrounding dust is
-distributed as a shell with a radius of 1 pc and a shallow exponential radial density profile. The total dust mass is
-set to 1 solar mass, resulting is a radial V-band optical depth of approximately 2.12, as can be seen in the text file
-produced by the \c SpatialGridConvergenceProbe. The following figures show a cut through the dust density and a cut
-through the indicative dust temperature, respectively generated by the \c DefaultMediaDensityCutsProbe and the \c
-DefaultDustTemperatureCutsProbe.
+After the simulation finishes, open the text file produced by the \c ConvergenceInfoProbe. It should indicate a radial
+V-band optical depth of about 2.12. The following figures show a cut through the dust density and a cut through the
+indicative dust temperature, respectively generated by the \c ConvergenceCutsProbe and the \c TemperatureProbe with \c
+DefaultCutsForm.
 
 | Dust density | Indicative dust temperature |
 | ------------ | --------------------------- |
 | ![ ](TutorialCustomDustPropsDensityCut.png) | ![ ](TutorialCustomDustPropsTemperatureCut.png) |
 
-To capture as many aspects of the influence of dust properties as possible, we configure a panchromatic simulation from
-UV to submillimeter wavelengths taking into account stochastic heating of small grains. The built-in Zubko dust mix is
-configured with a suffiently large number of size bins to properly resolve the grain size distributions when
-calculating the emission spectrum for each material type and for each representative grain size.
-
-The following figure shows the SED produced by this reference configuration, separated into its stellar and
+The following figure shows the %SED produced by this reference configuration, separated into its stellar and
 dust emission components. The dashed line indicates the stellar spectrum without dust extinction.
 
-| SED for reference model with built-in Zubko et al. 2004 |
+| %SED for reference model with built-in Zubko et al. 2004 |
 | ------------ |
 | ![ ](TutorialCustomDustPropsSedReference.png) |
 
@@ -191,7 +109,7 @@ Many of these concepts will play an important role later in this tutorial.
 
 Although the turn-key dust mixes built into SKIRT are hardwired in the code, they effectively use the same components
 as those used to configure a custom dust mix. For example, the built-in Zubko dust mix is coded as follows (see the
-ZubkoDustMix class):
+\c ZubkoDustMix class):
 
 \verbatim
 addPopulation(new DraineSilicateGrainComposition(this), new ZubkoSilicateGrainSizeDistribution(this),
@@ -329,12 +247,12 @@ the difference is quite substantial. The reason for this becomes obvious from th
 
 The output of the convergence probe lists the V-band optical depth across a diameter of the shell:
 
-| Simulation | V-band optical depth |
-| ---------- | ------------- |
-| Combined   |    4.24707    |
-| Silicates  |    2.10456    |
-| Graphites  |    8.54227    |
-| PAHs       |    2.69634    |
+| %Simulation | V-band optical depth |
+| ----------- | ------------- |
+| Combined    |    4.24707    |
+| Silicates   |    2.10456    |
+| Graphites   |    8.54227    |
+| PAHs        |    2.69634    |
 
 It may be surprising that the optical depths for the separate populations don't add up to the optical depth of the
 combined dust mix. The reason for this again becomes clear from the relevant definitions. Because the volume, radial
@@ -660,7 +578,7 @@ The ski file configures source and media components by importing these data file
             </SourceSystem>
         </sourceSystem>
         <mediumSystem type="MediumSystem">
-            <MediumSystem numDensitySamples="100">
+            <MediumSystem>
                 <media type="Medium">
                     <ParticleMedium filename="dust1.txt" massFraction="1">
                         <smoothingKernel type="SmoothingKernel">
@@ -703,8 +621,8 @@ The ski file configures source and media components by importing these data file
         <probeSystem type="ProbeSystem">
             <ProbeSystem>
                 <probes type="Probe">
-                    <SpatialGridConvergenceProbe probeName="cnv" wavelength="0.55 micron"/>
-                    <DefaultMediaDensityCutsProbe probeName="dns" probeAfter="Setup"/>
+                    <ConvergenceInfoProbe probeName="cnv" wavelength="0.55 micron"/>
+                    <ConvergenceCutsProbe probeName="dns"/>
                 </probes>
             </ProbeSystem>
         </probeSystem>
