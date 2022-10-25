@@ -38,6 +38,7 @@ The developer guide includes the following topics:
 
 - \ref DevStructPTS
 - \ref DevCodingPTS
+- \ref pts.do.command "Adding a PTS command script"
 
 ###Common
 

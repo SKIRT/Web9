@@ -67,4 +67,30 @@ which should produce a response similar to the following:
     03/06/2019 16:52:05.043     Integer number:  7
     03/06/2019 16:52:05.043   Finished admin/try_do.
 
+
+\section InstallPTSDeps Listing Python package dependencies
+
+You may need to install additional third-party Python packages on which the PTS code depends. To assist with this
+process, the \c list_dependencies command script lists all packages referred to by the PTS code, including
+an indication of whether each package is already installed or not:
+
+    $ pts list_dependencies
+      Starting admin/list_dependencies...
+      PTS depends on 32 packages:
+        argparse -- installed
+        astropy -- installed
+        datetime -- installed
+        ...
+    !   reportlab -- NOT INSTALLED
+        ...
+        scipy -- installed
+        zipfile -- installed
+     Finished admin/list_dependencies.
+
+The list includes both standard and third-party packages. Because the standard packages are built into the regular
+Python distribution, they will always be marked as "installed".
+
+Some dependencies are optional and will be invoked only when the related PTS functionalty is actually used. The \c fsps
+package is an example of this.
+
 */
