@@ -16,7 +16,7 @@ a single galaxy extracted from a snapshot of a pre-production EAGLE test run. Tw
 listing stellar particles, representing the radiation sources, and gas particles, from which a dust distribution can be
 derived.
 
-\section TutorialHydroSphPre Getting ready
+\section TutorialHydroSPHPre Getting ready
 
 This tutorial assumes that you have completed the introductory SKIRT tutorial \ref TutorialBasicsMono, or that you have
 otherwise acquired the working knowlegde introduced there. At the very least, before starting this tutorial, you should
@@ -36,9 +36,9 @@ provided in the table below and put them into your local working directory.
 </TABLE>
 
 
-\section TutorialHydroSphSki Creating the ski file
+\section TutorialHydroSPHSki Creating the ski file
 
-\subsection TutorialHydroSphStart Starting the SKIRT Q&A
+\subsection TutorialHydroSPHStart Starting the SKIRT Q&A
 
 In a terminal window, with your local working directory as the current directory, start SKIRT without any command line
 arguments. SKIRT responds with a welcome message and starts an interactive session in the terminal window, during which
@@ -56,7 +56,7 @@ The first question is for the filename of the \em ski file. For this tutorial, e
 In this and subsequent tutorials, we skip the questions for which there is only one possible answer. The answers to
 these questions are provided without prompting the user, and listing them here would bring no added value.
 
-\subsection TutorialHydroSphLev Experience level
+\subsection TutorialHydroSPHLev Experience level
 
 \verbatim
    Possible choices for the user experience level:
@@ -69,7 +69,7 @@ these questions are provided without prompting the user, and listing them here w
 As discussed in a previous tutorial (see \ref TutorialBasicsMonoLev), the Q&A session can be tailored to the
 experience level of the user. For this tutorial, select the \em Basic level.
 
-\subsection TutorialHydroSphUni Units
+\subsection TutorialHydroSPHUni Units
 
 \verbatim
    Possible choices for the units system:
@@ -95,7 +95,7 @@ current tutorial, you will be modelling a galaxy, so select extragalactic units 
 the spectral variable and per-frequency output style for fluxes (the default options). The output files will express
 integrated flux density in Jy and surface brightness in MJy/sr.
 
-\subsection TutorialHydroSphSim Simulation mode
+\subsection TutorialHydroSPHSim Simulation mode
 
 \verbatim
    Possible choices for the overall simulation mode:
@@ -116,7 +116,7 @@ the simulation. In this tutorial, the goal is to produce a spectral energy distr
 wavelengths and the effects of the emission by stochastically heated dust grains. By definition this requires a
 panchromatic simulation and dust emission. Select the option called "With secondary emission from dust".
 
-\subsection TutorialHydroSphPho Photon packets
+\subsection TutorialHydroSPHPho Photon packets
 
 \verbatim
  ? Enter the default number of photon packets launched per simulation segment [0,1e19] (1e6): 5e6
@@ -126,7 +126,7 @@ To limit the run time for this tutorial, set the number of photon packets to \f$
 sufficient to produce an acceptable %SED for the simple galaxy model used here, but it would be insufficient to produce
 resolved images with an acceptable signal to noise level.
 
-\subsection TutorialHydroSphSrc Source system
+\subsection TutorialHydroSPHSrc Source system
 
 \verbatim
  ? Enter the shortest wavelength of photon packets launched from primary sources [1e-6 micron,1e6 micron] (0.09 micron):
@@ -210,7 +210,7 @@ population represented by each particle: its initial mass \f$M_\mathrm{init}\f$ 
 
 When asked for a second stellar component, enter zero to terminate the list.
 
-\subsection TutorialHydroSphWave Wavelength grids
+\subsection TutorialHydroSPHWave Wavelength grids
 
 \verbatim
    Possible choices for the wavelength grid for storing the radiation field:
@@ -273,7 +273,7 @@ ranging from 1 to 1000 \f$\mu\f$m, with a finer subgrid in the range from 3 to 3
 wider grid, and 35 points in the nested grid. The points of the courser grid that happen to lie inside the finer grid
 range are automatically removed, so the total number of grid points will be smaller than 110.
 
-\subsection TutorialHydroSphMed Medium system
+\subsection TutorialHydroSPHMed Medium system
 
 \verbatim
    Possible choices for item #1 in the transfer media list:
@@ -360,7 +360,7 @@ an actual research setting this number should be higher.
 
 When asked for a second medium component, enter zero to terminate the list.
 
-\subsection TutorialHydroSphGrid Spatial grid
+\subsection TutorialHydroSPHGrid Spatial grid
 
 \verbatim
    Possible choices for the spatial grid:
@@ -398,7 +398,7 @@ For high-quality simulations, you will need to raise the maximum level to 10 or 
 mass should be set to a smaller (and thus more stringent) value. This will result in an octtree with more and smaller
 cells, increasing accuracy as well as execution time.
 
-\subsection TutorialHydroSphInst Instrument system
+\subsection TutorialHydroSPHInst Instrument system
 
 \verbatim
    Possible choices for the default instrument wavelength grid:
@@ -462,7 +462,7 @@ would need to perform some test simulations (or other visualizations) to find ou
 
 When asked for a third instrument, enter zero to terminate the list.
 
-\subsection TutorialHydroSphProbe Probe system
+\subsection TutorialHydroSPHProbe Probe system
 
 \verbatim
    Possible choices for item #1 in the probes list:
@@ -519,7 +519,7 @@ the coordinate planes.
 Finally, when asked for the subsequent probe, enter zero to terminate the list.
 
 
-\section TutorialHydroSphAdjust Adjusting the configuration file
+\section TutorialHydroSPHAdjust Adjusting the configuration file
 
 SKIRT includes two distinct algorithms to calculate the thermal dust emission spectrum. The basic method, called
 "Equilibrium" emission, assumes that all dust grains are in local thermal equilibrium (LTE) with the surrounding
@@ -529,7 +529,7 @@ emission, calculates a temperature probability distribution for those smaller gr
 equilibrium temperature. This is a lot more resource-intensive but produces much more realistic results for the near-
 and mid-infrared wavelengths.
 
-With the Q&A set to the \em Basic user experience level (see \ref TutorialHydroSphLev), the configuration automatically
+With the Q&A set to the \em Basic user experience level (see \ref TutorialHydroSPHLev), the configuration automatically
 defaults to the basic equilibrium method. Adjusting the configuration to use stochastic heating can be easily
 accomplished by opening the \c PanEagle.ski parameter file in a text editor. Locate the line that starts as follows:
 
@@ -540,9 +540,9 @@ accomplished by opening the \c PanEagle.ski parameter file in a text editor. Loc
 Replace \c "Equilibrium" by \c "Stochastic" (with that exact capitalization), and save the adjusted file.
 
 
-\section TutorialHydroSphPerform Performing the simulation
+\section TutorialHydroSPHPerform Performing the simulation
 
-\subsection TutorialHydroSphRun The simulation
+\subsection TutorialHydroSPHRun The simulation
 
 After all questions have been answered, SKIRT writes out the resulting ski file and quits. Start SKIRT again,
 this time specifying the name of the new \em ski file on the command line, to actually perform the simulation. If the
@@ -553,7 +553,7 @@ For example:
 skirt -i ../in PanEagle
 \endverbatim
 
-\subsection TutorialHydroSphOutput Output files
+\subsection TutorialHydroSPHOutput Output files
 
 The output files for this tutorial are similar to those already described for a previous tutorial (see \ref
 TutorialBasicsMonoOutput and \ref TutorialBasicsPanOutput). Because the geometry in this simulation is truly
@@ -582,7 +582,7 @@ In addition to the wavelength column, there are several corresponding flux colum
 For this tutorial, the primary source is the set of imported stellar particles; the medium consists of the dust derived from
 the gas particles; and the secondary source is that same dust medium.
 
-\subsection TutorialHydroSphDens Dust density
+\subsection TutorialHydroSPHDens Dust density
 
 As always it is a good idea to open the file \c PanEagle_cnv_convergence.dat in a text editor and check the dust grid
 convergence metrics. With the spatial grid configuration recommended above for this tutorial, the convergence is not so
@@ -603,7 +603,7 @@ It is quite apparent from this comparison that the octree grid indeed forms smal
 density, but that - with the current settings - these cells are often too large to properly discretize the density
 distribution.
 
-\subsection TutorialHydroSphTemp Dust temperature
+\subsection TutorialHydroSPHTemp Dust temperature
 
 Open the temperature maps (e.g. \c PanEagle_tmp_dust_T_xz.fits) in an interactive FITS viewer or by plotting them using
 the following PTS command:
@@ -621,7 +621,7 @@ previous tutorial (see \ref TutorialBasicsPanOutput), the indicative dust temper
 correspond to a physical temperature, but rather reflects one of the many ways to obtain a representative temperature
 for a dust mixture.
 
-\subsection TutorialHydroSphSpectra Spectra
+\subsection TutorialHydroSPHSpectra Spectra
 
 PTS offers commands to create PDF files plotting the SEDs produced by a SKIRT simulation. By default, the
 SEDs for all instruments are combined on the same figure. The following command produces the plot shown below:

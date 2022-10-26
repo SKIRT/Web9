@@ -23,10 +23,12 @@ Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; 
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserUnits
 | | | |
 | \image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialHydroSPH
+| \image html UserLevel1.png | \image html UserReading.png  | \ref UserVisualize
 | \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialHydroAMR
 | \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialGridsTreeVoro
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserSpatialGrids
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserWavelengthGrids
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserBroadbands
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserMaterialMixes
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserProbes
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserRedshift

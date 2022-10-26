@@ -1,12 +1,17 @@
 /**
 
-\page UserCommands Using PTS on the command line [TO DO]
+\page UserCommands Using PTS on the command line
 
 PTS includes a number of Python scripts that can be invoked directly from the command line. This topic introduces
 the use of these _command scripts_. The discussion is organized in the following sections:
 
 - \ref UserCommandsInvoking
 - \ref UserCommandsOverview
+
+Also see the following topics with information on specific PTS command script categories:
+
+- \ref UserVisualize
+- \ref UserBroadbands
 
 
 \section UserCommandsInvoking Invoking command scripts
