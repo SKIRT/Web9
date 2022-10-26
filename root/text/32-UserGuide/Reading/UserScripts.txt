@@ -1,7 +1,0 @@
-/**
-
-\page UserScripts Using PTS in Python programs [TO DO]
-
-This topic should describe how to use PTS functionality in regular Python programs.
-
-*/

@@ -4,7 +4,7 @@
 
 The functionality of PTS is fully available from the interactive Python prompt and in interactive Python notebooks
 such as the [Jupyter notebook](https://jupyter.org). This includes both the PTS command scripts (introduced in
-\ref UserCommands) and any PTS functions and classes (as described in \ref UserScripts).
+\ref UserCommands) and any PTS functions and classes (as described in \ref TutorialPython).
 
 
 \section UserNotebooksInit Initializing PTS in a notebook
@@ -24,8 +24,8 @@ The first choice offers a better look, the second choice sports larger plots wit
 \section UserNotebooksUse Using PTS in a notebook
 
 Once properly initialized as described above, any PTS facilities can be imported and used just as they would be in a
-regular Python script, as discussed in \ref UserScripts. The only difference is that plots can be displayed inside the
-notebook rather than being saved to PDF. Below is a short example.
+regular Python script, as discussed in \ref TutorialPython. The only difference is that plots can be displayed inside
+the notebook rather than being saved to PDF. Below is a short example.
 
 \image html UserNotebooksBands.png
 
