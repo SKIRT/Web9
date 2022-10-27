@@ -1,6 +1,6 @@
 /**
 
-\page UserSpatialGrids Spatial grids
+\page UserSpatialGrids Spatial grids and meshes overview
 
 \section SpatialGridsModel Spatial characteristics of the simulated model
 

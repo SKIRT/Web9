@@ -8,8 +8,7 @@ these filters can be used to obsverve broadband-convolved fluxes in instruments 
 luminosity of a primary source. PTS offers functions to obtain the transmission curves, determine proprties such as the
 pivot wavelengths, or calculate the convolution with a given spectrum.
 
-For more information, see the SKIRT BroadBand class, the pts.band.broadband.BroadBand class, and \ref
-UserWavelengthGrids.
+For more information, see the SKIRT BroadBand class, the pts.band.broadband.BroadBand class, and \ref UserWaveGrids.
 
 \section UserBroadbandsList Listing the available broadbands
 

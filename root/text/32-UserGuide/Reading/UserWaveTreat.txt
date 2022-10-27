@@ -1,0 +1,152 @@
+/**
+
+\page UserWaveTreat Wavelength treatment during a simulation
+
+This page describes how SKIRT handles wavelengths during a simulation. The discussion is organized as follows:
+
+- \ref UserWaveTreatIntro
+- \ref UserWaveTreatModes
+- \ref UserWaveTreatPacket
+
+Other topics with related information include:
+
+- \ref UserWaveGrids
+- \ref UserWaveConfigure
+
+
+\section UserWaveTreatIntro Introduction
+
+With few exceptions, the interactions between matter and radiation depend heavily on the radiation's wavelength.
+Furthermore, some processes affect the wavelength of an interacting photon (e.g. Doppler shifts caused by relative
+motion) or drastically "convert" a fraction of radiative energy from one wavelength to another (e.g. absorption and
+re-emission by dust grains). As a result, wavelength plays an important role in a radiative transfer simulation code
+such as SKIRT.
+
+The physical processes are emulated by a stream of discrete photon packets. When a photon packet is emitted, it
+receives a certain amount of energy at a given wavelength. While the packet moves through the spatial domain of the
+simulation, some of its energy is absorbed by the transfer medium, and its wavelength may be adjusted by interactions
+with the medium. At each scattering event, a special photon packet is peeled-off towards each instrument to record the
+observed flux. The energy absorbed by the medium is re-emitted at a later stage by launching new photon packets at
+different wavelengths.
+
+This brief summary passes over a lot of details and complexities, but even so it hints at the many areas in the
+simulation where wavelength-related aspects need to be handled and configured. On the other hand, not every simulation
+requires this full general treatment. For example, when studying dust extinction in the optical wavelength range, there
+is no need for handling dust emission.
+
+
+\section UserWaveTreatModes Wavelength regimes
+
+With respect to the treatment of wavelengths, SKIRT has two distinct simulation modes called \em panchromatic and
+\em oligochromatic. One of these modes must be selected early on in the simulation configuration process, and the
+choice affects many of the other options in the configuration.
+
+\subsection UserWaveTreatModesPan Panchromatic simulation mode
+
+Panchromatic simulation mode is the most powerful and commonly used mode in SKIRT. A panchromatic simulation operates
+with a continuous range of wavelengths that often spans X-ray, ultraviolet, optical, infrared and/or submillimeter
+bands. Such a simulation supports the full SKIRT feature set, including for example thermal emission by dust grains and
+the effects of kinematics. If the range is limited to optical or shorter wavelengths, it obviously doesn't make sense
+to include thermal emission, but the other features such as kinematics remain available.
+
+In panchromatic mode, the user must specify a primary source wavelength range in which the spectrum assigned to each
+source must be considered. Individual photon packets can receive any wavelength in that continuous range, sampled from
+the source spectrum. On the other hand, accumulated (and thus stored) spectral quantities such as the radiation field
+or observed fluxes must necessarily be discretized on some wavelength grid. Similarly, the calculation of a secondary
+emission spectrum of a medium such as dust requires spectral discretization. Therefore, the user must configure the
+appropriate wavelength grids for storing the radiation field and fluxes detected by instruments, and for calculating
+secondary emission where applicable.
+
+\subsection UserWaveTreatModesOligo Oligochromatic simulation mode
+
+Oligochromatic simulation mode can be used for studying extinction effects (i.e. absorption and scattering) at a
+limited number of specific wavelengths (or just a single wavelength) in the ultraviolet and/or optical spectrum. The
+simulation operates at these discrete wavelength values only, and is therefore unable to calculate
+wavelength-integrated quantities such as dust temperatures or thermal emission, or to properly handle wavelength shifts
+such as those caused by kinematics. On the other hand, because of the small number of wavelengths in use, the total
+number of photon packets launched can usually be substantially smaller than for panchromatic simulations. In other
+words, one trades speed for a reduction of the supported feature set.
+
+In oligochromatic mode, the user must specify the list of discrete wavelengths to be used in the simulation. The
+luminosity of each source is still derived from its associated %SED or %SED family, and luminosity normalization
+proceeds as usual (and may even happen at wavelengths that differ from the oligochromatic wavelengths). However, newly
+emitted photon packets are automatically assigned one of the distinct oligochromatic wavelengths. Furthermore, all
+instruments are forced to use a special wavelength grid with narrow bins around the oligochromatic wavelengths.
+
+
+\section UserWaveTreatPacket Wavelength during the photon packet life cycle
+
+The description in this section assumes panchromatic simulation mode.
+
+\subsection UserWaveTreatPacketProps Photon packet properties
+
+The fundamental properties of a photon packet include its wavelength and its weight. The wavelength property specifies
+the wavelength of all photons in the packet. The weight property specifies the number of photons carried by the packet,
+or more precisely the number of photons per unit of time (because SKIRT solves the time-independent radiation transfer
+equation). Refer to the PhotonPacket class for more details.
+
+At launch (from a primary or secondary source), a photon packet receives a wavelength sampled from the source spectrum
+and a luminosity, i.e. its share of the total luminosity of the source. The wavelength is stored as given. The
+luminosity is converted to a weight (number of photons) for storage in the photon packet.
+
+\note We use the term \em luminosity to indicate energy per unit time carried by a photon packet, although, strictly
+speaking, it should only be used to indicate energy per unit time emitted by a source.
+
+During a photon packet’s life cycle, updates can occur to both its weight, e.g. because of absorption, and its
+wavelength, e.g. after being scattered by a moving medium. Because these updates can be fractional, both wavelength and
+weight are stored as floating-point values. Adjusting a photon packet's wavelength indirectly affects the luminosity
+represented by the packet, because the latter is inversely proportional to the wavelength.
+
+\subsection UserWaveTreatPacketEmit Emitting photon packets
+
+Each radiation source provides a mechanism to sample a random wavelength from its spectral energy distribution (see the
+SED and SEDFamily classes and their subclasses) and assign a corresponding luminosity such that the bolometric
+luminosity of the source is properly distributed across the photon packets. Analytically defined SEDs could in
+principle employ a specialized sampling routine. However, the current implementation always samples from a tabulated
+source spectrum. The procedure properly interpolates the tabulated values so that the sampled wavelengths can take any
+value rather than being restricted to some discrete grid.
+
+It is important that all features in the spectrum are properly sampled, including narrow lines or wavelength ranges
+with low luminosities. To this end, the sampling procedure employs composite biasing to combine sampling from two
+distributions: the %SED itself (favoring wavelengths that carry a lot of energy) and a custom bias distribution
+(favoring specific wavelength areas). Both the composite bias factor and the bias distribution are user-configurable.
+See the WavelengthDistribution class and its subclasses. By default, the procedure has a bias factor of 0.5 and a bias
+distribution that is logarithmic in wavelength.
+
+The default scheme ensures that the low-luminosity tails of a typical spectrum are properly sampled, while still
+favoring the higher-luminosity areas. Even narrow spectral features are properly sampled because half of the
+wavelengths are selected from the source %SED at full spectral resolution. Lowering the bias fraction focuses more
+photon packets into high-luminosity areas because the composite distribution more closely follows the source spectrum.
+Vice versa, a bias fraction close to unity causes the source spectrum to be essentially ignored for the purpose of
+wavelength sampling. For more information, see \ref UserWaveConfigure.
+
+\subsection UserWaveTreatPacketKinem Kinematics
+
+The wavelength of a photon packet is defined relative to the model coordinate system. In other words, a medium at rest
+relative to the model coordinate system sees this wavelength. Velocities of sources and media are also defined relative
+to the model coordinate system. The bulk velocity of the aggregate medium in a spatial grid cell is determined by
+averaging the bulk velocities of all media components weighed by density. Instruments are considered to be at rest
+relative to the model coordinate system except for models placed at non-zero redshift; see \ref UserRedshift.
+
+When a photon packet is launched, its wavelength is Doppler shifted according to the component of the source velocity
+in the photon packet’s direction. When a photon packet interacts with a medium, the perceived wavelength is derived by
+Doppler shifting the packet’s wavelength according to the component of the medium velocity in the photon packet’s
+incoming direction. Specifically, registration of a photon packet’s contribution to the radiation field uses this
+perceived wavelength. After a scattering interaction, the photon packet’s wavelength is replaced by the perceived
+wavelength, Doppler shifted according to the component of the medium velocity in the photon packet’s outgoing
+direction.
+
+\subsection UserWaveTreatPacketDetect Detecting photon packets
+
+When a random-walk photon packet traverses a spatial cell in the simulation domain, its contribution to the radiation
+field is accumulated according to the photon packet's perceived wavelength. Similarly, when a peel-off photon packet
+arrives at one of the instruments, its contribution to the observed flux is accumulated according to the photon
+packet's wavelength, possibly redshifted if the model is placed at non-zero redshift (see \ref UserRedshift).
+
+Because wavelength is a continuous quantity and the available memory is finite, the stored data must be spectrally
+discretized. The appropriate wavelength grid depends on the model and on the desired resolution and accuracy, and may
+even differ between instruments. These wavelength grids must therefore be configured by the user; see \ref
+UserWaveConfigure.
+
+
+*/
