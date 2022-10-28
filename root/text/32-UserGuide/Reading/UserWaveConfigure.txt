@@ -19,9 +19,6 @@ The discussion on this page is organized as follows:
 - \ref UserWaveConfigMemory
 - \ref UserWaveConfigDiscrete
 
-
-TO DO: Include revised/new material as suggested in GitHub issues.
-
 \note Before adopting the  wavelength grids and especially the  spectral resolution values recommended in the text
 below, it is important to conduct appropriate convergence tests. In other words, try the same simulation with
 "better" grids and more photon packets and compare the results.
