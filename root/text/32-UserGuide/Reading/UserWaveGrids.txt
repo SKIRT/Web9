@@ -1,0 +1,198 @@
+/**
+
+\page UserWaveGrids Wavelength grids overview
+
+This page presents an overview of the wavelength grid types and classes offered by SKIRT for spectral discretization.
+The discussion is organized as follows:
+
+- \ref UserWaveGridsDef
+- \ref UserWaveGridsTypes
+- \ref UserWaveGridsClasses
+
+Other topics with related information include:
+
+- \ref UserWaveTreat
+- \ref UserWaveConfigure
+
+
+\section UserWaveGridsDef Definition
+
+The wavelength grids discussed here serve to discretize the spectral quantities recorded or calculated by SKIRT during
+a simulation. In this context, a wavelength grid consists of \f$N>0\f$ possibly overlapping wavelength bins. Each of
+these bins has an associated transmission curve determining the contribution fraction of a detected photon packet to
+the bin as a function of wavelength. Further key properties of a wavelength bin include its left and right borders,
+defining a wavelength interval within which the transmission may be nonzero, and its characteristic wavelength, which
+will be used by instruments to convert mean specific luminosities in the bin between wavelength and frequency
+representations. The characteristic wavelength of a bin must fall inside the bin, i.e. \f$\lambda^\mathrm{left}_\ell
+\le \lambda^\mathrm{c}_\ell \le \lambda^\mathrm{right}_\ell, \ell=0\dots N-1\f$, and no two bins can have the same
+characteristic wavelength. The bins in a wavelength grid are always sorted in increasing order of characteristic
+wavelength.
+
+
+\section UserWaveGridsTypes Types of wavelength grids
+
+The diagram below illustrates the nature of the wavelength grid categories offered by SKIRT.
+
+\dot
+graph wavelengthgridtypes {
+    rankdir=BT;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+
+    WLG [label="Wavelength Grid"];
+        BandWLG [label="Band Wavelength Grid\n\npossibly overlapping bins\nvariable transmission curve"];
+        DisjointWLG [label="Disjoint Wavelength Grid\n\nnon-overlapping bins\nconstant transmission"];
+            SpecifyBorder [label="Specify Borders\n\nconsective bins\nlinear, log, or resolution"];
+            SpecifyCenter [label="Specify Centers\n\nconsective bins or discrete bins\nlinear, log, or resolution"];
+            SpecifyAll [label="Specify All\n\nany combination of bin types\nany scale"];
+
+    BandWLG -- WLG;
+    DisjointWLG -- WLG;
+        SpecifyBorder -- DisjointWLG;
+        SpecifyCenter -- DisjointWLG;
+        SpecifyAll -- DisjointWLG;
+}
+\enddot
+
+The first subdivision in the diagram indicates a clear distinction in the nature of the wavelength grid. In a \em band
+wavelength grid, each bin is associated with the transmission curve corresponding to an observational broadband filter
+(see \ref UserBroadbands). The transmission curves (and thus the bins) are allowed to overlap. This type of wavelength
+grid can be configured with an instrument to achieve on-the-fly convolution of detected photon packets with the
+transmission curve of each bin.
+
+On the other hand, \em disjoint wavelength grids have non-overlapping bins with constant maximum transmission within
+each bin. The left bin border is considered to be inside of the bin and the right border is considered to be outside of
+the bin. Neighboring bins may have a common border but can also be disconnected. This type of wavelength grid is
+suitable for recording or calculating spectral quantities at any desired resolution.
+
+The second subdivision in the diagram indicates different methods to actually specify a disjoint wavelength grid. To
+illustrate the differences, consider a given source wavelength range \f$[\lambda_1,\lambda_2]\f$ and a wavelength grid
+with three uniformly spaced bins. We can place either the outer bin borders or the outer bin centers at
+\f$\lambda_1,\lambda_2\f$. The result is illustrated below where bin borders are depicted as `|` and characteristic
+wavelengths as `*`.
+
+\verbatim
+      [-----------------------]         source wavelength range
+      |---*---|---*---|---*---|         WLG with outer borders at same range
+|-----*-----|-----*-----|-----*-----|   WLG with outer centers at same range
+\endverbatim
+
+When placing the outer \em centers at the limits of the range, the outer \em bins stretch beyond the range and all bins
+are wider to compensate. As a result, the source wavelength range does not cover the outer halves of the outer bins, so
+that these bins will incorrectly receive a lower number of photon packets (kinematics and/or redshift can complicate
+this picture). The significance obviously decreases with the number of bins, but the effect will still be visible in
+many practical cases.
+
+In each category, SKIRT offers wavelength grids that place bins uniformly in linear or logarithmic space. The number of
+bins can be specified explicitly, or, for logarithmically spaced grids, indirectly through the required spectral resolution
+\f$R=\lambda/\Delta\lambda\f$.
+
+Most of these wavelength grids are consecutive, i.e. the complete wavelength range is covered without any gaps and all
+neighboring bins have a common border. In some cases, though, one can request to form narrow, discrete bins around a
+list of specified characteristic wavelengths.
+
+The third category shown on the bottom row of the diagram represents specialty wavelength grids that allow the user to
+specify any combination of bin borders and characteristic wavelengths, possibly with gaps between the bins.
+
+
+\section UserWaveGridsClasses Wavelength grid classes
+
+## %Band wavelength grids
+
+The following diagram shows the band wavelength grid classes (connections starting with a triangle denote inheritance).
+
+\dot
+digraph bandwavelengthgridhierarchy {
+    rankdir=RL;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+    edge [arrowhead=empty];
+
+    WavelengthGrid [label="WavelengthGrid" URL="\ref WavelengthGrid"];
+        BandWavelengthGrid [label="BandWavelengthGrid" URL="\ref BandWavelengthGrid"];
+            PredefinedBandWavelengthGrid [label="PredefinedBandWavelengthGrid" URL="\ref PredefinedBandWavelengthGrid"];
+            ConfigurableBandWavelengthGrid [label="ConfigurableBandWavelengthGrid" URL="\ref ConfigurableBandWavelengthGrid"];
+
+    BandWavelengthGrid -> WavelengthGrid;
+        PredefinedBandWavelengthGrid -> BandWavelengthGrid;
+        ConfigurableBandWavelengthGrid -> BandWavelengthGrid;
+}
+\enddot
+
+The PredefinedBandWavelengthGrid class includes a set of predefined bands comprising the GALEX, SDSS, 2MASS, WISE and
+HERSCHEL broadbands. Each of these sets can be included or excluded through configuration flags. The
+ConfigurableBandWavelengthGrid class allows configuring an arbitrary list of bands, including the built-in bands and
+custom bands loaded from file.
+
+## Disjoint wavelength grids
+
+The following diagram shows most of the disjoint wavelength grid classes.
+
+\dot
+digraph disjointwavelengthgridhierarchy {
+    rankdir=RL;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+    edge [arrowhead=empty];
+
+    WavelengthGrid [label="WavelengthGrid" URL="\ref WavelengthGrid"];
+        DisjointWavelengthGrid [label="DisjointWavelengthGrid" URL="\ref DisjointWavelengthGrid"];
+
+            SpecifyBorder [label="Specify the borders\nof consecutive bins" color=gray shape=ellipse];
+                LinBorderWavelengthGrid [label="LinBorderWavelengthGrid" URL="\ref LinBorderWavelengthGrid"];
+                LogBorderWavelengthGrid [label="LogBorderWavelengthGrid" URL="\ref LogBorderWavelengthGrid"];
+                ResolutionBorderWavelengthGrid [label="ResolutionBorderWavelengthGrid" URL="\ref ResolutionBorderWavelengthGrid"];
+
+            SpecifyCenter [label="Specify the centers\nof consecutive bins" color=gray shape=ellipse];
+                LinWavelengthGrid [label="LinWavelengthGrid" URL="\ref LinWavelengthGrid"];
+                LogWavelengthGrid [label="LogWavelengthGrid" URL="\ref LogWavelengthGrid"];
+                NestedLogWavelengthGrid [label="NestedLogWavelengthGrid" URL="\ref NestedLogWavelengthGrid"];
+                ResolutionWavelengthGrid [label="ResolutionWavelengthGrid" URL="\ref ResolutionWavelengthGrid"];
+
+            SpecifyOther [label="Other" color=gray shape=ellipse];
+                FileWavelengthGrid [label="FileWavelengthGrid" URL="\ref FileWavelengthGrid"];
+                ListWavelengthGrid [label="ListWavelengthGrid" URL="\ref ListWavelengthGrid"];
+                FileBorderWavelengthGrid [label="FileBorderWavelengthGrid" URL="\ref FileBorderWavelengthGrid"];
+                ListBorderWavelengthGrid [label="ListBorderWavelengthGrid" URL="\ref ListBorderWavelengthGrid"];
+                CompositeWavelengthGrid [label="CompositeWavelengthGrid" URL="\ref CompositeWavelengthGrid"];
+
+    DisjointWavelengthGrid -> WavelengthGrid;
+        SpecifyBorder -> DisjointWavelengthGrid;
+            LinBorderWavelengthGrid -> SpecifyBorder;
+            LogBorderWavelengthGrid -> SpecifyBorder;
+            ResolutionBorderWavelengthGrid -> SpecifyBorder;
+        SpecifyCenter -> DisjointWavelengthGrid;
+            LinWavelengthGrid -> SpecifyCenter;
+            LogWavelengthGrid -> SpecifyCenter;
+            NestedLogWavelengthGrid -> SpecifyCenter;
+            ResolutionWavelengthGrid -> SpecifyCenter;
+        SpecifyOther -> DisjointWavelengthGrid;
+            FileWavelengthGrid -> SpecifyOther;
+            ListWavelengthGrid -> SpecifyOther;
+            FileBorderWavelengthGrid -> SpecifyOther;
+            ListBorderWavelengthGrid -> SpecifyOther;
+            CompositeWavelengthGrid -> SpecifyOther;
+}
+\enddot
+
+With the information provided in the previous section about \ref UserWaveGridsTypes, the class names in the categories
+"Specify the borders of consecutive bins" and "Specify the centers of consecutive bins" should be clear enough. The
+NestedLogWavelengthGrid class is a special "historical" case. It specifies a logarithmically spaced wavelength grid in
+which another, more compact logarithmic grid is embedded. This is often used to specify a higher resolution in a
+particular subrange. For grids specifying bin borders, similar nesting can be accomplished through the
+CompositeWavelengthGrid class.
+
+The classes in the category "Other" merit additional discussion. The FileWavelengthGrid and ListWavelengthGrid classes
+load a set of wavelengths from a file or an embedded list. By default, they construct consecutive bins based on these
+characteristic wavelengths in linear or logarithmic space depending on a configuration flag. However, they can also be
+configured to construct discrete, nonadjacent bins with a given relative width around each of the loaded wavelengths.
+
+The FileBorderWavelengthGrid and ListBorderWavelengthGrid classes by default load a set of bin borders from a file or
+an embedded list, and then determine the corresponding characteristic wavelengths in linear or logarithmic space
+depending on a configuration flag. However, they can also be configured to load both bin borders and characteristic
+wavelengths from the file or list. This option allows to (1) arbitrarily place characteristic wavelengths within each
+bin and (2) to specify intermediate wavelength ranges that are not covered by any bin.
+
+Finally, the CompositeWavelengthGrid aggregates a number of "child" disjoint wavelength grids configured by the user
+into a single, composite disjoint wavelength grid. This allows constructing essentially arbitrary wavelength grids
+without the need for reading a list of wavelengths from a file or a list.
+
+
+*/
