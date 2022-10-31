@@ -45,6 +45,7 @@ Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; 
 | \image html UserLevel3.png | \image html UserReading.png  | \ref UserLymanAlpha
 | \image html UserLevel3.png | \image html UserReading.png  | \ref UserPhotonCycle
 | \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialCustomDust
+| \image html UserLevel3.png | \image html UserReading.png  | \ref UserNormalizing
 
 
 \section UserGuideLegend Icon legend
