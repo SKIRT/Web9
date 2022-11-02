@@ -193,8 +193,8 @@ OK button at the end to confirm the changes.
 
 If you plan to contribute code back to the main SKIRT repository, you need to prepare for using the GitHub \em fork \em
 and \em pull workflow model. Anyone can fork a repository, push changes to their personal fork, and initiate a pull
-request. The changes can be pulled into the original repository by a core team member, possibly after discussion and/or
-being adjusted in one or more iterations.
+request. The changes can be pulled into the original repository by a SKIRT Core Team member, possibly after discussion
+and/or being adjusted in one or more iterations.
 
 To get started with contributing to one of the SKIRT project repositories:
  - On the GitHub web site, fork the relevant repository (see section \ref ContributingRepositories above).
@@ -204,7 +204,7 @@ To initiate a pull request:
  - Make the desired changes, commit them, and push them to your personal fork.
  - Test your changes, and repeat the previous line as many times as needed.
  - On the GitHub web site, create a pull request from your fork.
- - Wait for feedback from the core team.
+ - Wait for feedback from the SKIRT Core Team.
 
 This worklow is described in much more detail in \ref DevGitHubFlow.
 

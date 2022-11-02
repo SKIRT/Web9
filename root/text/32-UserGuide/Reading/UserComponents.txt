@@ -7,6 +7,8 @@ interface, and the Python Toolkit for SKIRT. For further information on how to i
 on system requirements and dependencies, see the \ref InstallationGuide. For a summary of features, see \ref
 HomeFeaturesSKIRT and \ref HomeFeaturesPTS.
 
+### SKIRT
+
 The core component of the SKIRT project is the SKIRT command line program, which allows simulating radiation transfer
 in astrophysical systems. The configuration for a particular SKIRT simulation is fully defined by means of a parameter
 file in XML text format. These parameter files can be created and edited in the following ways:
@@ -19,11 +21,15 @@ file in XML text format. These parameter files can be created and edited in the 
  - If the MakeUp utility has been built, you can create or adjust a parameter file using the graphical wizard-like
    interface offered by that utility.
 
+### MakeUp
+
 The MakeUp utility is built as a separate program, so it does not need to run on the same computer as the SKIRT command
 line program. The consecutive wizard panes follow the same pattern as the Q&A session driven by the command-line
 program, with the important benefit of a graphical user interface. One key advantage of the graphical wizard is the
 ability to navigate backward in the Q&A sequence. This allows verifying or adjusting your responses to the preceding
 questions.
+
+### Python Toolkit for SKIRT (PTS)
 
 The overall workflow in which SKIRT simulations take part can be exceedingly complex. For example:
   - Input data for SKIRT must be converted from some third-party format.

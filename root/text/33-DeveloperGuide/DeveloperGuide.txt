@@ -5,7 +5,7 @@
 This guide provides information on how to adjust or extend the SKIRT code and/or the Python Toolkit for SKIRT (PTS).
 
 The SKIRT project will never be finished. Fundamental changes and additions will likely be developed in cooperation
-with the core team. However, you may want to adjust the code in simple ways to fit the needs of your particular
+with the SKIRT Core Team. However, you may want to adjust the code in simple ways to fit the needs of your particular
 radiative transfer problem. Many features can be added without the need for an expert software development background.
 We explicitly invite your open contributions to the project. A contribution can take many forms, from asking a question
 to implementing a set of new classes. Information on how to contribute can be found in the \ref Contributing section of

@@ -66,7 +66,7 @@ procedure, the Web9 repository therefore contains a \c stageWebsite.sh procedure
 from a local copy of all relevant repositories. This procedure uses MATHJAX to render LaTeX formulas, which avoids the
 many images created by an explicit conversion, and leads to a much more pleasing formula presentation.
 
-While any contributor can stage the web site, assuming they have a local copy of all relevant repositories, only a core
-team member can actually publish the website because it requires write access rights to the web server.
+While any contributor can stage the web site, assuming they have a local copy of all relevant repositories, only a
+SKIRT Core Team member can actually publish the website because it requires write access rights to the web server.
 
 */

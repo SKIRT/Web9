@@ -3,7 +3,7 @@
 \page Contact Contact
 
 While we encourage user interaction through the online mechanisms described in the \ref Contributing section, you can
-contact the core SKIRT team through <a href="https://users.ugent.be/~mbaes/Home.html">Prof. dr. Maarten Baes</a> at the
+contact the SKIRT Core Team through <a href="https://users.ugent.be/~mbaes/Home.html">Prof. dr. Maarten Baes</a> at the
 Astronomical Observatory, Ghent University, Belgium.
 
 */

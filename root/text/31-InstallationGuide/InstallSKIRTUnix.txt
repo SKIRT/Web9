@@ -134,8 +134,8 @@ the following commands in a Terminal window to create the SKIRT directory in you
 
 You now need to create a local repository (\em local meaning "on your own computer") by cloning (i.e. copying) the
 online <a href="https://github.com/SKIRT/SKIRT9">public SKIRT GitHub repository</a> hosted at
-<a href="https://github.com">GitHub.com</a>. While everyone can read or copy from this repository, only the core
-SKIRT team can write to it. As a result, two situations present themselves.
+<a href="https://github.com">GitHub.com</a>. While everyone can read or copy from this repository, only the
+SKIRT Core Team can write to it. As a result, two situations present themselves.
 If you don't plan to modify the SKIRT code, or any modifications will be kept local to your computer, then you can
 clone your local copy directly from the main SKIRT repository. To achieve this, enter the following commands in a
 Terminal window:
@@ -228,7 +228,7 @@ Scanning dependencies of target skirt
 \endverbatim
 
 If things do not go so well, you'll need to take corrective action depending on the problem. The table below
-provides some hints; if the problem persists please contact the core SKIRT team.
+provides some hints; if the problem persists please contact the SKIRT Core Team.
 
 <TABLE>
 <TR><TH>Problem</TH>  <TH>Cause and corrective action</TH></TR>

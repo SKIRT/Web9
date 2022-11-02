@@ -17,7 +17,7 @@ project by developing new features.
 
 - \ref LegalInfo "": the legal terms of use for the software and documentation in the SKIRT project.
 
-- \ref Contact "": contact information for the core SKIRT team.
+- \ref Contact "": contact information for the SKIRT Core Team.
 
 For information on how to install and use SKIRT, see \ref Documentation.
 

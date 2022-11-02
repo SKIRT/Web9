@@ -32,11 +32,16 @@ see the \ref DeveloperGuide.
 
 \section ContributingContributors Contributor's hall of fame
 
-Prof. dr. Maarten Baes conceived of SKIRT and wrote the first several versions of the code. He continues to determine
-the strategic direction and to supervise further development, heading the core SKIRT team. Once in a while, less
-frequently than he would like, he contributes some nice new feature himself. Other than Maarten, the following people
-have contributed to the SKIRT project effort by developing code, writing documentation, and/or by extensively using the
-code and offering detailed information on new features. They are listed in alphabetical order on last name.
+Maarten Baes conceived of SKIRT and wrote the first several versions of the code, starting in 2002. He continues to
+determine the strategic direction and to supervise further development, heading the SKIRT Core Team. Once in a while,
+less frequently than he would like, he contributes some nice new feature himself.
+
+Peter Camps was the main SKIRT developer for ten years (2012-2022) until he retired. He introduced its current design
+and added many capabilities.
+
+The following people contributed to the SKIRT project effort by developing code, writing documentation, and/or by
+extensively using the code and offering detailed information on new features. They are listed in alphabetical order on
+last name.
 
 <TABLE>
 <TR><TD>
@@ -107,8 +112,8 @@ To allow combining the documentation from the various repositories into a single
 contains a \c stageWebsite.sh procedure to locally build the complete web site from a local copy of the relevant
 repositories (SKIRT9, PTS9, Web9). This procedure uses MATHJAX to render LaTeX formulas, which avoids the many images
 created by an explicit conversion, and leads to a much more pleasing formula presentation. While any contributor can
-stage the web site, assuming they have a local copy of all relevant repositories, only a core team member can actually
-publish the web site because it requires write access rights to the web server.
+stage the web site, assuming they have a local copy of all relevant repositories, only a SKIRT Core Team member can
+actually publish the web site because it requires write access rights to the web server.
 
 
 \section ContributingData Data
@@ -121,7 +126,7 @@ server. Examples of extra data files include:
  - Example data used in tutorials on SKIRT or PTS.
  - %Configuration, input and reference data for SKIRT benchmark tests.
 
-These data files are prepared and published by a core team member. There is at this point no automated workflow for
+These data files are prepared and published by a SKIRT Core Team member. There is at this point no automated workflow for
 other contributors to participate in this effort, although many of the procedures are available as part of PTS. For
 example, contributors can locally prepare and use new SKIRT stored table resource files by adjusting or extending the
 appropriate PTS functions.
@@ -138,26 +143,26 @@ Any GitHub user
 Because the repositories are public, any GitHub user has read access and can post an issue or send a pull request
 </TD></TR>
 <TR><TD>
-[<b>Contributor</b> team](https://github.com/orgs/SKIRT/teams/contributor) members
+[SKIRT <b>Contributor</b> Team](https://github.com/orgs/SKIRT/teams/contributor)
 </TD><TD>
-Members of this team have access to the SKIRT contributor team page so that they can participate in project-wide
+Members of this team have access to the SKIRT Contributor Team page so that they can participate in project-wide
 discussions and receive SKIRT-related broadcast notifications
 </TD></TR>
 <TR><TD>
-[<b>Core</b> team](https://github.com/orgs/SKIRT/teams/core) members
+[SKIRT <b>Core</b> Team](https://github.com/orgs/SKIRT/teams/core)
 </TD><TD>
-The core SKIRT team members have push access rights to the repositories and are responsible for managing issues and
+Members of this team have push access rights to the repositories and are responsible for managing issues and
 pull requests (e.g., closing issues or merging pull requests)
 </TD></TR>
 </TABLE>
 
-Users with a specific interest in SKIRT are encouraged to become a member of the contributor team. Notifications about
-important events (e.g., a new major feature becoming available, or an upcoming SKIRT user group meeting) will be
-broadcast to contributors through the GitHub contributor team page. The team page also facilitates discussions that are
+Users with a specific interest in SKIRT are encouraged to become a member of the SKIRT Contributor Team. Notifications
+about important events (e.g., a new major feature becoming available, or an upcoming SKIRT user group meeting) will be
+broadcast to SKIRT Contributor Team members through the team page. The team page also facilitates discussions that are
 not directly related to a particular technical issue. For example, there could be discussions about a given SKIRT use
 case or about an upcoming conference in a related field.
 
-To become a member of the SKIRT contributor team, contact the core team (see \ref Contact).
+To become a member of the SKIRT Contributor Team, contact the SKIRT Core Team (see \ref Contact).
 
 For more information on GitHub team discussions, see
 [GitHub help](https://help.github.com/en/articles/about-team-discussions).
@@ -174,7 +179,7 @@ Example contributions in this area include:
  - Providing extra information to a bug report (e.g., does it also happen on another operating system?).
  - Supporting feature requests, or suggesting alternative solutions.
 
-The core team is responsible for following up on and eventually closing issues as needed.
+The SKIRT Core Team is responsible for following up on and eventually closing issues as needed.
 
 To post an issue:
  - Browse to the SKIRT repository for which this issue is relevant (see section \ref ContributingRepositories above).
@@ -191,7 +196,7 @@ For more information on GitHub issues, see [GitHub help](https://help.github.com
 
 The repositories in the SKIRT organization use the GitHub \em fork \em and \em pull workflow model. Anyone can fork a
 repository, push changes to their personal fork, and initiate a pull request. The changes can be pulled into the
-original repository by a core team member, possibly after discussion and/or being adjusted in one or more iterations.
+original repository by a SKIRT Core Team member, possibly after discussion and/or being adjusted in one or more iterations.
 
 To get started with contributing to one of the SKIRT project repositories:
  - On the GitHub web site, fork the relevant repository (see section \ref ContributingRepositories above).
@@ -201,7 +206,7 @@ To initiate a pull request:
  - Make the desired changes, commit them, and push them to your personal fork.
  - Test your changes, and repeat the previous line as many times as needed.
  - On the GitHub web site, create a pull request from your fork.
- - Wait for feedback from the core team.
+ - Wait for feedback from the SKIRT Core Team.
 
 This worklow is described in much more detail in \ref DevGitHubFlow.
 
