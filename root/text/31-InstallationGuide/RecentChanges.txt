@@ -90,6 +90,9 @@ Aug  3, 2022 | 0f9447f | Allow probing after each iteration over primary or seco
 Aug  9, 2022 | 4dbf6f3 | \*\* Revised dynamic medium state concepts and execution flows
 Sep 15, 2022 | cfc43be | \*\* Extra flexibility for border wavelength grids loaded from file or list
 Sep 19, 2022 | 2c337c4 | Support self-consistent non-LTE line transfer for selected transitions and species
+Oct 12, 2022 | fbd00c8 | Add probe for line luminosity during secondary emission
+Nov  4, 2022 | edb826e | Fix multi-process hang in imaging form probes; plus some minor fixes
+
 
 \*\* This update requires a ski file upgrade
 
@@ -122,5 +125,6 @@ Apr  4, 2022 | b24c59c | Adjust MeanInterstellarDustMix scattering asymmetry par
 May 18, 2022 | f5b3f85 | Adjust plotting commands and ski file upgrade to revised probes and probe forms
 Aug  9, 2022 | 49f8d7d | Provide automated ski file upgrade procedure for revised execution flows
 Sep 15, 2022 | 06777ab | Provide automated ski file upgrade procedure for border wavelength grids
+Nov  4, 2022 | 5937da0 | Fix some very minor issues, mostly documentation
 
 */
