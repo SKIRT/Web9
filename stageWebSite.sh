@@ -47,7 +47,9 @@ cp staging/SkirtLogoSmall-home.png ../stage/root/
 
 # Copy redirecting index.html files
 cp staging/index_root.html ../stage/index.html
-#mkdir -p ../stage/makeup9 && cp staging/index_makeup9.html ../stage/makeup9/index.html
+cp staging/index_skirt.html ../stage/skirt9/index.html
+mkdir -p ../stage/makeup9
+cp staging/index_makeup.html ../stage/makeup9/index.html
 
 # Copy dustpedia files
 rsync -qrt --delete dustpedia ../stage
