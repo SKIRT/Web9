@@ -1,6 +1,6 @@
 /**
 
-\page UserProbes Probes and forms [TO DO]
+\page UserProbes Probes and forms [TO DO first]
 
 This topic should provide an overview of SKIRT's probes, including input model probes.
 
