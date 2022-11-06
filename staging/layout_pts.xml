@@ -34,7 +34,7 @@
     <tab type="pages" visible="no" title="" intro=""/>
     <tab type="modules" visible="no" title="" intro=""/>
     <tab type="namespaces" visible="no" title="">
-      <tab type="namespacelist" visible="yes" title="" intro=""/>
+      <tab type="namespacelist" visible="yes" title="PTS reference" intro="Hierarchical list of packages, classes and functions"/>
       <tab type="namespacemembers" visible="yes" title="" intro=""/>
     </tab>
     <tab type="concepts" visible="no" title="">

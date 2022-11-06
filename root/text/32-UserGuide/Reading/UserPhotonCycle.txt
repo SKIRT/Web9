@@ -1,0 +1,8 @@
+/**
+
+\page UserPhotonCycle Configuring the photon packet life cycle [TO DO]
+
+This topic should describe the options to configure aspects of the photon packet life cycle,
+with pointers to more information in the class headers. Perhaps also include the scattering options of instruments.
+
+*/

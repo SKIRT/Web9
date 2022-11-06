@@ -1,0 +1,24 @@
+/**
+
+\page Community Community Overview
+
+This area of the web site covers various topics related to the SKIRT user and developer community.
+
+- \ref PublicationsGallery "": a gallery of refereed publications related to SKIRT. This includes studies that apply
+SKIRT or use its results, and papers describing the code or some of its technical aspects. The list of publications can
+also be viewed as a table sorted in various ways.
+
+- \ref Benchmarks "": the SKIRT results for relevant published benchmark problems in domains including dust extinction
+and emission, polarization by dust grains, resonant Lyman-alpha scattering, and electronic level populations for
+rotational transitions.
+
+- \ref Contributing "": information on how to submit questions or problem reports and on how to contribute to the SKIRT
+project by developing new features.
+
+- \ref LegalInfo "": the legal terms of use for the software and documentation in the SKIRT project.
+
+- \ref Contact "": contact information for the SKIRT Core Team.
+
+For information on how to install and use SKIRT, see \ref Documentation.
+
+*/

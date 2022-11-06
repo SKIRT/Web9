@@ -1,0 +1,215 @@
+/**
+
+\page UserWaveConfigure Configuring wavelength grids
+
+This page offers guidelines on how to configure the wavelength grids for a panchromatic simulation, and by extension,
+the wavelength bias distributions for primary and secondary sources.
+
+It is wise to review the following topics before reading the guidelines provided below:
+
+- \ref UserWaveTreat
+- \ref UserWaveGrids
+
+The discussion on this page is organized as follows:
+
+- \ref UserWaveConfigPrimary
+- \ref UserWaveConfigRadField
+- \ref UserWaveConfigSecondary
+- \ref UserWaveConfigInstr
+- \ref UserWaveConfigMemory
+- \ref UserWaveConfigDiscrete
+
+\note Before adopting the  wavelength grids and especially the  spectral resolution values recommended in the text
+below, it is important to conduct appropriate convergence tests. In other words, try the same simulation with
+"better" grids and more photon packets and compare the results.
+
+
+\section UserWaveConfigPrimary Primary sources
+
+The primary source system requires the user to configure a wavelength range that limits the wavelengths of emitted
+primary photon packets. Within this range, the wavelengths are directly sampled from the relevant source spectrum
+without the need for (additional) discretization.
+
+As a general rule, limit the primary source wavelength range to the range that is relevant for the study at hand. In
+other words, avoid emitting photon packets that will never be detected by any instrument or probe and that will not
+contribute to the relevant part of the radiation field. On the other hand, if the simulation includes kinematic
+effects, the photon packet wavelengths will shift before being detected. It might then be useful to have a somewhat
+wider source range, compared to the instrument wavelength grids, to ensure a proper contribution level in the outer
+wavelength bins. If a model is placed at nonzero redshift (see \ref UserRedshift), one should take the corresponding
+wavelength shift into account as well.
+
+The default wavelength bias distribution and wavelength bias factor are appropriate for most simulations, and
+especially if the wavelength range spans multiple decades. The default composite biasing scheme then achieves a
+constant spectral resolution over the entire range, modulated with the source luminosity.
+
+For narrow wavelength ranges, perhaps corresponding to a particular spectrograph or spanning a given emission line, a
+linear distribution of the photon packet wavelengths might be more appropriate. To this end, SKIRT offers a built-in
+linearly uniform wavelength bias distribution (LinWavelengthDistribution) in addition to the default logarithmic
+distribution (LogWavelengthDistribution). Users can also define a custom distribution for maximum flexibility
+(FileWavelengthDistribution and ListWavelengthDistribution). For example, one might want to strongly favor one or more
+wavelength intervals of special interest.
+
+To evaluate whether the photon packet distribution as a function of wavelength is appropriate for the source spectrum
+and for the study at hand, proceed as follows:
+- add a LuminosityProbe and a LaunchedPacketsProbe instance to the list of probes in the configuration.
+- run the simulation with a fair number of photon packets.
+- use the PTS visual/plot_sources command (pts.visual.do.plot_sources) to plot the luminosity of and the number of
+  photon packets launched by each source as a function of wavelength, e.g.
+
+\verbatim
+pts plot_sources . --wmin 1 --wmax 10 --dex 3
+\endverbatim
+
+\section UserWaveConfigRadField Radiation field
+
+A panchromatic simulation with secondary emission always tracks and stores the radiation field in every spatial cell.
+If the simulation does not include secondary emission, the user can still opt to record the radiation field for probing
+at the end of the simulation. In both cases, the user must configure a wavelength grid that will be used to discretize
+the spectral variation of the radiation field (in every spatial cell).
+
+The radiation field wavelength grid must have disjoint bins and often the bins will be consecutive, although that is
+not a requirement.
+
+We first consider a panchromatic dust continuum simulation that produces synthetic observations from UV to submm
+wavelengths for a typical spiral galaxy at redshift zero. We expect the radiation field at shorter wavelengths to
+dominate the dust heating process, with the longer wavelengths having a minimal effect. We can also presume that the
+precise wavelength of an incoming photon packet might not be so important, as long as its energy is properly
+categorized, possibly allowing fairly wide wavelength bins. Tests indeed indicate that, for such a simulation, it is
+sufficient to configure a radiation field wavelength grid with just 40 points from 0.02 to 10 micron, distributed
+evenly in log space using a LogWavelengthGrid.
+
+For other dust models, such as compact galaxies at higher redshift or dust disks surrounding young stars or galactic
+nuclei, the dust opacity may be substantially higher, necessitating iteration over secondary emission to
+self-consistently determine dust self-absorption. In this case, the radiation field will need to be tracked for longer
+wavelengths as well, and the radiation field wavelength grid must be correspondingly extended.
+
+Models that self-consistently calculate secondary line emission by gas will need additional radiation field wavelength
+bins near each of the relevant lines to properly resolve the line profiles. The CompositeWavelengthGrid class should
+come in handy to configure such a grid. If the model does not contain any dust, the radiation field may not need to be
+tracked away from the lines, in which case the radiation field wavelength grid may contain (large) gaps.
+
+
+\section UserWaveConfigSecondary Secondary emission
+
+## Thermal emission from dust
+
+The dust emission wavelength grid controls the resolution of the dust emission spectrum calculated for each spatial
+cell. Especially when taking into account the stochastic heating of small dust grains, this spectrum contains many
+narrow infrared features. It is thus desirable to configure a grid that can properly resolve these features. Memory
+usage is not an issue because the emission spectrum is stored just once per execution thread. The performance impact is
+very limited as well because sampling these emission spectra is not the bottleneck of the calculation.
+
+The dust emission wavelength grid must have disjoint and preferable consecutive bins. For a typical dust continuum
+simulation, one can employ a NestedLogWavelengthGrid with a resolution of 100 bins per dex in the overall range from
+0.2 to 2000 micron, and 200 narrower bins in the range from 3 to 25 micron, for a total of just over 500 bins.
+
+For thermal dust emission, the wavelength bias distribution and the wavelength bias factor can be left to their default
+values; there seems to be no specific benefit in tweaking this aspect of the configuration.
+
+## Line emission from gas
+
+In this case, there is no need to discretize the spectrum. For each line, photon packet wavelengths are sampled
+from a Gaussian profile that depends on the local thermal velocity of the originating species.
+
+By default, the emitted photon packets are distributed between the lines and over each line profile according to a
+composite biasing scheme balancing the relative luminosities on the one hand (for 50 per cent) and the logarithmic
+wavelength bias distribution on the other hand (for the other 50 per cent). This might be improved by configuring a
+linear bias distribution and a wavelength bias factor closer to one. Alternatively, one could provide a more complex
+bias distribution that favors the most important lines for the study at hand.
+
+
+\section UserWaveConfigInstr Instruments and probes
+
+All SKIRT instruments require a wavelength grid for binning the observed fluxes contributed by detected photon packets.
+Some probes similarly require a wavelength grid for binning the probed spectral quantity. Each instrument and eligible
+probe can be configured with its own distinct wavelength grid. To avoid repetition in configurations with several
+instruments and probes, a default wavelength grid can be configured for the instrument system. The default grid is
+adopted by instruments and probes for which no individual grid has been specified. In the paragraphs below, we focus
+the discussion on instruments.
+
+Instruments can use disjoint or band wavelength grids. For a disjoint grid the binning process is straightforward. For
+a band wavelength grid, an arriving photon packet is registered for each band in the wavelength grid after multiplying
+its luminosity contribution by the band’s transmission factor corresponding to the packet’s wavelength. This amounts to
+"on-the-fly" convolution of the detected flux with the transmission curve of each band.
+
+If the study under consideration does not require a both spectrally and spatially resolved IFU data cube, one useful
+technique is to configure two instruments for the same line of sight: an SEDInstrument for recording a high-resolution
+spectrum, and a FrameInstrument for recording a set of broadband images. Each instrument performs different binning on
+the same set of arriving photon packets: the SED instrument spatially integrates fluxes into narrow spectral bins,
+while the frame instrument does a spectral convolution for the fluxes in every spatial pixel. This leads to a very
+efficient use of the photon packets being traced through the system. The alternative is to run the simulation using a
+regular wavelength grid with narrow bins and perform the convolution after the fact. For proper results, the instrument
+wavelength grid must resolve all spectral features of the sources, including emission or absorption lines which may be
+Doppler shifted because of kinematic effects. This requires a large number of spectral bins with correspondingly large
+memory requirements.
+
+\note Always place instruments with the same line of sight consecutively in the \em ski file. SKIRT then recognizes the
+similarity and applies a significant performance optimization.
+
+
+\section UserWaveConfigMemory Memory usage
+
+There are obviously countless areas in the SKIRT code that consume memory. In many cases, however, the overall memory
+requirements are dominated by just a few components, namely the radiation field storage and the instrument data cubes.
+
+Consider a typical panchromatic simulation. We assume that the radiation field wavelength grid has
+\f$N_{\lambda,\mathrm{rf}}\f$ points and that the spatial grid has \f$N_\mathrm{cell}\f$ points. The data structure for
+storing the radiation field then has a size in bytes of \f[ S_\mathrm{rf} = 8 N_{\lambda,\mathrm{rf}} N_\mathrm{cell}.
+\f] If the simulation iterates over secondary emission to self-consistently determine dust self-absorption, it tracks
+the radiation field resulting from primary and secondary emission separately, so that the data structure has twice this
+size.
+
+We further assume a frame instrument recording in \f$N_{\lambda,\mathrm{ins}}\f$ wavelength bins and \f$N_\mathrm{x}\f$
+by \f$N_\mathrm{y}\f$ image pixels. The data structure for storing the detected fluxes has a size in bytes of \f[
+S_\mathrm{ins} = 8 N_{\lambda,\mathrm{ins}} N_\mathrm{x} N_\mathrm{y}. \f] If the instrument is requested to keep track
+of individual flux components (such as direct and scattered light), or if there are similar instruments at other
+viewing angles, the required memory becomes a multiple of this size.
+
+Memory usage can often be limited by properly configuring the radiation field and instrument wavelength grids according
+to the guidelines provided in the previous sections, for example by using broadband-based wavelength grids for frame
+instruments. On the other hand, some studies will need a spatially and spectrally resolved instrument data cube in a
+given wavelength range to simulate integral-field spectroscopy observations and evaluate the effects of kinematics.
+This affects \f$N_{\lambda,\mathrm{ins}}\f$ without changing \f$N_{\lambda,\mathrm{rf}}\f$ in the equations above.
+Also, when including line interactions with gas media, the number of wavelengths \f$N_{\lambda,\mathrm{rf}}\f$ of the
+radiation field storage will need to increase as well.
+
+
+\section UserWaveConfigDiscrete Discrete panchromatic simulations
+
+In panchromatic simulation mode, SKIRT samples all wavelengths in a given wavelength range. In contract, some other
+codes only sample a set of discrete wavelengths in that range. Depending on the form of the involved spectra, these two
+methods may produce different results. While the SKIRT method is designed to more closely reflect the physical reality,
+these differences can be very annoying when comparing SKIRT results with those of other radiative transfer simulation
+codes as part of, for example, a benchmark effort.
+
+SKIRT therefore includes the DiscreteWavelengthDistribution class, which creates the ability to mimick codes that
+emit photon packets at discrete wavelengths rather than across a continuous range, while still using panchromatic
+simulation mode. Configuring such a simulation, however, involves some advanced options and requires great care, as
+described in more detail below.
+
+When a DiscreteWavelengthDistribution instance is used as the wavelength bias distribution for a source with a
+composite bias factor of one, the source will emit photon packets only at the characteristic wavelengths of the
+associated grid, and the photon packets will be distributed with equal probability among those wavelengths. In this
+situation, it makes little sense to configure wavelength grids with different bins for detecting photon packets in
+other areas of the simulation. Doing so might cause unexpected results. For example, some bins might receive no photon
+packets at all and thus incorrectly report zero influx. It is therefore best to configure the same wavelength grid
+throughout the simulation.
+
+To configure a simulation that uses discrete wavelengths in panchromatic mode, follow these guidelines:
+
+- Choose a wavelength grid with consecutive bins (i.e. representing a continuous range without gaps), such as a
+LogWavelengthGrid or a FileWavelengthGrid with \em relativeHalfWidth set to zero.
+
+- Configure all primary and secondary sources (including, e.g. dust emission) with a wavelength bias factor of one, and
+a wavelength bias distribution of type DiscreteWavelengthDistribution using the chosen wavelength grid.
+
+- Explicitly configure all wavelength grids in the simulation to be the same chosen wavelength grid. This includes the
+radiation field wavelength grid, the dust emission wavelength grid, and the wavelength grids for all instruments and
+probes.
+
+- Avoid using kinematics in the simulation. Small Doppler shifts from the emitted discrete wavelengths will stay within
+the same wavelength bin anyway. Larger shifts will cause photon packets to move between wavelength bins in a
+discontinuous way.
+
+
+*/

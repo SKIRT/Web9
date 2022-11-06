@@ -1,0 +1,71 @@
+/**
+
+\page InstallPythonMac Install Python using a graphical interface (macOS)
+
+\section InstallPythonMacIntro Introduction
+
+If you just wish to run the SKIRT code, there is no need for Python. The Python Toolkit for SKIRT (PTS)
+obviously requires a Python install. However, if you already have a Python install that conforms to
+\ref InstallReqPTS "the PTS system requirements" then you can skip this topic as well.
+
+The instructions in this topic describe how to install one of several available Python distributions on macOS using a
+graphical installer. The installation procedure using the graphical installer on other operating systems is probably
+very similar.
+
+
+\section InstallPythonMacDistrib The Anaconda distribution
+
+The [Anaconda distribution](https://www.anaconda.com/distribution/) is an open source Python distribution that includes
+an extensive Python package manager. It offers many additional features, including the option to define and switch
+between multiple Python environments.
+
+To install the Anaconda distribution, follow the steps outlined below.
+
+- Visit the Anaconda distribution page at https://www.anaconda.com/distribution
+
+- Locate and click the appropriate download link for:
+   - the graphical installer
+   - Python 3.7 or later
+   - your operating system (macOS in our example)
+
+- After the download completes, locate and launch the installer (probably named similar to
+  \c Anaconda3-2022.05-MacOSX-x86_64.pkg)
+
+- Follow the instructions displayed by the installer, entering your password as required, and ignoring any optional
+  extras. When quitting the installer, you can tell the installer to trash itself or you can do this later.
+
+- Locate the application \c Anaconda-Navigator.app in your Applications folder, and launch it.
+
+- In the main Anaconda Navigator window, select the "Environments" tab in the column at the left and then
+  select the default and only "base (root)" environment (do \em not click the triangular "run" button!).
+  You should now see a list of already installed Python packages similar to the example below.
+
+\image html InstallAnacondaNavigator.png
+
+- Scroll through the "Installed" list to verify that it includes \ref InstallReqPTS "all packages required by PTS".
+
+- Install any missing packages using the following procedure:
+
+    - In the popup box at the top, now showing "Installed", select "Not installed" instead.
+
+    - In the search field to the far right of the popup box, enter (part of) the name of the package to be installed.
+      Select the appropriate package in the list by clicking the checkbox in front of the package name.
+
+    - Press the green Apply button at the bottom. A dialog window will be displayed listing the requested package and
+      any of its dependencies. Press Apply once more in the dialog window to install all listed packages.
+
+    - Repeat the previous two steps to install additional packages, or select multiple packages before pressing Apply
+      to install all of them in one go.
+
+\note The Anaconda installer adds several lines of commands to your login script; do \em not remove these lines.
+
+- Open a new Terminal window (so that the commands added to your login script by the Anaconda installer get executed)
+and enter "python". The welcome message should now list the Python version you just installed and it should include the
+name Anaconda.
+
+
+\section InstallPythonMacFinal Install PTS
+
+You are now ready to install PTS as described in \ref InstallPTS.
+
+*/

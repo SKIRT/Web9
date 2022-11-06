@@ -1,0 +1,44 @@
+/**
+
+\page Camps2015 Stochastically heated dust grains
+
+\section CampsIntro Introduction
+
+Thermal emission by stochastically heated dust grains plays an important role in the radiative transfer problem for a
+dusty medium. It is therefore essential to verify that radiative transfer codes properly calculate the dust emission
+before studying the effects of spatial distribution and other model parameters on the simulated observables.
+
+This benchmark includes the optical and calorimetric material properties and the grain size distributions for a typical
+astronomical dust mixture, and provides dust emission reference solutions for a range of well-defined input radiation
+fields.
+
+\section CampsRefs References and downloads
+
+<TABLE>
+<TR><TH>Publication</TH>  <TD>Camps et al. 2015 <a href="https://ui.adsabs.harvard.edu/abs/2015A%26A...580A..87C">[ADS]</a></TD>
+<TR><TH>Web site</TH>  <TD>http://www.shg.ugent.be</TD>
+<TR><TH>Ski file</TH>  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/camps.ski">camps.ski</a></TD>
+</TABLE>
+
+\section CampsResults SKIRT results
+
+The figures below show the difference between the SKIRT result and the corresponding reference solution for the input
+fields specified in the benchmark and for each of three dust populations (silicates, graphite, and PAHs) defined in the
+benchmark. The input fields vary from extremely weak to very strong (the Mathis series) and from soft to hard (the
+black-body series). These figures correspond to Figures 5, 6 and 7 of Camps et al. 2015.
+
+|                         |
+|-------------------------|
+| ![ ](CampsSilicate.png) |
+| ![ ](CampsGraphite.png) |
+| ![ ](CampsPAH.png)      |
+
+\section CampsPerform Performing this benchmark
+
+To perform this benchmark, download the ski file provided above (\ref CampsRefs) and pass it to SKIRT as
+a single command line argument. After about 15 seconds, SKIRT produces an output file for each of the input fields
+in the benchmark. The emissivity is listed in a seperate column for each material type in the benchmark dust mixture
+(in the order Silicates, Graphite, and PAHs, corresponding to the order in which these components are specified in the
+ski file). You need to add those three columns to obtain the total emissivity of the dust mixture.
+
+*/

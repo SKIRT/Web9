@@ -1,0 +1,51 @@
+/**
+
+\page Peest2017 Polarization test cases
+
+\section PeestIntro Introduction
+
+Peest et al. 2017 describe a method for simulating the effects of scattering by spherical dust grains on the
+polarization of radiation in Monte Carlo codes such as SKIRT. Furthermore, they define a number of test cases to
+verify the simulation results by comparison with analytically calculated solutions.
+
+\section PeestRefs References and downloads
+
+<TABLE>
+<TR><TH>Publication</TH>  <TD>Peest et al. 2017 <a href="https://ui.adsabs.harvard.edu/abs/2017A%26A...601A..92P">[ADS]</a></TD>
+<TR><TH>Ski files</TH>
+    <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc1.ski">peest_tc1.ski</a> <br>
+        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc2.ski">peest_tc2.ski</a> <br>
+        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc3.ski">peest_tc3.ski</a>
+    </TD>
+</TABLE>
+
+\section PeestResults SKIRT results
+
+The figures below show the SKIRT results (red) plotted over the analytical solutions (blue) for the first three test
+cases defined by Peest et al. 2017. The results for the fourth test case are not shown because SKIRT does not have a
+built-in material mix corresponding to the artificial, non-physical material used in that test case to produce circular
+polarization.
+
+The panels below correspond to those of Figure 4 of Peest et al. 2017. They show relevant properties of the observed
+radiation as a function of the position along the horizontal axis of the detector ("x extent"). The top row shows the
+intensity (in arbitrary units), the middle row shows the linear polarization degree, and the bottom row shows the
+polarization direction or angle.
+
+For test case 1, note that the polarization angle is undefined at the central horizontal position because the
+polarization degree becomes zero there. The resulting numerical instabilities at and near that position cause a spike
+in the otherwise essentially flat curve.
+
+For test case 3, note that the polarization angle should be interpreted modulo 180 degrees, which maps the curve for
+this test case (bottom right panel) onto the one shown by Peest et al. 2017.
+
+| Test case 1         |  Test case 2        | Test case 3         |
+|---------------------|---------------------|---------------------|
+| ![ ](Peest_TC1.png) | ![ ](Peest_TC2.png) | ![ ](Peest_TC3.png) |
+
+\section PeestPerform Performing this benchmark
+
+To perform this benchmark, download the ski files provided above for each of the three test cases
+(\ref PeestRefs) and pass their names to SKIRT on the command line.
+
+
+*/

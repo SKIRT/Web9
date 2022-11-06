@@ -1,0 +1,105 @@
+/**
+
+\page InstallPythonUbuntu Install Python using the command line (Ubuntu)
+
+\section InstallPythonUbuntuIntro Introduction
+
+If you just wish to run the SKIRT code, there is no need for Python. The Python Toolkit for SKIRT (PTS)
+obviously requires a Python install. However, if you already have a Python install that conforms to
+\ref InstallReqPTS "the PTS system requirements" then you can skip this topic as well.
+
+The instructions in this topic describe how to install one of several available Python distributions on Ubuntu using
+the command line only, for example logged in to the system through an ssh connection. The installation procedure using
+the command line on other Unix systems is probably very similar.
+
+
+\section InstallPythonUbuntuDistrib The Anaconda distribution
+
+The [Anaconda distribution](https://www.anaconda.com/distribution/) is an open source Python distribution that includes
+an extensive Python package manager. It offers many additional features, including the option to define and switch
+between multiple Python environments.
+
+As a first step, you will need a regular, interactive Web browser to locate the appropriate Anaconda installer. In case
+the target system can be reached only through a command line interface, you will need to use a Web browser on another
+computer, possibly the computer through which you are logged in to the target system. That being said, follow the steps
+outlined below to install the Anaconda distribution.
+
+- In your interactive Web browser, visit the Anaconda distribution page at https://www.anaconda.com/distribution
+
+- Using the options on that page, switch to the correct target operating system (Linux in our example).
+
+- Locate the link to the installer for Python 3.7 or later and for the appropriate system architecture (64-bit x86 in
+most cases).
+
+- Right-click on the link, select "Copy Link" from the context menu and paste the result in a plain text editor
+  or terminal window, or otherwise figure out the full absolute URL to the installer. At the time of writing the URL is
+  https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
+
+- Login to the target system if you have not already done so, create a temporary directory, and download the
+  installer into that directory:
+
+      mkdir AnacondaInstaller
+      cd AnacondaInstaller
+      wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
+
+  replacing the URL by the appropriate current installer URL.
+
+- After the download completes, launch the installer:
+
+      chmod +rx Anaconda3-2022.05-Linux-x86_64.sh
+      ./Anaconda3-2022.05-Linux-x86_64.sh
+
+  again replacing the file name by the current installer file name.
+
+- Follow the instructions displayed by the installer, accepting the default install location, and responding
+  affirmative when asked whether the installer should initialize Anaconda3 by running conda init.
+
+  \note The Anaconda installer adds several lines of commands to your login script; do \em not remove these lines.
+
+- After the installer completes, you can trash it (or you can do this later):
+
+      rm Anaconda3-2022.05-Linux-x86_64.sh
+      cd ..
+      rm -d AnacondaInstaller
+
+
+- Logout and re-login to the target computer so that the commands added to your login script by the Anaconda installer
+  get executed.
+
+- When you enter "python" at the command line, the welcome message should now list the Python version you just
+installed and it should include the name Anaconda.
+
+- Install any missing Python packages using the procedure described in the following section (see
+  \ref InstallReqPTS "list of packages required by PTS").
+
+
+\section InstallPythonUbuntuPacks Extra Python packages
+
+To install extra Python packages in your Anaconda environment, follow the steps outlined below.
+
+- If you haven't already done so, login to the target system.
+
+- To display a list of all installed packages and their version numbers, enter:
+
+      conda list
+
+- To determine whether a particular package is installed, add the package name. For example, enter:
+
+      conda list numpy
+
+- To install an extra package, use the \c conda \c install command. For example, enter:
+
+      conda install reportlab
+
+  The conda command will display a list of packages to be installed and/or updated, including any dependencies of the
+  requested package. Enter affirmative when asked whether to proceed.
+
+- Repeat the previous steps to install additional packages, or specify multiple packages in the \c conda \c install
+  command to install all of them in one go.
+
+
+\section InstallPythonUbuntuFinal Install PTS
+
+You are now ready to install PTS as described in \ref InstallPTS.
+
+*/

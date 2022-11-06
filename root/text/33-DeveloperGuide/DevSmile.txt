@@ -1,0 +1,743 @@
+/**
+
+\page DevSmile The SMILE metadata subproject
+
+\section DevSmileIntro Introduction
+
+The SMILE subproject implements the mechanisms for handling SKIRT parameter files in SKIRT and MakeUp. The code in
+this subproject is designed as a generic framework that can be used ouside of the SKIRT project as well.
+
+The SMILE acronym stands for "Simple Metadata Interactive Language Editing". SMILE is a metadata language that can
+represent parameter files for software programs or other simple datasets; see \ref DevSmileLang below for more
+information.
+
+The SMILE project supports the SMILE metadata language. It includes utilities for creating and editing SMILE datasets,
+and a C++ library that can be used by software programs outside of the SMILE project called \em clients. The overall
+project structure is illustrated in the following diagram. The arrows indicate dependencies. The components inside
+the dashed line are part of the SMILE project.
+
+\image html DevSmileComponents.png
+
+At the center of the project is the SMILE C++ library that offers facilities for working with SMILE schema's and
+datasets. The library allows a SMILE client to establish a direct correspondence between the client's C++ classes and
+objects and SMILE schema's and datasets on the other hand. Specifically, the discovery services in the SMILE library
+translate the SMILE metadata provided for each relevant client C++ class to a SMILE schema. Using this schema, the
+resurrection services in the SMILE library can construct a run-time object hierarchy reflecting any SMILE dataset
+conforming to the schema. This happens in a fully type-safe manner, using standard C++ functionality.
+
+The SMILE C++ library is organized in three layers with strict unidirectional dependencies:
+
+- The bottom layer offers fundamental functions including platform-independent system interaction, basic string
+  handling, and low-level XML processing.
+- The middle layer contains the meat of the library, including facilities for processing SMILE schema's and
+  representing SMILE datasets in memory, and for performing introspection
+  (or \em discovery) on C++ classes in SMILE client code.
+- The top layer uses the capabilities of the other layers to serialize and deserialize SMILE data sets, and to
+  resurrect a client's C++ object hierarchy from a SMILE dataset.
+
+The <code>smiletool</code> command-line utility offers a text-based question and answer session for creating a SMILE
+dataset of any particular type, given a SMILE schema. Just as the SMILE C++ library, this tool is written in standard
+C++ so that it is very portable. The MakeUp desktop utility offers an even more user-friendly, wizard-style,
+graphical user interface for creating and editing SMILE datasets of any particular type, again given the corresponding
+SMILE schema. This utility relies on (and thus requires installation of) the open source Qt GUI framework
+(https://www.qt.io).
+
+Because all information about the make-up of a SMILE dataset is defined in the corresponding SMILE schema, the
+operation of the <code>smiletool</code> and MakeUp utilities is fully uncoupled from the operation of any other
+SMILE clients. For example, a future Web-browser-based utility might very well offer similar SMILE dataset creation and
+editing. While this would require re-implementing part of the SMILE library using Web-based technologies, it would not
+affect any of the other components.
+
+\section DevSmileUsage Using the SMILE library
+
+There are two fundamentally distinct ways of using the SMILE C++ library. On the one hand, generic utilities such as
+those shown on the right-hand side of the above diagram (including, e.g., <code>smiletool</code>) can work with any type
+of SMILE dataset, as long as the corresponding SMILE schema file is available. The items in a SMILE dataset are
+represented in memory as so-called \em ghost items that offer generic functionality to store their type and manage
+their property values. A ghost item has no built-in knowledge about the properties it should support. It instead counts
+on the schema definition to provide this information.
+
+On the other hand, as shown on the left-hand side of the above diagram, a SMILE client (such as the \c shapes example
+program) can implicitly define a SMILE schema through metadata embedded in the Item subclasses of the program. In this
+case, the client code implements additional functionality that uses the values of the SMILE properties of its classes
+in some application-specific way. The SMILE library establishes a direct correspondence between the client's C++
+classes and a SMILE schema, and between instances of the client's classes and items in a SMILE dataset. Specifically,
+the discovery services in the SMILE library translate the SMILE metadata provided for each relevant client C++ class to
+a SMILE schema. Using this schema, the resurrection services in the SMILE library can construct a run-time object
+hierarchy reflecting any SMILE dataset conforming to the schema.
+
+The SKIRT program, for which the SMILE project was conceived, offers a typical use case. SKIRT defines a large
+set of C++ classes implementing its simulation capabilities. A particular SKIRT simulation can be configured by
+constructing an aggregation of instances of these classes at run time, and setting their property values. The
+simulation is then executed by the code in the various classes, fully depending on the configured run-time structure
+and property values. SKIRT uses the SMILE library to save a SMILE schema reflecting its simulation class hierarchy.
+This schema can then be loaded into one of the independent, generic SMILE utilities for creating or editing a SMILE
+data set acting as a parameter file for SKIRT. Subsequently, SKIRT uses the SMILE library to construct a
+run-time object hierarchy (instantiating the SKIRT client classes) mirroring the parameter file, and which is
+used to perform the requested simulation. As an alternative for the user who doesn't have access to the seperate SMILE
+dataset editing utilities, SKIRT uses the SMILE library to implement a built-in console query and answer session.
+
+Another use case is a program that requires a simple settings file, without a tight coupling between the structure of
+the settings file and the internal class hierarchy. In this case, the program developer "manually" creates a SMILE
+schema for the dataset (a SMILE schema for SMILE schema's is provided with the SMILE project for this purpose). A user
+can then create or edit a settings file using one of the generic SMILE utilities. The program can use the facilities of
+the SMILE library to load the settings file and access its contents from the ghost items representing the SMILE dataset
+in memory.
+
+\section DevSmileLang The SMILE metadata language
+
+\subsection DevSmileLangOver Overview
+
+SMILE is a metadata language that can represent simple datasets such as property lists or parameter files for
+software programs. A SMILE dataset can be stored as a text file using a subset of the standard XML format, which makes
+it easy to create, modify and use electronically. In addition, the SMILE XML format is fairly accessable for direct
+viewing and editing by a moderately advanced user.
+
+While SMILE uses a limited subset of the XML standard, it supports complicated data structures including:
+ - Scalar properties of type string, Boolean, enumeration, integer number, and floating point number.
+ - Compound properties aggregating any combination of scalar and/or compound properties, up to any nesting level.
+ - Variable-length lists of properties of the same type (scalar or compound).
+ - Arbitrary schema-defined units for floating point numbers that represent physical quantities.
+
+\subsection DevSmileLangSchema SMILE schema's
+
+The data structure of a particular type of SMILE files is defined by a SMILE schema, which is in turn a SMILE file
+(with its own schema - a nice recursion!). This allows software tools to validate the proper construction of a SMILE
+file. Equally important, a software tool can guide a user to create or edit a SMILE file that conforms to a given SMILE
+schema, without any information other than the schema.
+
+The following diagram shows the structure of a SMILE schema.
+A connection starting with a diamond represents aggregation, i.e. it means "A uses one or more B's".
+A connection starting with a triangle represents inheritance, i.e. it means "A is a base for B".
+
+\dot
+digraph schemaitems {
+    rankdir=LR;
+    ordering=out;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+
+    Schema -> Type [dir=back, arrowtail=ediamond];
+    Schema -> Quantity [dir=back, arrowtail=ediamond];
+    Schema -> UnitSystem [dir=back, arrowtail=ediamond];
+    Type -> Property [weight=9, dir=back, arrowtail=ediamond];
+    Quantity -> Unit [dir=back, arrowtail=ediamond];
+    UnitSystem -> DefaultUnit [dir=back, arrowtail=ediamond];
+    Property -> ItemListProperty [dir=back, arrowtail=empty];
+    Property -> ItemProperty [dir=back, arrowtail=empty];
+    Property -> DoubleListProperty [dir=back, arrowtail=empty];
+    Property -> DoubleProperty [dir=back, arrowtail=empty];
+    Property -> EnumProperty [dir=back, arrowtail=empty];
+    Property -> IntProperty [dir=back, arrowtail=empty];
+    Property -> BoolProperty [dir=back, arrowtail=empty];
+    Property -> StringProperty [dir=back, arrowtail=empty];
+    EnumProperty -> EnumValue [dir=back, arrowtail=ediamond];
+
+    { rank=same; Schema }
+    { rank=same; Type Quantity UnitSystem }
+    { rank=same; Property, StringProperty, BoolProperty, IntProperty, EnumProperty,
+                 DoubleProperty, DoubleListProperty, ItemListProperty, ItemProperty }
+    { rank=same; DefaultUnit Unit  }
+    { rank=same; EnumValue }
+}
+\enddot
+
+The following tables present the properties for each Smile schema item.
+
+<EM>Schema item:</EM> <B>Schema</B> -- represents a complete Smile schema describing the structure of a dataset
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>name</TD>       <TD>string</TD>  <TD>a short name for this schema; currently not used in a formal way</TD></TR>
+<TR><TD>title</TD>      <TD>string</TD>  <TD>a longer name for the dataset described by this schema</TD></TR>
+<TR><TD>version</TD>    <TD>string</TD>  <TD>the version of this schema definition</TD></TR>
+<TR><TD>extension</TD>  <TD>string</TD>  <TD>the filename extension for datasets described by this schema</TD></TR>
+<TR><TD>root</TD>       <TD>string</TD>  <TD>the name of the root element in datasets described by this schema</TD></TR>
+<TR><TD>type</TD>       <TD>string</TD>  <TD>the type of the top-level item in datasets described by this schema,
+                        which corresponds to the value of the \em type attribute on the root element</TD></TR>
+<TR><TD>format</TD>     <TD>string</TD>  <TD>the version of the described data format, which corresponds to
+                        the value of the \em format attribute on the root element</TD></TR>
+<TR><TD>url</TD>        <TD>string</TD>  <TD>an optional URL pointing to information on the Web for the schema</TD></TR>
+<TR><TD>types</TD>          <TD>list of Type</TD>  <TD>a list of schema items representing all types for the
+                            described dataset, including concrete types (that can actually occur in the dataset)
+                            and abstract types (intermediate types in the inheritance hierarchy); concrete types
+                            should be listed in the order in which they should be shown to the user, for example
+                            when offering a choice between all subtypes of some base type</TD></TR>
+<TR><TD>quantities</TD>     <TD>list of Quantity</TD>  <TD>a list of schema items describing physical quantities and
+                            the corresponding units used for representing values in the described dataset</TD></TR>
+<TR><TD>unitSystems</TD>    <TD>list of UnitSystem</TD>  <TD>a list of schema items each describing a unit system
+                            and the corresponding default units for each physical quantity</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>Type</B> -- represents a concrete or abstract (compound) item type that may occur in the
+                                     described dataset
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>name</TD>       <TD>string</TD>  <TD>the name of this type in the described dataset, corresponding to the
+                        name of the XML element representing an item of this type in the described dataset</TD></TR>
+<TR><TD>title</TD>      <TD>string</TD>  <TD>a description of this type for display to a user</TD></TR>
+<TR><TD>base</TD>       <TD>string</TD>  <TD>the name of the type from which this type directly inherits;
+                        if missing or empty this type is a root type</TD></TR>
+<TR><TD>concrete</TD>   <TD>bool</TD>  <TD>true for concrete types (that can actually occur in the dataset),
+                        false for non-concrete types</TD></TR>
+<TR><TD>allowedIf</TD>  <TD>string</TD>  <TD>a Boolean expression that indicates whether items of the type are allowed;
+                        an empty string means always allowed; the attribute values for all direct
+                        and indirect base types of this type are ANDed with this value</TD></TR>
+<TR><TD>displayedIf</TD> <TD>string</TD>  <TD>a Boolean expression that indicates whether the type is displayed;
+                        an empty string means always displayed; the attribute values for all direct
+                        and indirect base types of this type are ANDed with this value</TD></TR>
+<TR><TD>insert</TD>     <TD>string</TD>  <TD>a conditional value expression providing a list of extra names to be
+                        inserted in the global and/or local name set when an item of this type is added to the dataset,
+                        in addition to the names of the type and its ancestors; an empty string means that no extra
+                        names will be added</TD></TR>
+<TR><TD>subPropertyIndex</TD>  <TD>bool</TD>  <TD>the index in the property list where properties of subtypes should
+                        be listed; if nonnegative, properties of subtypes must be listed just before the property
+                        with the given index; if negative, properties of subtypes must be listed after the properties
+                        of the base type</TD></TR>
+<TR><TD>properties</TD> <TD>list of Property</TD>  <TD>a list of schema items describing the
+                        properties being encapsulated by this type; the list can contain any of the concrete
+                        schema types that inherit from the Property schema item; the properties
+                        for all direct and indirect base types of this type are taken into account as well</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>Property</B> -- represents a property that may occur in the described
+                                         dataset (abstract base for all concrete Property schema items)
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>name</TD>       <TD>string</TD>  <TD>the name of this property in the described dataset, corresponding to the
+                        name of the XML attribute (for non-compound properties) or element (for compound properties)
+                        representing this property in the described dataset</TD></TR>
+<TR><TD>title</TD>      <TD>string</TD>  <TD>a description of this property for display to a user</TD></TR>
+<TR><TD>relevantIf</TD> <TD>string</TD>  <TD>a Boolean expression indicating whether this property is relevant;
+                        an empty string means always relevant</TD></TR>
+<TR><TD>displayedIf</TD> <TD>string</TD>  <TD>a Boolean expression indicating whether this property is displayed;
+                        an empty string means always displayed</TD></TR>
+<TR><TD>requiredIf</TD> <TD>string</TD>  <TD>a Boolean expression indicating whether this property is required;
+                        an empty string means always required</TD></TR>
+<TR><TD>insert</TD>     <TD>string</TD>  <TD>a conditional value expression providing a list of extra names to be
+                        inserted in the global and/or local name set when a value of this item is entered into the
+                        dataset, in addition to the name automatically associated with the property; an empty string
+                        means that no extra names will be added</TD></TR>
+<TR><TD>default</TD>    <TD>string</TD>  <TD>a conditional value expression providing a default value for the property
+                        in case the property is missing  string in a format compatible with the particular concrete
+                        property type; for compound properties the value indicates the name of a type;
+                        an empty string means there is no default value</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>StringProperty</B> -- represents a scalar, non-compound property with an unformatted
+                                               Unicode string value
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>...</TD>        <TD>...</TD>  <TD>properties inherited from Property schema item</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>BoolProperty</B> -- represents a scalar, non-compound property with a Boolean value
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>...</TD>        <TD>...</TD>  <TD>properties inherited from Property schema item</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>IntProperty</B> -- represents a scalar, non-compound property with an integer value
+                                            \f$\in[-2\times 10^9,2\times 10^9]\f$
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>...</TD>        <TD>...</TD>  <TD>properties inherited from Property schema item</TD></TR>
+<TR><TD>min</TD>        <TD>int</TD>  <TD>the minimum value for the property; if missing the minimum value defaults
+                        to \f$-2\times 10^9\f$</TD></TR>
+<TR><TD>max</TD>        <TD>int</TD>  <TD>the maximum value for the property; if missing the maximum value defaults
+                        to \f$2\times 10^9\f$</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>EnumProperty</B> -- represents a scalar, non-compound property with a value
+                                             in a predefined enumerated range
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>...</TD>        <TD>...</TD>  <TD>properties inherited from Property schema item</TD></TR>
+<TR><TD>enumValues</TD> <TD>list of EnumValue</TD>  <TD>a list of schema items representing the values in the
+                        enumeration range for the property</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>EnumValue</B> -- represents one of the values in a predefined enumerated range
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>name</TD>       <TD>string</TD>  <TD>a string representing this enumeration value</TD></TR>
+<TR><TD>title</TD>      <TD>string</TD>  <TD>a description of this enumeration value for display to a user</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>DoubleProperty</B> -- represents a scalar, non-compound property with as value
+                                               a floating point number that can be stored in a 64-bit \em double,
+                                               plus an optional unit in which the value is to be interpreted
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>...</TD>        <TD>...</TD>  <TD>properties inherited from Property schema item</TD></TR>
+<TR><TD>min</TD>        <TD>double</TD>  <TD>the minimum value for the property; a leading "]" indicates that the
+                        specified value is excluded from the allowed range; if missing the minimum value defaults
+                        to negative infinity</TD></TR>
+<TR><TD>max</TD>        <TD>double</TD>  <TD>the maximum value for the property; a trailing "[" indicates that the
+                        specified value is excluded from the allowed range; if missing the maximum value defaults
+                        to positive infinity</TD></TR>
+<TR><TD>quantity</TD>   <TD>string</TD>  <TD>the name of the physical quantity this property represents; this must
+                        match the name of one of the Quantity schema items in this schema and determines the allowed
+                        and default units for the value; if missing the value is dimensionless;
+                        also see notes below</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>DoubleListProperty</B> -- represents a non-compound property with as value a list of
+                                                   floating point numbers, with for each value an optional unit
+                                                   in which the value is to be interpreted
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>...</TD>        <TD>...</TD>  <TD>properties inherited from Property schema item</TD></TR>
+<TR><TD>min</TD>        <TD>double</TD>  <TD>the minimum value for each number in the list; a leading "]" indicates
+                        that the specified value is excluded from the allowed range; if missing the minimum
+                        value defaults to negative infinity</TD></TR>
+<TR><TD>max</TD>        <TD>double</TD>  <TD>the maximum value for each number in the list; a trailing "[" indicates
+                        that the specified value is excluded from the allowed range; if missing the maximum
+                        value defaults to positive infinity</TD></TR>
+<TR><TD>quantity</TD>   <TD>string</TD>  <TD>the name of the physical quantity each number in the list represents; this
+                        must match the name of one of the Quantity schema items in this schema and determines the
+                        allowed and default units for the values; if missing the values are dimensionless;
+                        also see notes below</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>ItemProperty</B> -- represents a compound property with as value an instance of a predefined
+                                             type or of one of the types inheriting from it
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>...</TD>        <TD>...</TD>  <TD>properties inherited from Property schema item</TD></TR>
+<TR><TD>base</TD>       <TD>string</TD>  <TD>the name of a concrete or abstract type described in this schema;
+                        the actual property value can be an instance of any concrete type equal to or
+                        inheriting from the specified type</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>ItemListProperty</B> -- represents a compound property with as value a list of instances of
+                                                 a predefined type or of one of the types inheriting from it
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>...</TD>        <TD>...</TD>  <TD>properties inherited from Property schema item</TD></TR>
+<TR><TD>base</TD>       <TD>string</TD>  <TD>the name of a concrete or abstract type described in this schema;
+                        the actual items in the list can be instances of any concrete type equal to or
+                        inheriting from the specified type</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>Quantity</B> -- represents a physical quantity and the units that can be used to express
+                                         values for it
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>name</TD>       <TD>string</TD>  <TD>the name of this physical quantity, which can be referenced by
+                        the \em quantity field in property definitions of type double and list of doubles</TD></TR>
+<TR><TD>title</TD>      <TD>string</TD>  <TD>a description of this physical quantity for display to a user</TD></TR>
+<TR><TD>units</TD>      <TD>list of Unit</TD>  <TD>a list of schema items of type Unit, describing the units that
+                        can be used to express values for this physical quantity</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>Unit</B> -- represents a unit used to express values for a physical quantity
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>name</TD>       <TD>string</TD>  <TD>the name of this unit, which can be referenced by a field of type double
+                        in the described dataset to express values for the corresponding physical quantity</TD></TR>
+<TR><TD>title</TD>      <TD>string</TD>  <TD>a description of this physical quantity for display to a user</TD></TR>
+<TR><TD>factor</TD>     <TD>dimensionless double</TD>  <TD>the multiplication factor \f$f\f$ used to convert a value
+                        given in this unit to internal units according to \f$v_\mathrm{program} = f\,v^p + o\f$;
+                        if missing the factor defaults to unity</TD></TR>
+<TR><TD>power</TD>      <TD>dimensionless double</TD>  <TD>the power index \f$p\f$ used to convert a value
+                        given in this unit to internal units according to \f$v_\mathrm{program} = f\,v^p + o\f$;
+                        if missing the power index defaults to unity</TD></TR>
+<TR><TD>offset</TD>     <TD>dimensionless double</TD>  <TD>the offset \f$o\f$ used to convert a value
+                        given in this unit to internal units according to \f$v_\mathrm{program} = f\,v^p + o\f$;
+                        if missing the offset defaults to zero</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>UnitSystem</B> -- represents a unit system providing a default unit for each physical quantity
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>name</TD>       <TD>string</TD>  <TD>the name of this unit system, which can be referenced from elsewhere in
+                        the schema or the described dataset to provide the link discussed in the note below</TD></TR>
+<TR><TD>title</TD>      <TD>string</TD>  <TD>a description of this unit system for display to a user</TD></TR>
+<TR><TD>defaultUnits</TD> <TD>list of DefaultUnit</TD>  <TD>a list of schema items of type DefaultUnit, each defining
+                          the default unit under this unit system for a physical quantity described in this
+                          schema</TD></TR>
+</TABLE>
+
+<EM>Schema item:</EM> <B>DefaultUnit</B> -- defines the default unit for a physical quantity
+
+<TABLE>
+<TR><TD><B>Property</B></TD>  <TD><B>Type</B></TD>  <TD><B>Description</B></TD></TR>
+<TR><TD>quantity</TD>   <TD>string</TD>  <TD>the name of the physical quantity for which this item defines the default
+                        unit; the quantity must be properly defined in this schema</TD></TR>
+<TR><TD>unit</TD>       <TD>string</TD>  <TD>the name of the unit that serves as a default for the physical quantity
+                        referenced by this item; the unit must be listed in the quantity definition</TD></TR>
+</TABLE>
+
+\note If the value of the \em quantity attribute for floating point properties starts with an at sign, the quantity is
+determined instead as the string value of the indicated enumeration property. In that case, because the string value of
+an enumeration property can't be empty, a value representing an unknown quantity is silently replaced by the empty
+string to represent a dimensionless quantity.
+
+\note If there are two or more unit systems, there must also be types with the same names as the unit systems and these
+types must have an unambiguous common base type. Furthermore, an item property with this base type must be included
+somewhere close to the top of the hierarchy. The actual subtype selected for this property in the dataset will then
+determine the default unit system for the dataset.
+
+\subsection DevSmileLangCond SMILE conditional expressions
+
+<b>Objectives</b>
+
+The SMILE schema language supports dynamically adjusting default values and displaying or hiding options based on
+choices made earlier in the configuration process. These earlier choices may represent various aspects of the
+configuration; for example, in case of the SKIRT client:
+
+ - The level of expertise selected by the user (e.g. basic, regular, advanced).
+ - The overall simulation mode configured (e.g. including secondary emission or not).
+ - The level of spatial symmetry in the input model (i.e. 1D, 2D or 3D).
+
+All the metadata needed to control these capabilities is defined in the SMILE schema, and thus in case of a
+client such as SKIRT, in the SMILE metadata declared with each class.
+
+<b>Names and namespaces</b>
+
+In this discussion, we assume that the engine driving the SMILE configuration user interface scans the type and
+property hierarchy of the SMILE schema in a sequential manner, allowing only forward navigation. If the engine allows
+the user to navigate backwards (or even randomly), it must emulate the sequential behavior for the purposes of the
+capabilities discussed here.
+
+The engine maintains two sets of names with a different scope. The global set contains names that stay around for the
+duration of the configuration session. The local set contains names that stay around only while configuring the
+properties of a particular type; a fresh local set is created for each type instance. By definition, the global set
+contains names that start with an uppercase letter, and the local set contains names that start with a lowercase
+letter. As a result, the two sets form disjoint namespaces. After the first character (which must be a letter), a name
+can include any mix of letters and digits (and no other characters). Names are never removed from a set (although the
+local set is regularly discarded and replaced by a new one as a whole). Names are inserted in each of the sets as
+follows:
+
+ - Upon creation of the global set, the engine inserts the name “True”.
+ - Upon creation of a local set, the engine inserts the name “true”.
+ - Whenever a particular type is added to the configuration (because the user selects the type as the value of a
+   compound property), the engine inserts the name of the type and the names of its ancestor types, recursively,
+   into the global set. This requires all type names to start with an uppercase letter.
+ - Whenever a particular property is given a value in the configuration (which implies that the property is relevant),
+   the engine may insert the name of the property or a name starting with the property name into the local set,
+   according to the property-type-dependent rules summarized in the following table. This requires all property names
+   to start with a lowercase letter.
+
+| Property type | Insert what | If and only if
+|---------------|-------------|---------------
+| Int | property name | numeric value is nonzero
+| Double | property name | numeric value is nonzero
+| Bool | property name | Boolean value is true
+| String | property name | string contents is not empty
+| Item | property name | item is present (i.e. not null)
+| DoubleList | property name | double list is not empty
+| ItemList | property name | item list is not empty
+| Enum | Property name + enumeration value | always
+
+In addition, the "insert" type or property attribute may cause one or more names given in the attribute value to be
+inserted whenever the value of the corresponding property or type is being configured. In that case, each name
+is inserted in the global or local set depending on the capitalization of the first letter in the name.
+
+\note The following names are reserved; any attempt to insert them through schema attributes will cause a fatal error:
+True, False, true, false.
+
+<b>Boolean expressions</b>
+
+Some type or property attributes accept an arbitrary Boolean expression that will be evaluated to true or false
+whenever the value is required. The expression is formed by combining identifiers (consisting of letters and digits) in
+the usual way with the unary negation operator #!, the binary OR operator #|, the binary AND operator #&, and
+(balanced) parenthesis. In the absence of parenthesis, the negation operator has the highest precedence; otherwise
+operations are executed from left to right.
+
+When evaluating the expression, identifiers that correspond to a name currently in the global or local set are replaced
+by the Boolean value \em true; other identifiers are replaced by \em false.
+
+<b>Conditional value expressions</b>
+
+Some type or property attributes accept a conditional value expression that will be evaluated to one of the specified
+values whenever the value is required. The syntax of a conditional value expression can be illustrated as follows:
+
+    <Boolean-expression1>:<value1>; ... ;[<Boolean-expressionN>:]<valueN>
+
+In other words, there is a sequence of one or more condition-value pairs separated by a semicolon, while the condition
+and the value are separated by a colon. In the last pair of the sequence, the condition (including the colon) may be
+missing; if so it defaults to “true”.
+
+Note that this syntax precludes the values to contain colons and semicolons. This is no problem for numerical values or
+for type names, and even for string values it will most likely not be a significant limitation.
+
+The pairs in the conditional value expression are considered from left to right. When the condition for a pair
+evaluates to true (using the Boolean expression rules explained above), the corresponding value represents the value of
+the complete expression and further evaluation is terminated.
+
+<b>Attributes</b>
+
+The following table lists the type and property attributes that support conditional values:
+
+| Attribute | Value type | Default | Available for
+|-----------|------------|---------|--------------
+| allowedIf | Boolean expression | true | type
+| relevantIf | Boolean expression | true | property
+| displayedIf | Boolean expression | true | type, property
+| requiredIf | Boolean expression | true | property
+| default | conditional value expression | - | property
+| insert | conditional value expression | - | type, property
+
+A type is listed as part of the choices for an item property if both its \em allowedIf and \em displayedIf attributes
+evaluate to true. The difference between these attributes for a type lie only in the reason for the omission of the
+type: in the first case, including the type would create an invalid configuration, in the second case, the user does
+not have the expertise to deal with the type.
+
+A property is displayed as part of the configuration for a given type instance if both its \em relevantIf and \em
+displayedIf attributes evaluate to true. The difference between these attributes for a property is similar to that for
+types: in the first case, the value of the property will not be used in the current configuration, in the second case,
+the user does not have the expertise to deal with the property. This semantic difference has some intricate
+consequences. For example, the engine must be able to derive a meaningful value for a relevant property, even if it is
+not displayed. Thus, such a property must either be optional (i.e., not required) or have a default value.
+
+Supporting a conditional value expression for the \em default attribute enables providing a different default value
+depending on the configuration so far.
+
+The value of the conditional value expression in the \em insert attribute can be a single name or a list of names
+separated by commas. The names are inserted in the global or local set depending on their first letter, as described
+before. The insert attribute facilitates managing complex dependencies in the configuration.
+
+
+\section DevSmileComp SMILE project components
+
+\subsection DevSmileCompTool The smiletool command-line utility
+
+The <code>smiletool</code> command-line utility offers a text-based question and answer session for creating a SMILE
+dataset of a particular type, according to one of the SMILE schema files residing in a schema library directory.
+Such a session can be started as follows:
+
+\verbatim
+smiletool  -l <library_dirpath>
+\endverbatim
+
+The tool can also be used to create a LaTeX representation of a SMILE dataset, as long as the corresponding SMILE
+schema is in the library. For example:
+
+\verbatim
+smiletool  -l <library_dirpath> -i <input_dataset_filepath> -t <output_latex_filepath>
+\endverbatim
+
+In more detail, the <code>smiletool</code> command-line tool supports the following command line arguments; they are all
+optional and their order is not significant:
+
+\verbatim
+smiletool [-i <input_dataset_filepath>]
+          [-o <output_dataset_filepath>] [-t <output_latex_filepath>]
+          [-l <library_dirpath>] [-s <schema_filename>]
+\endverbatim
+
+If an input dataset filepath is present (the -i option), the specified dataset is loaded into memory. Otherwise, an
+interactive console query and answer session is conducted to create a new dataset in memory.
+
+If an output dataset filepath is present (the -o option), the memory dataset is saved to the specified file. Similarly,
+if an output latex filepath is present (the -t option), the memory dataset is converted to LaTeX source form and saved
+to the specified file. In both cases, an appropriate filename extension is added if needed, and an existing file with
+the final name gets overwritten without warning. The -o and -t options can both be specified at the same time. If
+neither is specified, the user is prompted for a dataset filename at the console. In this case, an appropriate filename
+extension is added if needed as well, however the name of an existing file will not be accepted.
+
+To operate the tool in batch, i.e. without console prompting, both an input dataset filepath (the -i option) and at
+least one output filepath (-o and/or -t options) must be present.
+
+The library directory path (the -l option) specifies the location of SMILE schema files. If this option is missing, the
+current directory is used instead. The schema file name (the -s option) specifies the schema to be used for
+interpreting or constructing a dataset. The .schema filename extension is added if needed. The schema file must reside
+in the library directory. If this option is missing, the appropriate schema is either derived from the input data set
+(if one is specified), or the user is asked to select a schema from those found in the library directory.
+
+\subsection DevSmileCompMakeUp The MakeUp desktop utility
+
+The MakeUp desktop utility offers a user-friendly, wizard-style, graphical user interface for creating and editing
+SMILE datasets of any particular type, given the corresponding SMILE schema. This utility relies on (and thus requires
+installation of) the open source Qt GUI framework (https://www.qt.io).
+
+On some systems, MakeUp can be launched by double-clicking its application icon. For example, on Mac OS X, MakeUp
+is built as an application bundle. However, it can always be launched via the command-line. For example, on Mac OS X:
+
+\verbatim
+.../MakeUp.app/Contents/MacOS/MakeUp
+\endverbatim
+
+When launched for the first time, MakeUp searches for a default SMILE schema library in its immediate vicinity
+in the file system. However, in any case, the path to the SMILE schema library can be selected
+through the graphical interface on the initial panel of the wizard:
+
+\image html DevSmileMakeUpBasicChoice.png
+
+For each SMILE schema found in the library directory, the initial panel shows two options: one to create and configure
+a new dataset, and one to open and edit an existing dataset. The user can navigate through the wizard panes by
+selecting the appropriate choices (or filling in fields) and clicking the "Continue" and "Back" buttons at the bottom.
+Here is an example wizard pane shown as part of the editing process of a shapes parameter file:
+
+\image html DevSmileMakeUpShapeSample.png
+
+In essence, MakeUp asks the same questions as the <code>smiletool</code> command-line tool using a nicer interface.
+There are two important additional benefits though:
+ - MakeUp allows navigating back to and updating the answers provided for previous questions.
+ - MakeUp allows opening and updating an existing dataset.
+
+\subsection DevSmileCompFund The fundamentals layer
+
+The fundamentals layer offers low-level capabilities including platform-independent system interaction, basic
+string handling, and XML processing. The following paragraphs introduce a few selected classes in this layer.
+
+The Basics header file should be included directly or indirectly in all program units for the project to include the
+headers for some frequently-used standard library facilities in a consistent manner.
+
+The System class provides a set of functions that interact with the operating system or with the file system, often in
+a platform-dependent manner. One important function of the class is translating internal UTF-8 encoded strings to and
+from the encoding expected by the host system. A single instance of the System class must be constructed just after
+program startup.
+
+The Array, Table and ArrayTable classes implement containers that hold sequences of double values with a predictable
+size (i.e. the array or table size is known at run time when the container is first initialized). The Array class
+allows easily and efficiently performing mathematical operations on the corresponding values in multiple arrays. The
+Table and ArrayTable classes offer multi-dimensional table indexing.
+
+The StringUtils class offers facilities for working with std::string objects, including various query and transform
+functions and conversions to and from numeric data types.
+
+The CommandLineArguments class serves as a basic command line parser. It supports any number of filepath arguments and
+options with or without a value. Individual filepaths, options, and option values must be separated from each other by
+whitespace. An option always starts with a dash; a filepath and an option value don't.
+
+The XmlReader and XmlWriter classes implement reading and writing of the XML subset that is sufficient to represent
+SMILE schemas and datasets. The classes support well-formed XML 1.0 documents with certain additional limitations and
+caveats, as decribed in the respective class headers.
+
+\subsection DevSmileCompSchema The schema and discovery layer
+
+The schema and discovery layer offers facilities for processing SMILE schema's and representing SMILE datasets in
+memory, and for performing introspection (or \em discovery) on C++ classes in SMILE client code.
+
+The Item class is the abstract base class for classes corresponding to the SMILE data types listed in a SMILE schema.
+In other words, an instance of an Item subclass represents a particular \em item in a dataset described by a SMILE
+schema. \em Ghost items are instances of the GhostItem class (based on Item) defined as part of the SMILE library. A
+ghost item offers generic functionality to store its type and to manage property values. \em Client items are instances
+of Item subclasses defined in client code that uses the SMILE library. These classes define SMILE properties through
+the macros provided for that purpose in the ItemInfo.hpp header file, and implement additional functionality that uses
+the values of these properties in some application-specific way. The Item base class offers facilities to help manage a
+run-time item hierarchy (reflecting the structure of a given SMILE dataset), and to support the discovery mechanisms
+offered by other parts of the SMILE library.
+
+The ItemRegistry class manages the global registry of client Item subclasses defined in a program. Client Item
+subclasses must be explicitly registered with the registry at startup.
+
+The SchemaDef class represents a SMILE schema definition. It offers facilities for loading a SMILE schema from file or,
+through the ItemRegistry, from the discovery metadata published by a set of client Item subclasses. Portions of the
+schema definition are represented by instances of the TypeDef, PropertyDef, and UnitDef classes. A SchemaDef instance
+can construct SMILE items (i.e. instances of Item subclasses) given their type (as a string), and can spawn an
+appropriate property handler (see below) given a target item and a property name (as a string).
+
+The PropertyHandler class and its subclasses handle SMILE data item properties for the purpose of serialization and
+resurrection. A PropertyHandler subclass instance combines knowledge about the schema definition describing the SMILE
+dataset being handled, the target data item within that dataset, the target property within that item, and the type of
+that property. There is a specific PropertyHandler subclass for each supported property type, including string,
+Boolean, enumeration, integer, floating point and pointer to item types. These latter property types are used to link
+items into a hierarchy that reflects a given SMILE dataset.
+
+\subsection DevSmileCompSerial The serialization and resurrection layer
+
+The serialization and resurrection layer uses the capabilities of the other layers to serialize and deserialize SMILE
+data sets, and to resurrect a client's C++ object hierarchy from a SMILE dataset.
+
+For example, the XmlHierarchyCreator class offers a static function to create a memory representation of a SMILE
+dataset, given its XML serialization (in a file) and the corresponding schema definition (as a SchemaDef instance). If
+the schema definition was derived from the metadata published by a set of client Item subclasses in the program, the
+items in the returned hierarchy will be instances of the appropriate client Item subclasses. If the schema definition
+was loaded from an XML file, the items in the returned hierarchy will be GhostItem instances.
+
+Conversely, the XmlHierarchyWriter class offers a static function to write the structure and properties of a SMILE
+dataset representation in memory to an XML file, given the corresponding schema definition (as a SchemaDef instance).
+The function works for both client and ghost item hierarchies. The generated XML file contains sufficient information
+to reconstruct a fresh copy of the SMILE dataset (using the XmlHierarchyCreator class).
+
+The other classes in this layer provide similar services. The ConsoleHierarchyCreator class implements a console query
+and answer session to construct a (client or ghost) memory representation of a SMILE dataset. The LatexHierarchyWriter
+class outputs a LaTeX representation of a SMILE dataset that can be easily turned into a nicely formatted document
+using a LaTeX processor.
+
+\subsection DevSmileCompShapes The shapes example program
+
+The shapes command-line program included in the SMILE project serves as an example of the typical SMILE library use
+case. The program defines a small set of client Item subclasses for representing a collection of two-dimensional shapes
+and their properties (see ShapeItem and its subclasses). Given an interconnected run-time tree of instances of these
+classes, the program can render a visualization of the described collection to a pixel image (see the Canvas class).
+The program uses the ItemInfo.hpp macros to declare discovery metadata for the ShapeItem subclasses and their
+properties (see, e.g., the ColorDecorator class), and registers these classes with the SMILE item registry (see the
+ShapeRegistry class). The SMILE schema definition derived from this information describes a SMILE dataset that, in
+turn, represents a collection of shapes that can be rendered by the program.
+
+The shapes program supports the following command line arguments (see the ShapesCommandLineHandler class):
+
+\verbatim
+shapes -x <library_dirpath>
+shapes <shapes_dataset_filepath> [-o <tiff_output_filepath>]
+\endverbatim
+
+The first form causes a SMILE schema file to be generated corresponding to the metadata in the source code (i.e. in the
+class definitions of the Item subclasses). The file is named 'shapes.smile' and is placed in the specified directory.
+Assuming that this file is placed in the appropriate schema library directory, the <code>smiletool</code> command-line
+tool and/or the MakeUp desktop utility are now enabled to create and edit shapes parameter files (as shown in the
+section on \ref DevSmileCompMakeUp).
+
+The second form generates a TIFF image based on the instructions provided in the shapes parameter file (a SMILE
+dataset) specified as the first command line argument. The \c .shapes filename extension may be included or omitted. If
+the optional output filepath is present (the -o option), it specifies the path to the image file that will be created
+according to the instructions in the parameter file. The <tt>.tiff</tt> filename extension is added unless the filepath
+already has the <tt>.tiff</tt> filename extension. If the -o option is not present, the output filepath is derived from
+the parameter filepath by replacing the \c .smile filename extension by the <tt>.tiff</tt> filename extension.
+
+Below is an example shapes parameter file. Because the design goal was to show
+various SMILE features, the structure of the parameter file is perhaps more complicated than it could have been.
+
+\verbatim
+<?xml version="1.0" encoding="UTF-8"?>
+<shapes-definition type="ShapeCanvas" format=".." producer=".." time="..">
+    <ShapeCanvas>
+        <shape type="Shape">
+            <ShapeGroup>
+                <shapes type="Shape">
+                    <RectangleShape x="0.6 m" y="0.2 m" width="0.5 m" height="0.1 m"/>
+                    <ColorDecorator color="Red">
+                        <shape type="Shape">
+                            <RectangleShape x="0.8 m" y="0.7 m" width="0.1 m" height="0.15 m"/>
+                        </shape>
+                    </ColorDecorator>
+                    <WidthDecorator width="0.03">
+                        <shape type="Shape">
+                            <ColorDecorator color="Custom" rgb="0.4, 0.1, 0.9">
+                                <shape type="Shape">
+                                    <RectangleShape x="0.3 m" y="0.4 m" width="0.3 m" height="0.1 m"/>
+                                </shape>
+                            </ColorDecorator>
+                        </shape>
+                    </WidthDecorator>
+                    <PolygonShape x="0.25 m" y="0.75 m" radius="0.2 m" numSides="5" align="true"/>
+                </shapes>
+            </ShapeGroup>
+        </shape>
+    </ShapeCanvas>
+</shapes-definition>
+\endverbatim
+
+And here is the corresponding rendered image:
+
+\image html DevSmileShapesExample.png
+
+*/

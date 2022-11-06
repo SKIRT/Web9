@@ -1,0 +1,152 @@
+/**
+
+\page UserPolarize Configuring for polarized radiation
+
+This topic describes how SKIRT can be configured to track the polarization state of radiation during its interaction
+with certain media. The discussion is organized in the following sections:
+
+- \ref UserPolarizeBackground
+- \ref UserPolarizeConfig
+- \ref UserPolarizeSphericalMedia
+- \ref UserPolarizeSpheroidalMedia
+- \ref UserPolarizeSources
+
+
+\section UserPolarizeBackground Describing the polarization state
+
+The polarization state of electromagnetic radiation is commonly described by the Stokes vector, \f$\boldsymbol{S}\f$,
+
+\f[
+\boldsymbol{S} = \begin{pmatrix} I \\ Q \\ U \\ V \end{pmatrix},
+\f]
+
+where \f$I\f$ represents the intensity of the radiation, \f$Q\f$ and \f$U\f$ describe linear polarization, and \f$V\f$
+describes circular polarization. The degree of linear polarization,\f$P_{\text{L}}\f$, can be
+written as a function of the Stokes parameters,
+
+\f[
+P_{\text{L}} = \frac{\sqrt{Q^2+U^2}}{I}.
+\f]
+
+The (linear) polarization angle, \f$\gamma\f$, can be written as
+
+\f[
+\gamma = \frac12\arctan_2\left(\frac{U}{Q}\right),
+\f]
+
+where \f$\arctan_2\f$ denotes the inverse tangent function that preserves the quadrant.
+
+The polarization angle \f$\gamma\f$ describes the angle between the direction of linear polarization and a given
+reference direction in the plane orthogonal to the propagation direction. When considering a given observer frame, the
+reference direction is chosen to be the vertical axis, and the polarization angle is measured counter-clockwise when
+looking toward the source.
+
+SKIRT defines the Stokes vector as described above, following the recommendations of the International Astronomical
+Union. Historically, however, authors have used various conventions for the signs of the Stokes parameters \f$U\f$ and
+\f$V\f$. For example, the polarization angle \f$\gamma\f$ is sometimes measured while looking toward the observer
+rather than toward the source, flipping the sign of both \f$U\f$ and \f$V\f$. Reversing the definition of circular
+polarization handedness also flips the sign of \f$V\f$. Assuming that the adopted conventions are properly documented,
+translating the values of the Stokes parameters from one convention into another can be accomplished by flipping the
+signs appropriately.
+
+
+\section UserPolarizeConfig Configuring SKIRT with polarization
+
+Enabling support for polarized radiation in a SKIRT simulation is straightforward. Most importantly, _all_ material
+mixes associated with the medium components in the simulation must support polarization and have polarization enabled.
+Once this condition is satisfied, the polarization state will be tracked for all photon packets. Next, one should
+configure at least one of the instruments to record and output the accumulated polarization state of the detected
+photon packets (i.e. the four components of the Stokes vector). If not, the polarization state would be tracked but not
+"observed" by any of the instruments. Finally, some sources can be configured to emit polarized radiation.
+
+The material mixes supporting polarization are discussed below in \ref UserPolarizeSphericalMedia and \ref
+UserPolarizeSpheroidalMedia. Note that SKIRT does not allow configurations where media with and without polarization
+would be mixed.
+
+To cause an instrument to record and output the Stokes vector components, set its \c recordPolarization option to
+"true"; see the Instrument and FluxRecorder classes.
+
+Polarized emission is further discussed below in \ref UserPolarizeSpheroidalMedia and \ref UserPolarizeSources.
+
+
+\section UserPolarizeSphericalMedia Scattering in spherical media (dust grains, electrons, or atoms)
+
+SKIRT supports the effects on the radiation polarization state by scattering on spherical dust grains, on electrons,
+and on Lyman-alpha atoms.
+
+The MeanTrustBenchmarkDustMix class implements representative grain polarization properties for a mixture of bare
+graphite, silicate and PAH dust grains. In other words, the optical properties are integrated over the size
+distribution and summed over the material types. This is perfectly fine for a treatment of scattering in the optical
+range. Make sure to set the \c scatteringType property to "SphericalPolarization".
+
+When dust emission is included in the simulation, the calculation requires specific information for multiple grain size
+bins. This is especially true for small grains that are not in local thermal equilibrium. For this purpose, SKIRT
+includes the PolarizedGraphiteGrainComposition and PolarizedSilicateGrainComposition classes that provide optical
+polarization properties for graphite and silicate grains as a function of grain size. These classes can be configured
+through the ConfigurableDustMix class as in the following example:
+
+\verbatim
+<ConfigurableDustMix scatteringType="SphericalPolarization">
+    <populations type="GrainPopulation">
+        <GrainPopulation numSizes="10" normalizationType="FactorOnSizeDistribution" dustMassPerHydrogenAtom="0 Msun"
+                         dustMassPerHydrogenMass="0" factorOnSizeDistribution="7.762471166e-31">
+            <composition type="GrainComposition">
+                <PolarizedSilicateGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <PowerLawGrainSizeDistribution minSize="0.005 micron" maxSize="0.25 micron" exponent="3.5"/>
+            </sizeDistribution>
+        </GrainPopulation>
+        <GrainPopulation numSizes="10" normalizationType="FactorOnSizeDistribution" dustMassPerHydrogenAtom="0 Msun"
+                         dustMassPerHydrogenMass="0" factorOnSizeDistribution="7.413102413e-31">
+            <composition type="GrainComposition">
+                <PolarizedGraphiteGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <PowerLawGrainSizeDistribution minSize="0.005 micron" maxSize="0.25 micron" exponent="3.5"/>
+            </sizeDistribution>
+        </GrainPopulation>
+    </populations>
+</ConfigurableDustMix>
+\endverbatim
+
+The ElectronMix class implements wavelength-independent Thomson scattering on electrons with optional support for
+polarization. Make sure to set the \c includePolarization property to "true".
+
+The LyaNeutralHydrogenGasMix class implements resonant Lyman-alpha line scattering with optional support for
+polarization. Make sure to set the \c includePolarization property to "true".
+
+
+\section UserPolarizeSpheroidalMedia Emission from aligned spheroidal dust grains
+
+The SpheroidalSilicateGrainComposition and SpheroidalGraphiteGrainComposition classes represent the optical and
+calorimetric properties of spheroidal silicate and graphite dust grains with support for polarized thermal emission by
+(partially) aligned spheroidal grains. There is currently no support for scattering and absorption interactions with
+aligned spheroidal grains; for these interactions the implementation behaves as if the grains are spherical.
+
+These classes can be configured through the ConfigurableDustMix class in a way similar to the example for the polarized
+grain compositions in the previous section \ref UserPolarizeSphericalMedia. This time though, set the \c scatteringType
+property of the ConfigurableDustMix to "SpheroidalPolarization".
+
+When including spheroidal grains, it is mandatory to also include a magnetic field in the simulation to determine the
+degree and direction of grain alignment at every location in the spatial domain. For a GeometricMedium instance, this
+can be accomplished by setting the \c magneticFieldStrength property to a nonzero value and providing a vector field
+for the \c magneticFieldDistribution property. For an ImportedMedium instance, set the \c importMagneticField property
+to "true" and provide the three magnetic field vector components on each row in the import file.
+
+For more details, refer to the documentation of the SpheroidalSilicateGrainComposition and
+SpheroidalGraphiteGrainComposition classes.
+
+
+\section UserPolarizeSources Polarized primary emission
+
+Secondary emission from aligned spheroidal dust grains is discussed in the previous section \ref
+UserPolarizeSpheroidalMedia.
+
+On the primary emission side, the PointSource class offers the option to emit polarized radiation by configuring the \c
+polarizationProfile property with a polarization profile other than NoPolarizationProfile. At the time of writing, just
+a single polarization profile is provided by the SineSquarePolarizationProfile class, intended primarily for testing.
+It should be straightforward to add other polarization profiles as needed for specific applications.
+
+
+*/

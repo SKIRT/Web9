@@ -1,0 +1,213 @@
+/**
+
+\page InstallSKIRTDev Develop SKIRT using Qt Creator (all platforms)
+
+You can easily make changes to your local copy of the SKIRT source tree using any text editor, and rebuild the code
+using the procedures described elsewhere in this installation guide. Once you get into substantial development work,
+however, and especially if you plan to contribute code back to the main SKIRT repository, it becomes beneficial to
+use Qt Creator as an integrated development environment, and to follow the procedures outlined below.
+
+\note The description below assumes that you successfully completed the installation instructions provided by the topic
+      \ref InstallSKIRTQt and any references therein.
+
+This advanced topic contains the following sections:
+- \ref InstallSKIRTDevClangFormat
+- \ref InstallSKIRTDevDoxstyle
+- \ref InstallSKIRTDevDoxygen
+- \ref InstallSKIRTDevQt
+- \ref InstallSKIRTDevRepo
+
+
+\section InstallSKIRTDevClangFormat Install the source code formatter (optional)
+
+If you plan on writing or updating SKIRT source code, you may wish to install \c clang-format version 9, the tool
+used to automatically format all C++ source code in the SKIRT repository, as described in this section.
+The \c clang-format tool is part of the open source Clang C/C++ compiler effort.
+
+For information on how to use the source code formatter, see \ref DevCodingStyleFormat.
+
+\subsection InstallSKIRTDevClangFormatMac MacOS
+
+Apple's Xcode development environment includes an Apple-specific version of the Clang compiler. Unfortunately, it does
+not include the \c clang-format tool. The best option therefore is to install the pre-built binaries of the complete
+Clang distribution for the macOS operating system, which can be obtained from the LLVM download page:
+http://releases.llvm.org/download.html. To avoid confusion with the default Apple-specific clang++ installation, do not
+install this extra version of Clang in any of the directories that are (or may be) part of your \c PATH. Instead,
+install it in your home directory in such a way that the binaries are reachable at \c ~/clang/bin. The SKIRT
+procedure that formats the source code looks for the binary in this directory.
+
+\subsection InstallSKIRTDevClangFormatOther Other systems
+
+On recent Ubuntu systems, \c clang-format version 9 can be installed by entering:
+
+    sudo apt-get install clang-format
+
+On other systems, the package manager might offer similar capabilities. Otherwise, refer to the installation
+instructions on the <a href="http://clang.llvm.org">Clang LLVM</a> web site. One option is to install the pre-built
+binaries of the complete Clang distribution for the appropriate operating system, which can be obtained from the LLVM
+download page: http://releases.llvm.org/download.html.
+
+
+\section InstallSKIRTDevDoxstyle Build the documentation formatter (optional)
+
+If you plan on writing or updating the documentation in the SKIRT code, you may wish to build \c doxstyle, a tool to
+assist with formatting <tt>/\*\*</tt>-style documentation blocks in <tt>.hpp</tt> header files. The \c doxstyle tool is
+included as part of the SKIRT code tree and can be enabled through a build option.
+
+To build the \c doxstyle tool, turn on the "BUILD_DOX_STYLE" build option and rebuild the SKIRT project. For
+information about build options, see \ref InstallSKIRTOptions. For instructions on how to configure build options,
+see \ref InstallSKIRTQtBuild.
+
+For information on how to use the documentation formatter, see \ref DevCodingStyleFormat.
+
+
+\section InstallSKIRTDevDoxygen Install the documentation generator (optional)
+
+The reference documentation for the SKIRT code is generated from the source code files by the freely available
+application Doxygen, which uses the \c dot tool (part of the Graphviz graph visualization software) to generate
+diagrams. Most SKIRT users and developers do not need to (re-)generate the documentation. However, if you wish to
+verify that the formatting instructions and formulae in your source code comments are properly rendered in the final
+documentation, you can install the appropriate tools as described in this section.
+
+For information on how to actually generate the documentation for the SKIRT code after installing
+these tools, see \ref DevDocs.
+
+\subsection InstallSKIRTDevDoxygenVersion Version info
+
+The documentation on this web site has been generated with Doxygen version 1.9.5 and \c dot - graphviz version 2.36.0
+on macOS 12.6 (Monterey). Earlier versions of these tools might not support all options and commands used in the
+documentation.
+
+\subsection InstallSKIRTDevDoxygenMac MacOS
+
+<b> Installing Doxygen </b>
+
+- Navigate to the <a href="http://www.doxygen.nl/download.html">Doxygen download page</a>.
+- Scroll down and download the most recent binary distribution for macOS.
+- After the download completes, open the '.dmg' file to mount the Doxygen installation disk.
+- In the Finder window that appears, drag \c Doxygen.app into your applications folder.
+
+<b> Installing the Graphviz Graph Visualization Software </b>
+
+- Navigate to the <a href="http://www.graphviz.org/download/">Graphviz download page</a>.
+- Follow the instructions on that web page.
+
+\subsection InstallSKIRTDevDoxygenUbuntu Ubuntu
+
+On Ubuntu a version of Doxygen including the Graphviz tools can be installed by entering:
+
+    sudo apt-get install doxygen
+
+\subsection InstallSKIRTDevDoxygenOther Other systems
+
+On other systems, the package manager might offer similar capabilities. Otherwise, refer to the installation
+instructions on the <a href="http://www.doxygen.nl">Doxygen</a> and
+<a href="http://www.graphviz.org">Graphviz</a> web sites.
+
+
+\section InstallSKIRTDevQt Configure Qt Creator for development
+
+\subsection InstallSKIRTDevQtGeneral General preferences
+
+Before using Qt Creator for substantial SKIRT development, you should adjust its preferences as follows. Launch Qt
+Creator and open the preferences panel. On the various tabs listed below, make the specified adjustments (leaving
+other settings untouched), and at the end press the OK button to confirm the changes.
+
+- "Text Editor -> Behavior" tab
+    - Tab size: 4
+    - Backspace indentation: Follow Previous Indents
+    - In entire document: On
+    - Default encoding: UTF-8
+    - UTF-8 BOM: Always Delete
+
+- "Text Editor -> Display" tab
+    - Display right margin at column: 120
+    - Highlight current line: On
+
+- "C++ -> Code Style" tab
+    - press the "Import..." button, select the file <tt>~/SKIRT/git/Docs/templates/SkirtCodeStyle.xml</tt>
+      and press the "Open" button
+
+- "C++ -> File Naming" tab
+    - Header suffix: hpp
+    - Lower case filenames: Off
+    - License template: press the "Choose..." button, select the file <tt>~/SKIRT/git/Docs/templates/LicenseTemplate.txt</tt>
+      and press the "Open" button
+
+- "Build & Run -> General" tab
+    - Save all files before build: On
+
+- "Build & Run -> Default Build Properties" tab
+    - Default build directory: "../%{BuildConfig:Name}"
+
+- "Build & Run -> Application Output" tab
+   - Clear old output on a new run: On
+   - Merge stderr and stdout: On
+
+- "Build & Run -> Compile Output" tab
+    - Open pane when building: On
+
+
+\subsection InstallSKIRTDevQtFormat The source code and documentation formatters
+
+If you installed the source code formatter and/or the documentation formatter (see sections at the top of this page),
+you can easily use these tools from within Qt Creator after performing the additional configuration steps described in
+this section. For information on how to use actually use these formatters, see \ref DevCodingStyleFormat.
+
+Launch Qt Creator, open the preferences panel, and make the adjustments on the various tabs as listed below. Press the
+OK button at the end to confirm the changes.
+
+ - "Environment -> External Tools" tab
+   - Add a new category called "Formatting"
+   - Add a new item called "Format C++ code in file" to this category
+   - Configure the attributes for this item as follows:
+     - Description: "Formats the C++ code in the complete file"
+     - Executable: path to the clang-format executable, e.g: ~/clang/bin/clang-format
+     - Arguments: "-style=file -i %{CurrentDocument:FilePath}"
+     - Working directory: empty
+     - Output: Show in pane
+     - Error output: Show in pane
+     - Modifies current document: on
+     - Input: empty
+   - Add another item called "Format comments in selection" to the same category
+   - Configure the attributes for this item as follows:
+     - Description: "Formats the doxygen blocks in the selection"
+     - Executable: path to the DoxStyle executable: ~/SKIRT/release/Docs/doxstyle/doxstyle
+     - Arguments: empty
+     - Working directory: empty
+     - Output: Replace Selection
+     - Error output: Ignore
+     - Modifies current document: off
+     - Input: "%{CurrentDocument:Selection}"
+
+ - "Environment -> Keyboard" tab
+   - In the long item list, select "Tools -> External.Format_C++_code_in_file"
+   - In the "Key sequence" field, enter the shortcut combination <tt>[Alt] + [Cmd] + [J]</tt> (on macOS)
+     or <tt>[Alt] + [Ctrl] + [J]</tt> (on Linux)
+   - In the long item list, select "Tools -> External.Format_comments_in_selection"
+   - In the "Key sequence" field, enter the shortcut combination <tt>[Alt] + [Cmd] + [I]</tt> (on macOS)
+     or <tt>[Alt] + [Ctrl] + [I]</tt> (on Linux)
+
+
+\section InstallSKIRTDevRepo Setup the source code repository for development purposes
+
+If you plan to contribute code back to the main SKIRT repository, you need to prepare for using the GitHub \em fork \em
+and \em pull workflow model. Anyone can fork a repository, push changes to their personal fork, and initiate a pull
+request. The changes can be pulled into the original repository by a SKIRT Core Team member, possibly after discussion
+and/or being adjusted in one or more iterations.
+
+To get started with contributing to one of the SKIRT project repositories:
+ - On the GitHub web site, fork the relevant repository (see section \ref ContributingRepositories above).
+ - Clone this personal fork to your computer, possibly replacing your direct clone of the original repository.
+
+To initiate a pull request:
+ - Make the desired changes, commit them, and push them to your personal fork.
+ - Test your changes, and repeat the previous line as many times as needed.
+ - On the GitHub web site, create a pull request from your fork.
+ - Wait for feedback from the SKIRT Core Team.
+
+This worklow is described in much more detail in \ref DevGitHubFlow.
+
+For more information about contributing to the SKIRT project in general, see \ref Contributing.
+
+*/

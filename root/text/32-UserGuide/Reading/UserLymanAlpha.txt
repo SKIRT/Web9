@@ -1,0 +1,169 @@
+/**
+
+\page UserLymanAlpha Configuring for Lyman-alpha resonant line transfer
+
+This page describes how to configure a SKIRT simulation for Lyman-alpha resonant line transfer. For a summary of the
+related physics and information on the implementation in SKIRT, see \ref DevLymanAlpha in the developer guide.
+
+
+\section UserLymanAlphaAssu Assumptions
+
+Hydrogen is the most abundant element in our Universe and, correspondingly, the Lyman-alpha (Lyα) transition serves as
+an important observational tool. Because Lyα is a resonance line, and because many astrophysical environments are
+optically thick at Lyα wavelengths, the related radiative transfer calculations are nontrivial. The implementation of
+Lyα capabilities in SKIRT is limited to models that conform to the following important assumptions (or rather
+restrictions):
+
+  - The spatial extent of the model is small relative to the distance to the observer (i.e. to the instruments in
+  SKIRT). This allows considering all locations in the model to have the same distance to the observer and it allows
+  using parallel projection.
+
+  - The spatial extent of the model is small relative to a cosmological volume and the spatial grid in SKIRT is
+  well-resolved across the model, implying a maximum size of the order of a single galaxy. This allows assuming that
+  the wavelength shifts caused by cosmic expansion within each spatial cell are small relative to the width of the
+  local Lyα cross section profile. (If this would not be the case, a photon packet might inadvertently 'skip' over the
+  cross section profile rather than being scattered.)
+
+  - The model is intended to trace the Lyα radiation emerging from the interstellar medium (ISM) that is part of the
+  astrophysical object under study, while ignoring the effects of the circumgalactic and intergalactic medium (CGM/IGM)
+  outside of the object. This avoids the need for providing a larger simulation box and/or including a subgrid recipe
+  for handling the effects of the CGM/IGM.
+
+  - The density distribution of neutral hydrogen is defined by the input model and remains fixed during the simulation.
+  In other words, there is no self-consistent calculation of the ionized hydrogen fraction. Instead, the user is
+  responsible for determining this in advance of the radiative transfer simulation.
+
+Within these limitations, the model can be placed at any redshift supported by SKIRT (see \ref UserRedshift)
+
+### Note on spatial grid resolution
+
+\note [Camps et al. 2021](https://ui.adsabs.harvard.edu/abs/2021ApJ...916...39C) investigated the effects of spatial
+discretization in Lyα line radiation transfer simulations. They conclude that the spatial grids employed by
+state-of-the art galaxy models do not sufficiently resolve the steep gradients in the hydrogen density, causing the
+shape and magnitude of the Lyα line profiles to vary greatly depending on the specific grid, rendering the results
+untrustworthy at best.
+
+
+\section UserLymanAlphaConf Configuration
+
+\subsection UserLymanAlphaConfMode Simulation mode
+
+To enable the Lyα features in SKIRT, the configuration option MonteCarloSimulation::SimulationMode must set to \c
+LyaExtinctionOnly. The configuration must then include at least one medium component with material mix
+LyaNeutralHydrogenGasMix (also see section \ref UserLymanAlphaConfMedia) and it may but does not have to include
+sources with Lyα line emission (see section \ref UserLymanAlphaConfSources). Sources and media will often be assigned a
+bulk velocity (see section \ref UserLymanAlphaConfVelocity), but this is not a requirement. In the current
+implementation the Lyα features cannot be enabled in conjunction with secondary emission.
+
+Simulation-wide configuration options related to the Lyα photon cycle are offered by the option block LyaOptions. The
+following table summarizes these options. See the LyaOptions class documentation for more information.
+
+| Name | Description |
+|------|-------------|
+| LyaOptions::lyaAccelerationScheme | The Lyα acceleration scheme; also see \ref DevLymanAlphaNumrAcceleration |
+| LyaOptions::lyaAccelerationStrength | The acceleration strength; higher is faster but less accurate |
+| LyaOptions::includeHubbleFlow | whether to include the Hubble flow; also see \ref DevLymanAlphaPhysHubble |
+
+\subsection UserLymanAlphaConfSources Sources
+
+Although sources with any spatial and spectral distribution can be configured as part of a Lyα simulation model, it is
+often useful to employ sources that produce Lyα-specific emission. We first consider four Lyα-related %SED classes that
+can be associated with point sources and geometric sources representing stellar populations and/or diffuse ISM
+emission.
+
+The SingleWavelengthSED implements a spectral energy distribution in the form of a Dirac-delta function. All photon
+packets are emitted at a single configurable wavelength, called the emission wavelength. The default value for the
+emission wavelength is the central Lyα wavelength \f$\lambda_\alpha\f$.
+
+The LyaGaussianSED class implements a Gaussian spectrum around the central Lyα wavelength \f$\lambda_\alpha\f$,
+reflecting the thermal sub-grid motion in the source. Using the photon velocity shift \f$v_\mathrm{p}\f$ as the
+spectral variable and a dispersion \f$s\f$ configured by the user in velocity units (usually km/s), the normalized
+Gaussian spectrum can be written as \f[ S(v_\mathrm{p}) = \frac{1}{s\,\sqrt{2\pi}}\,\exp\left(
+-\frac{v_\mathrm{p}^2}{2s^2} \right). \f] The corresponding thermal velocity is given by
+\f$v_\mathrm{th}=\sqrt{2}\,s\f$.
+
+The LyaDoublePeakedSED class implements a double-peaked spectrum centered on the Lyα wavelength \f$\lambda_\alpha\f$,
+and corresponding to the spectrum that emerges from a static sphere of hydrogen gas surrounding a Lyα point source.
+This can be used as a simple model to represent sub-grid gas embedded in the source. Again using the photon velocity
+shift \f$v_\mathrm{p}\f$ as the spectral variable and a velocity scale \f$s\f$ configured by the user, the normalized
+spectrum can be written as \f[ S(v_\mathrm{p}) = \frac{3v_\mathrm{p}^2}{2s^3\left[1+\cosh(v_\mathrm{p}^3/s^3)\right]}.
+\f] The two peaks of this profile are situated at \f$v_\mathrm{p} \approx \pm 1.06938 \,s\f$.
+
+The most sensible way for the user to normalize these SEDs is by specifying the bolometric luminosity using
+IntegratedLuminosityNormalization with the 'all wavelengths' option.
+
+The last Lyα-related %SED class adjusts or \em decorates another arbitrary %SED by converting a fraction of the
+ionizing part of that %SED to Lyα emission. Specifically, the LyaSEDDecorator class has three configuration options:
+the %SED to be decorated, the %SED modeling the Lyα emission (i.e., one of the two classes described above), and the
+fraction of the ionizing radiation to be converted. It replaces the specified fraction of the luminosity in the
+decorated %SED short of \f$\lambda_\mathrm{ion}=911.75\,\mathrm{Å}\f$ by Lyα emission with the specified profile. The
+remaining fraction of ionizing radiation and all non-ionizing radiation in the decorated %SED is emitted as usual. The
+luminosity normalization configured by the user applies to the decorated %SED.
+
+We now consider two mechanisms to configure Lyα emission for imported sources. The first scheme uses the new
+LyaGaussianSEDFamily and LyaDoublePeakedSEDFamily classes, which implement families of Gaussian and double-peaked SEDs
+(as defined above) based on parameter values for the bolometric line luminosity \f$L_\alpha\f$ and the velocity scale
+factor \f$s\f$ imported for each particle or cell. This scheme is appropriate for modeling independent Lyα sources, but
+can be hard to use in combination with the regular %SED templates for stellar populations.
+
+The second scheme addresses this issue by \em decorating an existing SEDFamily in a way similar to what has been
+described above for single SEDs. Specifically, the LyaSEDFamilyDecorator class has three configuration options: the
+%SED family to be decorated, the %SED modeling the Lyα emission (i.e., one of the two Lyα SEDs described above), and
+the fraction of the ionizing radiation to be converted. The imported parameter values for each particle of cell are
+passed on to the decorated SEDFamily. The spectrum returned by the decorated family is then adjusted by replacing the
+specified fraction of the ionizing luminosity by Lyα emission with the specified profile. The remaining fraction of
+ionizing radiation and all non-ionizing radiation is emitted as usual.
+
+As a final note, it is often useful (or even required) to adjust the source wavelength biasing for the sources in a
+model to ensure that the Lyα line profile is properly sampled within the context of the simulated model. When the
+source spectrum is nonzero only in a narrow range, as for the LyaGaussianSED and LyaDoublePeakedSED classes discussed
+above, photon packets with wavelengths outside of this range will not contribute to the results, so it makes sense to
+disable wavelength biasing. In fact, when using the SingleWavelengthSED, the wavelength bias of the corresponding
+source \em must be set to zero because the specific luminosity (needed for calculating the bias factor) is not defined
+for this Dirac-delta distribution. In other cases, it might be beneficial to configure a wavelength bias distribution
+with a specific range and/or shape to help ensure that emitted photon packets have wavelengths that are relevant for
+the simulation.
+
+\subsection UserLymanAlphaConfMedia Media
+
+When the \c LyaExtinctionOnly simulation mode is selected (see section \ref UserLymanAlphaConfMode), the configuration
+must include at least one medium component with material mix LyaNeutralHydrogenGasMix. This material mix offers a
+configuration property to enable or disable support for polarization, and a second one to specify a default gas
+temperature that is used when no other temperature is available, as described below.
+
+The medium component equipped with a LyaNeutralHydrogenGasMix must define a temperature in each position of the spatial
+domain. GeometricMedium components use the default temperature configured for the material mix as a fixed temperature
+across the spatial domain, as well as for determining the total hydrogen mass in the component during setup, for
+example through the configured MassColumnMaterialNormalization. ImportedMedium components offer an \c importTemperature
+configuration flag. If this flag is turned on, the gas temperature for each particle or cell is specified in the
+imported data file and the default temperature is ignored. If the flag is turned off, the default gas temperature
+configured for the material mix is used instead for all particles or cells.
+
+The mass normalization for geometric media and the masses or densities specified for imported media configured with the
+LyaNeutralHydrogenGasMix always refer to the amount of \em neutral \em atomic hydrogen, i.e. excluding the ionized
+hydrogen and molecular hydrogen fractions.
+
+\subsection UserLymanAlphaConfVelocity Velocity
+
+For GeometricSource and GeometricMedium components, a bulk velocity field can be specified through the combination of
+the \c velocityDistribution and \c velocityMagnitude configuration options. As the names imply, the first option
+specifies the spatial velocity distribution as a normalized VectorField object, and the second option specifies the
+overall velocity magnitude (a multiplier applied to the normalized vector field, which may be negative to `flip' the
+direction of the field vectors). If no vector field is specified or the magnitude is zero, the bulk velocity is taken
+to be zero.
+
+The VectorField subclasses, including for example UnidirectionalVectorField, RadialVectorField and
+CylindricalVectorField, describe a normalized spatial distribution of 3D vectors. The field is normalized so that the
+maximum length (norm) of the vectors in the field is equal to one. This also implies that the vector components are
+dimensionless. As a result, vector fields can be used for various purposes, including the specification of magnetic
+fields as well as velocity fields.
+
+ImportedSource and ImportedMedium components offer an \c importVelocity configuration flag. If this flag is turned on,
+the three bulk velocity vector components for each particle or cell are specified in the imported data file. If this
+flag is turned off, the bulk velocity is taken to be zero.
+
+SpecialtySource components (including point sources, surface sources and background sources) offer a single bulk
+velocity specified through its three vector components.
+
+
+*/

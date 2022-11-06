@@ -1,0 +1,20 @@
+/**
+
+\page Benchmarks Benchmarks
+
+SKIRT properly performs the major benchmarks published in the areas to which the code is applicable. The geometries,
+source spectra and medium properties needed for all of these benchmarks are built into SKIRT, so you can run them
+without changing the code. The SKIRT parameter file (\em ski file) for each benchmark is offered for download on
+the corresponding page.
+
+- Ivezić et al. 1997: \ref Ivezic1997
+- van Zadelhoff et al. 2002: \ref Zadelhoff2002
+- Pascucci et al. 2004: \ref Pascucci2004
+- Dijkstra et al. 2006: \ref Dijkstra2006
+- Tasitsiomi 2006: \ref Tasitsiomi2006
+- Pinte et al. 2009: \ref Pinte2009
+- Camps et al. 2015: \ref Camps2015
+- Gordon et al. 2017: \ref Gordon2017
+- Peest et al. 2017: \ref Peest2017
+
+*/

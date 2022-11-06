@@ -1,0 +1,104 @@
+/**
+
+\page UserNormalizing Normalizing multiple dust components
+
+Normalizing the mass and/or optical depth of the dust in a simulation with multiple dust medium components can be
+confusing. The (advanced) thought experiment described on this page attempts to clarify the issues involved. To
+simplify the notation, we consider the total extinction of the dust at a single fixed wavelength. For the meaning of
+the employed symbols, refer to the table in the introduction of \ref UserMaterialMixes.
+
+A fundamental issue is that when combining dust populations, the cross sections and masses per hydrogen atom can simply
+be added: \f[ \varsigma=\sum_c\varsigma_{c} \quad;\quad \mu=\sum_c\mu_{c}, \f] but this is not true for the mass
+coefficients: \f[ \kappa=\frac{\varsigma}{\mu}=\frac{\sum_c\varsigma_{c}}{\sum_c\mu_{c}} \neq
+\sum_c\frac{\varsigma_{c}}{\mu_c}=\sum_c\kappa_{c}. \f]
+
+Now consider a model consisting of two populations of a different dust type, named 1 and 2, with identical
+spatial distribution. There are two distinct ways to configure this model in SKIRT:
+- configuration A: a single dust component using a dust mix with the two populations 1 and 2;
+- configuration B: two dust components with identical spatial distribution, the first using a dust mix with population
+  1 and the second using a dust mix with population 2.
+
+Given appropriate normalization of the respective dust components, we expect the results of configurations
+A and B to be identical.
+
+In both cases, the simulation obtains the cross sections \f$\varsigma_1, \varsigma_2\f$ and dust masses per hydrogen
+atom \f$\mu_1, \mu_2\f$ for each population. In configuration A there is a single dust component with mass density
+distribution \f$\rho_\text{A}(\vec{r})\f$ and with mass coefficient
+\f$\kappa_\text{A}=(\varsigma_1+\varsigma_2)/(\mu_1+\mu_2)\f$. In configuration B there are two dust components with
+dust mass density distribution \f$\rho_\text{B1}(\vec{r})\f$ and \f$\rho_\text{B2}(\vec{r})\f$ and with mass
+coefficients \f$\kappa_\text{B1}=\varsigma_1/\mu_1\f$ and \f$\kappa_\text{B2}=\varsigma_2/\mu_2\f$.
+
+## Normalization on mass
+
+Assume that we are given the total normalization dust mass \f$M\f$ for configuration A. We'd like to find the
+normalization masses \f$M_1\f$ and \f$M_2\f$ for each of the dust components in configuration B so that the
+total optical depth along an arbitrary path is identical in both configurations.
+
+In configuration A the normalization equation reads
+\f[ M = \int_\text{V}\rho_\text{A}(\vec{r})\,\text{d}V \f]
+and the total optical depth along an arbitrary path P is given by
+\f[ \tau_\text{A} = \frac{\varsigma_1+\varsigma_2}{\mu_1+\mu_2} \int_\text{P}\rho_\text{A}(\vec{r})\,\text{d}s \f]
+
+In configuration B the normalization equations read
+\f[ M_1 = \int_\text{V}\rho_\text{B1}(\vec{r})\,\text{d}V \f]
+\f[ M_2 = \int_\text{V}\rho_\text{B2}(\vec{r})\,\text{d}V \f]
+and the total optical depth along an arbitrary path is given by
+\f[ \tau_\text{B} = \frac{\varsigma_1}{\mu_1} \int_\text{P}\rho_\text{B1}(\vec{r})\,\text{d}s +
+                    \frac{\varsigma_2}{\mu_2} \int_\text{P}\rho_\text{B2}(\vec{r})\,\text{d}s \f]
+
+Since all geometries are identical, we can write
+\f$\rho_\text{B1}(\vec{r})=b_1\rho_\text{A}(\vec{r})\f$ and
+\f$\rho_\text{B2}(\vec{r})=b_2\rho_\text{A}(\vec{r})\f$
+where \f$b_1,b_2\f$ are constants that don't dependent on \f$\vec{r}\f$.
+Requiring \f$\tau_\text{A}=\tau_\text{B}\f$ and \f$M=M_1+M_2\f$ then leads to the system of equations
+\f[ \frac{\varsigma_1+\varsigma_2}{\mu_1+\mu_2} = \frac{\varsigma_1}{\mu_1}b_1 + \frac{\varsigma_2}{\mu_2}b_2
+\quad;\quad 1=b_1+b_2 \f]
+in the unknowns \f$b_1\f$ and \f$b_2\f$. As can be easily verified by substitution, the solution of this system is
+\f$b_1 = \frac{\mu_1}{\mu_1+\mu_2}\f$ and \f$b_2 = \frac{\mu_2}{\mu_1+\mu_2}\f$.
+From the mass normalization equations above we see that \f$M_1/M=b_1\f$ and \f$M_2/M=b_2\f$ so that
+\f[ M_1 = \frac{\mu_1}{\mu_1+\mu_2}M \quad;\quad M_2 = \frac{\mu_2}{\mu_1+\mu_2}M. \f]
+
+In other words, the normalization mass must be distributed over the dust components proportional to the dust mass
+of each dust population. A rather intuitive result!
+
+## Normalization on optical depth
+
+Assume that we are given the optical depth \f$\tau\f$ along a specific path S for normalizing configuration A.
+We'd like to find the optical depths \f$\tau_1\f$ and \f$\tau_2\f$ (along the same path) for normalizing each
+of the dust components in configuration B so that the total optical depth along an arbitrary path is identical
+in both configurations.
+
+In configuration A the normalization equation reads
+\f[ \tau = \frac{\varsigma_1+\varsigma_2}{\mu_1+\mu_2} \int_\text{S}\rho_\text{A}(\vec{r})\,\text{d}s \f]
+and the total optical depth along an arbitrary path is given by
+\f[ \tau_\text{A} = \frac{\varsigma_1+\varsigma_2}{\mu_1+\mu_2} \int_\text{P}\rho_\text{A}(\vec{r})\,\text{d}s \f]
+
+In configuration B the normalization equations read
+\f[ \tau_1 = \frac{\varsigma_1}{\mu_1} \int_\text{S}\rho_\text{B1}(\vec{r})\,\text{d}s \f]
+\f[ \tau_2 = \frac{\varsigma_2}{\mu_2} \int_\text{S}\rho_\text{B2}(\vec{r})\,\text{d}s \f]
+and the total optical depth along an arbitrary path is given by
+\f[ \tau_\text{B} = \frac{\varsigma_1}{\mu_1} \int_\text{P}\rho_\text{B1}(\vec{r})\,\text{d}s +
+                    \frac{\varsigma_2}{\mu_2} \int_\text{P}\rho_\text{B2}(\vec{r})\,\text{d}s \f]
+
+Since all geometries are identical, we can write
+\f$\rho_\text{B1}(\vec{r})=b_1\rho_\text{A}(\vec{r})\f$ and
+\f$\rho_\text{B2}(\vec{r})=b_2\rho_\text{A}(\vec{r})\f$
+where \f$b_1,b_2\f$ are constants that don't dependent on \f$\vec{r}\f$.
+Requiring \f$\tau_\text{A}=\tau_\text{B}\f$ and \f$\tau=\tau_1+\tau_2\f$ both lead to the equation
+\f[ \frac{\varsigma_1+\varsigma_2}{\mu_1+\mu_2} = \frac{\varsigma_1}{\mu_1}b_1 + \frac{\varsigma_2}{\mu_2}b_2 \f]
+in the unknowns \f$b_1\f$ and \f$b_2\f$. As can be easily verified by substitution, a solution of this equation is
+\f$b_1 = \frac{\mu_1}{\mu_1+\mu_2}\f$ and \f$b_2 = \frac{\mu_2}{\mu_1+\mu_2}\f$. If we also require that the total
+dust mass in the system remains the same, then this is the only solution (as shown in the previous subsection).
+Otherwise there is a family of solutions and we can arbitrarily select this one.
+
+From the optical depth normalization equations above we see that
+\f$\tau_1=b_1\frac{\varsigma_1}{\mu_1}\left(\frac{\varsigma_1+\varsigma_2}{\mu_1+\mu_2}\right)^{-1}\tau\f$ and
+\f$\tau_2=b_2\frac{\varsigma_2}{\mu_2}\left(\frac{\varsigma_1+\varsigma_2}{\mu_1+\mu_2}\right)^{-1}\tau\f$
+so that after some basic algebra we obtain
+\f[ \tau_1 = \frac{\varsigma_1}{\varsigma_1+\varsigma_2}\tau
+\quad;\quad \tau_2 = \frac{\varsigma_2}{\varsigma_1+\varsigma_2}\tau. \f]
+
+In other words, the optical depth must be distributed over the dust components proportional to the cross section
+of each dust population. A rather intuitive result!
+
+*/

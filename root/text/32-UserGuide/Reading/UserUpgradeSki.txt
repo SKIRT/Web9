@@ -1,0 +1,43 @@
+/**
+
+\page UserUpgradeSki Upgrading SKIRT parameter files
+
+\section UserUpgradeSkiIntro Introduction
+
+New features can often be introduced in SKIRT without affecting existing \em ski files. For example, a new geometry,
+material mix, wavelength grid, and so forth can easily be added as a new option in the list without any effect on
+existing parameter files. Similarly, a new scalar property can be added as long as a default value is provided that
+reproduces the previous behavior.
+
+Sometimes, however, a new feature requires a more significant change. This can involve renaming entities or moving them
+around to different places in the \em ski file structure. In this case, running an existing \em ski file may cause the
+new SKIRT version to produce a fatal error while reading the parameter file and constructing the simulation.
+
+The list of \ref RecentChanges highlights the SKIRT updates where such incompatible changes occurred.
+
+\section UserUpgradeSkiDo Upgrading parameter files
+
+When faced with an incompatible \em ski file update of SKIRT, proceed as follows:
+
+- `git pull` and build the most recent SKIRT version (you probably did this already)
+- `git pull` the most recent PTS version (to install the latest version of the upgrade procedure)
+
+Then change to the directory containing the \em ski file(s) you wish to upgrade and enter the command:
+
+\verbatim
+pts upgrade_ski .
+\endverbatim
+
+To process ski files in another directory, replace the `.` by that directory's path. In both cases, backup copies of
+the original ski files are placed in the same directory (with a filename including a time stamp) before the upgrade is
+performed.
+
+If you don't have PTS installed, there are two options:
+
+- In simple cases, and when you know the details of the update, you can manually adjust the \em ski file in a text
+editor.
+
+- Worst case, you can reconstruct the desired configuration in a fresh parameter file by performing the full
+  interactive Q&A, either on the command line or using MakeUp.
+
+*/

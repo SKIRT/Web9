@@ -1,0 +1,690 @@
+/**
+
+\page UserImportSnap Importing snapshots
+
+This topic provides an overview of SKIRT's capabilities for importing sources and media from snapshots produced by
+hydrodynamical simulations. The discussion is organized as follows:
+
+- \ref UserImportSnapSims
+- \ref UserImportSnapMech
+- \ref UserImportSnapMedia
+  - \ref UserImportSnapMediaOverview
+  - \ref UserImportSnapMediaSPHDust
+  - \ref UserImportSnapMediaSPHOther
+  - \ref UserImportSnapMediaCell
+  - \ref UserImportSnapMediaAMR
+  - \ref UserImportSnapMediaVoro
+  - \ref UserImportSnapMediaGeometry
+  - \ref UserImportSnapMediaGrid
+  - \ref UserImportSnapMediaSample
+- \ref UserImportSnapSources
+  - \ref UserImportSnapSourcesOverview
+  - \ref UserImportSnapSourcesParticle
+  - \ref UserImportSnapSourcesSmooth
+  - \ref UserImportSnapSourcesMesh
+  - \ref UserImportSnapSourcesGeometry
+
+
+\section UserImportSnapSims Hydrodynamical simulations
+
+Computer programs that simulate the time-evolution of astrophysical systems produce increasingly realistic numerical
+models. The scale of the models varies substantially between these simulations (e.g., stellar system, star forming
+region, galaxy, cosmological box), as does the set of included physics (e.g., dark and baryonic matter, gravity,
+hydrodynamics, magnetic fields, star formation and stellar feedback, chemical evolution, radiative energy transfer,
+dust formation and destruction). Regardless, we refer to these programs as hydrodynamical simulation codes.
+
+Hydrodynamical simulations usually output a series of \em snapshots, describing the state of the simulated model at a
+particular time in its evolution, including the spatial distribution and other relevant properties of the dynamical
+components, such as for example the stars and the interstellar medium in a galaxy.
+
+Because of the nonlocal and nonlinear behavior of radiation transport, predicting the observable properties of these
+hydrodynamical models requires a full, three-dimensional radiative transfer simulation in all but the most trivial
+cases. Assuming that the radiation crossing times are much shorter than the dynamical time scales, the radiative
+transfer simulation can be performed as a \em post-processing step based solely on the information contained in a
+particular snapshot. The post-processing procedure extracts the spatial distribution of the radiation sources and the
+obscuring medium, plus the corresponding properties, from the hydrodynamical snapshot data, and then performs a
+radiative transfer simulation on the resulting setup.
+
+Hydrodynamical simulation codes historically employ one of two schemes: a Lagrangian formulation based on moving
+particles (smoothed particle hydrodynamics or SPH) or a Eulerian approach based on a non-moving spatial grid, often an
+adaptive grid with multiple refinement levels (AMR). Some more recent codes introduce a new scheme that employs a
+moving mesh based on a Voronoi tessellation of the spatial domain. This new scheme is claimed to combine the best
+features of SPH and the traditional Eulerian approach, and it is becoming increasingly popular. Other codes use a
+meshless approach based on a set of discretization locations reminiscent of Voronoi generator sites.
+
+Most codes represent the collisionless components (dark matter, stars) as particles handled by an N-body solver, even
+if the hydrodynamical solver for the collisional components (gas, dust) is mesh-based.
+
+
+\section UserImportSnapMech Snapshot import mechanisms
+
+The relevant snapshot data must be provided for import into SKIRT using one of the supported column text file formats.
+In other words, an external procedure (usually a Python script) is needed to extract the appropriate information from
+the native snapshot data and output the result as a column text file. While this seems restrictive, it is almost never
+an issue in practice. In most cases, one needs to perform some additional processing anyway, such as locating the
+proper data files, performing a coordinate transformation, limiting the imported data to a given aperture, calculating
+indirectly derived properties, etc. Furthermore, the alternative would be to implement a variety of data formats and
+point SKIRT to the relevant data through a potentially very complex configuration mechanism that would never be as
+flexible as the Python language.
+
+In all cases, the columns in the text file must be in the order prescribed by the SKIRT component controlling import of
+the file (see \ref UserImportSnapMedia and \ref UserImportSnapSources below). The values in each column can be provided
+either in the default units prescribed by that SKIRT component, or in the units defined through header lines in the
+data file being imported (see the TextInFile class). In the latter case, any of the supported units corresponding to
+the imported quantity can be used (see \ref UserUnits).
+
+\note To facilitate working with large data volumes, SKIRT supports the binary "stored columns" file format as an
+alternative to column text files. See the TextInFile and StoredColumns classes, the pts.storedtable.io module,
+and the pts.storedtable.do.convert_text_to_stored_columns command script.
+
+The heart of the SKIRT snapshot import mechanism is implemented by the classes in the following hierarchy.
+
+\dot
+digraph snapshothierarchy {
+    rankdir=BT;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+    edge [arrowhead=empty];
+
+    Snapshot [label="Snapshot" URL="\ref Snapshot"];
+      ParticleSnapshot [label="ParticleSnapshot" URL="\ref ParticleSnapshot"];
+      AdaptiveMeshSnapshot [label="AdaptiveMeshSnapshot" URL="\ref AdaptiveMeshSnapshot"];
+      CellSnapshot [label="CellSnapshot" URL="\ref CellSnapshot"];
+      VoronoiMeshSnapshot [label="VoronoiMeshSnapshot" URL="\ref VoronoiMeshSnapshot"];
+
+    ParticleSnapshot -> Snapshot;
+    AdaptiveMeshSnapshot -> Snapshot;
+    CellSnapshot -> Snapshot;
+    VoronoiMeshSnapshot -> Snapshot;
+}
+\enddot
+
+The Snapshot subclasses support four paradigms for describing the spatial geometry of an imported source or medium
+component:
+
+- ParticleSnapshot: each row in the input file represents a particle, listing its position and smoothing length plus
+  the component-specific properties. This is suitable for SPH or N-body particle representations.
+
+- AdaptiveMeshSnapshot: the input file has lines defining the subdivision structure of the mesh, plus a row for each
+  leaf cell with its component-specific properties. This is suitable for hierarchical Cartesian grids, including octree
+  grids and adaptive mesh refinement (AMR) grids. The rows must be in a prescribed order called Morton order.
+
+- CellSnapshot: each row in the input file represents a cuboidal cell, listing the coordinates of its lower-left and
+  upper-right corners plus the component-specific properties. This is suitable for any Cartesian grid and provides a
+  (somewhat less efficient) fallback in case the rows of a hierarchical grid cannot be easily obtained in Morton order.
+
+- VoronoiMeshSnapshot: the input file has a row for each generating site, listing its position plus the
+  component-specific properties. This is suitable for Voronoi-mesh based snapshots and can be used to approximate
+  meshless approaches.
+
+It is perfectly possible to mix and match these options in the same simulation. For example, it is quite common to
+import radiation sources using particles and medium densities using a mesh-based grid.
+
+The Snapshot classes are \em not exposed to the user through the SKIRT parameter file. Instead, they are invoked under
+the hood by the various components that \em are user-configured. Three distinct, parallel class hierarchies make use of
+the Snapshot classes, as summarized in the table below.
+
+| %Source | %Medium | %Geometry | Uses |
+| --- | --- | --- | --- |
+| ImportedSource | ImportedMedium | ImportedGeometry | Snapshot |
+| &nbsp;&nbsp;ParticleSource | &nbsp;&nbsp;ParticleMedium | &nbsp;&nbsp;ParticleGeometry | &nbsp;&nbsp;ParticleSnapshot |
+| &nbsp;&nbsp;AdaptiveMeshSource | &nbsp;&nbsp;AdaptiveMeshMedium | &nbsp;&nbsp;AdaptiveMeshGeometry | &nbsp;&nbsp;AdaptiveMeshSnapshot |
+| &nbsp;&nbsp;CellSource | &nbsp;&nbsp;CellMedium | &nbsp;&nbsp;CellGeometry | &nbsp;&nbsp;CellSnapshot |
+| &nbsp;&nbsp;VoronoiMeshSource | &nbsp;&nbsp;VoronoiMeshMedium | &nbsp;&nbsp;VoronoiMeshGeometry | &nbsp;&nbsp;VoronoiMeshSnapshot |
+
+Each of these class hierarchies implements the appropriate layer of functionality on top of the Snapshot classes. For
+example, sources can launch photo packets, media can quickly find the material density at a given location, and
+geometries offer a density distribution normalized to unity. The latter can be used for importing either source or
+medium components and may be useful in some specific cases.
+
+
+\section UserImportSnapMedia Importing media
+
+\subsection UserImportSnapMediaOverview Media overview
+
+Any nontrivial SKIRT simulation includes one or more medium components describing the transfer medium in the model (see
+the Medium class and its subclasses). Each medium component defines (a) the spatial density distribution of the medium
+and (b) the relevant material properties of the medium at each location.
+
+We first examine the most common situation where a medium component is assigned material properties that do not vary
+across the spatial domain (although different medium components may be assigned different material properties). In this
+case, SKIRT offers three distinct ways to define a component's medium density distribution:
+
+- An imported snapshot fully defines the medium density distribution including the total mass, either directly or using
+a simple formula, for example to derive a dust density from a gas density. With this option, the medium component is
+configured using one of the ImportedMedium subclasses. These classes can import velocity and magnetic field information
+for each particle or cell in the imported snapshot.
+
+- An imported snapshot defines the medium density distribution normalized to unity, either directly or using a simple
+formula, and the total mass is specified separately in the parameter file. With this option, the medium component is
+configured using the GeometricMedium class and one of the ImportedGeometry subclasses. These classes cannot import
+spatially varying velocity or magnetic field information.
+
+- The medium density distribution is defined by configuring a built-in geometry (subclasses of the Geometry class).
+This option can be useful to combine medium distributions imported from a snapshot with built-in, semi-analytical
+distributions.
+
+In any case, each medium component must be assigned a specific material mixture, i.e. one of the subclasses of the
+MaterialMix class, which defines the optical and calorimetric properties of the medium, considered to be constant
+across the spatial domain.
+
+On the other hand, for some simulations it is desired to associate spatially variable material properties with a medium
+component. For example, the snapshot may define a specific dust grain material or a different dust grain size
+distribution for each cell or particle. This advanced feature is supported only when configuring one of the
+ImportedMedium subclasses (i.e. the first option in the list above). For more information and examples, refer to \ref
+TutorialCustomDustImport, which is the second part of the tutorial \ref TutorialCustomDust.
+
+
+\subsection UserImportSnapMediaSPHDust Particle media -- dust
+
+We first consider the case of an SPH simulation that does not separately track the dust component. We thus need a
+heuristic to derive the dust density from the gas density. Several possible prescriptions have been described in the
+literature, and these are most easily implemented in the (Python) procedure that prepares the snapshot data for SKIRT
+import. However, for compatibility with previous versions, SKIRT optionally supports a basic scheme that assumes the
+amount of dust to be proportional to the metal fraction in the gas, except in areas where the gas is too hot to form
+dust. Here is an example column text file that defines two gas particles and includes the particle properties required
+to implement this scheme:
+
+    # example1.txt: import file for particle media -- dust
+    # Column 1: position x (pc)
+    # Column 2: position y (pc)
+    # Column 3: position z (pc)
+    # Column 4: smoothing length (pc)
+    # Column 5: gas mass (Msun)
+    # Column 6: metallicity (1)
+    # Column 7: temperature (K)
+    # Column 8: velocity vx (km/s)
+    # Column 9: velocity vy (km/s)
+    # Column 10: velocity vz (km/s)
+    0 0 0 1  10  0.02   35  0 0 10
+    0 0 9 2   5  0.01 9000  0 0 -9
+
+This file could be imported using the following configuration in the parameter file:
+
+    <ParticleMedium filename="example1.txt" massType="Mass" massFraction="0.3"
+                    importMetallicity="true" importTemperature="true" maxTemperature="500 K" importVelocity="true"
+                    importMagneticField="false" importVariableMixParams="false" useColumns="">
+        <smoothingKernel type="SmoothingKernel">
+            <CubicSplineSmoothingKernel/>
+        </smoothingKernel>
+        <materialMix type="MaterialMix">
+            <MeanInterstellarDustMix/>
+        </materialMix>
+    </ParticleMedium>
+
+The first five columns in the file specify the particle position, smoothing length and mass. These columns must always
+be present. The subsequent columns specify the metallicity, the temperature, and the components of the bulk velocity.
+The presence of these columns depends on the values of the respective _importXXX_ options in the parameter file.
+
+In case both metallicity and temperature are imported, as in the example, the dust mass corresponding to each particle
+is calculated as \f[ M_\mathrm{dust} = \begin{cases} f_\mathrm{mass}\,Z\,M_\mathrm{gas} & \mathrm{if}\;
+T<T_\mathrm{max} \\ 0 & \mathrm{otherwise} \end{cases} \f] where \f$M_\mathrm{gas}\f$, \f$Z\f$, and \f$T\f$ are the gas
+mass, metallicity, and temperature given by the particle's properties in the import file, and \f$f_\mathrm{mass}\f$ and
+\f$T_\mathrm{max}\f$ are constant values specified in the parameter file. Hence, we obtain 0.06 solar masses for the
+first particle, and zero for the second particle because its temperature is above the cutoff value. If the metallicity
+is not imported, its value is taken to be unity in the formula above; if the temperature is not imported or if the
+maximum temperature is set to zero, there is no temperature cutoff. If neither metallicity or temperature are imported,
+and the mass fraction is set to one, the dust mass equals the mass specified in the import file. Note that, for dust
+media, the imported metallicity and temperature values are never retained in the simulation; they are discarded after
+being used to determine the dust mass.
+
+The total medium density at an arbitrary position is then obtained through \f[ \rho(\mathbf{r}) = \sum_{j=1}^N M_j \,
+W(|\mathbf{r}-\mathbf{r}_j|,h_j) \f] where \f$M_j\f$ indicates the dust mass of each particle and \f$W(r,h)\f$ is
+the radial density profile of the smoothing kernel.
+
+The ParticleMedium class allows configuring one of several spherically symmetric smoothing kernels, including the
+frequently-used cubic spline kernel (the CubicSplineSmoothingKernel class) and a scaled Gaussian smoothing kernel (the
+ScaledGaussianSmoothingKernel class). Corresponding to the kernels used in SPH simulations, these kernels have a finite
+support so that only a relatively small number of terms in the sum above have a non-zero contribution. SKIRT uses this
+property to accelerate the calculation of the medium density at a given spatial position even for a potentially large
+number of smoothed particles.
+
+If the bulk velocity components are imported, the simulation will take into account the Doppler shift caused by the
+velocity of the medium relative to the model coordinate system when interacting with photon packets.
+
+For more information on the _importMagneticField_ option, see \ref UserPolarizeSpheroidalMedia.
+For more information on the _importVariableMixParams_ option, see \ref TutorialCustomDustImport.
+For more information on the _useColumns_ option, see the TextInFile::useColumns() function.
+
+\subsection UserImportSnapMediaSPHOther Particle media -- electrons and gas
+
+Electrons and gas media can be imported using the ParticleMedium class in a similar manner, but there are a few
+differences. Most importantly, if provided, metallicity and/or temperature are no longer used to adjust the mass value
+and they are instead imported as regular properties of the medium. That is, these quantities are stored in the medium
+state of each spatial cell and can thus be used during the simulation, for example to help determine a cross section or
+to emulate thermal motion. Here is an example column text file that defines two particles representing electrons:
+
+    # example2.txt: import file for particle media -- electrons
+    # Column 1: position x (pc)
+    # Column 2: position y (pc)
+    # Column 3: position z (pc)
+    # Column 4: smoothing length (pc)
+    # Column 5: nr of electrons (1)
+    # Column 6: temperature (K)
+    # Column 7: velocity vx (km/s)
+    # Column 8: velocity vy (km/s)
+    # Column 9: velocity vz (km/s)
+    0 0 0 1  1e30  3e6  0 0 10
+    0 0 9 2  5e31  7e5  0 0 -9
+
+This file could be imported as follows:
+
+    <ParticleMedium filename="example2.txt" massType="Number" massFraction="1"
+                    importMetallicity="false" importTemperature="true" maxTemperature="0 K" importVelocity="true"
+                    importMagneticField="false" importVariableMixParams="false" useColumns="">
+        <smoothingKernel type="SmoothingKernel">
+            <CubicSplineSmoothingKernel/>
+        </smoothingKernel>
+        <materialMix type="MaterialMix">
+            <ElectronMix includePolarization="false" includeThermalDispersion="true" defaultTemperature="1e4 K"/>
+        </materialMix>
+    </ParticleMedium>
+
+Because the _massType_ option has been set to \c Number, the electron mass corresponding to each particle is calculated
+as \f[ M_\mathrm{e} = f_\mathrm{mass} N_\mathrm{e} m_\mathrm{e} \f] where \f$f_\mathrm{mass}\f$ is specified in the
+parameter file, \f$N_\mathrm{e}\f$ is the number of electrons taken from the import file, and \f$m_\mathrm{e}\f$ is the
+electron rest mass. The mass fraction \f$f_\mathrm{mass}\f$ is usually set to unity, but could be used to specify some
+fraction if desired. The imported temperature is retained for use during the simulation to emulate the appropriate
+thermal motion of the electron population in each spatial cell.
+
+In general, the rules for electrons and gas media are as follows; for details see the material mix class being used.
+
+- The _massType_ option can be \c Mass or \c Number. For the latter, the mass is obtained by multiplying the imported
+number by the mass of the species handled by the material mix (electron, hydrogen atom, ...).
+
+- The _importMetallicity_ and _importTemperature_ options should be set (and the import columns provided) conform to
+the expectations of the material mix. If metallicity and/or temperature are expected but not imported, the default
+value configured for the material mix will be used instead.
+
+- Many gas material mixes require additional quantities to be provided in the import file; these columns must follow
+the standard columns discussed above.
+
+\subsection UserImportSnapMediaCell Cell media
+
+Many hydrodynamical simulation codes use spatial cells in the form of cuboids or \em boxes lined up with the Cartesian
+coordinate axes. The CellMedium class can import media defined on such grids regardless of the topological structure of
+the grid, because each cell is handled as a seperate entity. The approach is similar to what has been described for
+particles in the previous sections (\ref UserImportSnapMediaSPHDust and \ref UserImportSnapMediaSPHOther) with the
+following important differences:
+
+- The import file specifies the coordinates of the lower-left and upper-right corners of the cuboidal cell instead of
+particle position and smoothing length.
+
+- The density distribution is uniform within each cuboidal cell as opposed to being defined by a spherical smoothing
+kernel.
+
+- Cells are not supposed to overlap; when they do overlap at a given position, the density for that position will be
+taken from the cell that is listed first in the imported file. In contrast, the density of overlapping particles
+accumulates.
+
+- The _massType_ can be specified as \c MassDensity or \c NumberDensity in addition to \c Mass or \c Number, because
+the cell volume is defined unambiguously.
+
+For example, here is column text file that defines two cuboidal cells containing dust:
+
+    # example3.txt: import file for cell media -- dust
+    # column 1: xmin (pc)
+    # column 2: ymin (pc)
+    # column 3: zmin (pc)
+    # column 4: xmax (pc)
+    # column 5: ymax (pc)
+    # column 6: zmax (pc)
+    # Column 7: gas mass (Msun/pc3)
+    # Column 8: metallicity (1)
+    # Column 9: temperature (K)
+    # Column 10: velocity vx (km/s)
+    # Column 11: velocity vy (km/s)
+    # Column 12: velocity vz (km/s)
+    -1 -0.5 -0.5  0 0.5 0.5   0.1  0.02   35  0 0 10
+     0 -0.5 -0.5  1 0.5 0.5   0.5  0.01 9000  0 0 -9
+
+This could be imported using:
+
+    <CellMedium filename="example3.txt" massType="MassDensity" massFraction="0.3"
+                importMetallicity="true" importTemperature="true" maxTemperature="500 K" importVelocity="true"
+                importMagneticField="false" importVariableMixParams="false" useColumns="">
+        <materialMix type="MaterialMix">
+            <MeanInterstellarDustMix/>
+        </materialMix>
+    </CellMedium>
+
+
+\subsection UserImportSnapMediaAMR Adaptive mesh media
+
+Simulations with an a adaptive mesh paradigm use a hierarchical grid that is refined to a variable level depending on
+the resolution requirements in various regions of the model. While the resolution requirements and thus the grid may
+change as the system evolves, each particular snapshot corresponds to a unique and well-defined hierarchical grid.
+Thus, an adaptive mesh snapshot includes some description of the structure of the hierarchical grid, implicitly or
+explicitly defining the spatial extent of each grid cell, and for each cell the values of a suite of physical
+properties.
+
+While it is possible to use this technique with spherical or cylindrical coordinate systems, perhaps to benefit from
+certain quasi-symmetries in the model, SKIRT only supports adaptive mesh snapshots using Cartesian coordinates. In a
+Cartesian hierarchical grid, the cuboidal spatial domain is recursively subdivided into smaller cuboids according to
+some scheme until the desired resolution in each region is reached.
+
+The AdaptiveMeshMedium class expects a text file in a format that describes the topological structure of the Cartesian
+hierarchical grid and lists the relevant physical properties in each cell, as described in the AdaptiveMeshSnapshot
+class documentation. In short, the hierarchical grid structure is organized into a tree with \em nonleaf and \em leaf
+nodes. These nodes can be arranged in a linear sequence using so-called \em Morton \em ordering. The complete topology
+is defined by the information in the non-leaf nodes (lines starting with an exclamation point in the SKIRT text format)
+in combination with the Morton ordering. The leaf nodes require no further geometric information and are thus
+represented by regular column text rows listing just the physical quantities to be imported. Compared to \ref
+UserImportSnapMediaCell, this means omitting the cell coordinate columns. For example, here is a trivial import file
+that defines two cells representing electrons:
+
+    # example4.txt: import file for adaptive mesh media -- electrons
+    # Column 1: nr of electrons (1)
+    # Column 2: temperature (K)
+    # Column 3: velocity vx (km/s)
+    # Column 4: velocity vy (km/s)
+    # Column 5: velocity vz (km/s)
+    ! 2 1 1
+    1e30  3e6  0 0 10
+    5e31  7e5  0 0 -9
+
+Because the import file does not contain any coordinates, the size of the spatial domain must be defined separately in
+the SKIRT configuration file. The above example file could be imported as follows:
+
+    <AdaptiveMeshMedium filename="example4.txt"
+                        minX="-1 pc" maxX="1 pc" minY="-0.5 pc" maxY="0.5 pc" minZ="-0.5 pc" maxZ="0.5 pc"
+                        massType="Number" massFraction="1"
+                        importMetallicity="false" importTemperature="true" maxTemperature="0 K" importVelocity="true"
+                        importMagneticField="false" importVariableMixParams="false" useColumns="">
+        <materialMix type="MaterialMix">
+            <ElectronMix includePolarization="false" includeThermalDispersion="true" defaultTemperature="1e4 K"/>
+        </materialMix>
+    </ParticleMedium>
+
+The _massType_ can be specified as \c MassDensity, \c NumberDensity, \c Mass or \c Number as described for \ref
+UserImportSnapMediaCell. The other medium properties, including metallicity, temperature, and velocity, can be
+specified as described in \ref UserImportSnapMediaSPHDust and \ref UserImportSnapMediaSPHOther.
+
+Because the AdaptiveMeshSnapshot class preserves the topological structure during import, it is possible to use the
+imported AMR grid during the simulation's radiative transfer phase; see \ref UserImportSnapMediaGrid. Also, retrieving
+the medium properties at a given location is more efficient than for a list of seemingly unrelated cells, affecting the
+execution time of the simulation setup phase. On the other hand, providing the cells in Morton order might be a
+complicated task, depending on the structure of the original snapshot data. In that case, the CellMedium class offers
+an excellent alternative.
+
+\subsection UserImportSnapMediaVoro Voronoi mesh media
+
+Some hydrodynamical simulation codes use Voronoi tessellations for spatial discretization. Although the mesh may move
+as the simulated model evolves over time, each snapshot is defined on a particular, well-defined mesh.
+
+A Voronoi tessellation partitions the spatial domain in convex polyhedra. Consider a given set of points in the domain,
+called \em sites. For each site there will be a corresponding region consisting of all points in the domain closer to
+that site than to any other. These regions are called Voronoi \em cells, and together they form the Voronoi
+tessellation of the domain. Due to the nature of a Voronoi tessellation, the geometry of the grid is completely defined
+by the positions of the generating sites. It is hence not necessary for a snapshot to store, for example, vertices and
+edges of the cells.
+
+Similar to the approach for other snapshot types, the VoronoiMeshMedium class expects a column text file with a line
+for each cell. The first three columns list the coordinates of the generating site for the cell, and the subsequent
+columns specify the relevant physical cell properties. Compared to \ref UserImportSnapMediaSPHDust and \ref
+UserImportSnapMediaSPHOther, this corresponds to omitting the particle smoothing length. The Voronoi cells are
+reconstructed from the positions of the generating sites, and the density and other properties are assumed to be
+uniform across the polyhedral volume of each cell.
+
+The VoronoiMeshMedium places the generating sites in a cuboidal spatial domain; the domain walls serve as the external
+boundary for the Voronoi cells in the outer layers. This bounding box must be specified in the parameter file.
+For example, here is an import file that defines the dust mass density in seven Voronoi cells:
+
+    # example5.txt: import file for Voronoi mesh media -- dust
+    # Column 1: position x (pc)
+    # Column 2: position y (pc)
+    # Column 3: position z (pc)
+    # Column 4: dust mass density (Msun/pc3)
+     0.255   0.352   0.774   0.112
+    -0.557   0.826  -0.933   0.635
+    -0.664  -0.644  -0.493   0.952
+    -0.848   0.909   0.015   0.757
+     0.441  -0.801  -0.743   0.822
+     0.784   0.476   0.458   0.975
+    -0.154  -0.408   0.863   0.034
+
+In this example, the dust medium has no bulk velocity and the procedure writing the import file included the actual
+dust mass density after deriving it from the snapshot data using an appropriate heuristic. The file could be imported
+using:
+
+    <VoronoiMeshMedium filename="example5.txt"
+                       minX="-1 pc" maxX="1 pc" minY="-1 pc" maxY="1 pc" minZ="-1 pc" maxZ="1 pc"
+                       massType="MassDensity" massFraction="1"
+                       importMetallicity="false" importTemperature="false" maxTemperature="0 K" importVelocity="false"
+                       importMagneticField="false" importVariableMixParams="false" useColumns="">
+        <materialMix type="MaterialMix">
+            <MeanInterstellarDustMix/>
+        </materialMix>
+    </VoronoiMeshMedium>
+
+Again, the _massType_ can be specified as \c MassDensity, \c NumberDensity, \c Mass or \c Number as  for \ref
+UserImportSnapMediaCell and \ref UserImportSnapMediaAMR.
+The other medium properties, including metallicity, temperature, and velocity, can be
+specified as described in \ref UserImportSnapMediaSPHDust and \ref UserImportSnapMediaSPHOther.
+
+Because the VoronoiMeshSnapshot class builds the structure of the mesh during import, it is possible to use the
+imported Voronoi grid during the simulation's radiative transfer phase; see \ref UserImportSnapMediaGrid.
+
+\subsection UserImportSnapMediaGeometry Geometric media
+
+As noted in the \ref UserImportSnapMediaOverview, as an alternative to using one of the ImportedMedium subclasses, the
+configuration can instead include a GeometricMedium with the corresponding ImportedGeometry subclass.
+
+The expected text file then has a format similar to that described above for the ImportedMedium subclasses, but without
+support for the bulk velocity or any of the other additional medium properties. Furthermore, the ImportedGeometry
+subclasses always normalize the total mass of the density distribution to unity, as required for all geometries. This
+means that the actual total mass must be provided through one of the standard normalization mechanisms offered by the
+GeometricMedium class.
+
+It is usually more convenient to use the ImportedMedium subclasses, except in cases where the mass normalization is not
+known when the import file is being written.
+
+\subsection UserImportSnapMediaGrid Configuring the spatial grid
+
+Every SKIRT simulation that includes media requires a spatial grid for use during the simulation's radiative transfer
+phase. This grid should be properly configured to provide adequate spatial resolution in areas with high medium
+densities or steep density gradients, and at the same time avoid placing cells in less important regions.
+
+When importing a hydrodynamical simulation snapshot, the best option is to select an adaptive grid, such as an octree
+grid (PolicyTreeSpatialGrid) or a Voronoi grid (VoronoiMeshSpatialGrid). To help evaluate and configure the quality of
+a spatial grid, it is instructive to review the convergence information and the density cuts along the coordinate
+planes generated by SKIRT upon request. For more information and examples, see the tutorial \ref
+TutorialGridsTreeVoro.
+
+For mesh-based hydrodynamical snapshots as described in \ref UserImportSnapMediaAMR and \ref UserImportSnapMediaVoro,
+SKIRT offers the option to directly adopt the imported grid for performing radiative transfer rather than constructing
+a new one. This avoids resampling the medium density and other properties, which may introduce inaccuracies and takes
+time. In other words, it ensures that the radiative transfer simulation uses the exact same snapshot representation as
+the hydrodynamical simulation.
+
+On the other hand, it is not always the best choice. The resolution requirements for the radiative transfer treatment
+may differ from those for the hydrodynamical simulation. The optimal overall resolution might differ, and fine-grained
+cells may be needed in different areas of the domain. Also, sometimes the spatial domain used for radiative transfer
+can be made smaller than the full snapshot domain, cutting off the outer regions that do not contain significant
+amounts of material anyway. And finally, SKIRT's octree spatial grid (the PolicyTreeSpatialGrid class) is highly
+optimized for tracing photon packets, so the photon shooting simulation phase might be substantially faster.
+
+\subsection UserImportSnapMediaSample Sampling properties
+
+During a SKIRT simulation, all physical quantities are assumed to be uniform across each cell of the spatial grid used
+for radiative transfer. After constructing that spatial grid, SKIRT establishes the average medium properties in each
+cell by sampling the values from the input model, i.e. the medium components configured for the simulation.
+
+The SamplingOptions class offers a number of configuration options related to this sampling process. A separate number
+of spatial samples per grid cell can be configured for the density and for all of the the other medium properties (as a
+group). In each case, if the specified number of samples is one, the property is sampled just at the central position
+of the cell. If the specified number is larger than one, the property is sampled at the given number of positions,
+randomly selected from a uniform distribution within the cell volume, and the average value of these random samples is
+used.
+
+There is just a single bulk velocity value per spatial cell. If multiple medium components specify a bulk velocity, the
+values sampled from these components are aggregated using one of three possible policies: \c Average, \c Maximum, or \c
+First.
+
+
+\section UserImportSnapSources Importing sources
+
+\subsection UserImportSnapSourcesOverview Sources overview
+
+Any nontrivial SKIRT simulation includes one or more components describing the radiation sources in the model (see the
+Source class and its subclasses). Each source component defines (a) the spatial density distribution of the sources and
+(b) the spectral energy distribution (%SED) at each location. SKIRT offers three distinct ways of accomplishing this:
+
+- An imported snapshot defines the spatial density distribution and provides additional properties for each particle or
+cell from which an appropriate %SED can be determined. For this purpose, SKIRT includes several parameterized %SED
+families (subclasses of the SEDFamily class). For example, the Bruzual-Charlot family (the BruzualCharlotSEDFamily
+class) represents young and evolved stellar populations.
+
+- An imported snapshot defines just the spatial density distribution, and a particular %SED (constant throughout the
+spatial domain) is configured from the %SED components built into SKIRT (subclasses of the SED class).
+
+- The radiation source is completely defined within SKIRT by configuring a built-in geometry (subclasses of the
+Geometry class) and %SED (subclasses of the SED class). In case a hydrodynamical simulation does not include any
+sources, this option can be used to complete the model by adding, for example, a central source to a dust disk, or
+background radiation to the dust in a molecular cloud.
+
+These options can be mixed at will with multiple source components. For example, one could augment the stellar sources
+imported from a spiral galaxy snapshot with a built-in point source representing an active galactic nucleus.
+
+
+\subsection UserImportSnapSourcesParticle Particle sources
+
+As noted in the introduction (\ref UserImportSnapSims), most hydrodynamical simulation codes represent source
+components such as stellar populations as particles, even if the hydrodynamics is mesh-based.
+
+A particle snapshot consists of a set of smoothed particles, each characterized by a list of properties. Formally, the
+spatial luminosity distribution (at a particular wavelength) in a particle snapshot is defined by a list of \f$N\f$
+particles and an assumed smoothing kernel \f$W(r,h)\f$, with each smoothed particle characterized by a position
+\f$\mathbf{r}_j\f$, a smoothing length \f$h_j\f$, and a luminosity contribution \f$L_j\f$. The total luminosity density
+at an arbitrary position \f$\mathbf{r}\f$ is then given by \f[ \Sigma(\mathbf{r}) = \sum_{j=1}^N L_j \,
+W(|\mathbf{r}-\mathbf{r}_j|,h_j) \f]
+
+The ParticleSource class allows configuring one of several spherically symmetric smoothing kernels, including the
+frequently-used cubic spline kernel (the CubicSplineSmoothingKernel class) and a scaled Gaussian smoothing kernel (the
+ScaledGaussianSmoothingKernel class).
+
+The ParticleSource class expects a column text file with a single line for each particle. The first four columns
+specify the central position and the smoothing length of the particle. The number and interpretation of the subsequent
+columns depends on the %SED family configured for this ParticleSource instance. For example, for the Bruzual-Charlot
+%SED family (BruzualCharlotSEDFamily), the remaining three columns provide the properties of the stellar population
+represented by the particle, including the initial mass of the stellar population (at the time it was born) and the
+metallicity and current age of the stellar population. For information on the parameters required for other SEDFamily
+subclasses, refer to the corresponding class documentation.
+
+The ParticleSource class can also be configured to take into account the Doppler shift caused by the velocity of the
+radiation sources relative to the model coordinate system. If this option is enabled, the input text file must provide
+three additional columns (after the smoothing length and before the additional properties for the %SED family),
+specifying the vector components of the particle's bulk velocity, and optionally a fourth column specifying the velocity
+dispersion of sources within the extent of the particle.
+
+The default units for these quantities can be overridden by including columns header info in the file as described in
+the TextInFile class header. For example, here is an import file describing just a single source particle placed at the
+origin of the model coordinate system, moving in the direction of the vertical axis:
+
+    # example6.txt: import file for particle source
+    # Column 1: position x (pc)
+    # Column 2: position y (pc)
+    # Column 3: position z (pc)
+    # Column 4: smoothing length (pc)
+    # Column 5: velocity vx (km/s)
+    # Column 6: velocity vy (km/s)
+    # Column 7: velocity vz (km/s)
+    # Column 8: mass (Msun)
+    # Column 9: metallicity (1)
+    # Column 10: age (Gyr)
+    0 0 0 1  0 0 50  10  0.01  5
+
+This file could be imported as follows:
+
+    <ParticleSource filename="example6.txt" importVelocity="true" importVelocityDispersion="false"
+                    importCurrentMass="false" useColumns="" sourceWeight="1" wavelengthBias="0.5">
+        <smoothingKernel type="SmoothingKernel">
+            <CubicSplineSmoothingKernel/>
+        </smoothingKernel>
+        <sedFamily type="SEDFamily">
+            <BruzualCharlotSEDFamily imf="Chabrier" resolution="Low"/>
+        </sedFamily>
+    </ParticleSource>
+
+\subsection UserImportSnapSourcesSmooth Determining the smoothing length
+
+Even if the stellar populations (or other radiation sources) in a hydrodynamical simulation are represented as
+"smoothed particles" with a finite extent defined by some spherical kernel, these collisonless particles do not conform
+to the semantics of the collisional particles employed in smoothed particle hydrodynamics (SPH). Indeed, the smoothing
+length for SPH particles is determined so that neighboring particles overlap sufficiently to achieve a smooth combined
+density field. For the collisonless stellar particles, there is no such requirement. As a result, the simulation often
+does not track (and thus does not output) a particle property that directly corresponds to a smoothing length that can
+be used for import into SKIRT. In other words, an appropriate smoothing length must be "fabricated". There is,
+unfortunately, no single best way to do this.
+
+In a SKIRT simulation, the smoothing length for stellar particles is not intended to achieve an overly smooth
+luminosity field. If the smoothing lengths are an order of magnitude larger than the typical distance between particles
+or the typical medium cell size, there is a risk of losing the geometrical effects of the star/dust interplay. In fact,
+as long as the smoothing lengths are sufficiently small, their precise values do not seem to significantly affect the
+integrated %SED of the simulated model. However, they do affect the realism of the generated synthetic images.
+
+Let us consider the options. First, note that many N-body solvers in hydrodynamical simulations use gravitational
+softening to avoid extreme close encounters between the particles, which would cause numerical instabilities. The
+corresponding softening length is sometimes stored in the snaphot data, but it is usually not appropriate as a
+substitute for smoothing length in the context of SKIRT import.
+
+The easiest option is to specify a fixed smoothing length for all particles. This works as long as the value is not too
+large, but it produces somewhat artificial-looking images. This can be improved by introducing some randomness. One
+could simply sample the value from some distribution, but that feels very arbitrary. Or one could determine the value
+as a function of, for example, the current mass of the particle (as opposed to the initial mass which must be passed to
+the stellar population %SED templates).
+
+Some hydrodynamical simulations keep track of a stellar particle "smoothing length" that determines the sphere of influence for
+stellar feedback. The volume within this radius would include a given number of eligible neighboring gas particles or
+cells (as opposed to stellar particles). One could use this smoothing length, or a fixed fraction thereof, for import into
+SKIRT. Unfortunately, the value tends to grow very large in under-resolved areas, such as on the outskirts of a galaxy,
+producing artificially large stellar blobs in the images. Putting a cap on the value could counter this.
+
+Another option is to calculate a smoothing length after the fact by including a given number of neighboring stellar
+particles in the corresponding volume. This calculation is not trivial but quite feasible with the appropriate Python
+packages. It also suffers from the same problem in under-resolved areas as described above unless counter-measures are
+taken.
+
+Lastly, one could resample a subset or all of the particles similar to what has been described in the literature, e.g.
+by [Camps et al. 2016](https://ui.adsabs.harvard.edu/abs/2016MNRAS.462.1057C/). In short, the procedure splits the
+young stellar particles, which are few in number but still dominant in the shorter wavelengths, into smaller particles
+with molecular cloud-like masses. These sub-particles are then spread out in time and space and assigned smoothing
+lengths based on their masses.
+
+It is best to experiment with these or other options and evaluate what works to satisfaction depending on the needs of
+the study at hand.
+
+\subsection UserImportSnapSourcesMesh Mesh-based sources
+
+Although used less frequently, SKIRT fully supports importing sources that are represented on a grid through the
+CellSource, AdaptiveMeshSource, and VoronoiMeshSource classes. The import file format is a blend of what has been
+described in previous sections:
+
+- the topology and geometry is represented as described in sections \ref UserImportSnapMediaCell, \ref
+  UserImportSnapMediaAMR, and \ref UserImportSnapMediaVoro.
+
+- the media properties discussed in those sections are replaced by the parameters for the selected %SED family, as
+  described in section \ref UserImportSnapSourcesParticle.
+
+For more information, refer to those sections and to the documentation of the various imvolved classes.
+
+\subsection UserImportSnapSourcesGeometry Geometric sources
+
+If the hydrodynamical simulation does not track the relevant properties for defining the local emission spectrum, one
+can still import the spatial luminosity distribution from the snapshot and assign a built-in %SED that is constant
+across the spatial domain. This is achieved by combining the GeometricSource class  with  one of
+the ImportedGeometry subclasses. This option does not allow importing velocity information, although it is still possible
+to assign a built-in velocity vector field to the imported source.
+
+In the import text file, the %SED family parameters are replaced by a single column specifying the luminosity
+contribution of the particle. This value can be given in arbitrary units because the ImportedGeometry classes normalize
+the total luminosity to unity as is required for all geometries. Because of this normalization, the actual luminosity
+of the source must be configured through one of the regular normalization options offered by the GeometricSource class.
+
+Note that the ImportedGeometry subclasses offer some options for compatibility with medium density distributions (see
+\ref UserImportSnapMediaGeometry) that are irrelevant in the context of source luminosities and thus should be
+disabled. For mesh-based imported geometries, the \em massType option behaves as follows:
+ - for \c Mass and \c Number, the value in the import file indicates the relative luminosity contribution of the cell;
+ - for \c MassDensity and \c NumberDensity, the value in the import file is multiplied by the volume of the cell to
+   determine the cell's relative luminosity contribution.
+
+*/

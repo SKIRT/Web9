@@ -1,0 +1,117 @@
+/**
+
+\page InstallSKIRTWindows Install SKIRT using Microsoft Visual Studio (Windows)
+
+This topic describes how to install and configure the SKIRT code on Microsoft Windows using the Microsoft
+Visual Studio software development environment. Note that you will still need a command prompt window
+to actually run the SKIRT command line program.
+
+This topic contains the following sections:
+- \ref InstallSKIRTWindowsTools
+- \ref InstallSKIRTWindowsGet
+- \ref InstallSKIRTWindowsBuild
+- \ref InstallSKIRTWindowsResource
+- \ref InstallSKIRTWindowsFinal
+
+
+\section InstallSKIRTWindowsTools Install the build tools
+
+The SKIRT code has been tested with Microsoft Visual Studio 2019 running on Windows 10. Earlier versions may not
+support all the required capabilities. In general, later versions should work fine.
+
+- Download the latest version of the freely available Microsoft Visual Studio 2019 Community edition
+  from the [Visual Studio download page](https://visualstudio.microsoft.com/vs/) and launch the installer.
+
+- On the installer's configuration page, select the "Desktop development with C++" option.
+- Select a custom install to include Visual C++ and the git and GitHub GUI clients and perform the installation.
+
+\note
+If you plan to use Qt Creator for building the SKIRT code (rather than Microsoft Visual Studio), then you also
+need to download the latest version of CMake for Windows from the [CMake download page](https://cmake.org/download/)
+
+\section InstallSKIRTWindowsGet Get the source code
+
+- In the Visual Studio welcome pane, or from the File menu, select "Clone or checkout a repository".
+
+- In the displayed dialog window, enter the URL for the GitHub repository, i.e.
+  <tt>https://github.com/SKIRT/SKIRT9.git</tt>, and the directory path for the local clone,
+  i.e. \c ~\\SKIRT\\git, where the tilde is replaced with the absolute path to some directory in your home folder.
+
+- Proceed to clone the repository.
+
+
+\section InstallSKIRTWindowsBuild Configure and build the code
+
+\subsection InstallSKIRTWindowsBuildFirst Building for the first time
+
+After cloning the repository, the default build type is \em Debug, which will result in slower execution.
+To configure a faster \em Release build, proceed as follows:
+
+- With the SKIRT project open in Visual Studio, click the popup button displaying "x64-Debug" in the toolbar
+  at the top, and select the "Manage Configurations..." menu item. An editor called "CMake Settings" appears.
+
+- In this editor, click the "+" button at the top of the column at the left. In the displayed dialog window, scroll
+  down and select the "x64-Release" item. Press the "Select" button to close the dialog.
+
+- In the fields to the right:
+   - Change the "Configuration Name" to "MyRelease".
+   - Change the "Configuration Type" to "Release".
+   - Change the "Build Root" to \c ~\\SKIRT\\release, where the tilde is replaced with an absolute path
+     so that the \c release directory is next to the \c git directory.
+
+- Save the configuration document by pressing the "Save" icon in the toolbar at the top.
+
+- Click the popup button in the toolbar at the top and select "MyRelease".
+
+- In the Visual Studio menu bar, select "Build->Build All" to build the SKIRT code.
+
+\subsection InstallSKIRTWindowsBuildOptions Adjusting build options
+
+To adjust build options (see \ref InstallSKIRTOptions for a list of options):
+
+- With the SKIRT project open in Visual Studio, click the popup button displaying "MyRelease" in the toolbar
+  at the top, and select the "Manage Configurations..." menu item. The editor called "CMake Settings" reappears.
+
+- In the table under the header "CMake variables and cache", enable the check box(es) for the desired option(s).
+
+- Save the configuration document by pressing the "Save" icon in the toolbar at the top.
+
+- In the Visual Studio menu bar, select "Build->Build All" to rebuild the project.
+
+
+\section InstallSKIRTWindowsResource Download the SKIRT resource files
+
+Because of size limitations in GitHub repositories, the resource data files needed by the SKIRT code are hosted
+elsewhere (on the Ghent University science faculty data server) and must be downloaded separately. The resource files
+are organized in \em resource \em packs, i.e. ZIP archives containing related resource data. The "Core" resource pack
+is required for the basic operation of SKIRT; other resource packs are optional and must be installed only if the
+corresponding SKIRT functionality is actually being used. The SKIRT source code repository \em does contain a
+list of the names and version numbers of the resource packs that should (or could) be downloaded. To view this list,
+locate and open the file \c ~\\SKIRT\\git\\SKIRT\\resources\\ExpectedResources.txt.
+
+On Windows there is no automated resource download procedure. Instead, proceed as follows:
+
+- From the \ref DownloadResourcePacks page, download the desired resource packs (at least the latest version of the
+  Core resource pack) as ZIP archive(s).
+
+- Extract the complete contents of each ZIP archive into some subdirectory of \c ~\\SKIRT\\resources, again replacing
+  the tilde with an absolute path so that the \c resources directory is next to the \c git directory.
+
+The files extracted from the archive should now have been placed in a subdirectory of the \c resources directory.
+The file \c history.txt inside that subdirectory offers brief historical release notes for the corresponding resource
+pack.
+
+\section InstallSKIRTWindowsFinal Finalize the installation
+
+To verify your installation of the SKIRT project:
+
+- In file explorer, create a working directory next to the \c git directory, e.g. \c ~\\SKIRT\\run, where the tilde
+  is again replaced with an absolute path.
+
+- Launch a command prompt window and change the current directory (\c cd) to the working directory you just created.
+
+- Enter <tt>..\\release\\SKIRT\\main\\skirt.exe</tt> without any command-line arguments.
+  If the SKIRT project has been successfully installed, SKIRT should display its welcome message
+  and ask for the name of the ski file to be created, without complaining about missing resources.
+
+*/

@@ -1,0 +1,365 @@
+/**
+
+\page InstallSKIRTUnix Install SKIRT using the command line (Unix or macOS)
+
+This topic describes how to install and configure the SKIRT code using the command line, i.e. without employing
+any graphical user interfaces. While this approach may seem challenging to some, it involves the smallest number of
+dependencies, lowering the complexity and the risk of failure. The instructions in this topic should be applicable to
+any Unix-based system, including macOS, Linux distributions, and other Unix flavors.
+
+This topic contains the following sections:
+- \ref InstallSKIRTUnixTools
+- \ref InstallSKIRTUnixGet
+- \ref InstallSKIRTUnixBuild
+- \ref InstallSKIRTUnixResource
+- \ref InstallSKIRTUnixFinal
+
+
+\section InstallSKIRTUnixTools Install the build tools
+
+\subsection InstallSKIRTUnixToolsVersions Versions
+
+The precise operating system version is not so important, as long as it supports 64-bit applications and you can
+install sufficiently recent versions of the build tools (which may be easier on more recent
+operating system versions):
+
+- A recent C++ compiler with full support for the C++14 standard:
+  - On macOS, use Apple Clang v10 (included in Xcode v10) or later.
+  - On other Unix systems, use GNU g++ v5.4.0 or later or Intel icc v19.0.2 or later.
+- CMake v3.2.2 or later.
+
+
+\subsection InstallSKIRTUnixToolsMac macOS
+
+On macOS the C++ compiler and \c git command line tools are provided as part of the Xcode development environment,
+which is freely available from the App Store. Download and install the latest version, and then launch the Xcode
+application at least once to complete the installation of the command line tools.
+
+Verify that the installed compiler has an appropriate version (see \ref InstallSKIRTUnixToolsVersions) by opening a Terminal
+window and entering the following command:
+
+\verbatim
+$ clang++ --version
+Apple LLVM version 10.0.1 (clang-1001.0.46.4)
+...
+\endverbatim
+
+Download the most recent CMake for macOS (as a disk image or ".dmg" file) from https://cmake.org/download/ and
+perform the installation by opening the disk image and dragging "CMake.app" to the Application folder. Then edit your
+login script (<tt>.profile</tt> or <tt>.bash_profile</tt> or equivalent if you are using a shell other than \c bash)
+to add the cmake command residing inside "CMake.app" to your system path. For example, add the following line:
+
+\verbatim
+export PATH="/Applications/CMake.app/Contents/bin:${PATH}"
+\endverbatim
+
+\note On macOS, the <tt>.profile</tt> script is not loaded when there is a <tt>.bash_profile</tt> in your home directory.
+
+Open a new Terminal window (so that the new login script gets loaded) and verify that the installed build tool
+has an appropriate version (see \ref InstallSKIRTUnixToolsVersions) by entering the following command:
+
+\verbatim
+$ cmake --version
+cmake version 3.5.1
+...
+\endverbatim
+
+\subsection InstallSKIRTUnixToolsUbuntu Ubuntu
+
+On Linux distributions such as Ubuntu, you can use <tt>apt-get</tt> to obtain the required tools. Open a
+Terminal window and enter the commands listed below.
+
+\verbatim
+$ sudo apt-get update
+...
+$ sudo apt-get install git
+...
+$ sudo apt-get install cmake
+...
+$ sudo apt-get install g++
+...
+\endverbatim
+
+These commands require root access to modify files in the system directories. The "sudo" command takes care of this
+assuming that the corresponding privileges are enabled for your account. Enter your password (\em not the root
+password!) when asked. Also, for each command, you will be prompted with the question "Do you want to continue? [Y/n]".
+Respond affirmative unless you see a good reason not to.
+
+Once the above commands have completed successfully, verify that the installed tools have an appropriate version (see
+\ref InstallSKIRTUnixToolsVersions) by entering the following commands:
+
+\verbatim
+$ g++ --version"
+g++ (GCC) 5.4.0
+...
+$ cmake --version
+cmake version 3.5.1
+...
+\endverbatim
+
+\subsection InstallSKIRTUnixToolsModule Systems using modules
+
+Large multi-node computing systems often use a \em module system that allows \em loading
+a particular subset or version of the tools installed on the system. Contact your system administrator for details.
+For example, to load the tools for building the SKIRT code one might issue commands like these:
+
+\verbatim
+$ module load cmake
+$ module load intel_comp/2019-update2
+$ icc --version
+icc (ICC) 19.0.2.187 20190117
+...
+\endverbatim
+
+\subsection InstallSKIRTUnixToolsOther Other Unix systems
+
+Other Unix systems might support variations on or combination of these methods to install the required tools:
+ - Use the standard package manager for your system.
+ - Download and run an installer manually.
+ - Load the appropriate module.
+ - Ask your system manager.
+
+
+\section InstallSKIRTUnixGet Get the source code
+
+To install the SKIRT code you need to copy the source code to your local file system. First create a directory
+hierarchy that will hold the source code, binaries and runtime information. The top-level directory can have any name
+(for example SKIRT) and can be located anywhere, but the subdirectories should be named as indicated below. Execute
+the following commands in a Terminal window to create the SKIRT directory in your home directory.
+
+    cd
+    mkdir SKIRT
+    cd SKIRT
+    mkdir release run git
+
+You now need to create a local repository (\em local meaning "on your own computer") by cloning (i.e. copying) the
+online <a href="https://github.com/SKIRT/SKIRT9">public SKIRT GitHub repository</a> hosted at
+<a href="https://github.com">GitHub.com</a>. While everyone can read or copy from this repository, only the
+SKIRT Core Team can write to it. As a result, two situations present themselves.
+If you don't plan to modify the SKIRT code, or any modifications will be kept local to your computer, then you can
+clone your local copy directly from the main SKIRT repository. To achieve this, enter the following commands in a
+Terminal window:
+
+    cd ~/SKIRT
+    git clone https://github.com/SKIRT/SKIRT9.git git
+
+On the other hand, if you plan to modify or extend the SKIRT code more extensively, you might want to share your
+changes with other computer systems. For example, you may need to synchronize the code between your development machine
+and a remote server on which you actually run the simulations. Or, you may consider contributing your changes to the
+main project once they have been fleshed out and tested. In these cases, you should first create a personal fork of the
+SKIRT project on GitHub, and then clone that fork to your computer(s). For more information about forking, refer to
+the [GitHub fork help item](https://help.github.com/en/articles/about-forks). For more information about contributing
+to the SKIRT project, see the [Contributing](../root/_Contributing.html) section on this web site.
+
+\subsection InstallSKIRTUnixCheckout Install a specific version of the source code
+
+To ensure consistency for a given project, over time or between multiple computer systems, you may wish to install a
+specific version of the SKIRT source code as opposed to the most recent one. To accomplish this, first determine the
+git commit hash of the desired version from the GitHub commit history or from the SKIRT welcome message (see \ref
+InstallSKIRTUnixFinal for an example). To activate that version of the source code, use (replacing the hash):
+
+    cd ~/SKIRT/git
+    git checkout 3e676b3
+
+and subsequently rebuild the code as described in \ref InstallSKIRTUnixBuild below. To return to the most recent
+version of the code, enter the commands listed for \ref InstallSKIRTUnixPull below.
+
+
+\subsection InstallSKIRTUnixPull Update the source code
+
+To update your local copy of the source code after changes were made to the repository from which you cloned it, use:
+
+    cd ~/SKIRT/git
+    git checkout master
+    git pull
+
+and subsequently rebuild the code as described in \ref InstallSKIRTUnixBuild below.
+
+
+\section InstallSKIRTUnixBuild Configure and build the code
+
+\subsection InstallSKIRTUnixBuildFirst Building for the first time
+
+The SKIRT code code includes two \c bash shell scripts to help configuring and building SKIRT
+from the source code in the git directory. Before you use these script for the first time, you may need
+to make them executable:
+
+    cd ~/SKIRT/git
+    chmod +rx configSKIRT.sh
+    chmod +rx makeSKIRT.sh
+
+To build SKIRT for the first time, using default build options, enter the following commands:
+
+    cd ~/SKIRT/git
+    ./makeSKIRT.sh
+
+If all goes well, you should see output similar to this:
+
+\verbatim
+Using /usr/bin/cmake to generate build files
+
+-- The C compiler identification is GNU 5.4.0
+-- The CXX compiler identification is GNU 5.4.0
+...
+BUILD_DOX_STYLE:BOOL=OFF
+BUILD_MAKE_UP:BOOL=OFF
+BUILD_SKIRT:BOOL=ON
+BUILD_SMILE_SHAPES:BOOL=OFF
+BUILD_SMILE_TOOL:BOOL=OFF
+BUILD_WITH_MPI:BOOL=OFF
+CMAKE_BUILD_TYPE:STRING=Release
+CMAKE_INSTALL_PREFIX:PATH=/usr/local
+GIT_EXECUTABLE:FILEPATH=/usr/bin/git
+...
+Scanning dependencies of target timestamp
+[  0%] Built target timestamp
+Scanning dependencies of target build
+[  0%] Building CXX object SMILE/build/CMakeFiles/build.dir/BuildInfo.cpp.o
+[  0%] Linking CXX static library libbuild.a
+[  0%] Built target build
+Scanning dependencies of target fundamentals
+[  1%] Building CXX object SMILE/fundamentals/CMakeFiles/fundamentals.dir/BooleanExpression.cpp.o
+...
+Scanning dependencies of target skirt
+[100%] Building CXX object SKIRT/main/CMakeFiles/skirt.dir/SkirtCommandLineHandler.cpp.o
+[100%] Building CXX object SKIRT/main/CMakeFiles/skirt.dir/SkirtMain.cpp.o
+[100%] Linking CXX executable skirt
+[100%] Built target skirt
+\endverbatim
+
+If things do not go so well, you'll need to take corrective action depending on the problem. The table below
+provides some hints; if the problem persists please contact the SKIRT Core Team.
+
+<TABLE>
+<TR><TH>Problem</TH>  <TH>Cause and corrective action</TH></TR>
+<TR><TD>There is no cmake in the default path</TD>
+    <TD>The CMake build tool is not installed, or its location has not been added to the default system PATH;
+        see \ref InstallSKIRTUnixTools</TD> </TR>
+<TR><TD>CMake version is too old</TD>
+    <TD>The default system PATH points to an older version of the CMake build tool; verify the installation
+        with "which cmake" and "cmake --version"</TD> </TR>
+<TR><TD>No compiler is found, or compiler identification is not what you expected</TD>
+    <TD>CMake looks for compilers in the default system PATH in some complicated order, it might find an old
+        compiler version, or it might choose the GNU compiler while you want to use the Intel compiler;
+        in this case explicitly specify the compiler; see \ref InstallSKIRTUnixBuildSelectComp</TD> </TR>
+<TR><TD>Compiler reports an error on one or more source files</TD>
+    <TD>Verify that your compiler version fully supports C++14; see \ref InstallSKIRTUnixToolsVersions.
+        If the compiler is sufficiently recent, there might be a platform-specific issue with the code.</TD> </TR>
+</TABLE>
+
+\subsection InstallSKIRTUnixBuildSelectComp Selecting the compiler
+
+If the compiler identification listed at the start of the \c makeSKIRT.sh procedure does not match your expectations,
+or no compiler is found at all, you need to specify the compiler explicitly through the \c configSKIRT.sh script.
+
+The first step is to figure out the full absolute path of the appropriate compiler executable. Sometimes this is easy.
+For example, on systems that have the Intel compiler installed in addition to the GNU compiler, CMake will often
+select the GNU compiler while you may want it to use the Intel compiler. To discover the path of the Intel compiler,
+enter the command "which icc". In other cases, you may need to browse around on your file system to locate the
+compiler executable.
+
+Once you have the compiler path, you can resolve the problem by entering the following commands, where you replace
+\<path\> by the full absolute path of the compiler executable:
+
+\verbatim
+cd ~/SKIRT/git
+./configSKIRT.sh CMAKE_C_COMPILER=<path> CMAKE_CXX_COMPILER=<path>
+./makeSKIRT.sh
+\endverbatim
+
+This should cause CMake to select the specified compiler and list the corresponding compiler identification.
+
+\parblock
+\note You need to configure both the plain C compiler and the C++ compiler. In many cases you can use the
+same path (most modern compilers automatically deduce the correct language flavor), but sometimes you need to
+provide the appropriate path for each compiler separately.
+\endparblock
+
+\parblock
+\note The CMake configuration state is stored in the SKIRT/release directory so that it is persistent between
+consecutive builds. Usually this is a good thing. However, fundamental changes to the configuration (such as specifying
+another compiler) sometimes do not properly clear the previous state. When making such changes, it is wise to manually
+clear the state by removing the complete contents of the SKIRT/release directory, and performing \c configSKIRT.sh
+again with the appropriate options.
+\endparblock
+
+\subsection InstallSKIRTUnixBuildOptions Adjusting build options
+
+By default, the procedure described above builds just the SKIRT command line program. To build optional programs
+or to enable capabilities such as multi-processing, you need to adjust the corresponding
+build options through the \c configSKIRT.sh script. For a list of build options, see \ref InstallSKIRTOptions.
+
+For example, to also build the documentation streamliner used by SKIRT developers,
+enter the following command (still in the \c git directory):
+
+    ./configSKIRT.sh BUILD_DOX_STYLE=ON
+
+In some cases, you need to repeat this process. New options may appear because you enabled the option on which they
+depend. To adjust such dependent options, you need a second round of performing the \c configSKIRT.sh script.
+
+
+\section InstallSKIRTUnixResource Download the SKIRT resource files
+
+Because of size limitations in GitHub repositories, the resource data files needed by the SKIRT code are hosted
+elsewhere (on the Ghent University science faculty data server) and must be downloaded separately. The resource files
+are organized in \em resource \em packs, i.e. ZIP archives containing related resource data. The "Core" resource pack
+is required for the basic operation of SKIRT; other resource packs are optional and must be installed only if the
+corresponding SKIRT functionality is actually being used. The SKIRT source code repository \em does contain a
+list of the names and version numbers of the resource packs that should (or could) be downloaded. The shell script \c
+downloadResources.sh uses this list to help download and install each of the expected resource packs.
+
+The download script can be invoked by entering the following commands:
+
+    cd ~/SKIRT/git
+    ./downloadResources.sh
+
+The script will ask confirmation before starting the download of a resource pack that has not yet been installed:
+
+    Do you want to download and install SKIRT9_Resources_Core version 6? [y/n] yes
+
+Always answer "yes" for the "Core" resource pack (you can skip the other resource packs; you can download them later
+simply by running the script again). You will then see a log similar to the following:
+
+    Downloading SKIRT9_Resources_Core_v6.zip ...
+    ...
+    Archive:  SKIRT9_Resources_Core_v6.zip
+      inflating: SKIRT9_Resources_Core/version.txt
+      inflating: SKIRT9_Resources_Core/history.txt
+      inflating: SKIRT9_Resources_Core/Band/GENERIC_JOHNSON_B_BroadBand.stab
+      ....
+      inflating: SKIRT9_Resources_Core/SingleGrain/MeanPascucciBenchmarkOpticalProps.stab
+    ------------------------------------------------
+
+After downloading, the resource files are extracted from the archive and placed in a subdirectory of the \c
+SKIRT/resources directory, next to your SKIRT/git directory. The file \c history.txt inside that subdirectory
+offers brief historical release notes for the corresponding resource pack.
+
+
+\section InstallSKIRTUnixFinal Finalize the installation
+
+To provide easy access to the executables in the SKIRT code, edit your login script (<tt>.profile</tt> or
+<tt>.bash_profile</tt> or equivalent if you are using a shell other than \c bash) to add the appropriate SKIRT
+executable paths to your system path. For example, add the following line:
+
+\verbatim
+export PATH="${HOME}/SKIRT/release/SKIRT/main:${PATH}"
+\endverbatim
+
+\note On macOS, the <tt>.profile</tt> script is not loaded when there is a <tt>.bash_profile</tt> in your home directory.
+
+To verify your installation of the SKIRT code, close all Terminal windows and launch a new one, so that your
+updated login script gets executed. Enter the command "skirt" without any command-line arguments. If the SKIRT
+code has been successfully installed, you should see output similar to this:
+
+\verbatim
+$ skirt
+14/05/2019 14:57:20.909   Welcome to SKIRT v9.0 (git 3e676b3 built on 14/05/2019 at 14:57:10)
+14/05/2019 14:57:20.909   Running on obiwan.ugent.be for pcamps
+14/05/2019 14:57:20.909   Interactively constructing a simulation...
+14/05/2019 14:57:20.909 ? Enter the name of the ski file to be created:
+\endverbatim
+
+You can follow the instructions in the Terminal window to create a SKIRT parameter file or press [CTRL] + C to abort
+the program. For more information on using SKIRT, please refer to the \ref UserGuide.
+
+*/

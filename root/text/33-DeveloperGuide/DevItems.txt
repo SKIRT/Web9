@@ -1,0 +1,200 @@
+/**
+
+\page DevItems The ins and outs of simulation items
+
+\section DevItemsIntro Introduction
+
+Together, the hundreds of SimulationItem subclasses residing in the <tt>SKIRT/core</tt> module (see \ref
+DevStructSKIRTModules) form the bulk of the SKIRT code. We use the term <em>simulation item class</em> to indicate a
+SimulationItem subclass and <em>simulation item instance</em> to indicate an instance of a SimulationItem subclass,
+i.e. a run-time object of that type. When the context allows, we use <em>simulation items</em> to loosely indicate both
+the classes and the instances.
+
+Unsurprisingly, simulation items play a key role in SKIRT. They represent the configuration of a particular simulation,
+mapping class and property names to XML element and attribute names in the ski file (or to a question in the Q&A
+session), \em and they provide the code to actually perform the simulation and output the requested results.
+
+SKIRT performs a simulation in three distinct phases:
+ - Construction: the simulation run-time instance hierarchy is created and all property values are set to mirror the
+   contents of the specified ski file. At the end of this phase, all simulation item instances have been constructed.
+   No actual calculations happen in this phase and so it is very fast (on the order of milliseconds).
+ - Setup: all simulation item instances get a chance to perform initialization and store the results in data members.
+   This may involve reading data from resource files or creating large data structures, so setup may take a long time.
+   At the end of this phase, any probes configured by the user get a chance to write diagnostics or other
+   information about the initialized data structures (such as the spatial media density distribution) to output files.
+ - Run: the simulation is actually performed by launching a (usually large) number of photon packages and
+   recording the effects. At the end of this phase, the instruments output the mock obervations and
+   any probes configured by the user get a chance to write diagnostics or other
+   information about the simulation data structures (e.g. the radiation field) to output files.
+
+
+\section DevItemsInstance Simulation item instance hierarchy
+
+A complete simulation is represented in SKIRT at run-time as a hierarchy of simulation item instances. The following
+diagram presents a simple example run-time simulation hierarchy (a connection starting with a diamond loosely means "A
+owns B"):
+
+\dot
+digraph runtime {
+    rankdir=LR;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+    edge [dir=back arrowtail=ediamond];
+
+    MonteCarloSimulation [label="MonteCarloSimulation" URL="\ref MonteCarloSimulation"];
+      ConsoleLog [label="ConsoleLog" URL="\ref ConsoleLog"];
+      FilePaths [label="FilePaths" URL="\ref FilePaths"];
+      ParallelFactory [label="ParallelFactory" URL="\ref ParallelFactory"];
+      Configuration [label="Configuration" URL="\ref Configuration"];
+      Random [label="Random" URL="\ref Random"];
+      ExtragalacticUnits [label="ExtragalacticUnits" URL="\ref ExtragalacticUnits"];
+      SourceSystem [label="SourceSystem" URL="\ref SourceSystem"];
+        ParticleSource [label="ParticleSource" URL="\ref ParticleSource"];
+      MediumSystem [label="MediumSystem" URL="\ref MediumSystem"];
+        ParticleMedium [label="ParticleMedium" URL="\ref ParticleMedium"];
+          ThemisDustMix [label="ThemisDustMix" URL="\ref ThemisDustMix"];
+        PolicyTreeSpatialGrid [label="PolicyTreeSpatialGrid" URL="\ref PolicyTreeSpatialGrid"];
+      InstrumentSystem [label="InstrumentSystem" URL="\ref InstrumentSystem"];
+        SEDInstrument_1 [label="SEDInstrument_1" URL="\ref SEDInstrument"];
+        SEDInstrument_2 [label="SEDInstrument_2" URL="\ref SEDInstrument"];
+      ProbeSystem [label="ProbeSystem" URL="\ref ProbeSystem"];
+        ConvergenceInfoProbe [label="ConvergenceInfoProbe" URL="\ref ConvergenceInfoProbe"];
+        ConvergenceCutsProbe [label="ConvergenceCutsProbe" URL="\ref ConvergenceCutsProbe"];
+
+    MonteCarloSimulation -> ConsoleLog;
+    MonteCarloSimulation -> FilePaths;
+    MonteCarloSimulation -> ParallelFactory;
+    MonteCarloSimulation -> Configuration;
+    MonteCarloSimulation -> Random;
+    MonteCarloSimulation -> ExtragalacticUnits;
+    MonteCarloSimulation -> SourceSystem;
+      SourceSystem -> ParticleSource;
+    MonteCarloSimulation -> MediumSystem;
+      MediumSystem -> ParticleMedium;
+        ParticleMedium -> ThemisDustMix;
+      MediumSystem -> PolicyTreeSpatialGrid;
+    MonteCarloSimulation -> InstrumentSystem;
+      InstrumentSystem -> SEDInstrument_1;
+      InstrumentSystem -> SEDInstrument_2;
+    MonteCarloSimulation -> ProbeSystem;
+      ProbeSystem -> ConvergenceInfoProbe;
+      ProbeSystem -> ConvergenceCutsProbe;
+}
+\enddot
+
+A run-time simulation hierarchy includes the following information:
+  - The configuration of the simulation, including all parameters, represented by a combination of:
+      - the structural makeup of the hierarchy;
+      - the selection of the type of simulation items actually included (e.g. PolicyTreeSpatialGrid rather than
+        another type of spatial grid);
+      - the properties of the various simulation items (not shown in the diagram above).
+  - The functionality needed to perform the simulation and output the results, embodied in the code associated with
+    each specific simulation item class.
+  - The run-time data needed and/or generated while performing the simulation, represented by data members in
+    each of the simulation item instances.
+
+The run-time simulation hierarchy mimics the contents of the corresponding ski file (see \ref UserParamFileStruct) with
+the exception of the ConsoleLog, FilePaths, and ParallelFactory instances, which are configured based on the command
+line arguments passed to SKIRT, and the Configuration instance, which automatically assembles some relevant aspects of
+the configuration (i.e. of the run-time hierarchy) for easy reference throughout the code.
+
+Multiple run-time simulation hierarchies can co-exist and are independent of each other. There is no shared or global
+data, except when accessing truly global resources such as the console, which are protected by appropriate locking
+mechanisms.
+
+
+\section DevItemsClass Simulation item class hierarchy
+
+In terms of implementation, all simulation item classes form a tree-like inheritance structure. The diagram below
+presents a tiny portion of the inheritance tree (for the full version, see SimulationItem):
+
+\dot
+digraph inheritance {
+    rankdir=BT;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+    edge [arrowhead=empty];
+
+    SimulationItem [label="SimulationItem" URL="\ref SimulationItem"];
+      Simulation [label="Simulation" URL="\ref Simulation"];
+        MonteCarloSimulation [label="MonteCarloSimulation" URL="\ref MonteCarloSimulation"];
+      Source [label="Source" URL="\ref Source"];
+        ParticleSource [label="ParticleSource" URL="\ref ParticleSource"];
+        OtherSources [label="..."];
+      MaterialMix [label="MaterialMix" URL="\ref MaterialMix"];
+        ThemisDustMix [label="ThemisDustMix" URL="\ref ThemisDustMix"];
+        OtherMixes [label="..."];
+      Log [label="Log" URL="\ref Log"];
+        ConsoleLog [label="ConsoleLog" URL="\ref ConsoleLog"];
+        FileLog [label="FileLog" URL="\ref FileLog"];
+
+    Simulation -> SimulationItem;
+      MonteCarloSimulation -> Simulation;
+    Source -> SimulationItem;
+      ParticleSource -> Source;
+      OtherSources -> Source;
+    MaterialMix -> SimulationItem;
+      ThemisDustMix -> MaterialMix;
+      OtherMixes -> MaterialMix;
+    Log -> SimulationItem;
+        ConsoleLog -> Log;
+        FileLog -> Log;
+}
+\enddot
+
+The leaf nodes represent concrete simulation item classes. Instances of these classes can be part of a run-time
+simulation hierarchy. The non-leaf nodes represent abstract simulation item classes that can't be instantiated. Thus,
+simulation items form a compile-time class hierarchy through inheritance (with the SimulationItem class at the top),
+and a run-time instance hierarchy through aggregation (with an instance of a Simulation subclass at the top).
+
+The basic interface inherited from SimulationItem facilitates common functionality for working with simulation items.
+For example, the SimulationItem::find() function allows locating a simulation item in a run-time simulation hierarchy
+simply by providing its class name. Also, the Simulation class cooperates with the SimulationItem interface to setup
+and run a complete simulation.
+
+Furthermore, SimulationItem subclasses must provide appropriate metadata for use by the SMILE library (see \ref
+DevSmile). The SMILE library then support various capabilities related to simulation items, including:
+
+ - Creating a simulation hierarchy based on user responses during an interactive Q&A session.
+ - Saving or loading a simulation hierarchy to and from a parameter file in XML format.
+
+The SMILE code has no built-in knowledge about simulation item classes; it self-adjusts to the metadata provided in the
+respective class definitions. This means that:
+
+ - All information about a simulation item is defined in a single place.
+ - When adding a new type of simulation item, there is no need to add specific code for querying, saving or loading.
+ - New capabilities (such as a graphical user interface for editing SKIRT parameter files) can be added without changing
+   the existing class definitions.
+
+
+\section DevItemsReq Requirements for simulation items
+
+To support all of this functionality, a SimulationItem subclass must comply with quite a number of requirements. The
+class obviously must directly or indirectly inherit the SimulationItem class. The class definition in the C++ header
+file must start with a section of SMILE metadata definitions describing any discoverable properties for instances of
+the class, i.e. properties that map to an attribute in the ski file. The metadata definitions use macros provided in
+the ItemInfo.hpp header file. These macros automatically define the corresponding data members and public getters,
+avoiding code repetition. In addition, the macros automatically define a default constructor (i.e. a constructor
+without arguments), which is the one invoked when a simulation hierarchy gets constructed. Because it is not possible
+to add custom code to the default constructor, all data members of the class must be initialized in the class
+declaration using the curly brace syntax.
+
+Of course, the class must implement its custom functionality. If setup is required, the
+SimulationItem::setupSelfBefore() or SimulationItem::setupSelfAfter() function must be overridden. Other functions may
+be declared and defined as needed. Also, when deriving from a particular abstract SimulationItem subclass, such as
+Geometry, additional requirements may apply, as described for that abstract subclass.
+
+Finally, a line of code must be added to the constructor of the SimulationItemRegistry class to register the new
+simulation item class to the SMILE library.
+
+This development process is illustrated in the hands-on \ref DevGeometry.
+Also, there are many existing simulation item classes that can serve as an example.
+
+Further background and reference information is provided in the following topics:
+
+ - The SimulationItem and Item classes -- the base classes for all simulation items
+ - The Simulation class -- the setup and run mechanism
+ - \ref DevSmileUsage -- simulation items are based on the SMILE functionality
+ - \ref DevSmileLang -- formal definition of discoverable property types and their allowed attributes
+ - The ItemInfo.hpp header file -- macros for defining discoverable properties in the class declaration
+
+
+*/

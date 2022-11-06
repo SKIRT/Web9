@@ -1,0 +1,276 @@
+/**
+
+\page DevParallel Hybrid parallelization using threads and processes
+
+This page describes the implementation of the hydrid parallelization mechanisms supported by SKIRT. For a description
+of how to actually use these mechanisms, see \ref UserParallel.
+
+\section DevParallelIntro Introduction
+
+SKIRT allows both multi-threading and multi-processing parallelization, in any combination.
+
+With multi-threading, the code executed by the different processors uses the same memory locations. The threads share
+the entire process state, with all variables and functions. Multiple threads may attempt to read from and write to the
+same memory location at the same time, which may lead to <em>race conditions</em> and unpredictable behavior. There are
+mechanisms to avoid these problems, but the fact remains that, with a large number of threads, performance goes down
+because all threads are competing for a common resource (i.e. access to the memory).
+
+With multi-processing, the execution of parallel code is performed by multiple, independent processes, each with their
+own memory addresses and process state. This avoids the performance issues from which multi-threading suffers. On the
+other hand, this kind of parallelization requires the implementation of explicit calls to a Message Passing Interface
+(MPI) at any point where communication is needed between processes. If implemented efficiently with a minimal amount of
+communication, multi-processing can scale much better for large number of processors than multi-threading. Also,
+processes can be allocated to different compute nodes, distributing the workload across a potentially large system
+with a distributed memory architecture.
+
+The combination of multi-threading and multi-processing, called \em hybrid parallelization, allows SKIRT to perform
+efficiently on a wide range of system architectures, from laptops to supercomputers.
+
+\note SKIRT requires all memory data structures to be duplicated in each process. In other words, there is no domain
+decomposition or other mechanism to distribute the data structures of the simulation across multiple processes. See
+\ref UserParallel for more information on how to best configure SKIRT in a multi-processing context.
+
+
+\section DevParallelClasses The SKIRT parallelization support classes
+
+\subsection DevParallelClassesParallel The Parallel class hierarchy
+
+Parallel is an abstract base class for subclasses that implement various parallelization schemes using one or more
+execution threads and/or one or more processes. A Parallel subclass instance can be created only through the
+ParallelFactory class, which constructs the appropriate Parallel subclass instance depending on the requested task
+allocation mode and the available parallel resources (see below). The client accesses the returned Parallel subclass
+instance using the common interface defined in this abstract Parallel base class.
+
+The Parallel::call() function offered by the base class interface executes a specified target function \f$N\f$ times as
+if it were part of a for loop over a range of indices from zero to \f$N-1\f$. Each index in the range represents a
+particular task. To reduce the overhead of handing out the tasks, the loop is actualy chopped into \em chunks of
+consecutive indices. Rather than a single index, the target function is handed the first index of the chunk and the
+number of indices (tasks) in the chunk, and it is expected to iterate over the specified index range. The chunk sizes
+are determined automatically to achieve optimal load balancing given the available parallel resources, while still
+maximally reducing the overhead of handing out the chunks.
+
+The Parallel subclasses and the parallelization schemes they implement are listed in the table below.
+
+Shorthand | %Parallel subclass | Description
+----------|-----------------|------------
+S | SerialParallel | Single thread in the current process; isolated from any other processes
+MT | MultiThreadParallel | Multiple coordinated threads in the current process; isolated from any other processes
+MTP | MultiHybridParallel | One or more threads in each of multiple processes, all coordinated as a group
+0 | NullParallel | No operation; any requests for performing tasks are ignored
+
+The level of overhead differs substantially between the various schemes, so implementing each scheme separately allows
+optimizing performance in all use cases. For example, with the SerialParallel scheme all tasks are simply serialized
+and overhead is minimal.
+
+In the subclasses that actually do implement parallelism, the chunks of tasks are handed out dynamically as the work
+progresses. This approach maximizes load balancing even if some task chunks take longer to complete than others.
+Depending on the parallelization scheme, one or more extra threads are used to serve work to the other threads and/or
+processes. These extra threads are not counted towards the number of threads specified by the user because they do not
+consume significant resources.
+
+\subsection DevParallelClassesFactory The ParallelFactory class
+
+An instance of the ParallelFactory class serves as a factory for instances of Parallel subclasses, called its children.
+An important property of a factory object is the maximum number of parallel execution threads per process to be handed
+to its children, which is set during construction to the value of the number of threads per process specified by the
+user on the command line (or to the default number of threads determined from the hardware). A factory object assumes
+ownership for all its children. If a child of the appropriate type and with the appropriate number of threads already
+exists, it will be handed out again. As a result, a particular Parallel instance may be reused several times, reducing
+the overhead of creating and destroying the threads.
+
+ParallelFactory clients can request a Parallel instance for one of the two task allocation modes described in the
+table below.
+
+Task mode | Description
+----------|------------
+Distributed | All threads in all processes perform the tasks in parallel
+RootOnly | All threads in the root process perform the tasks in parallel; the other processes ignore the tasks
+
+Depending on the requested task mode and the current run-time configuration (number of processes and number of threads
+in each process), a ParallelFactory object hands out the appropriate Parallel subclass as listed in the table below:
+ - in the table header: P=process, T=thread, 1=one, M=multiple.
+ - in the table body: shorthand refers to the table with Parallel subclasses above; slash means "root/other processes".
+
+Mode/Runtime | 1P 1T | 1P MT | MP 1T | MP MT |
+-------------|-------|-------|-------|-------|
+Distributed  |  S    |  MT   |  MTP  |  MTP  |
+RootOnly     |  S    |  MT   |  S/0  |  MT/0 |
+
+\subsection DevParallelClassesManager The ProcessManager class
+
+The ProcessManager class is an interface to the Message Passing Interface (MPI) library provided by the host system.
+Its implementation is the only place in the SKIRT code where explicit calls to this library are allowed.
+
+The ProcessManager class offers functions for the following purposes:
+- Initializing and finalizing the MPI library.
+- Obtaining information on the multi-processing environment, such as the number of parallel processes.
+- Handing out chunks of tasks to other processes using a master-slave communication paradigm.
+- Synchronizing computed data between processes using collective communication operations.
+
+Some of these functions are used extensively by the implementations of the Parallel and ParallelFactory (sub)classes.
+The data synchronization functions are also called from other places in the SKIRT code.
+
+\subsection DevParallelClassesPattern Parallel coding pattern
+
+The code block below illustrates the typical coding pattern for a parallel calculation.
+
+\code{.cpp}
+size_t numT = ...;
+Array Tv(numT);     // result array is initialized to zeros
+find<ParallelFactory>()->parallelDistributed()->call(numT, [this,&Tv] (size_t firstIndex, size_t numIndices)
+{
+    for (size_t p=firstIndex; p!=firstIndex+numIndices; ++p)
+    {
+        ...
+        Tv[p] = ...;
+    }
+});
+ProcessManager::sumToAll(Tv);
+\endcode
+
+If the calculation may take longer than a few seconds to complete, the coding pattern should be extended with
+facilities to perform progress logging, as shown in the code block below.
+
+\code{.cpp}
+size_t numT = ...;
+auto log = find<Log>();
+log->info("Calculating " + std::to_string(numT) + " temperatures...");
+log->infoSetElapsed(numT);
+Array Tv(numT);     // result array is initialized to zeros
+find<ParallelFactory>()->parallelDistributed()->call(numT, [this,log,&Tv] (size_t firstIndex, size_t numIndices)
+{
+    const size_t logProgressChunkSize = ...;
+    while (numIndices)
+    {
+        size_t currentChunkSize = min(logProgressChunkSize, numIndices);
+        for (size_t p=firstIndex; p!=firstIndex+currentChunkSize; ++p)
+        {
+            ...
+            Tv[p] = ...;
+        }
+        log->infoIfElapsed("Calculated temperatures: ", currentChunkSize);
+        firstIndex += currentChunkSize;
+        numIndices -= currentChunkSize;
+    }
+});
+ProcessManager::sumToAll(Tv);
+\endcode
+
+
+\section DevParallelRandom Random number sequences and parallelization
+
+The Random class offers pseudo-random number generation facilities in the parallelized SKIRT environment. To avoid the
+need for synchronization between multiple execution threads, each thread receives its own thread-local pseudo-random
+number generator instance. The parent thread in each process (i.e. the thread that calls the setup() function) receives
+a \em predictable generator. This generator is initialized with a fixed state depending only on the value of the
+user-configurable \em seed property, so that it delivers exactly the same pseudo-random sequence for every parent
+thread in every process and for every execution of the program. All other (child) threads receive an \em arbitrary
+generator. These generators are seeded with a truly random state obtained from the operating system, so that they
+deliver a unique and unpredictable pseudo-random sequence for each thread, and for each execution of the program.
+
+In this context, the Parallel subclasses discussed above behave as follows. The SerialParallel class performs all tasks
+in the (single) parent thread. The MultiThreadParallel and MultiHybridParallel classes perform serial tasks in the
+parent thread of each process, and perform all parallized tasks in one or more different child threads.
+
+As a result, in serial mode, repeated execution with the same \em seed value produces identical results. This is
+important, for example, for automated testing. The user can force a different randomization by specifying another \em
+seed value. In multi-threading and/or multi-processing mode, for tasks employing parallelization, each of the child
+threads in each of the processes receives a different random sequence. On the other hand, in this mode, for serialized
+tasks, the parent thread employed in each of the processes receives the same random sequence. This is important for
+functions that rely on randomness but need to produce the same result in every parallel process.
+
+
+\section DevParallelUsage Use of parallelization in various areas of the code
+
+\subsection DevParallelUsagePhoton The photon life cycle
+
+For most SKIRT simulations, nearly all of the execution time is spent performing the photon life cycle. This is thus
+the most important code loop to be parallelized. The topmost level of the photon life cycle is implemented in the
+MonteCarloSimulation::performLifeCycle() function. This function is invoked as the target of a Parallel::call() from a
+separate function for each simulation segment, using the Distributed task mode (see \ref DevParallelClassesFactory).
+For example, the MonteCarloSimulation::runPrimaryEmission() function implements the primary emission segment this way.
+
+As can be expected, the photon life cycle loop indirectly calls on a large number of classes in many areas of the code
+base, including sources, SEDs, geometries, material mixes, spatial grids, medium state, and instruments. Many of the
+data structures in the simulation are fully initialized during setup and are immutable during the photon life cycle
+phases. These data structures can be accessed from parallel execution threads without further concern. On the other
+hand, some data structures are updated during the photon life cycle; notably the data structures tracking the radiation
+field in every spatial cell and those recording observed fluxes in the instruments. Special care must be taken when
+updating these mutable data structures from parallel execution threads.
+
+Fortunately, the layout and size of most mutable data structures can be determined and initialized during setup. As a
+result, the only updates happening in parallel consist of accumulating floating point values in shared locations. These
+updates are accomplished by calling the LockFree::add() function, which uses efficient low-level atomic operations
+(rather than high-level software locking) to avoid data races. There are, however, two situations where things are more
+complicated.
+
+The first complexity arises with the calculation of emission spectra for imported primary sources and for secondary
+sources. Both types of sources consist of many separate entities (smoothed particles or spatial cells) for which
+distinct emission spectra must be determined. Obtaining these spectra may be time-consuming because of the
+interpolation in an %SED template family or a complex stochastic heating calculation. Usually, multiple photon packets
+are emitted from the same entity, and recalculating the spectrum for each photon packet would be very inefficient. The
+solution to this problem has two components. Firstly, each source entity (particle or cell) is assigned a number of
+photon packets ahead of time, and all packets for a particular entity are emitted consecutively. Secondly, the
+calculated emission spectra are cached between photon packet launches in thread-local storage, so that each execution
+thread manages its own cache. For more information, see the SourceSystem, ImportedSource and SecondarySourceSystem
+classes.
+
+The second complexity arises when recording statistics for observed fluxes in the instruments (an optional feature that
+can be enabled in the SKIRT parameter file). This process requires accumulating the contributions of each
+indvidual photon packet to a given flux bin (for example, caused by the peel-off from multiple scattering events). The
+intermediate result for each photon packet, and per flux bin, must thus be cached during the packet's life cycle. In
+this case, we need a copy of the cache for each execution thread \em and \em for \em each \em instrument. To achieve
+this, the FluxRecorder class uses the ThreadLocalMember class template, which provides a thread-local instance data
+member using some fairly sophisticed C++ machinery.
+
+\subsection DevParallelUsageSetup Setup
+
+For a typical "production" simulation, the setup phase usually represents only a small fraction of the total execution
+time. However, designing a new simulation configuration often requires several attempts, in which case reducing the
+number of photon packets being launched can help speed up the process. Similarly, when testing new features during a
+development cycle, a limited number of photon packets is often sufficient. For those use cases, it is still relevant to
+speed up time-consuming setup calculations through parallelization.
+
+Many of the tasks performed during the setup phase are not worth considering for parallelization because they complete
+in a short time. Several other tasks cannot be parallelized easily because they involve creating and adjusting complex
+data structures. Some time-consuming tasks, however, can be parallelized with limited effort. For example, setup tasks
+that have been parallelized using the Distributed task mode (see \ref DevParallelClassesFactory) include:
+
+- Calculating the subdivision requirements for nodes in a tree-based spatial grid;
+  see the DensityTreePolicy::constructTree() function.
+- Computing a Voronoi tessellation;
+  see the VoronoiMeshSnapshot::buildMesh() function.
+- Calculating densities and other medium properties for all cells in the spatial grid;
+  see the MediumSystem::setupSelfAfter() function.
+- Calculating the bolometric luminosities of primary or secondary sources before launching photon packets;
+  see, e.g., the ImportedSource::setupSelfAfter() and DustSecondarySource::prepareLuminosities() functions.
+- Integrating dust properties over the grain size distribution;
+  see the MultiGrainDustMix::getOpticalProperties() and MultiGrainDustMix::initializeExtraProperties() functions.
+- Pre-calculating information derived from dust properties for dust emission calculations;
+  see the EquilibriumDustEmissionCalculator::precalculate()
+  and StochasticDustEmissionCalculator::precalculate() functions.
+- Updating the medium state at the end of each dynamic medium state iteration;
+  see the MediumSystem::updateDynamicStateRecipes() and MediumSystem::updateDynamicStateMedia() functions.
+
+\subsection DevParallelUsageProbes Probes
+
+Similarly, the time consumed by Probe subclasses is often not overly significant, but in some cases it is
+still worth the limited effort to implement parallelization. For example, probe tasks that have been parallelized
+using the Distributed task mode (see \ref DevParallelClassesFactory) include:
+
+- Calculating planar cuts, parallel projections, and all-sky projections;
+  see the PlanarCutsForm, ParallelProjectionForm, and AllSkyProjectionForm classes.
+- Calculating luminosities; see the LuminosityProbe class.
+
+\subsection DevParallelUsageSims Parallel simulations
+
+The RootOnly task mode (see \ref DevParallelClassesFactory) is currently only used by the SkirtCommandLineHandler class
+to perform multiple simulations in parallel (see \ref UserParallel). Because this capability is not supported when
+there are multiple processes, the Distributed task mode could have been used just as well.
+
+Historically, the RootOnly task mode was used in case the results of a given calculation could not be (easily)
+synchronized between multiple processes. Over time, the code has been upgraded to allow such synchronization and thus
+use Distributed task mode in all cases. However, it seems wise to continue supporting the RootOnly task mode in case it
+might be useful in the future.
+
+*/

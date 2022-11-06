@@ -1,0 +1,78 @@
+/**
+
+\page Dijkstra2006 Static Lyman-alpha sphere
+
+\section DijkstraIntro Introduction
+
+Inspired by the work of Neufeld 1990 for a plane-parallel slab, Dijkstra et al. 2006 present an analytical
+approximation for the radiation spectrum emerging from a static, uniform neutral hydrogen sphere with a central point
+source emitting at the Lyman-alpha line center. The approximation becomes more accurate for higher optical depths at
+lower gas temperatures.
+
+\section DijkstraRefs References and downloads
+
+<TABLE>
+<TR><TH>Publications</TH>
+        <TD>Neufeld 1990 <a href="https://ui.adsabs.harvard.edu/abs/1990ApJ...350..216N">[ADS]</a> <br>
+            Dijkstra et al. 2006 <a href="https://ui.adsabs.harvard.edu/abs/2006ApJ...649...14D">[ADS]</a> <br>
+            Camps et al. 2021 <a href="https://ui.adsabs.harvard.edu/abs/2021ApJ...916...39C">[ADS]</a>
+        </TD>
+<TR><TH>Ski file</TH>
+        <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/dijkstra_template.ski">dijkstra_template.ski</a>
+        </TD>
+</TABLE>
+
+\section DijkstraResults SKIRT results
+
+The figure below is copied from Camps et al. 2021. It shows the spectrum emerging from the sphere as a function of the
+dimensionless frequency \f$x\f$ defined as
+
+\f[  x = \frac{\nu - \nu_\alpha}{\nu_\alpha} \,\frac{c}{v_\mathrm{th}} \qquad \mathrm{with} \qquad
+     v_\mathrm{th} = \sqrt{\frac{2 k_\mathrm{B} T}{m_\mathrm{p}}},  \f]
+
+where \f$\nu\f$ is the regular frequency, \f$\nu_\alpha\f$ is the frequency at the Lyman-alpha line center, and
+\f$v_\mathrm{th}\f$ is the thermal velocity of the neutral hydrogen gas corresponding to its temperature \f$T\f$.
+
+The figure compares the SKIRT output (solid lines) with the analytical approximation (dotted lines) for a gas
+temperature of 10 K and the three optical depth values shown by Dijkstra et al. 2006. It includes a fourth combination
+with a higher gas temperature to verify that SKIRT handles other temperature values as well. It is apparent from the
+figure that the numerical and analytical solutions indeed converge for higher optical depths at constant gas
+temperature. Also, the discrepancies between the numerical and analytical solutions are essentially identical to those
+shown by Dijkstra et al. 2006.
+
+|                     |
+|---------------------|
+| ![ ](Dijkstra.png)  |
+
+\section DijkstraPerform Performing this benchmark
+
+To perform this benchmark, download the ski file provided above (\ref DijkstraRefs). Open the ski file in a text editor
+to adjust the following parameter values to a particular benchmark configuration:
+
+| Parameter        | XML element                          | XML attribute           |
+|------------------|--------------------------------------|-------------------------|
+| Gas temperature  | \c LyaNeutralHydrogenGasMix          | \em defaultTemperature  |
+| Optical depth    | \c OpticalDepthMaterialNormalization | \em opticalDepth        |
+| Wavelength range | \c LinWavelengthGrid | \em minWavelength and \em maxWavelength |
+
+The benchmark specifies radial optical depth values at the Lyman-alpha line center (integrated from the origin to
+infinity) while the values in the ski file normalize the line-center optical depth along the complete X-axis
+(integrated from negative to positive infinity). The value in the ski file therefore must be set to twice the value
+specified for the corresponding benchmark.
+
+The wavelength range for the instrument recording the output spectrum must be adjusted to the expected spectral
+dispersion for the specified temperature/optical depth combination. The appropriate values for the four combinations
+shown in the figure above are:
+
+| Gas temperature (K) | Radial optical depth | Minimum wavelength (micron) | Maximum wavelength (micron) |
+|---------------------|----------------------|-----------------------------|-----------------------------|
+| 10    | 1e5 | 0.121562881 | 0.121571119 |
+| 10    | 1e6 | 0.121558762 | 0.121575238 |
+| 10    | 1e7 | 0.121550524 | 0.121583476 |
+| 10000 | 1e7 | 0.1213846437 | 0.1217493563 |
+
+Then pass the (name of) the ski file to SKIRT as a single command line argument. Higher optical depths and lower
+temperatures lead to longer simulation run times. At the end of the simulation run, SKIRT outputs a spectrum that can
+be compared to the analytical approximation.
+
+*/

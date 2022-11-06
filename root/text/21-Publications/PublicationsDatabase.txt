@@ -1,0 +1,1247 @@
+# Title (full title)
+# Authors ("First et al." or "First and Second"; last names only)
+# Journal (abbreviation)
+# Month Year (decimal numbers seperated by space)
+# Category (Technical or Application)
+# PDF (filename body without directory nor filename extension)
+# ADS (bibcode reference without the other portions of the URL)
+
+Monte Carlo radiative transfer with explicit absorption to simulate absorption, scattering, and stimulated emission
+Baes et al.
+A&A
+10 2022
+Technical
+Baes2022b
+2022A&A...666A.101B
+
+CRIRES high-resolution near-infrared spectroscopy of diffuse interstellar band profiles. Detection of 12 new DIBs in the YJ band and the introduction of a combined ISM sight line and stellar analysis approach
+Ebenbichler et al.
+A&A
+06 2022
+Application
+Ebenbichler2022
+2022A&A...662A..81E
+
+The observability of galaxy merger signatures in nearby gas-rich spirals
+McElroy et al.
+MNRAS
+09 2022
+Application
+McElroy2022
+2022MNRAS.515.3406M
+
+A machine learning approach to infer the accreted stellar mass fractions of central galaxies in the TNG100 simulation
+Shi et al.
+MNRAS
+09 2022
+Application
+Shi2022
+2022MNRAS.515.3938S
+
+Redshift and stellar mass dependence of intrinsic shapes of disc-dominated galaxies from COSMOS observations below z = 1.0
+Hoffmann et al.
+MNRAS
+09 2022
+Application
+Hoffmann2022
+2022MNRAS.515.3603H
+
+A Simulation-driven Deep Learning Approach for Separating Mergers and Star-forming Galaxies: The Formation Histories of Clumpy Galaxies in All of the CANDELS Fields
+Ferreira et al.
+ApJ
+05 2022
+Application
+Ferreira2022
+2022ApJ...931...34F
+
+The NewHorizon simulation - to bar or not to bar
+Reddish et al.
+MNRAS
+05 2022
+Application
+Reddish2022
+2022MNRAS.512..160R
+
+The THESAN project: properties of the intergalactic medium and its connection to reionization-era galaxies
+Garaldi et al.
+MNRAS
+06 2022
+Application
+Garaldi2022
+2022MNRAS.512.4909G
+
+The THESAN project: predictions for multitracer line intensity mapping in the epoch of reionization
+Kannan et al.
+MNRAS
+08 2022
+Application
+Kannan2022b
+2022MNRAS.514.3857K
+
+Introducing the THESAN project: radiation-magnetohydrodynamic simulations of the epoch of reionization
+Kannan et al.
+MNRAS
+04 2022
+Application
+Kannan2022a
+2022MNRAS.511.4005K
+
+UV to submillimetre luminosity functions of TNG50 galaxies
+Trčka et al.
+MNRAS
+11 2022
+Application
+Trcka2022
+2022MNRAS.516.3728T
+
+iMaNGA: mock MaNGA galaxies based on IllustrisTNG and MaStar SSPs - I. Construction and analysis of the mock data cubes
+Nanni et al.
+MNRAS
+09 2022
+Application
+Nanni2022
+2022MNRAS.515..320N
+
+A panchromatic view of star cluster formation in a simulated dwarf galaxy starburst
+Lahén et al.
+MNRAS
+08 2022
+Application
+Lahen2022
+2022MNRAS.514.4560L
+
+A survey of high-z galaxies: SERRA simulations
+Pallottini et al.
+MNRAS
+07 2022
+Application
+Pallottini2022
+2022MNRAS.513.5621P
+
+Galactic angular momentum in the IllustrisTNG simulation - I. Connection to morphology, halo spin, and black hole mass
+Rodriguez-Gomez et al.
+MNRAS
+06 2022
+Application
+RodriguezGomez2022
+2022MNRAS.512.5978R
+
+Starduster: A Multiwavelength SED Model Based on Radiative Transfer Simulations and Deep Learning
+Qiu et al.
+ApJ
+05 2022
+Application
+Qiu2022
+2022ApJ...930...66Q
+
+The dust-continuum size of TNG50 galaxies at redshift 1 to 5: a comparison with the distribution of stellar light, stars, dust and H2
+Popping et al.
+MNRAS
+03 2022
+Application
+Popping2022
+2022MNRAS.510.3321P
+
+Observed structural parameters of EAGLE galaxies: reconciling the mass-size relation in simulations with local observations
+de Graaff et al.
+MNRAS
+04 2022
+Application
+DeGraaff2022
+2022MNRAS.511.2544D
+
+Relic galaxy analogues in TNG50 simulation: the formation pathways of surviving red nuggets in a cosmological simulation
+Flores-Freitas et al.
+MNRAS
+05 2022
+Application
+FloresFreitas2022
+2022MNRAS.512..245F
+
+High-redshift predictions from IllustrisTNG - III. Infrared luminosity functions, obscured star formation, and dust temperature of high-redshift galaxies
+Shen et al.
+MNRAS
+03 2022
+Application
+Shen2022
+2022MNRAS.510.5560S
+
+The Complex Infrared Dust Continuum Emission of NGC 1068: Ground-based N- and Q-band Spectroscopy and New Radiative Transfer Models
+Victoria-Ceballos et al.
+ApJ
+02 2022
+Application
+VictoriaCeballos2022
+2022ApJ...926..192V
+
+High-resolution synthetic UV-submm images for Milky Way-mass simulated galaxies from the ARTEMIS project
+Camps et al.
+MNRAS
+05 2022
+Application
+Camps2022
+2022MNRAS.512.2728C
+
+First Light And Reionisation Epoch Simulations (FLARES) - III. The properties of massive dusty galaxies at cosmic dawn
+Vijayan et al.
+MNRAS
+04 2022
+Application
+Vijayan2022
+2022MNRAS.511.4999V
+
+A new analytical scattering phase function for interstellar dust
+Baes et al.
+A&A
+03 2022
+Technical
+Baes2022
+2022A&A...659A.149B
+
+The dust attenuation law in z ∼ 6 quasars
+Di Mascia et al.
+MNRAS
+09 2021
+Application
+DiMascia2021b
+2021MNRAS.506.3946D
+
+Linear spectropolarimetric analysis of fairall 9 with VLT/FORS2
+Jiang et al.
+MNRAS
+11 2021
+Application
+Jiang2021
+2021MNRAS.508...79J
+
+On the dust temperatures of high-redshift galaxies
+Liang et al.
+MNRAS
+10 2019
+Application
+Liang2019
+2019MNRAS.489.1397L
+
+Galaxy Evolution in All Five CANDELS Fields and IllustrisTNG: Morphological, Structural, and the Major Merger Evolution to z 3
+Whitney et al.
+ApJ
+10 2021
+Application
+Whitney2021
+2021ApJ...919..139W
+
+The two formation pathways of S0 galaxies
+Deeley et al.
+MNRAS
+11 2021
+Application
+Deeley2021
+2021MNRAS.508..895D
+
+SÍGAME v3: Gas Fragmentation in Postprocessing of Cosmological Simulations for More Accurate Infrared Line Emission Modeling
+Olsen et al.
+ApJ
+11 2021
+Application
+Olsen2021
+2021ApJ...922...88O
+
+The structure of the Milky Way based on unWISE 3.4 μm integrated photometry
+Mosenkov et al.
+MNRAS
+11 2021
+Application
+Mosenkov2021
+2021MNRAS.507.5246M
+
+Geometry effects on dust attenuation curves with different grain sources at high redshift
+Lin et al.
+MNRAS
+10 2021
+Application
+Lin2021
+2021MNRAS.507.2755L
+
+Polarised emission from aligned dust grains in nearby galaxies: Predictions from the Auriga simulations
+Vandenbroucke et al.
+A&A
+09 2021
+Application
+Vandenbroucke2021
+2021A&A...653A..34V
+
+High-resolution synthetic UV-submm images for simulated Milky Way-type galaxies from the Auriga project
+Kapoor et al.
+MNRAS
+10 2021
+Application
+Kapoor2021
+2021MNRAS.506.5703K
+
+Effects of Spatial Discretization in Lyα Line Radiation Transfer Simulations
+Camps et al.
+ApJ
+07 2021
+Technical
+Camps2021
+2021ApJ...916...39C
+
+Dust evolution in zoom-in cosmological simulations of galaxy formation
+Granato et al.
+MNRAS
+05 2021
+Application
+Granato2021
+2021MNRAS.503..511G
+
+How Does the Polar Dust Affect the Correlation between Dust Covering Factor and Eddington Ratio in Type 1 Quasars Selected from the Sloan Digital Sky Survey Data Release 16?
+Toba et al.
+ApJ
+05 2021
+Application
+Toba2021
+2021ApJ...912...91T
+
+Infrared emission of z ∼ 6 galaxies: AGN imprints
+Di Mascia et al.
+MNRAS
+05 2021
+Application
+DiMascia2021
+2021MNRAS.503.2349D
+
+The physical properties of local (U)LIRGs: A comparison with nearby early- and late-type galaxies
+Paspaliaris et al.
+A&A
+05 2021
+Application
+Paspaliaris2021
+2021A&A...649A.137P
+
+Asymmetry Revisited: The Effect of Dust Attenuation and Galaxy Inclination
+Yuan et al.
+ApJ
+04 2021
+Application
+Yuan2021
+2021ApJ...911..145Y
+
+The IRX-β relation of high-redshift galaxies
+Liang et al.
+MNRAS
+04 2021
+Application
+Liang2021
+2021MNRAS.502.3210L
+
+A deep learning approach to test the small-scale galaxy morphology and its relationship with star formation activity in hydrodynamical simulations
+Zanisi et al.
+MNRAS
+03 2021
+Application
+Zanisi2021
+2021MNRAS.501.4359Z
+
+Realistic mock observations of the sizes and stellar mass surface densities of massive galaxies in FIRE-2 zoom-in simulations
+Parsotan et al.
+MNRAS
+02 2021
+Application
+Parsotan2021
+2021MNRAS.501.1591P
+
+Early galaxy growth: mergers or gravitational instability?
+Zanella et al.
+MNRAS
+01 2021
+Application
+Zanella2021
+2021MNRAS.500..118Z
+
+High-resolution, 3D radiative transfer modelling. V. A detailed model of the M 51 interacting pair
+Nersesian et al.
+A&A
+11 2020
+Application
+Nersesian2020b
+2020A&A...643A..90N
+
+A redshift-dependent IRX-β dust attenuation relation for TNG50 galaxies
+Schulz et. al
+MNRAS
+10 2020
+Application
+Schulz2020
+2020MNRAS.497.4773S
+
+High-redshift JWST predictions from IllustrisTNG: II. Galaxy line and continuum spectral indices and dust attenuation curves
+Shen et al.
+MNRAS
+07 2020
+Application
+Shen2020
+2020MNRAS.495.4747S
+
+An ALMA survey of the SCUBA-2 CLS UDS field: physical properties of 707 sub-millimetre galaxies
+Dudzevičiūtė et al.
+MNRAS
+05 2020
+Application
+Dudzeviciute2020
+2020MNRAS.494.3828D
+
+Cosmological simulations of the same spiral galaxy: the impact of baryonic physics
+Nuñez-Castiñeyra et al.
+MNRAS
+01 2021
+Application
+NunezCastineyra2021
+2021MNRAS.501...62N
+
+Ultrafaint Dwarfs in a Milky Way Context: Introducing the Mint Condition DC Justice League Simulations
+Applebaum et al.
+ApJ
+01 2021
+Application
+Applebaum2021
+2021ApJ...906...96A
+
+High-resolution, 3D radiative transfer modelling. IV. AGN-powered dust heating in NGC 1068
+Viaene et al.
+A&A
+06 2020
+Application
+Viaene2020
+2020A&A...638A.150V
+
+High-resolution, 3D radiative transfer modelling. III. The DustPedia barred galaxies
+Nersesian et al.
+A&A
+05 2020
+Application
+Nersesian2020
+2020A&A...637A..25N
+
+Galaxy formation with BECDM - II. Cosmic filaments and first galaxies
+Mocz et al.
+MNRAS
+04 2020
+Application
+Mocz2020
+2020MNRAS.494.2027M
+
+Rapid early coeval star formation and assembly of the most-massive galaxies in the Universe
+Rennehan at al.
+MNRAS
+04 2020
+Application
+Rennehan2020
+2020MNRAS.493.4607R
+
+Massive low-surface-brightness galaxies in the EAGLE simulation
+Kulier et al.
+MNRAS
+06 2020
+Application
+Kulier2020
+2020MNRAS.496.3996K
+
+High-resolution, 3D radiative transfer modelling. II. The early-type spiral galaxy M 81
+Verstocken et al.
+A&A
+05 2020
+Application
+Verstocken2020
+2020A&A...637A..24V
+
+CosTuuM: Polarized Thermal Dust Emission by Magnetically Oriented Spheroidal Grains
+Vandenbroucke et al.
+AJ
+07 2020
+Technical
+Vandenbroucke2020
+2020AJ....160...55V
+
+Reproducing the Universe: a comparison between the EAGLE simulations and the nearby DustPedia galaxy sample
+Trčka et al.
+MNRAS
+05 2020
+Application
+Trcka2020
+2020MNRAS.494.2823T
+
+SKIRT 9: Redesigning an advanced dust radiative transfer code to allow kinematics, line transfer and polarization by aligned dust grains
+Camps and Baes
+A&C
+04 2020
+Technical
+Camps2020
+2020A&C....3100381C
+
+Infrared luminosity functions and dust mass functions in the EAGLE simulation
+Baes et al.
+MNRAS
+05 2020
+Application
+Baes2020
+2020MNRAS.494.2912B
+
+Predictions for the spatial distribution of the dust continuum emission in 1 < z < 5 star-forming galaxies
+Cochrane et al.
+MNRAS
+09 2019
+Application
+Cochrane2019
+2019MNRAS.488.1779C
+
+Balmer breaks in simulated galaxies at z > 6
+Binggeli et al.
+MNRAS
+11 2019
+Application
+Binggeli2019
+2019MNRAS.489.3827B
+
+Deep learning predictions of galaxy merger stage and the importance of observational realism
+Bottrell et al.
+MNRAS
+12 2019
+Application
+Bottrell2019
+2019MNRAS.490.5390B
+
+Fade to grey: systematic variation of galaxy attenuation curves with galaxy properties in the EAGLE simulations
+Trayford et al.
+MNRAS
+01 2020
+Application
+Trayford2020
+2020MNRAS.491.3937T
+
+Non-parametric morphologies of galaxies in the EAGLE simulation
+Bignone et al.
+MNRAS
+01 2020
+Application
+Bignone2020
+2020MNRAS.491.3624B
+
+X-CIGALE: Fitting AGN/galaxy SEDs from X-ray to infrared
+Yang et al.
+MNRAS
+01 2020
+Application
+Yang2020
+2020MNRAS.491..740Y
+
+Galaxy sizes and the galaxy-halo connection - I. The remarkable tightness of the size distributions
+Zanisi et al.
+MNRAS
+02 2020
+Application
+Zanisi2020
+2020MNRAS.492.1671Z
+
+High-redshift JWST predictions from IllustrisTNG: dust modelling and galaxy luminosity functions
+Vogelsberger et al.
+MNRAS
+03 2020
+Application
+Vogelsberger2020
+2020MNRAS.492.5167V
+
+Feedback from supermassive black holes transforms centrals into passive galaxies by ejecting circumgalactic gas
+Oppenheimer et al.
+MNRAS
+01 2020
+Application
+Oppenheimer2020
+2020MNRAS.491.2939O
+
+The high-redshift SFR-M* relation is sensitive to the employed star formation rate and stellar mass indicators: towards addressing the tension between observations and simulations
+Katsianis et al.
+MNRAS
+03 2020
+Application
+Katsianis2020
+2020MNRAS.492.5592K
+
+Optical depth in polarised Monte Carlo radiative transfer
+Baes et al.
+A&A
+10 2019
+Technical
+Baes2019b
+2019A&A...630A..61B
+
+The nature of submillimetre and highly star-forming galaxies in the EAGLE simulation
+McAlpine et al.
+MNRAS
+09 2019
+Application
+McAlpine2019
+2019MNRAS.488.2440M
+
+An Evolving and Mass-dependent σsSFR─M⋆ Relation for Galaxies
+Katsianis et al.
+ApJ
+07 2019
+Application
+Katsianis2019
+2019ApJ...879...11K
+
+High-resolution radiative transfer modelling of M33
+Williams et al.
+MNRAS
+08 2019
+Application
+Williams2019
+2019MNRAS.487.2753W
+
+Linking gas and galaxies at high redshift: MUSE surveys the environments of six damped Lyα systems at z ≈ 3
+Mackenzie et al.
+MNRAS
+06 2019
+Application
+Mackenzie2019
+2019MNRAS.487.5070M
+
+Dust attenuation, dust emission, and dust temperature in galaxies at z ≥ 5: a view from the FIRE-2 simulations
+Ma et al.
+MNRAS
+08 2019
+Application
+Ma2019
+2019MNRAS.487.1844M
+
+Host galaxies of merging compact objects: mass, star formation rate, metallicity, and colours
+Artale et al.
+MNRAS
+08 2019
+Application
+Artale2019
+2019MNRAS.487.1675A
+
+Multi-wavelength de-blended Herschel view of the statistical properties of dusty star-forming galaxies across cosmic time
+Wang et al.
+A&A
+04 2019
+Application
+Wang2019
+2019A&A...624A..98W
+
+Dissecting the active galactic nucleus in Circinus - II. A thin dusty disc and a polar outflow on parsec scales
+Stalevski et al.
+MNRAS
+04 2019
+Application
+Stalevski2019
+2019MNRAS.484.3334S
+
+Ly α emission from galaxies in the Epoch of Reionization
+Behrens et al.
+MNRAS
+06 2019
+Application
+Behrens2019
+2019MNRAS.486.2197B
+
+The diverse evolutionary pathways of post-starburst galaxies
+Pawlik et al.
+Nature Astronomy
+03 2019
+Application
+Pawlik2019
+2019NatAs...3..440P
+
+The optical morphologies of galaxies in the IllustrisTNG simulation: a comparison to Pan-STARRS observations
+Rodriguez-Gomez et al.
+MNRAS
+03 2019
+Application
+Rodriguez2019
+2019MNRAS.483.4140R
+
+The Fornax 3D project: dust mix and gas properties in the centre of early-type galaxy FCC 167
+Viaene et al.
+A&A
+02 2019
+Application
+Viaene2019
+2019A&A...622A..89V
+
+Ring galaxies in the EAGLE hydrodynamical simulations
+Elagali et al.
+MNRAS
+12 2018
+Application
+Elagali2018
+2018MNRAS.481.2951E
+
+Far-reaching dust distribution in galaxy discs
+Smith et al.
+MNRAS
+10 2016
+Application
+Smith2016
+2016MNRAS.462..331S
+
+The cosmic spectral energy distribution in the EAGLE simulation
+Baes et al.
+MNRAS
+04 2019
+Application
+Baes2019
+2019MNRAS.484.4069B
+
+The nature of the UV halo around the spiral galaxy NGC 3628
+Baes and Viaene
+A&A
+03 2016
+Application
+Baes2016b
+2016A&A...587A..86B
+
+NGC 4370: a case study for testing our ability to infer dust distribution and mass in nearby galaxies
+Viaene et al.
+A&A
+07 2015
+Application
+Viaene2015
+2015A&A...579A.103V
+
+Dusty galaxies in the Epoch of Reionization: simulations
+Behrens et al.
+MNRAS
+06 2018
+Application
+Behrens2018
+2018MNRAS.477..552B
+
+Submillimetre flux as a probe of molecular ISM mass in high-z galaxies
+Liang et al.
+MNRAS
+07 2018
+Application
+Liang2018
+2018MNRAS.478L..83L
+
+The fate of the Antennae galaxies
+Lahén et al.
+MNRAS
+04 2018
+Application
+Lahen2018
+2018MNRAS.475.3934L
+
+Calibrated, cosmological hydrodynamical simulations with variable IMFs I: Method and effect on global galaxy scaling relations
+Barber et al.
+MNRAS
+10 2018
+Application
+Barber2018
+2018MNRAS.479.5448B
+
+Dust evolution in galaxy cluster simulations
+Gjergo et al.
+MNRAS
+09 2018
+Application
+Gjergo2018
+2018MNRAS.479.2588G
+
+Tidal dwarf galaxies in cosmological simulations
+Ploeckinger et al.
+MNRAS
+02 2018
+Application
+Ploeckinger2018
+2018MNRAS.474..580P
+
+The relation between galaxy morphology and colour in the EAGLE simulation
+Correa et al.
+MNRAS
+11 2017
+Application
+Correa2017
+2017MNRAS.472L..45C
+
+Dissecting the active galactic nucleus in Circinus - I. Peculiar mid-IR morphology explained by a dusty hollow cone
+Stalevski et al.
+MNRAS
+12 2017
+Application
+Stalevski2017
+2017MNRAS.472.3854S
+
+Shock-cloud interaction and gas-dust spatial separation
+Monceau-Baroux & Keppens
+A&A
+04 2017
+Application
+MonceauBaroux2017
+2017A&A...600A.134M
+
+Size evolution of normal and compact galaxies in the EAGLE simulation
+Furlong et al.
+MNRAS
+02 2017
+Application
+Furlong2017
+2017MNRAS.465..722F
+
+Angular momentum evolution of galaxies in EAGLE
+Lagos et al.
+MNRAS
+02 2017
+Application
+Lagos2017
+2017MNRAS.464.3850L
+
+The shape of dark matter haloes - IV. The structure of stellar discs in edge-on galaxies
+Peters et al.
+MNRAS
+01 2017
+Application
+Peters2017
+2017MNRAS.464...48P
+
+Dust effects on LGRB host galaxies in cosmological simulations
+Bignone et al.
+BAAA
+08 2016
+Application
+Bignone2016
+2016BAAA...58...30B
+
+The link between the assembly of the inner dark matter halo and the angular momentum evolution of galaxies in the EAGLE simulation
+Zavala et al.
+MNRAS
+08 2016
+Application
+Zavala2016
+2016MNRAS.460.4466Z
+
+It is not easy being green: the evolution of galaxy colour in the EAGLE simulation
+Trayford et al.
+MNRAS
+08 2016
+Application
+Trayford2016
+2016MNRAS.460.3925T
+
+Bimodality of low-redshift circumgalactic O VI in non-equilibrium EAGLE zoom simulations
+Oppenheimer et al.
+MNRAS
+08 2016
+Application
+Oppenheimer2016
+2016MNRAS.460.2157O
+
+The Fundamental Plane of star formation in galaxies revealed by the EAGLE hydrodynamical simulations
+Lagos et al.
+MNRAS
+07 2016
+Application
+Lagos2016
+2016MNRAS.459.2632D
+
+Simulated Milky Way analogues: implications for dark matter indirect searches
+Calore et al.
+JCAP
+12 2015
+Application
+Calore2015
+2015JCAP...12..053C
+
+Molecular hydrogen abundances of galaxies in the EAGLE simulations
+Lagos et al.
+MNRAS
+10 2015
+Application
+Lagos2015
+2015MNRAS.452.3815L
+
+Modelling dust rings in early-type galaxies through a sequence of radiative transfer simulations and 2D image fitting
+Bonfini et al.
+MNRAS
+07 2018
+Application
+Bonfini2018
+2018MNRAS.478.1161B
+
+HERschel Observations of Edge-on Spirals (HEROES). IV. Dust energy balance problem
+Mosenkov et al.
+A&A
+08 2018
+Application
+Mosenkov2018
+2018A&A...616A.120M
+
+Data Release of UV to Submillimeter Broadband Fluxes for Simulated Galaxies from the EAGLE Project
+Camps et al.
+ApJS
+02 2018
+Application
+Camps2018
+2018ApJS..234...20C
+
+Radiative transfer in disc galaxies - V. The accuracy of the KB approximation
+Lee et al.
+MNRAS
+12 2016
+Technical
+Lee2016
+2016MNRAS.463.2912L
+
+TRUST I. A 3D externally illuminated slab benchmark for dust radiative transfer
+Gordon et al.
+A&A
+07 2017
+Technical
+Gordon2017
+2017A%26A...603A.114G
+
+SKIRT: Hybrid parallelization of radiative transfer simulations
+Verstocken et al.
+A&C
+07 2017
+Technical
+Verstocken2017
+2017A%26C....20...16V
+
+Polarization in Monte Carlo radiative transfer and dust scattering polarization signatures of spiral galaxies
+Peest et al.
+A&A
+05 2017
+Technical
+Peest2017
+2017A%26A...601A..92P
+
+Composite biasing in Monte Carlo radiative transfer
+Baes et al.
+A&A
+05 2016
+Technical
+Baes2016
+2016A%26A...590A..55B
+
+SKIRT: The design of a suite of input models for Monte Carlo radiative transfer simulations
+Baes and Camps
+A&C
+09 2015
+Technical
+Baes2015
+2015A%26C....12...33B
+
+Benchmarking the calculation of stochastic heating and emissivity of dust grains in the context of radiative transfer simulations
+Camps et al.
+A&A
+08 2015
+Technical
+Camps2015b
+2015A%26A...580A..87C
+
+SKIRT: an advanced dust radiative transfer code with a user-friendly architecture
+Camps and Baes
+A&C
+03 2015
+Technical
+Camps2015a
+2015A%26C.....9...20C
+
+Hierarchical octree and k-d tree grids for 3D radiative transfer simulations
+Saftly et al.
+A&A
+01 2014
+Technical
+Saftly2014
+2014A%26A...561A..77S
+
+Using 3D Voronoi grids in radiative transfer simulations
+Camps et al.
+A&A
+12 2013
+Technical
+Camps2013
+2013A%26A...560A..35C
+
+Three-dimensional dust radiative transfer
+Steinacker et al.
+ARA&A
+08 2013
+Technical
+Steinacker2013
+2013ARA%26A..51...63S
+
+Using hierarchical octrees in Monte Carlo radiative transfer simulations
+Saftly et al.
+A&A
+06 2013
+Technical
+Saftly2013
+2013A%26A...554A..10S
+
+FitSKIRT: genetic algorithms to automatically fit dusty galaxies with a Monte Carlo radiative transfer code
+De Geyter et al.
+A&A
+02 2013
+Technical
+DeGeyter2013
+2013A%26A...550A..74D
+
+Efficient three-dimensional NLTE dust radiative transfer with SKIRT
+Baes et al.
+ApJS
+10 2011
+Technical
+Baes2011
+2011ApJS..196...22B
+
+Smart detectors for Monte Carlo radiative transfer
+Baes
+MNRAS
+12 2008
+Technical
+Baes2008
+2008MNRAS.391..617B
+
+Radiative equilibrium in Monte Carlo radiative transfer using frequency distribution adjustment
+Baes et al.
+NewA
+06 2005
+Technical
+Baes2005
+2005NewA...10..523B
+
+Radiative transfer in disc galaxies – III. The observed kinematics of dusty disc galaxies
+Baes et al.
+MNRAS
+08 2003
+Technical
+Baes2003
+2003MNRAS.343.1081B
+
+Optical colours and spectral indices of z = 0.1 EAGLE galaxies with the 3D dust radiative transfer code SKIRT
+Trayford et al.
+MNRAS
+09 2017
+Application
+Trayford2017
+2017MNRAS.470..771T
+
+The Herschel Exploitation of Local Galaxy Andromeda (HELGA). VII. A SKIRT radiative transfer model and insights on dust heating
+Viaene et al.
+A&A
+03 2017
+Application
+Viaene2017
+2017A%26A...599A..64V
+
+Far-infrared and dust properties of present-day galaxies in the EAGLE simulations
+Camps et al.
+MNRAS
+10 2016
+Application
+Camps2016
+2016MNRAS.462.1057C
+
+HERschel Observations of Edge-on Spirals (HEROES). III. Dust energy balance study of IC 2531
+Mosenkov et al.
+A&A
+07 2016
+Application
+Mosenkov2016
+2016A%26A...592A..71M
+
+The dust covering factor in active galactic nuclei
+Stalevski et al.
+MNRAS
+05 2016
+Application
+Stalevski2016
+2016MNRAS.458.2288S
+
+Pinwheels in the sky, with dust: 3D modeling of the Wolf-Rayet 98a environment
+Hendrix et al.
+MNRAS
+08 2016
+Application
+Hendrix2016
+2016MNRAS.460.3975H
+
+The EAGLE simulations of galaxy formation: Public release of halo and galaxy catalogues
+McAlpine et al.
+A&A
+04 2016
+Application
+McAlpine2016
+2016A%26C....15...72M
+
+Dust energy balance study of two edge-on spiral galaxies in the Herschel-ATLAS survey
+De Geyter et al.
+MNRAS
+08 2015
+Application
+DeGeyter2015
+2015MNRAS.451.1728D
+
+Non-conservative evolution in Algols: where is the matter?
+Deschamps et al.
+A&A
+05 2015
+Application
+Deschamps2015
+2015A%26A...577A..55D
+
+Large and small-scale structures and the dust energy balance problem in spiral galaxies
+Saftly et al.
+A&A
+04 2015
+Application
+Saftly2015
+2015A%26A...576A..31S
+
+Modelling ripples in Orion with coupled dust dynamics and radiative transfer
+Hendrix et al.
+A&A
+03 2015
+Application
+Hendrix2015
+2015A%26A...575A.110H
+
+The EAGLE project: simulating the evolution and assembly of galaxies and their environments
+Schaye et al.
+MNRAS
+01 2015
+Application
+Schaye2015
+2015MNRAS.446..521S
+
+High-resolution, 3D radiative transfer modeling: I. The grand-design spiral galaxy M51
+De Looze et al.
+A&A
+11 2014
+Application
+DeLooze2014
+2014A%26A...571A..69D
+
+The distribution of interstellar dust in CALIFA edge-on galaxies via oligochromatic radiative transfer fitting
+De Geyter et al.
+MNRAS
+06 2014
+Application
+DeGeyter2014
+2014MNRAS.441..869D
+
+The dust energy balance in the edge-on spiral galaxy NGC4565
+De Looze et al.
+MNRAS
+12 2012
+Application
+DeLooze2012b
+2012MNRAS.427.2797D
+
+Gravitational microlensing of active galactic nuclei dusty tori
+Stalevski et al.
+MNRAS
+09 2012
+Application
+Stalevski2012b
+2012MNRAS.425.1576S
+
+3D radiative transfer modeling of the dusty tori round active galactic nuclei as a clumpy two-phase medium
+Stalevski et al.
+MNRAS
+03 2012
+Application
+Stalevski2012a
+2012MNRAS.420.2756S
+
+Photocentric variability of quasars caused by variations in their inner structure: consequences for Gaia measurements
+Popović et al.
+A&A
+02 2012
+Application
+Popovic2012
+2012A%26A...538A.107P
+
+Panchromatic radiative transfer modeling of stars and dust in the Sombrero galaxy
+De Looze et al.
+MNRAS
+01 2012
+Application
+DeLooze2012a
+2012MNRAS.419..895D
+
+SKIRTOR - database of modelled AGN dusty torus SEDs
+Stalevski
+BlgAJ
+09 2012
+Application
+Stalevski2012c
+2012BlgAJ..18c...3S
+
+AGN dusty tori as a clumpy two-phase medium: the 10 µm silicate feature
+Stalevski et al.
+BaltA
+08 2011
+Application
+Stalevski2011
+2011BaltA..20..490S
+
+The Herschel Virgo Cluster Survey: VII. Dust in cluster dwarf elliptical galaxies
+De Looze et al.
+A&A
+07 2010
+Application
+DeLooze2010
+2010A%26A...518L..54D
+
+The Herschel Virgo Cluster Survey: VI. The far-infrared view of M87
+Baes et al.
+A&A
+07 2010
+Application
+Baes2010b
+2010A%26A...518L..53B
+
+The dust morphology of the elliptical galaxy M86 with SPIRE
+Gomez et al.
+A&A
+07 2010
+Application
+Gomez2010
+2010A%26A...518L..45G
+
+The Herschel-ATLAS: The dust energy balance in the edge-on spiral galaxy UGC 4754
+Baes et al.
+A&A
+07 2010
+Application
+Baes2010a
+2010A%26A...518L..39B
+
+Radiative transfer in disc galaxies – IV. The effect of dust attenuation on structural bulge and disc parameters
+Gadotti et al.
+MNRAS
+04 2010
+Application
+Gadotti2010
+2010MNRAS.403.2053G
+
+3D dust radiative transfer simulations in the inhomogeneous circumstellar medium
+Vidal and Baes
+BaltA
+00 2007
+Application
+Vidal2007
+2007BaltA..16..101V
+
+Efficient dust radiative transfer in a circumstellar disk environment
+Baes et al.
+BaltA
+00 2007
+Application
+Baes2007
+2007BaltA..16...92B

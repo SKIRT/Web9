@@ -1,0 +1,384 @@
+/**
+
+\page UserMaterialMixes Material mixes (dust, electrons, gas)
+
+This page offers an overview of material mix classes and their important properties. The discussion is organized as
+follows:
+
+- \ref UserMaterialMixesIntro
+- \ref UserMaterialMixesClasses
+- \ref UserMaterialSingleGrainDust
+- \ref UserMaterialMultiGrainDust
+- \ref UserMaterialElectrons
+- \ref UserMaterialGas
+
+
+\section UserMaterialMixesIntro Introduction
+
+The transfer medium in a SKIRT simulation is represented by one or more medium components. For each component, the
+spatial density distribution can be specified through built-in geometries (GeometricMedium) or imported from input
+files (ImportedMedium). In either case, the optical properties of the medium are defined by associating a material mix
+(a MaterialMix subclass) with the medium component. The MaterialMix class hierarchy allows fundamentally different
+material types including dust, electrons, and gas to be implemented as part of a single framework.
+
+For each spatial cell in the simulation, the medium state includes a number density value defining the amount of
+material present in the cell per unit of volume. The kind of physical entity being counted by the number density and
+the conversion from number density to mass density depend on the type of material, as indicated in the table below. The
+actual conversion factor is supplied by the material mix and obviously depends on the specific material type.
+
+Material type | Entity counted | Mass conversion
+--------------|----------------|-----------------------------
+Dust          | hydrogen atom  | dust mass per hydrogen atom
+Electrons     | electron       | electron mass
+Gas           | hydrogen atom  | gas mass per hydrogen atom
+
+Most importantly, each MaterialMix subclass offers a set of functions that help implement the photon life cycle. For
+example, the MaterialMix::opacityAbs() and MaterialMix::opacitySca() functions return the absorption and scattering
+opacity given the incoming photon packet and the medium state in the spatial cell being crossed. The
+MaterialMix::performScattering() function handles a random-walk scattering interaction including the effects of bulk
+velocity, polarization, and so forth. The peelOffScattering() function similarly calculates the contribution to a
+scattering peel-off event given the instrument reference frame.
+
+Furthermore, when applicable, a MaterialMix subclass also offers functions to help emit secondary photon packets. For
+example, the MaterialMix::emissionSpectrum() function returns the emission spectrum given the medium state in a cell
+and the radiation field in which the cell is embedded. Similarly, if the emission spectrum includes lines,
+the MaterialMix::lineEmissionSpectrum() function returns the luminosities that will be emitted at the line
+centers.
+
+The following table lists some relevant physical quantities including properties that may be stored in the medium state
+or in a photon packet, material properties defined by material mixes, and properties that can be derived from these.
+
+<TABLE>
+<TR><TH>Symbol</TH>  <TH>%Units</TH>  <TH>Description</TH></TH>
+<TR><TD>\f$\lambda\f$</TD>  <TD>\f$\text{m}\f$</TD>  <TD>Wavelength</TD></TR>
+<TR><TD>\f$\bf{r}\f$</TD>  <TD>\f$\text{m}\f$</TD>  <TD>%Position</TD></TR>
+<TR><TD>\f$\Delta s\f$</TD>  <TD>\f$\text{m}\f$</TD>  <TD>Distance along a path</TD></TR>
+<TR><TD>\f$a\f$</TD>  <TD>\f$\text{m}\f$</TD>  <TD>Dust grain size (radius)</TD></TR>
+<TR><TD>\f$V\f$</TD>  <TD>\f$\text{m}^3\f$</TD>  <TD>Volume</TD></TR>
+<TR><TD>\f$\bf{v}\f$</TD>  <TD>\f$\text{m}\,\text{s}^{-1}\f$</TD>  <TD>Bulk velocity</TD></TR>
+<TR><TD>\f$\bf{B}\f$</TD>  <TD>\f$\text{T}\f$</TD>  <TD>Magnetic field vector</TD></TR>
+<TR><TD>\f$T\f$</TD>  <TD>\f$\text{K}\f$</TD>  <TD>Temperature</TD></TR>
+<TR><TD>\f$n\f$</TD>  <TD>\f$\#\,\text{m}^{-3}\f$</TD>  <TD>Number density (of entities)</TD></TR>
+<TR><TD>\f$\mu\f$</TD>  <TD>\f$\text{kg}\,\#^{-1}\f$</TD>  <TD>Mass per entity</TD></TR>
+<TR><TD>\f$\varsigma\f$</TD>  <TD>\f$\text{m}^2\,\#^{-1}\f$</TD>  <TD>Cross section per entity</TD></TR>
+<TR><TD>\f$\mathcal{N}=n\Delta s\f$</TD> <TD>\f$\#\,\text{m}^{-2}\f$</TD>  <TD>Number column density</TD></TR>
+<TR><TD>\f$N=nV\f$</TD>  <TD>\f$\#\f$</TD>  <TD>Number (of entities)</TD></TR>
+<TR><TD>\f$\rho=n\mu\f$</TD>  <TD>\f$\text{kg}\,\text{m}^{-3}\f$</TD>  <TD>Mass density</TD></TR>
+<TR><TD>\f$\Sigma=n\mu\Delta s\f$</TD> <TD>\f$\text{kg}\,\text{m}^{-2}\f$</TD>  <TD>Mass column density</TD></TR>
+<TR><TD>\f$M=n\mu V\f$</TD>  <TD>\f$\text{kg}\f$</TD>  <TD>Mass</TD></TR>
+<TR><TD>\f$\kappa=\varsigma/\mu\f$</TD>  <TD>\f$\text{m}^2\,\text{kg}^{-1}\f$</TD>  <TD>Mass coefficient</TD></TR>
+<TR><TD>\f$k=n\varsigma\f$</TD>  <TD>\f$\text{m}^{-1}\f$</TD>  <TD>Opacity</TD></TR>
+<TR><TD>\f$\tau=n\varsigma\Delta s\f$</TD>  <TD>\f$1\f$</TD>  <TD>Optical depth</TD></TR>
+</TABLE>
+
+
+\section UserMaterialMixesClasses The MaterialMix class hierarchy
+
+The diagram below shows a selection of the MaterialMix subclasses organized into logical groups. The precise class
+inheritance tree is slightly more complicated for practical implementation reasons.
+
+\dot
+digraph materialmixhierarchy {
+    rankdir=RL;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+    edge [arrowhead=empty];
+
+    MaterialMix [label="MaterialMix" URL="\ref MaterialMix"];
+        SingleGrain [label="Single Representative\nDust Grain" color=gray shape=ellipse];
+            MeanInterstellarDustMix [label="MeanInterstellarDustMix" URL="\ref MeanInterstellarDustMix"];
+            MeanTrustBenchmarkDustMix [label="MeanTrustBenchmarkDustMix" URL="\ref MeanTrustBenchmarkDustMix"];
+            MeanFileDustMix [label="MeanFileDustMix" URL="\ref MeanFileDustMix"];
+        MultiGrain [label="Multiple Dust Grain\nPopulations" color=gray shape=ellipse];
+            ZubkoDustMix [label="ZubkoDustMix" URL="\ref ZubkoDustMix"];
+            ThemisDustMix [label="ThemisDustMix" URL="\ref ThemisDustMix"];
+            ConfigurableDustMix [label="ConfigurableDustMix" URL="\ref ConfigurableDustMix"];
+        Electrons [label="Electrons" color=gray shape=ellipse];
+            ElectronMix [label="ElectronMix" URL="\ref ElectronMix"];
+        NonEmittingGas [label="Non-emitting Gas" color=gray shape=ellipse];
+            XRayAtomicGasMix [label="XRayAtomicGasMix" URL="\ref XRayAtomicGasMix"];
+            LyaNeutralHydrogenGasMix [label="LyaNeutralHydrogenGasMix" URL="\ref LyaNeutralHydrogenGasMix"];
+        EmittingGas [label="Emitting Gas" color=gray shape=ellipse];
+            SpinFlipHydrogenGasMix [label="SpinFlipHydrogenGasMix" URL="\ref SpinFlipHydrogenGasMix"];
+            NonLTELineGasMix [label="NonLTELineGasMix" URL="\ref NonLTELineGasMix"];
+
+        SingleGrain -> MaterialMix;
+            MeanInterstellarDustMix -> SingleGrain;
+            MeanTrustBenchmarkDustMix -> SingleGrain;
+            MeanFileDustMix -> SingleGrain;
+        MultiGrain -> MaterialMix;
+            ZubkoDustMix -> MultiGrain;
+            ThemisDustMix -> MultiGrain;
+            ConfigurableDustMix -> MultiGrain;
+        Electrons -> MaterialMix;
+            ElectronMix -> Electrons;
+        NonEmittingGas -> MaterialMix;
+            XRayAtomicGasMix -> NonEmittingGas;
+            LyaNeutralHydrogenGasMix -> NonEmittingGas;
+        EmittingGas -> MaterialMix;
+            SpinFlipHydrogenGasMix -> EmittingGas;
+            NonLTELineGasMix -> EmittingGas;
+}
+\enddot
+
+The sections below discuss each of these groups.
+
+
+\section UserMaterialSingleGrainDust Single representative grain dust mixes
+
+The abstract DustMix class inherits MaterialMix and implements the common functionality for all dust grain mixtures
+supported by SKIRT. Specifically, it handles the following basic dust material properties:
+
+- the mass per entity \f$\mu\f$
+- the absorption cross section per entity \f$\varsigma^{\text{abs}}_{\lambda}\f$
+- the scattering cross section per entity \f$\varsigma^{\text{sca}}_{\lambda}\f$
+- the total extinction cross section per entity \f$\varsigma^{\text{ext}}_{\lambda}
+     = \varsigma^{\text{abs}}_{\lambda} + \varsigma^{\text{sca}}_{\lambda}\f$
+- the scattering albedo \f$\varpi_\lambda
+     = \varsigma_{\lambda}^{\text{sca}} / \varsigma_{\lambda}^{\text{ext}}\f$
+- scattering phase function properties; depending on the supported scattering mode this may be:
+  - the assymmetry parameter \f$g\f$ for the Henyey-Greenstein phase function
+  - a custom phase function \f$\Phi_\lambda(\cos\theta)\f$ that depends only on the cosine of
+    the scattering angle \f$\theta\f$
+  - a custom phase function \f$\Phi_\lambda(\theta,\phi)\f$ that depends on both scattering angles
+    \f$\theta\f$ and \f$\phi\f$, and on the polarization state of the incoming radiation
+- the equilibrium temperature \f$T_{\text{eq}}\f$ for a given embedding radiation field,
+  using average material properties and assuming local thermal equilibrium conditions
+
+The DustMix class allows its subclasses to support the following scattering modes:
+
+- \c HenyeyGreenstein: the subclass supplies the assymmetry parameter \f$g\f$ for the Henyey-Greenstein phase
+function. For a value of \f$g=0\f$, isotropic scattering is implemented directly rather than subsituting zero into the
+Henyey-Greenstein phase function.
+
+- \c MaterialPhaseFunction: the subclass implements a custom phase function that depends only on the cosine of the
+scattering angle, \f$\cos \theta\f$. This mode does not support polarized radiation.
+
+- \c SphericalPolarization: the subclass supports polarization through scattering by spherical particles. In this
+mode, the phase function depends on the polarization state of the incoming radiation, and the polarization state of the
+outgoing radiation must be updated appropriately. The phase function depends on both scattering angles \f$\theta\f$ and
+\f$\varphi\f$.
+
+The properties handled by the DustMix class correspond to the properties of a single grain population that is
+representative for the complete dust mix. In the context of tracking photon paths through a dusty medium, using
+properly calculated representive absorption and scattering cross sections and Mueller matrix coefficients is
+mathematically exact. In other words, for scattering modes \c MaterialPhaseFunction and \c SphericalPolarization, the
+representative grain approach does not involve an approximation. However, the calculation of a representative
+scattering asymmetry parameter \f$g\f$ for use with the \c HenyeyGreenstein scattering mode does involve a non-exact
+averaging procedure. Because the Henyey-Greenstein scattering phase function is non-physical to begin with, using a
+single approximate \f$g\f$ value for the complete dust mix is usually considered to be acceptable.
+
+The DustMix class in turn has three abstract subclasses, each implementing a different approach to obtaining the
+relevant dust properties:
+
+- SingleGrainDustMix implements a dust mix described by a single representative grain, with or without support for
+polarization by scattering. The optical dust properties are retrieved from stored table resources provided with
+SKIRT. For example, the MeanInterstellarDustMix class provides a basic model for interstellar dust that can be used
+in simulations that do not include thermal dust emission.
+
+- TabulatedDustMix implements a dust mix described by tabulated properties for a single representative grain using the
+Henyey-Greenstein scattering mode. The optical dust properties are read from a user-supplied input file
+(MeanFileDustMix) or can be listed directly inside the parameter file (MeanListDustMix). These classes are provided
+mostly for testing and benchmarking purposes.
+
+- MultiGrainDustMix implements a dust mix described by one or more grain populations, each with their own grain
+composition and size distribution, and with or without support for polarization by scattering. The class offers
+facilities to its subclasses to add dust grain populations to the dust mix. Based on this information it calculates the
+representative optical properties required for the common interface. See \ref UserMaterialMultiGrainDust below.
+
+
+\section UserMaterialMultiGrainDust Multiple grain population dust mixes
+
+The information offered by the single representative dust grain classes is insufficient to accurately calculate dust
+emission spectra for the dust mixture. This is so because the emission spectrum is a nonlinear function of the grain
+size (among many other things), and thus a single grain cannot accurately represent a population with a potentialy
+large range of grain sizes. Furthermore, smaller dust grains are often not in local thermal equilibrium, and instead
+are heated stochastically by individual photon absorption events. Modeling emission for these grains involves a
+temperature probability distribution rather than just an equilibrium temperature. And lastly, the calculation obviously
+needs calorimetric properties of the grain material in addition to optical properties.
+
+The MultiGrainDustMix class therefore implements additional functionality to allow calculating the emission spectrum
+for multiple grain populations with given optical and calorimetric properties and with a given size distribution.
+To enable these capabilities, the MultiGrainDustMix class obtains the following information for each of the dust grain
+populations added by the subclass: the absorption efficiencies \f$Q^{\text{abs}}(\lambda,a)\f$, the scattering
+efficiencies \f$Q^{\text{sca}}(\lambda,a)\f$, the scattering phase function asymmetry parameter \f$g(\lambda,a)\f$, the
+Mueller matrix coefficients \f$S^\text{xx}(\lambda,a,\theta)\f$, the bulk density \f$\rho_{\text{bulk}}\f$ of the grain
+material, and the properly normalized grain size distribution per hydrogen atom
+\f$\Omega(a)=(\frac{\text{d}n_\text{D}}{\text{d}a})/n_\text{H}\f$ in the range \f$[a_\text{min},a_\text{max}]\f$.
+
+The representative optical grain properties for use during the photon cycle are calculated from this information by
+integrating over the grain size distribution \f$\Omega(a)\f$ and accumulating over all grain populations. See
+MultiGrainDustMix for details.
+
+To calculate emission spectra, the class discretizes the grain size distribution for each type of grain material into a
+number of consecutive size bins, and calculates the optical and calorimetric properties of a representative grain for
+each of these bins. The number of bins for each type of grain material can be configured by the user. See
+MultiGrainDustMix for details.
+
+The MultiGrainDustMix class uses one of two methods to calculate the emissivity of the dust mix:
+
+- Assuming local thermal equilibrium for each representative grain (size bin): this method is fast but inaccurate
+because the equilibrium assumption is usually not justified. See the EquilibriumDustEmissionCalculator class for more
+information.
+
+- Calculating a temperature probability distribution for each representative grain (size bin) to take into account
+stochastically heated grains: this second method is substantially more accurate but also much slower. See the
+StochasticDustEmissionCalculator class for more information.
+
+## Turn-key dust mixes
+
+SKIRT offers a range of built-in "turn-key" dust mixes representing sets of dust properties that have been published
+by various authors, including for example:
+
+- DraineLiDustMix: represents a dust mixture of silicate, graphite, and PAH dust grains designed by Draine \& Li 2007
+such that the global dust properties accurately reproduce the extinction curve of the Milky Way.
+
+- ZubkoDustMix: represents a realistic dust mixture of bare silicate, graphite, neutral PAH and ionized PAH dust grains
+designed by Zubko, Dwek \& Arendt 2004 such that the global dust properties accurately reproduce the extinction,
+emission and abundance constraints on the Milky Way.
+
+- ThemisDustMix: represents the THEMIS model for dust in the diffuse interstellar medium described by Jones et al. 2017
+and the references therein. The model includes amorphous silicates with forsterite-normative composition and with
+enstatite-normative composition, and amorphous carbonaceous dust grains.
+
+Refer to the respective classes and to other DustMix subclasses for more information.
+
+## Configurable dust mixes
+
+The ConfigurableDustMix class represents a fully user-configurable dust mix described by one or more dust grain
+populations. Specifically, the class can be configured with a list of GrainPopulation instances, each of which
+represents a particular dust grain population with configurable grain composition, grain size distribution, and size
+bin discretization. This is illustrated in the following diagram (connections starting with a triangle denote
+inheritance; connections starting with a diamond denote aggregation).
+
+\dot
+digraph configurabledustmix {
+    rankdir=LR;
+    node [shape=rect, fontname=Helvetica, fontsize=10];
+
+    DustMix [label="DustMix" URL="\ref DustMix"];
+    MultiGrainDustMix [label="MultiGrainDustMix" URL="\ref MultiGrainDustMix"];
+    ConfigurableDustMix [label="ConfigurableDustMix" URL="\ref ConfigurableDustMix"];
+    GrainPopulation [label="GrainPopulation" URL="\ref GrainPopulation"];
+    GrainPopulation2 [label="GrainPopulation..." URL="\ref GrainPopulation"];
+    GrainComposition [label="GrainComposition" URL="\ref GrainComposition"];
+    DraineGraphiteGrainComposition [label="DraineGraphiteGrainComposition" URL="\ref DraineGraphiteGrainComposition"];
+    GrainSizeDistribution [label="GrainSizeDistribution" URL="\ref GrainSizeDistribution"];
+    PowerLawGrainSizeDistribution [label="PowerLawGrainSizeDistribution" URL="\ref PowerLawGrainSizeDistribution"];
+
+    { rank=same; DustMix; MultiGrainDustMix; ConfigurableDustMix }
+    { rank=same; GrainPopulation; GrainPopulation2 }
+    { rank=same; GrainComposition; DraineGraphiteGrainComposition;
+                 GrainSizeDistribution; PowerLawGrainSizeDistribution }
+
+    DustMix -> MultiGrainDustMix [dir=back arrowtail=empty];
+    MultiGrainDustMix -> ConfigurableDustMix [dir=back arrowtail=empty];
+    GrainComposition -> DraineGraphiteGrainComposition [dir=back arrowtail=empty];
+    GrainSizeDistribution -> PowerLawGrainSizeDistribution [dir=back arrowtail=empty];
+
+    ConfigurableDustMix -> GrainPopulation  [dir=back arrowtail=ediamond];
+    ConfigurableDustMix -> GrainPopulation2  [dir=back arrowtail=ediamond];
+    GrainPopulation -> GrainComposition  [dir=back arrowtail=ediamond];
+    GrainPopulation -> GrainSizeDistribution  [dir=back arrowtail=ediamond];
+}
+\enddot
+
+A GrainComposition object represents the optical and calorimetric properties of a particular grain material according
+to a certain model. A GrainSizeDistribution object represents a particular grain size distribution function. For each
+grain population, a ConfigurableDustMix object holds a GrainPopulation object, which in turn holds a GrainComposition
+object and a GrainSizeDistribution object, and specifies the number of size bins used for discretizing the size
+distribution.
+
+In addition, the user can define the amount of dust in each grain population by specifying one of the
+following three quantities:
+ - an absolute dust mass per hydrogen atom;
+ - a ratio of dust mass per hydrogen mass;
+ - a proportionality factor on the size distribution.
+
+For example, one could mimic an MRNDustMix with the following ski file configuration:
+
+\verbatim
+<ConfigurableDustMix scatteringType="HenyeyGreenstein">
+    <populations type="GrainPopulation">
+        <GrainPopulation numSizes="10" normalizationType="FactorOnSizeDistribution"
+                         factorOnSizeDistribution="7.762471166e-31">
+            <composition type="GrainComposition">
+                <DraineSilicateGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <PowerLawGrainSizeDistribution minSize="0.005 micron" maxSize="0.25 micron"
+                                               exponent="3.5"/>
+            </sizeDistribution>
+        </GrainPopulation>
+        <GrainPopulation numSizes="10" normalizationType="FactorOnSizeDistribution"
+                         factorOnSizeDistribution="7.413102413e-31">
+            <composition type="GrainComposition">
+                <DraineGraphiteGrainComposition/>
+            </composition>
+            <sizeDistribution type="GrainSizeDistribution">
+                <PowerLawGrainSizeDistribution minSize="0.005 micron" maxSize="0.25 micron"
+                                               exponent="3.5"/>
+            </sizeDistribution>
+        </GrainPopulation>
+    </populations>
+</ConfigurableDustMix>
+\endverbatim
+
+For more information and examples, see \ref TutorialCustomDust.
+
+
+\section UserMaterialElectrons Electrons
+
+The ElectronMix class implements Compton scattering for a population of electrons, which converges to Thomson
+scattering at low photon energies. It is meaningful to implement both processes, because the calculations for Compton
+scattering are substantially slower than those for Thomson scattering.
+
+Specifically, for wavelengths shorter than 10 nm, the class models Compton scattering, which features a
+wavelength-dependent cross section and phase function, and which causes the photon energy (wavelength) to change during
+the interaction. See the ComptonPhaseFunction class for more information. The current implementation of Compton
+scattering does not support polarization.
+
+For wavelengths longer than 10nm, the scattering process can be described by elastic and wavelength-independent Thomson
+scattering. The scattering cross section is given by the well-known Thomson cross section (a constant) and the phase
+function is that of a dipole. See the DipolePhaseFunction class for more information. In this wavelength regime,
+polarization is fully supported (if enabled by the user).
+
+It is also possible to request a random thermal motion to be added corresponding to the local kinetic temperature.
+See the ElectronMix class for more information.
+
+
+\section UserMaterialGas Gas
+
+There is no general implementation of gaseous media in SKIRT. Instead, each material mix class in this category
+implements one or more specific physical processes related to a given chemical species (atom, molecule, ion) or
+combination thereof. In this section, we merely summarize the capabilities of the classes available at the time of
+writing and refer to the individual class documentation for more information.
+
+- The XRayAtomicGasMix class describes  neutral atomic gas in the X-ray wavelength range,
+taking into account the effects of photo-absorption, fluorescence, and scattering by bound electrons. The class assumes
+a gas containing a mixture of non-ionized elements with atomic numbers from 1 (hydrogen) up to 30 (zinc). The spatial
+density distribution of the gas is established by setting the hydrogen density. The relative abundances of the 30
+elements and the temperature of the gas can be configured by the user as spatially constant properties.
+
+- The LyaNeutralHydrogenGasMix class describes Lyman-alpha resonant line transfer for a population of neutral hydrogen
+atoms, including support for polarization by scattering. The spatial distributions for both the density and the
+temperature of the neutral hydrogen gas must be defined by the input model and do not vary during the simulation.
+
+- The SpinFlipHydrogenGasMix class describes the 21 cm spin-flip transition in neutral atomic hydrogen, including
+emission and absorption. The 21 cm emission luminosity and self-absorption opacity in a given cell are determined from
+gas properties defined in the input model (total hydrogen number density, neutral hydrogen mass fraction, gas
+metallity, gas temperature) and the local UV radiation field calculated by the simulation (taking into account dust
+extinction). The implementation includes a partitioning scheme to estimate the atomic and molecular fractions based on
+these input model properties and the radiation field.
+
+- The NonLTELineGasMix class describes selected transitions in selected molecules and atoms. For each supported species
+(OH, HCO+, CO, C, C+), the current implementation includes a number of rotational energy levels (quantum number
+\f$J\f$) at the base vibrational level (quantum number \f$v=0\f$) for molecules and electronic energy levels and
+hyperfine split levels for atoms. The class performs an iterative, non-LTE calculation including the effects of
+collisional transitions (excitation and de-excitation with one or more types of interaction partners) and photonic
+transitions (spontaneous emission, absorption, and induced emission).
+
+The SpinFlipHydrogenGasMix and NonLTELineGasMix classes inherit the EmittingGasMix class, which provides common
+functionality to gas mixes that support secondary emission. The XRayAtomicGasMix does not because fluorescence is
+implemented as a special form of scattering.
+
+*/
