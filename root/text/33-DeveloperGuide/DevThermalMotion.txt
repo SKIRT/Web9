@@ -1,0 +1,121 @@
+/**
+
+\page DevThermalMotion Thermal motion and line profiles
+
+When particles in a medium (atoms, molecules, electrons) emit or absorb photons, their random thermal motion causes
+Doppler shifts that result in broadening of the intrinsic emission and absorption lines. This page presents the
+formulas involved in this process as they are used in the SKIRT implementation. This is especially useful because the
+notation and definitions sometimes differ between authors.
+
+\section DevThermalMotionGauss Gaussian profiles
+
+The normalized Gaussian probability distribution of a variable \f$x\f$ with center \f$x_0\f$ and dispersion
+\f$x_\mathrm{s}\f$ can be written as
+\f[
+g(x;x_0,x_\mathrm{s}) = \frac{1}{x_\mathrm{s}\sqrt{2\pi}}\,\exp\!\left(-\frac{1}{2}\frac{(x-x_0)^2}{x_\mathrm{s}^2} \right)
+\qquad \mathrm{with} \quad \int_{-\infty}^\infty g(x;x_0,x_\mathrm{s}) \,\mathrm{d}x = 1,
+\f]
+where \f$x\f$, \f$x_0\f$, \f$x_\mathrm{s}\f$ and \f$1/g(x;x_0,x_\mathrm{s})\f$ all have the same units.
+
+A Gaussian line profile can be written as a function of frequency, \f$g(\nu;\nu_0,\nu_\mathrm{s})\f$, or as a function
+of wavelength, \f$g(\lambda;\lambda_0,\lambda_\mathrm{s})\f$. Given that \f$\nu\lambda=c\f$ and \f$\nu_0\lambda_0=c\f$,
+and assuming that the profile is narrow (\f$\nu_\mathrm{s}\ll\nu_0\f$ or \f$\lambda_\mathrm{s}\ll\lambda_0\f$), the
+dispersions are related as
+\f[
+\nu_\mathrm{s} = \frac{c}{\lambda_0^2}\lambda_\mathrm{s} \qquad \mathrm{and} \qquad
+\lambda_\mathrm{s} = \frac{c}{\nu_0^2}\nu_\mathrm{s}.
+\f]
+
+We now consider the Doppler shift velocity \f$v\f$ corresponding to the frequency or wavelength displacement. For
+narrow profiles and thus \f$v\ll c\f$, this velocity is defined through
+\f[
+\lambda = \left( 1+\frac{v}{c}\right)\lambda_0 \qquad \mathrm{and} \qquad \nu = \left( 1-\frac{v}{c}\right)\nu_0,
+\f]
+so that the line profile can also be written as \f$g(v;0,v_\mathrm{s})\f$ with
+\f[
+v_\mathrm{s} = \frac{c}{\lambda_0}\lambda_\mathrm{s} \qquad \mathrm{and} \qquad v_\mathrm{s} = \frac{c}{\nu_0}\nu_\mathrm{s}.
+\f]
+
+
+\section DevThermalMotionMotion Thermal motion
+
+The velocity probability distribution of particles with mass \f$m\f$ in a medium at temperature \f$T\f$ is given by the
+Maxwell-Boltzmann law,
+
+\f[
+f(v)\,\mathrm{d}^3v = \left(\frac{m}{2\pi kT}\right)^{3/2} \, \exp\left(-\frac{mv^2}{2kT}\right)\,\mathrm{d}^3v
+= g(v_x;0,v_\mathrm{s})\,g(v_y;0,v_\mathrm{s})\,g(v_z;0,v_\mathrm{s})\,\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z,
+\f]
+where \f$k\f$ is the Boltzmann constant and we derived the velocity dispersion to be
+\f[
+v_\mathrm{s} = \sqrt{\frac{kT}{m}}.
+\f]
+
+In other words, each of the velocity vector components is distributed as a Gaussian with dispersion \f$v_\mathrm{s}\f$.
+Now consider observing a medium where the particles, in their local rest frame, isotropically emit photons at
+wavelength \f$\lambda_0\f$ (or frequency \f$\nu_0\f$). The thermal motion is isotropic as well, so we select the
+\f$x\f$-axis as the line of sight without loss of generality. Because the particle velocity projected on the
+\f$x\f$-axis is distributed as \f$g(v_x;0,v_\mathrm{s})\f$, it follows from the equations in the previous section that
+the observed line profile is given by \f$g(\lambda;\lambda_0,\lambda_0 v_\mathrm{s}/c)\f$ or \f$g(\nu;\nu_0,\nu_0
+v_\mathrm{s}/c)\f$.
+
+We further define the thermal velocity in a medium of particles with mass \f$m\f$ at temperature \f$T\f$ as
+\f[
+v_\mathrm{th} = \sqrt{\frac{2kT}{m}} = \sqrt{2}\,v_\mathrm{s}.
+\f]
+This value corresponds to the most probable particle speed, i.e.\ the point where the probability distribution of the
+velocity vector norm reaches its maximum value. This result is easily derived, see e.g.
+[Wikipedia](https://en.wikipedia.org/wiki/Maxwell–Boltzmann_distribution#Typical_speeds).
+
+
+\section DevThermalMotionTurb Subgrid turbulence
+
+One often considers an additional source of line broadening caused by subgrid processes other than those corresponding
+to the macroscopic temperature. This motion is characterized by the turbulent velocity \f$v_\mathrm{turb}\f$, and the
+total velocity dispersion is then defined as
+\f[
+\sqrt{v_\mathrm{th}^2 + v_\mathrm{turb}^2} = \sqrt{2}\,v_\mathrm{s}.
+\f]
+
+We can also represent subgrid turbulence as an artifical second term in an effective temperature, \f$T_\mathrm{eff}\f$,
+that can be plugged into the regular equations for macroscopic thermal motion. Indeed, according to our treatment
+above, we have
+\f[
+v_\mathrm{s}^2 = \frac{1}{2} (v_\mathrm{th}^2 + v_\mathrm{turb}^2) = \frac{1}{2} (\frac{2kT}{m} + v_\mathrm{turb}^2),
+\f]
+which leads to
+\f[
+T_\mathrm{eff} = T + \frac{m v_\mathrm{turb}^2}{2k}.
+\f]
+
+
+\section DevThermalMotionSKIRT Implementation in SKIRT
+
+The SKIRT implementation is consistent with the analysis in the previous sections. This includes the following areas in
+the code:
+
+- Primary emission by imported sources (ImportedSource): the optionally imported velocity dispersion value is
+used as \f$v_\mathrm{s}\f$.
+
+- Gaussian Lyman-alpha SEDs (LyaGaussianSED, LyaGaussianSEDFamily): the user-configured velocity dispersion value
+is used as \f$v_\mathrm{s}\f$.
+
+- Absorption cross section and secondary emission (SpinFlipHydrogenGasMix): the temperature of the medium and the
+particle mass are used to calculate \f$v_\mathrm{s}\f$.
+
+- Absorption cross section and secondary emission (NonLTELineGasMix): the temperature and subgrid turbulence of the
+medium are combined into an efffective temperature \f$T_\mathrm{eff}\f$, which is then used together with the particle
+mass to calculate \f$v_\mathrm{s}\f$.
+
+- Scattering cross section (ElectronMix, XRayAtomicGasMix): the temperature of the medium and the mass of its
+constituents is used to calculate \f$v_\mathrm{s}\f$.
+
+
+\section DevThermalMotionLiterature Comparison to literature
+
+Many authors in this field omit the factor \f$1/2\f$ in the exponent of the Gaussian-like distribution (adjusting the
+normalization accordingly) and use \f$v_\mathrm{th}\f$ as the dispersion-like quantity instead of \f$v_\mathrm{s}\f$.
+While this is equivalent to our treatment, it can be confusing, especially in combination with variations in the
+definitions or names of the involved variables.
+
+*/

@@ -28,6 +28,7 @@ The developer guide includes the following topics:
 - \ref DevParallel
 - \ref DevPolarize
 - \ref DevLymanAlpha
+- \ref DevThermalMotion
 - \ref DevPerspective
 - \ref DevSmile
 <p>
