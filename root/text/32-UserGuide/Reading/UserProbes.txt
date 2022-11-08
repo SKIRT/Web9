@@ -69,17 +69,17 @@ quantity being probed is specified by the probe (a Probe subclass), while the ma
 probed is specified by a \em form (a Form subclass). The table below lists the available Form subclasses; for more
 information refer to the respective class documentation.
 
-| %Form subclass | Output|
-| --- | --- |
-| PlanarCutsForm | FITS file with cut along a specified plane parallel to one of the coordinate planes |
-| ParallelProjectionForm | FITS file with %Parallel projection towards a specified sight line (inclination, azimuth) |
-| AllSkyProjectionForm | FITS file with all-sky projection towards a specified position, usually inside the model |
-| LinearCutForm | Column text file with rows for positions along a specified line segment |
-| MeridionalCutForm | Column text file with rows for positions along a specified meridional arc |
-| AtPositionsForm | Column text file with row for each position listed in an input file |
-| | <em>Only applicable to internal spatial grid probes:</em>
-| DefaultCutsForm | FITS files with default cuts along the coordinate planes |
-| PerCellForm | Column text file with row for each internal grid cell |
+| %Form subclass | File format | Output |
+| --- | --- | --- |
+| PlanarCutsForm | FITS | Cut along a specified plane parallel to one of the coordinate planes |
+| ParallelProjectionForm | FITS | %Parallel projection towards a specified sight line (inclination, azimuth) |
+| AllSkyProjectionForm | FITS | All-sky projection towards a specified position, usually inside the model |
+| LinearCutForm | Column text | Rows for positions along a specified line segment |
+| MeridionalCutForm | Column text | Rows for positions along a specified meridional arc |
+| AtPositionsForm | Column text | Row for each position listed in an input file |
+| \f$\qquad\f$ <em>Only applicable to internal spatial grid probes:</em> |||
+| DefaultCutsForm | FITS | Default cuts along the coordinate planes |
+| PerCellForm | Column text | Row for each internal grid cell |
 
 For input model and internal grid probes, each probe must thus be configured with an associated form. By associating
 multiple probes of the same type with a form with different properties or a different type of form, one can easily
@@ -97,13 +97,13 @@ The table below lists the available input model probes.
 
 | %Probe subclass | \# values | Aggregation | %Configuration options |
 | --- | --- | --- | --- |
-| _Sources_ | | | |
+| \f$\qquad\f$ _Sources:_ ||||
 | ImportedSourceLuminosityProbe | \f$N_\lambda\f$ | %System | _wavelengthGrid_, _convolve_|
 | ImportedSourceDensityProbe | 1 | %System | _massType_ |
 | ImportedSourceMetallicityProbe | 1 | %System | _weight_, _wavelength_ |
 | ImportedSourceAgeProbe | 1 | %System | _weight_, _wavelength_ |
 | ImportedSourceVelocityProbe | 3 | %System | _weight_, _wavelength_ |
-| _Media_ | | | |
+| \f$\qquad\f$ _Media_: ||||
 | ImportedMediumDensityProbe | 1 | Component | |
 | ImportedMediumMetallicityProbe | 1 | Component | |
 | ImportedMediumTemperatureProbe | 1 | Component | |
@@ -159,17 +159,87 @@ The table below lists the available internal spatial grid probes.
 | --- | --- | --- | --- | --- |
 | DensityProbe | 1 | Component, Type | Setup, Run, Primary, Secondary | |
 | OpacityProbe | 1 | Component, Type, %System | Setup, Run, Primary, Secondary | _wavelength_ |
-| TemperatureProbe | 1 | Component, Type | Setup, Run, Primary, Secondary |  |
-| MetallicityProbe | 1 | Component | Setup, Run, Primary, Secondary |  |
+| TemperatureProbe | 1 | Component, Type | Setup, Run, Primary, Secondary | |
+| MetallicityProbe | 1 | Component | Setup, Run, Primary, Secondary | |
 | VelocityProbe | 3 | %System | Setup | |
 | MagneticFieldProbe | 3 | %System | Setup | |
-| CustomStateProbe | \f$N_\mathrm{cs}\f$ | Component | Setup, Run, Primary, Secondary | _indices_ |
 | RadiationFieldProbe | \f$N_\mathrm{rf}\f$ | %System | Run, Primary, Secondary | _writeWavelengthGrid_ |
+| SecondaryLineLuminosityProbe | \f$N_\ell\f$ | Component | Run, Secondary | |
+| CustomStateProbe | \f$N_\mathrm{cs}\f$ | Component | Setup, Run, Primary, Secondary | _indices_ |
 
-Bla
+The second column lists the number of values for each quantity sample. Scalar quantities have a single value and vector
+quantities have three values, one for each vector component. The radiation field probe outputs a value for each bin in
+the radiation field wavelength grid configured for the simulation. The last two probes in the table are briefly
+described in subsections below.
+
+The third column lists the supported aggregation mechanisms. Depending on the probe type, the options include output
+per individual medium component, per type of medium (dust, electrons, gas), and/or for the complete medium system.
+Quantities such as density cannot be aggregated across medium types because, for example, dust is characterized by mass
+density and gas by number density. On the other hand, the simulation stores just a single bulk velocity field for all
+media in the system (see \ref UserImportSnapMediaSample).
+
+The fourth column indicates the options that specify when the probe will be performed during the simulation.
+Possibilities include at the end of the setup phase, at the very end of the simulation run, and after each primary or
+secondary iteration. Most probes are performed by default after setup, reflecting the initial (and often immutable)
+state of the medium system. However, quantities such as the radiation field or the dust temperature can be meaningfully
+probed after at least some part of the simulation has completed, so these probes are performed by default at the end of
+the simulation. Some simulations self-consistently adjust the medium state, for example to reflect radiative dust
+destruction or to calculate energy level populations in atoms or molecules. In those cases, a probe may be configured
+to execute after each primary or secondary iteration or at the very end of the simulation.
+
+Probes with multiple aggregation or probe-after possibilities offer the \em aggregation or \em probeAfter configuration
+options, respectively. The last column in the table lists any options in addition to these and to the probe name and
+form associated with the probe.
+
+### The line luminosity probe
+
+The SecondaryLineLuminosityProbe is intended for advanced users. It probes the line luminosities of secondary sources
+as discretized on the spatial grid of the simulation, ignoring any kinematic effects. It produces a separate output
+file for each medium component with an associated material mix that exhibits secondary line emission. Examples include
+the SpinFlipHydrogenGasMix and the NonLTELineGasMix. For more information, see the documentation for the
+SecondaryLineLuminosityProbe and MaterialMix classes.
+
+### The custom state probe
+
+The CustomStateProbe is intended for advanced users and developers. It probes the custom medium state quantities for
+medium components configured with a material mix that requests such variables. Examples include the dust fragment
+weights used by the FragmentDustMixDecorator, the neutral and atomic hydrogen fractions required by the
+SpinFlipHydrogenGasMix, and the energy level population densities used by the NonLTELineGasMix. For more information,
+see the documentation for the CustomStateProbe, MediumState, and MaterialMix classes.
+
 
 \section UserProbesSpecial Specialty probes
 
-bla.
+This category includes probes that do not fit in the categories discussed above because they probe aspects of the
+simulation that are not given in the input model or stored on the internal grid, or because they generate output that
+does not fit the \em form paradigm, or both.
+
+The table below lists the available specialty probes with a brief description. For more information, refer to the
+respective class documentation.
+
+| %Probe subclass | File format | Output |
+| --- | --- | --- |
+| \f$\qquad\f$ <em>Spatial grid statistics:</em> |||
+| ConvergenceInfoProbe | Free-form text | Statistics on the spatial grid for each material type |
+| ConvergenceCutsProbe | FITS | Coordinate-plane cuts through both the input and grid-discretized media density |
+| SpatialCellPropertiesProbe | Column text | Coordinates, volume, optical depth, and densities for each spatial cell |
+| SpatialGridPlotProbe | Data text | Info that allows plotting the structure of the spatial grid with PTS |
+| TreeSpatialGridTopologyProbe | Data text | Topology of the tree spatial grid that can be loaded by FileTreeSpatialGrid |
+| \f$\qquad\f$ <em>Material properties:</em> |||
+| OpticalMaterialPropertiesProbe | Column text | Cross sections etc. for the material mixes in the simulation |
+| DustGrainPopulationsProbe | Column text | Statistics on the dust grain populations in the simulation |
+| DustGrainSizeDistributionProbe | Column text | Size distributions of dust grain populations in the simulation |
+| DustEmissivityProbe | Column text | Emissivity spectra for the dust mixes in the simulation |
+| \f$\qquad\f$ <em>%Source statistics:</em> |||
+| LaunchedPacketsProbe | Column text | Number of photon packets launched from sources per wavelength bin |
+| LuminosityProbe | Column text | Primary source luminosities per wavelength bin |
+| \f$\qquad\f$ <em>Wavelength grids:</em> |||
+| RadiationFieldWavelengthGridProbe | Column text | Wavelength, width, and borders for each radiation field wavelength bin |
+| DustEmissionWavelengthGridProbe | Column text | Wavelength, width, and borders for each dust emission wavelength bin |
+| InstrumentWavelengthGridProbe | Column text | Wavelength, width, and borders for each instrument wavelength bin |
+| \f$\qquad\f$ <em>Other:</em> |||
+| SpatialGridSourceDensityProbe | Column text | Discretization of geometric source luminosity on the spatial grid |
+| DustAbsorptionPerCellProbe | Column text | Luminosity absorbed by dust for each cell in the spatial grid |
+
 
 */
