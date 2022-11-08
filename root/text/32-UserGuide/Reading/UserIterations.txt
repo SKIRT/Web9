@@ -2,7 +2,89 @@
 
 \page UserIterations Self-consistent iterative calculations [TO DO]
 
-This topic should provide an overview of SKIRT's capabilities for the self-consistent iterative calculation
-of the medium state and/or radiation field, with pointers to more information in the class headers.
+This page provides an overview of SKIRT's capabilities for the self-consistent iterative calculation of the medium
+state and radiation field. It introduces the relevant concepts and provides some examples.
+
+
+\section UserIterationsMS Medium state
+
+The \em medium \em state (MediumState) in a SKIRT simulation consists of a list of variables stored for each cell in
+the spatial grid. The list includes variables common to all medium components, such as the cell volume or the bulk
+velocity of the material in the cell. Other variables are specific to each medium component, such as the density
+(present for all components) or the gas temperature (optional). Depending on its needs, a MaterialMix subclass can also
+request additional, custom variables to be stored in the medium state for the component(s) it is associated with.
+
+
+\section UserIterationsDMS Dynamic medium state (DMS)
+
+In a first simulation phase, SKIRT determines the radiation field (RF) based on just the primary emission. In a second
+phase, it performs secondary emission from the media using spectra calculated based on this RF.
+
+Some SKIRT media allow the density or other properties stored in the medium state to depend on the local RF. These
+changes to the medium properties may sufficiently affect the RF to again cause a significant change in the medium
+properties, so that the RF must be calculated self-consistently by iterating over primary and/or secondary emission. We
+call this a \em dynamic \em medium \em state (DMS).
+
+If the changes to the medium state significantly affect the medium opacity in the wavelength range of primary sources,
+iteration over primary emission is required. We call this a \em primary-dynamic \em medium \em state (PDMS). Radiative
+dust destruction is an example of a PDMS process.
+
+Alternatively, the media properties depending on the RF may be significant only for determining the secondary emission
+spectrum without a noticable effect during primary emission. As a result, there is no need for iteration over primary
+emission. We call this a \em secondary-dynamic \em medium \em state (SDMS). The hydrogen spin-flip transition is an
+example of an SDMS process because the opacity change at 21 cm does not affect primary emission which occurs at much
+shorter wavelengths. In this specific example, there is actually no need for iteration over the secondary emission
+either, but this might be different for other processes.
+
+Similarly, secondary emission may sufficiently affect the RF to cause a significant change in the secondary emission
+spectrum (which is calculated from that RF). If this is the case, the RF must be calculated self-consistently by
+iterating over the secondary emission. We call this \em dynamic \em secondary \em emission (DSE). Dust emission in
+high-optical depth regions is an example of a DSE process. The dust population may absorb a non-neglible portion of its
+own thermal emission, affecting its internal energy state, which in turn affects the thermal emission spectrum.
+
+
+\section UserIterationsUpdate DMS update algorithms
+
+SKIRT allows the algorithms or prescriptions for updating the medium state to reside in three regions of the code,
+depending on the characteristics of each specific process.
+
+- Incorporated into secondary emission. When determining the thermal dust emission spectrum from the RF, the dust grain
+temperature probability distribution is calculated on the fly for each spatial cell. As a result, there is no need to
+store or update any variable in the medium state. One can thus consider this DSE process as a special case of SDMS
+where the change in the medium state is handled implicitly during the calculations rather than being explicitly stored.
+
+- As part of the MaterialMix subclass. Just as a material mix can request additional custom variables, it can also
+provide the algorithm to update the medium state for each spatial cell based on the previously calculated local
+radiation field. This allows the complete behavior of a given material type to be defined in a single class.
+
+- As a separate DynamicStateRecipe subclass. A dynamic state recipe for updating the medium state can access any of the
+configured medium components. This enables a single recipe to control different components and/or material types, and
+it allows offering alternate recipes without complicating the material mix implementation.
+
+
+\section UserIterationsIterate Self-consistent iterations
+
+A soon as a panchromatic simulation includes a medium (other than Lyman-alpha), the configuration allows to enable
+self-consistent iterations over primary emission. Similarly, as soon as a simulation includes secondary emission, the
+configuration allows to enable self-consistent iterations over secondary emission. In that case, one can opt to also
+iterate over primary emission in various combinations. See the MonteCarloSimulation class documentation for more
+details.
+
+We consider three examples that correspond to the three styles of update algorithms discussed in the previous section.
+
+### Dust self-absorption
+
+Bla.
+
+### Non-LTE line emission
+
+Bla.
+
+### Dust destruction
+
+Bla.
+
+(For each example, discuss the physical process, where it is implemented, how and where to configure the iterations
+and the recipes, and convergence criteria.
 
 */
