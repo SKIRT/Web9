@@ -24,7 +24,9 @@
 
 # Mount the webhost at a local mount point
 mkdir -p ../webhost
-mount -t smbfs //pcamps@webhost.ugent.be/_skirt ../webhost
+read -s -p "Password for web host user $USER: " PASSWORD
+echo
+mount -t smbfs //UGENT\;$USER:$PASSWORD@files.ugent.be/$USER/www/shares/skirt ../webhost
 if [ $? -ne 0 ]
   then exit
 fi
@@ -34,7 +36,7 @@ rsync -chr --delete ../stage/ ../public/
 find ../public -name "*.DS_Store" -type f -delete  # remove hidden files created by Mac OS finder
 
 # Make remote copy, updating only files with a different time stamp
-rsync -hrtv --delete-after ../public/ ../webhost/WWW/
+rsync -hrtv --delete-after --exclude '.htaccess' --exclude '.default.html' ../public/ ../webhost/WWW/
 
 # Unmount the webhost and remove the mount point
 umount ../webhost
