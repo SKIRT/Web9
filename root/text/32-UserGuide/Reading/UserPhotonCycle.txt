@@ -1,8 +1,164 @@
 /**
 
-\page UserPhotonCycle Configuring the photon packet life cycle [TO DO]
+\page UserPhotonCycle Configuring the photon packet life cycle
 
-This topic should describe the options to configure aspects of the photon packet life cycle,
-with pointers to more information in the class headers. Perhaps also include the scattering options of instruments.
+This page summarizes some of the techniques implemented in SKIRT's photon packet life cycle and indicates how to
+configure the corresponding options in the parameter file.
+
+
+\section UserPhotonCycleMCRT Monte Carlo radiative transfer
+
+The Monte Carlo radiative transfer method employed by SKIRT essentially emulates the relevant physics by following a
+stream of individual photon packets on "random" paths through the medium. Each photon packet represents a given number
+of photons at a particular wavelength (see the PhotonPacket class and \ref UserWaveTreatPacket). During the photon
+packet life cycle, all emission and interaction events are governed by the probability distribution relecting the
+physical process being represented. In practice, however, various variance reduction and acceleration techniques may
+prescribe using an adjusted probability distribution to improve the chances that the packets efficiently trace the
+relevant aspects of the model. In such case, the change is compensated by applying a \em bias factor to the weight of
+the photon packet, i.e. to the number of photons being represented.
+
+Two types of registration occur during the photon packet life cycle. The packet's contribution to the radiation field
+is recorded continually as the packet crosses spatial cells along its path. The synthetic observations maintained by
+the configured instruments are constructed using the peel-off technique. Rather than detecting only photon packets that
+escape from the simulated model, a peel-off photon packet is sent to the instruments at each emission and scattering
+event. With the appropriate bias factors, this method produces the correct results much more quickly.
+
+The MonteCarloSimulation class implements the photon packet life cycle in SKIRT, calling on the other components of
+the simulation such as sources, media and instruments to  perform many of the actual, concrete steps along the way.
+For more information, see the documentation of the MonteCarloSimulation class and its functions.
+
+\section UserPhotonCycleCycle Photon packet life cycle
+
+## Emission
+
+When emitting a new photon packet,  key characteristics to be determined include the originating position and the
+initial wavelength of the packet. In both cases, SKIRT allows configuring a number of biasing options to achieve
+optimal efficiency.
+
+The \em spatial biasing mechanisms  control the relative number of photon packets emitted for each source and for each
+entity within each source, if applicable. Although the default settings are usually sufficient, we briefly
+describe the options here.
+
+At the top level, for primary sources, the \em sourceBias property of the SourceSystem and the \em sourceWeight
+properties for each Source in combination with the bolometric luminosity of each source control a composite biasing
+scheme to distribute photon packets over the sources. With the default settings (source bias of 0.5 and source weights
+of 1), this means half of the photon packets are distributed equally over the sources, and the other half is
+distributed over the sources proportional to their luminosity. This ensures that more luminous sources get more
+attention without smothering less luminous sources. For details, see the SourceSystem class documentation.
+
+For secondary sources, a similar composite biasing scheme is controlled by the \em sourceBias property in the
+SecondaryEmissionOptions and the \em sourceWeight property in the DustEmissionOptions (for all dust media combined) or
+the EmittingGasMix base class (for each of the emitting gas medium components). For details, see the
+SecondarySourceSystem class documentation.
+
+For imported primary sources and all secondary sources, there is a nested biasing level for distributing photon packets
+over the cells or particles making up the source. For imported primary sources, the nested scheme is controlled by the
+\em sourceBias property of the SourceSystem (i.e. the same value used for the top-level scheme) and the luminosities of
+the subsources (i.e. all entities are assumed to have the same source weight value). For details, see the
+ImportedSource::prepareForLaunch() function documentation. For secondary sources, the nested scheme (distributing the
+photon packets over the cells of the spatial grid in the simulation) is controlled by \em spatialBias property of the
+SecondaryEmissionOptions and the luminosities of the cells. Again, with the default settings (spatial bias of 0.5),
+half of the photon packets are distributed equally over the cells, and the other half is distributed over the cells
+proportional to their luminosity. For details, see the SecondarySourceSystem class documentation.
+
+The \em spectral biasing mechanisms control the relative number of photon packets emitted at various wavelengths. These
+options are discussed in \ref UserWaveConfigure, for both primary and secondary sources.
+
+## Absorption and scattering
+
+### Variations
+
+The PhotonPacketOptions allow configuring four basic variations of the photon packet life cycle by enabling or
+disabling the _explicit absorption_ technique and/or the _forced scattering_ technique. Each of these variations comes
+with specific advantages or drawbacks, as follows:
+
+- Without explicit absorption. The default technique uses the extinction (sum of scattering and absorption) along a
+photon packet's path to locate the next interaction point. This requires the cumulative extinction optical depth to be
+a nondecreasing function of path length. It is thus not possible to handle negative extinction cross sections.
+
+- With explicit absorption. This technique instead uses the scattering optical depth to locate the next interaction
+point. While the scattering cross section still must be nonnegative, this allows the extinction cross section to be
+negative. The latter can be the case for materials that exhibit stimulated emission. As a drawback, this technique
+requires calculating both the scattering and absorption optical depths for the photon packet path.
+
+- With forced scattering. This technique causes photon packets to continue moving around in the model until their
+weight is negligible (rather than escaping when the interaction point happens to be beyond the model boundary). This
+tends to reduce noise for simulations with low to limited optical depths, such as for most dust models on galaxy-wide
+scales. However, for each scattering event, it requires the calculation of the geometry and optical depth of the full
+path up to the model boundary, regardless of the location of the scattering event along the path.
+
+- Without forced scattering. In models with very intensive scattering, such as for Lyman-alpha line transfer, the
+photon cycle without forced scattering is often the better choice, because it avoids calculating the path geometry and
+optical depth beyond the scattering location. However, the current implementation does not support storing the
+radiation field, which means this option cannot be used when the simulation includes secondary emission or
+self-consistent iterations.
+
+For more details on these variations, see the documentation for the MonteCarloSimulation::performLifeCycle() function
+and functions used therein.
+
+### Recommendations
+
+The relative performance of the photon packet life cycle variations depends on the model geometry, the medium
+properties and the type of synthetic observations, so that there is no single optimal choice. Nevertheless, we can
+propose the following overall rules of thumb:
+
+- Enable forced scattering except for media that (1) are strongly dominated by scattering, (2) show optical depths
+  \f$\tau\gtrsim 0.5\f$, and (3) for which there is no need to store the radiation field.
+- Always enable explicit absorption.
+
+In our experience, with these rules, the simulation may perform sub-optimally but not dramatically so.
+Note that, for historical reasons, explicit absorption is disabled by default.
+
+### Forced scattering options
+
+The PhotonPacketOptions include additional properties that allow configuring some aspects of the forced scattering
+photon packet life cycle. The values of these properties are not used if forced scattering is disabled.
+
+The \em minWeightReduction property sets the weight reduction factor at which a photon packet is terminated, relative
+to its initial weight. The forced scattering technique requires this criterion because otherwise packets would continue
+to move around in the model indefinitely. The default value is usually appropriate, and needs to be increased only for
+some extreme benchmark models.
+
+The \em minScattEvents property sets the minimum number of scattering events before a photon packet can be terminated,
+even if its weight has decreased by more than the specified weight reduction factor. The default value of zero (i.e. no
+minimum number of scattering events) is usually appropriate. Increasing this value may improve the signal-to-noise
+ratio of the N-times scattered flux component when studying the scattering behavior of a model. See the \em
+numScatteringLevels property of Instrument and its description below.
+
+The \em pathLengthBias property sets the fraction of photon packet free path lengths that will sampled from a stretched
+probability distribution as opposed to the regular probability distribution, resulting in longer free paths on average.
+As a result, photon packets more easily penetrate regions of high optical depth in the medium. The default value of 0.5
+is usually appropriate, with the following important caveat. The path length stretching technique cannot be used when
+the wavelength of a photon packet may change during its life cycle, for example because of Doppler shifts. SKIRT issues
+a warning when it detects these situations and automatically forces the path length bias value to zero. This warning
+can be silenced by setting \em pathLengthBias to zero in the parameter file.
+
+## Radiation field
+
+Simulations that include secondary emission or self-consistent iterations always store the radiation field. However,
+one might be interested in probing the radiation field (see RadiationFieldProbe) resulting from primary emission
+without the need for secondary emission or iterations. In this case, and if forced scattering is enabled, the \em
+storeRadiationField property in the RadiationFieldOptions allows enabling this capability (the current implementation
+of the life cycle without forced scattering does not allow storing the radiation field).
+
+On a related note, by default, the radiation field is not updated during the final secondary emission phase because
+this information is no longer needed by the simulation. However, one may want to probe such an updated radiation field
+at the end of the simulation. This can be achieved by setting the \em storeEmissionRadiationField property in the
+SecondaryEmissionOptions to true.
+
+Whenever the radiation field is being stored (by default or specifically requested by the user), an appropriate
+wavelength grid must be configured for the \em radiationFieldWLG property of the RadiationFieldOptions. For
+recommendations, see \ref UserWaveConfigure.
+
+## Instruments
+
+In addition to the total observed flux, SKIRT instruments can also record flux components separately, differentiating
+for example direct and scattered fluxes originating from primary and secondary sources. To enable this capability for a
+particular Instrument instance, set its \em recordComponents property to true. The \em numScatteringLevels property
+then determines the number of individually recorded scattering levels (zero by default). Setting a nonzero number can
+be meaningful when studying the N-times scattering behavior of a model. For more details, see the documentation of the
+Instrument and FluxRecorder classes.
+
+Each instrument must also be equipped with a wavelength grid. For recommendations, see \ref UserWaveConfigure.
 
 */
