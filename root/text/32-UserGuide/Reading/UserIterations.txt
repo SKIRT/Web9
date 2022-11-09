@@ -1,12 +1,12 @@
 /**
 
-\page UserIterations Self-consistent iterative calculations [TO DO]
+\page UserIterations Self-consistent iterative calculations
 
 This page provides an overview of SKIRT's capabilities for the self-consistent iterative calculation of the medium
 state and radiation field. It introduces the relevant concepts and provides some examples.
 
 
-\section UserIterationsMS Medium state
+\section UserIterationsDMS Medium state
 
 The \em medium \em state (MediumState) in a SKIRT simulation consists of a list of variables stored for each cell in
 the spatial grid. The list includes variables common to all medium components, such as the cell volume or the bulk
@@ -14,11 +14,12 @@ velocity of the material in the cell. Other variables are specific to each mediu
 (present for all components) or the gas temperature (optional). Depending on its needs, a MaterialMix subclass can also
 request additional, custom variables to be stored in the medium state for the component(s) it is associated with.
 
-
-\section UserIterationsDMS Dynamic medium state (DMS)
+### %Simulation phases
 
 In a first simulation phase, SKIRT determines the radiation field (RF) based on just the primary emission. In a second
 phase, it performs secondary emission from the media using spectra calculated based on this RF.
+
+### Dynamic medium state
 
 Some SKIRT media allow the density or other properties stored in the medium state to depend on the local RF. These
 changes to the medium properties may sufficiently affect the RF to again cause a significant change in the medium
@@ -42,8 +43,7 @@ iterating over the secondary emission. We call this \em dynamic \em secondary \e
 high-optical depth regions is an example of a DSE process. The dust population may absorb a non-neglible portion of its
 own thermal emission, affecting its internal energy state, which in turn affects the thermal emission spectrum.
 
-
-\section UserIterationsUpdate DMS update algorithms
+### Update algorithms
 
 SKIRT allows the algorithms or prescriptions for updating the medium state to reside in three regions of the code,
 depending on the characteristics of each specific process.
@@ -70,21 +70,95 @@ configuration allows to enable self-consistent iterations over secondary emissio
 iterate over primary emission in various combinations. See the MonteCarloSimulation class documentation for more
 details.
 
-We consider three examples that correspond to the three styles of update algorithms discussed in the previous section.
+We consider three examples that correspond to the three styles of DMS update algorithms discussed in the previous
+section.
 
 ### Dust self-absorption
 
-Bla.
+Some astrophysical systems contain a body of dust with a high optical depth even at longer wavelengths. Examples
+include circumnuclear disks of active galactic nuclei, planetary disks, and compact galaxies at higher redshifts. In
+those systems, the dust population may absorb a non-neglible portion of its own thermal emission, affecting its
+internal energy state, in turn affecting the thermal emission spectrum. Modelling this process requires iterations to
+self-consistently calculate these interdependent quantities.
+
+This iterative approach can be easily enabled for any SKIRT model that includes a dust medium and thermal dust emission
+in addition to primary sources. After the \em iterateSecondaryEmission property of the MonteCarloSimulation class has
+been set to true, the properties offered by the DustEmissionOptions and IterationOptions classes (both part of the
+MediumSystem) further control the iteration process. Most importantly, the DustEmissionOptions set the convergence
+criteria that determine when the result is sufficiently accurate and the iteration cycle can be terminated. The first
+criterion specifies that convergence is reached when the total absorbed dust luminosity is less than a given fraction
+of the total absorbed primary luminosity. This is to avoid time-consuming iterations in case the  global thermal
+emission is too small to have a significant effect on the dust temperature, compared to the effect of primary emission.
+The second criterion specifies that convergence is reached when the total absorbed dust luminosity has changed by less
+than a given fraction compared to the previous iteration. This is the actual iterative convergence criterion.
+Furthermore, the IterationOptions set the minimum and maximum number of iterations as a safety net.
+
+As mentioned earlier, the calculation of the dust grain temperature probability distribution and resulting emission
+spectrum is performed on the fly while launching photon packets in the DustSecondarySource class. This class indirectly
+calls on the EquilibriumDustEmissionCalculator or the StochasticDustEmissionCalculator depending on the value of the
+\em dustEmissionType property in the DustEmissionOptions.
 
 ### Non-LTE line emission
 
-Bla.
+Electronic and rovibrational transitions in atoms and molecules often cause both radiative emission and absorption with
+a similar line profile. Calculating energy level population densities that are self-consistent with the radiation field
+across a spatial domain requires an iterative approach.
+
+The NonLTELineGasMix class allows performing such calculations with SKIRT for certain transitions in selected molecules
+and atoms. Specifically, it causes the medium state to store values representing the energy level population densities
+for each spatial cell, and it includes a procedure to update these values based on the currently established radiation
+field. Based on this information, the material mix calculates aborption cross sections and emission luminosities upon
+request.
+
+Simulations that include the NonLTELineGasMix must also include one or more primary sources that trigger the
+molecular/atomic lines directly (e.g. the cosmic microwave background) or indirectly (e.g. by heating the dust and thus
+causing thermal dust emission). Because the secondary emission and the radiation field are calculated
+self-consistently, \em iterateSecondaryEmission in MonteCarloSimulation should be enabled. If the opacity of the medium
+at the line wavelengths significantly affects the radiation field caused by primary emission (as would be the case for
+the cosmic microwave background), then \em includePrimaryEmission in IterationOptions must be enabled as well. This
+causes so-called \em merged iterations, where each iteration step includes both primary and secondary emission. In any
+case, \em iteratePrimaryEmission can be left disabled unless such iteration is required for other reasons (for example,
+to self-consistently calculate radiative dust destruction, see below).
+
+During each iteration, after the radiation field has been (re-)established, the NonLTELineGasMix is requested to update
+the medium state for each cell, and iteration continues until convergence is reached. The convergence criterion is
+configured by a combination of the maximum change in the level populations of a spatial cell and the number of cells
+allowed to exceed this maximum change (\em maxChangeInLevelPopulations and \em maxFractionNotConvergedCells properties
+of NonLTELineGasMix). Finally, the IterationOptions allow specifying the minimum and maximum number of iterations as a
+safety net.
 
 ### Dust destruction
 
-Bla.
+Energetic radiation sources such as active galactic nuclei destroy dust grains in their immediate environment. The
+effect depends on the radiation spectrum and on grain properties such as size and chemical composition, and the source
+often is anisotropic. Rather than attempting to include all of these factors in an input model, a SKIRT simulation can
+self-consistently determine the resulting the density distribution for the various grain populations through an
+iterative process.
 
-(For each example, discuss the physical process, where it is implemented, how and where to configure the iterations
-and the recipes, and convergence criteria.
+As an example, we consider an anisotropic point source embedded in a body of dust. We limit the simulation to primary
+emission in the UV and optical wavelength range, and use the DraineLiDustMix class to represent the dust grain mixture.
+As a first step towards self-consistent calculation of grain destruction near the source, we need to allow different
+grain types and sizes in the dust mixture to be handled separately. To this end, we insert a FragmentDustMixDecorator
+around the DraineLiDustMix. We set the \em fragmentSizeBins property to true, so that the decorated mixture is
+fragmented into individual grain size bins as configured in the DraineLiDustMix for each material type. We also set the
+\em hasDynamicDensities property to true, causing the medium state to store a seperate density fraction for each of
+these dust population fragments relative to the density distribution determined by the input model.
+
+We set the \em iteratePrimaryEmission property of the MonteCarloSimulation class to true, and we use the properties
+offered by the DynamicStateOptions and IterationOptions classes to further control the iteration process. Most
+importantly, we include an instance of the LinearDustDestructionRecipe in the list of DynamicStateRecipe's managed by
+the DynamicStateOptions. The LinearDustDestructionRecipe class implements a basic dust destruction recipe that depends
+on the equilibrium temperature of the grain and on two cutoff temperatures specified by the user in the parameter file
+for each type of grain material (silicate or graphite). After each primary emission iteration, this recipe is applied
+for each spatial cell to each dust population fragment separately, calculating the equilibrium temperature based on the
+radiation field and the grain properties of each fragment. As a result, the dust destruction fractions and the
+radiation field across the spatial grid are updated iteratively until convergence is reached.
+
+The convergence criterion is configured by a combination of the maximum change on the dynamic density fraction in a
+spatial cell (\em densityFractionTolerance property of LinearDustDestructionRecipe inherited from
+DustDestructionRecipe) and the number of cells allowed to exceed this maximum change (\em maxNotConvergedCells property
+of LinearDustDestructionRecipe inherited from DynamicStateRecipe). Finally, the IterationOptions set the minimum and
+maximum number of iterations as a safety net.
+
 
 */
