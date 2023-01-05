@@ -77,7 +77,7 @@ information refer to the respective class documentation.
 | LinearCutForm | Column text | Rows for positions along a specified line segment |
 | MeridionalCutForm | Column text | Rows for positions along a specified meridional arc |
 | AtPositionsForm | Column text | Row for each position listed in an input file |
-| \f$\qquad\f$ <em>Only applicable to internal spatial grid probes:</em> |||
+| - <em>Only applicable to internal spatial grid probes:</em> |||
 | DefaultCutsForm | FITS | Default cuts along the coordinate planes |
 | PerCellForm | Column text | Row for each internal grid cell |
 
@@ -97,13 +97,13 @@ The table below lists the available input model probes.
 
 | %Probe subclass | \# values | Aggregation | %Configuration options |
 | --- | --- | --- | --- |
-| \f$\qquad\f$ _Sources:_ ||||
+| - <em>Sources:</em> ||||
 | ImportedSourceLuminosityProbe | \f$N_\lambda\f$ | %System | _wavelengthGrid_, _convolve_|
 | ImportedSourceDensityProbe | 1 | %System | _massType_ |
 | ImportedSourceMetallicityProbe | 1 | %System | _weight_, _wavelength_ |
 | ImportedSourceAgeProbe | 1 | %System | _weight_, _wavelength_ |
 | ImportedSourceVelocityProbe | 3 | %System | _weight_, _wavelength_ |
-| \f$\qquad\f$ _Media_: ||||
+| - <em>Media</em>: ||||
 | ImportedMediumDensityProbe | 1 | Component | |
 | ImportedMediumMetallicityProbe | 1 | Component | |
 | ImportedMediumTemperatureProbe | 1 | Component | |
@@ -219,25 +219,25 @@ respective class documentation.
 
 | %Probe subclass | File format | Output |
 | --- | --- | --- |
-| \f$\qquad\f$ <em>Spatial grid statistics:</em> |||
+| - <em>Spatial grid statistics:</em> |||
 | ConvergenceInfoProbe | Free-form text | Statistics on the spatial grid for each material type |
 | ConvergenceCutsProbe | FITS | Coordinate-plane cuts through both the input and grid-discretized media density |
 | SpatialCellPropertiesProbe | Column text | Coordinates, volume, optical depth, and densities for each spatial cell |
 | SpatialGridPlotProbe | Data text | Info that allows plotting the structure of the spatial grid with PTS |
 | TreeSpatialGridTopologyProbe | Data text | Topology of the tree spatial grid that can be loaded by FileTreeSpatialGrid |
-| \f$\qquad\f$ <em>Material properties:</em> |||
+| - <em>Material properties:</em> |||
 | OpticalMaterialPropertiesProbe | Column text | Cross sections etc. for the material mixes in the simulation |
 | DustGrainPopulationsProbe | Column text | Statistics on the dust grain populations in the simulation |
 | DustGrainSizeDistributionProbe | Column text | Size distributions of dust grain populations in the simulation |
 | DustEmissivityProbe | Column text | Emissivity spectra for the dust mixes in the simulation |
-| \f$\qquad\f$ <em>%Source statistics:</em> |||
+| - <em>%Source statistics:</em> |||
 | LaunchedPacketsProbe | Column text | Number of photon packets launched from sources per wavelength bin |
 | LuminosityProbe | Column text | Primary source luminosities per wavelength bin |
-| \f$\qquad\f$ <em>Wavelength grids:</em> |||
+| - <em>Wavelength grids:</em> |||
 | RadiationFieldWavelengthGridProbe | Column text | Wavelength, width, and borders for each radiation field wavelength bin |
 | DustEmissionWavelengthGridProbe | Column text | Wavelength, width, and borders for each dust emission wavelength bin |
 | InstrumentWavelengthGridProbe | Column text | Wavelength, width, and borders for each instrument wavelength bin |
-| \f$\qquad\f$ <em>Other:</em> |||
+| - <em>Other:</em> |||
 | SpatialGridSourceDensityProbe | Column text | Discretization of geometric source luminosity on the spatial grid |
 | DustAbsorptionPerCellProbe | Column text | Luminosity absorbed by dust for each cell in the spatial grid |
 
