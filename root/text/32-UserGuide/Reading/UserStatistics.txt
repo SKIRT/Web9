@@ -91,6 +91,69 @@ the bin. This aggregation issue is irrelevant for a regular flux calculation, co
 sums, which are nonlinear expressions of the individual contributions.
 
 
-\section UserStatisticsExamples Examples
+\section UserStatisticsExample1 Example: radiation penetrating thick slab
+
+A very informative, albeit somewhat theoretical, application of SKIRT's statistical metrics is provided by [Camps and
+Baes 2020](https://ui.adsabs.harvard.edu/abs/2020A%26C....3100381C/abstract). The SKIRT simulation in this example
+includes a cuboidal slab of material illuminated by a monochromatic point source. The distant (parallel-projected)
+instrument on the opposite side covers a slice across the length of the slab and is offset from the center so that the
+point source is not in the field of view. Each pixel in the instrument frame spans the full width of the slice, causing
+all photon packet contributions along the width of the slice to end up in the same pixel, and the set of pixels to form
+a linear sequence of thin rectangles along the length of the slice. The figure below shows the flux density profile
+detected by this instrument for a varying total number of photon packets \f$N_\mathrm{pp}\f$ launched during the
+simulation (top row) and the corresponding values of the relative error \f$R\f$ (middle row) and the variance of the
+variance VOV (bottom row).
+
+|                               |                                |
+|-------------------------------|--------------------------------|
+| ![ ](UserStatisticsSlab5.png) | ![ ](UserStatisticsSlab75.png) |
+
+The left panel illustrates that for an optical depth across the slab of \f$\tau=5\f$ the results are essentially
+converged starting at \f$N_\mathrm{pp}\geq10^7\f$. In this case, \f$R<0.1\f$ and the value of the VOV is below
+\f$10^{-2}\f$ (which is why the corresponding curves are missing), so that both \f$R\f$ and the actual simulation
+results can be deemed reliable. The situation shown in the right panel for an optical depth of \f$\tau=75\f$ is totally
+different. The average flux density rises significantly with an increasing number of photon packets, which is a strong
+indication that something fishy is going on. The good news is that we can now use statistical analysis to evaluate the
+results. It appears that \f$R\f$ (finally) dips under the reliability threshold for \f$N_\mathrm{pp}=10^{12}\f$.
+However, the VOV is still well above the threshold, so the value of \f$R\f$ cannot really be trusted. This is reflected
+by two features apparent in the flux density profiles. Firstly, extrapolation of the progression of the flux profile
+average with increasing \f$N_\mathrm{pp}\f$ seems to indicate room for a further increase. Secondly, the flux density
+curve shows several large peaks of an order of magnitude or more even for the simulation with
+\f$N_\mathrm{pp}=10^{12}\f$. We can conclude from this analysis that the results are still not fully converged.
+
+The simulation with \f$N_\mathrm{pp}=10^{12}\f$ shown in the right panel ran for over 6 hours on a 24-core server.
+Calculating the next step in the progression, i.e. \f$N_\mathrm{pp}=10^{14}\f$, would take 25 days on the same machine.
+While using a larger, multi-node computer system could shorten the elapsed time, there is no guarantee of convergence.
+In fact, the lack of progression of the VOV values up to \f$N_\mathrm{pp}=10^{12}\f$ seems to indicate that one would
+need to process several orders of magnitude more photon packets for the results to be converged with an acceptable
+signal to noise ratio.
+
+
+\section UserStatisticsExample2 Example: high-resolution synthetic galaxy images
+
+A more practical application of SKIRT's statistical metrics is provided by [Camps et al.
+2022](https://ui.adsabs.harvard.edu/abs/2022MNRAS.512.2728C/abstract). These authors produce high-resolution synthetic
+UV–submm images for Milky Way-mass simulated galaxies from the ARTEMIS project. To evaluate convergence on a pixel by
+pixel basis, they calculate the relative error \f$R\f$ for each pixel in a representative set of broadband images at
+selected viewing angles. The figure below shows these statistics for the face-on view of a representative ARTEMIS
+galaxy in four selected bands from UV to submm wavelengths.
+
+|                                      |
+|--------------------------------------|
+| ![ ](UserStatisticsGalaxyFrames.png) |
+
+The synthetic surface brightness maps in the top row use a logarithmic colour scale; the transition between red and
+blue marks 1/100 of the maximum surface brightness. Each of the underlying data frames has \f$1728^2\f$
+\f$50\times50\f$ pc pixels, corresponding to the 86 kpc field of view. The second row (\f$b=1\f$) shows the
+corresponding \f$R\f$ value for each of these pixels indicating reliable (\f$R<0.1\f$, green), questionable (\f$0.1 < R
+< 0.2\f$, orange) and unreliable (\f$R > 0.2\f$, red) image areas. The third row (\f$b=2\f$) shows the same statistic
+after \f$2\times2\f$ binning into \f$100\times100\f$ pc pixels. As expected, this binning results in a substantial
+increase in reliability at the cost of lower resolution.
+
+At the binned \f$b=2\f$ level, the reliable area (green) essentially covers all pixels with a value down to 1/100 of
+the maximum surface brightness (yellow and red). At the original \f$b=1\f$ level, one needs to include the questionable
+area (orange) to achieve a similar coverage. Generally, the FUV/NUV bands tend to show somewhat poorer statistics
+because of the relatively lower fluxes and higher extinction involved in that wavelength range.
+
 
 */
