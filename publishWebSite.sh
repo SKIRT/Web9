@@ -26,7 +26,8 @@
 mkdir -p ../webhost
 read -s -p "Password for web host user $USER: " PASSWORD
 echo
-mount -t smbfs //UGENT\;$USER:$PASSWORD@files.ugent.be/$USER/www/shares/skirt ../webhost
+#mount -t smbfs //UGENT\;$USER:$PASSWORD@files.ugent.be/$USER/www/shares/skirt ../webhost
+mount -t smbfs //UGENT\;$USER@files.ugent.be/$USER/www/shares/skirt ../webhost
 if [ $? -ne 0 ]
   then exit
 fi

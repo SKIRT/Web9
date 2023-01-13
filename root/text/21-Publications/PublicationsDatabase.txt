@@ -6,6 +6,46 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+The origin of low-surface-brightness galaxies in the dwarf regime
+Jackson et al.
+MNRAS
+04 2021
+Application
+Jackson2021
+2021MNRAS.502.4262J 
+
+Effects of dust sources on dust attenuation properties in IllustrisTNG galaxies at z~7
+Hsu et al.
+MNRAS
+02 2023
+Application
+Hsu2023
+2023MNRAS.519.2475H 
+
+Predicting sub-millimetre flux densities from global galaxy properties
+Cochrane et al.
+MNRAS
+02 2023
+Application
+Cochrane2023
+2023MNRAS.518.5522C
+
+Simulated bars may be shorter but are not slower than those observed: TNG50 versus MaNGA
+Frankel et al.
+ApJ
+11 2022
+Application
+Frankel2022
+2022ApJ...940...61F
+
+Dust temperature uncertainties hamper the inference of dust and molecular gas masses from the dust continuum emission of quiescent high-redshift galaxies
+Cochrane et al.
+ApJL
+11 2022
+Application
+Cochrane2022
+2022ApJ...939L..27C
+
 Monte Carlo radiative transfer with explicit absorption to simulate absorption, scattering, and stimulated emission
 Baes et al.
 A&A
@@ -285,6 +325,14 @@ ApJ
 Technical
 Camps2021
 2021ApJ...916...39C
+
+Introducing the NewHorizon simulation: galaxy properties with resolved internal dynamics across cosmic time
+Dubois et al.
+A&A
+07 2021
+Application
+Dubois2021
+2021A&A...651A.109D
 
 Dust evolution in zoom-in cosmological simulations of galaxy formation
 Granato et al.
