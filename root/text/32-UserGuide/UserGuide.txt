@@ -41,6 +41,7 @@ Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; 
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserNotebooks
 | \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialPython
 | | | |
+| \image html UserLevel2.png | \image html UserReading.png  | \ref UserStatistics
 | \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialPolarization
 | \image html UserLevel2.png | \image html UserConfig.png   | \ref UserPolarize
 | \image html UserLevel3.png | \image html UserConfig.png   | \ref UserPhotonCycle
