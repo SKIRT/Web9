@@ -91,8 +91,11 @@ Aug  9, 2022 | 4dbf6f3 | \*\* Revised dynamic medium state concepts and executio
 Sep 15, 2022 | cfc43be | \*\* Extra flexibility for border wavelength grids loaded from file or list
 Sep 19, 2022 | 2c337c4 | Support self-consistent non-LTE line transfer for selected transitions and species
 Oct 12, 2022 | fbd00c8 | Add probe for line luminosity during secondary emission
-Nov  4, 2022 | edb826e | Fix multi-process hang in imaging form probes; plus some minor fixes
-
+Nov  4, 2022 | edb826e | Fix multi-process hang in imaging form probes
+Jan 23, 2023 | 6b8531e | Add annulus and donut geometries
+Feb 28, 2023 | 4075140 | Add three new GrainCompositions for AGN dusty torus
+Apr 11, 2023 | 930a240 | Add extra fluorescent lines to XRayAtomicGasMix
+Apr 29, 2023 | 352bd26 | Support polarization for Compton scattering in ElectronMix and XRayAtomicGasMix
 
 \*\* This update requires a ski file upgrade
 
