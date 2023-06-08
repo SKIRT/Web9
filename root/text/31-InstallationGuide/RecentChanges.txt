@@ -93,9 +93,10 @@ Sep 19, 2022 | 2c337c4 | Support self-consistent non-LTE line transfer for selec
 Oct 12, 2022 | fbd00c8 | Add probe for line luminosity during secondary emission
 Nov  4, 2022 | edb826e | Fix multi-process hang in imaging form probes
 Jan 23, 2023 | 6b8531e | Add annulus and donut geometries
-Feb 28, 2023 | 4075140 | Add three new GrainCompositions for AGN dusty torus
 Apr 11, 2023 | 930a240 | Add extra fluorescent lines to XRayAtomicGasMix
 Apr 29, 2023 | 352bd26 | Support polarization for Compton scattering in ElectronMix and XRayAtomicGasMix
+May 19, 2023 | cbcac09 | Add three new GrainCompositions for AGN dusty torus
+Jun  7, 2023 | 1bba242 | Add TODDLERS star-forming region SED template library
 
 \*\* This update requires a ski file upgrade
 

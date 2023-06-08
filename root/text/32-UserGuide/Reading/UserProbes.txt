@@ -86,10 +86,15 @@ multiple probes of the same type with a form with different properties or a diff
 probe a given quantity (e.g., dust mass density) in various ways (e.g., cuts along different planes or projections from
 different sight lines).
 
+For planar cuts, the model or grid is sampled at the center of each output pixel. Similarly, for planar projections, a
+ray is sent through the model or grid for each output pixel center, calculating the projection by accumulating
+information along that ray. Consequently, the probed output ignores small features in the model that intersect/project
+on the pixel but do not overlap the pixel center. To improve accuracy, decrease the pixel size by increasing the number
+of pixels along each axis.
+
 Most of the forms can be associated with any probe types, except that some forms do not work with the input model
 probes because they require the internal spatial grid. This includes the PerCellForm, for obvious reasons, and the
 DefaultCutsForm, because it requires the extent of the simulation's spatial grid.
-
 
 \section UserProbesInput Input model probes
 
@@ -159,7 +164,7 @@ The table below lists the available internal spatial grid probes.
 | --- | --- | --- | --- | --- |
 | DensityProbe | 1 | Component, Type | Setup, Run, Primary, Secondary | |
 | OpacityProbe | 1 | Component, Type, %System | Setup, Run, Primary, Secondary | _wavelength_ |
-| TemperatureProbe | 1 | Component, Type | Setup, Run, Primary, Secondary | |
+| TemperatureProbe | 1 | Component, Type, Fragment | Setup, Run, Primary, Secondary | |
 | MetallicityProbe | 1 | Component | Setup, Run, Primary, Secondary | |
 | VelocityProbe | 3 | %System | Setup | |
 | MagneticFieldProbe | 3 | %System | Setup | |
@@ -176,7 +181,9 @@ The third column lists the supported aggregation mechanisms. Depending on the pr
 per individual medium component, per type of medium (dust, electrons, gas), and/or for the complete medium system.
 Quantities such as density cannot be aggregated across medium types because, for example, dust is characterized by mass
 density and gas by number density. On the other hand, the simulation stores just a single bulk velocity field for all
-media in the system (see \ref UserImportSnapMediaSample).
+media in the system (see \ref UserImportSnapMediaSample). The temperature probe offers a specialty aggregation option
+to output information for each fragment in a dust mix decorated by the FragmentDustMixDecorator. Refer to the
+TemperatureProbe class documentation for more information.
 
 The fourth column indicates the options that specify when the probe will be performed during the simulation.
 Possibilities include at the end of the setup phase, at the very end of the simulation run, and after each primary or
