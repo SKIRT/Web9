@@ -99,6 +99,8 @@ May 19, 2023 | cbcac09 | Add three new GrainCompositions for AGN dusty torus
 Jun  7, 2023 | 1bba242 | Add TODDLERS star-forming region SED template library
 Jun  8, 2023 | 587faab | Add temperature probing for individual grain populations in a dust mixture
 Aug 23, 2023 | 9e2c223 | Support hydroxyl with hyperfine structure and molecular hydrogen for non-LTE line transfer
+Aug 26, 2023 | 7d463e3 | Fix performance issue in photon life cycle without forced scattering
+Aug 30, 2023 | 879e9de | Introduce extrapolated optical properties for AGN dust mixes
 
 \*\* This update requires a ski file upgrade
 
