@@ -101,6 +101,7 @@ Jun  8, 2023 | 587faab | Add temperature probing for individual grain population
 Aug 23, 2023 | 9e2c223 | Support hydroxyl with hyperfine structure and molecular hydrogen for non-LTE line transfer
 Aug 26, 2023 | 7d463e3 | Fix performance issue in photon life cycle without forced scattering
 Aug 30, 2023 | 879e9de | Introduce extrapolated optical properties for AGN dust mixes
+Sep 18, 2023 | 51292f7 | Honor wavelength output style for spectral units in ski files
 
 \*\* This update requires a ski file upgrade
 
@@ -134,5 +135,6 @@ May 18, 2022 | f5b3f85 | Adjust plotting commands and ski file upgrade to revise
 Aug  9, 2022 | 49f8d7d | Provide automated ski file upgrade procedure for revised execution flows
 Sep 15, 2022 | 06777ab | Provide automated ski file upgrade procedure for border wavelength grids
 Nov  4, 2022 | 5937da0 | Fix some very minor issues, mostly documentation
+Sep 14, 2023 | 2583d55 | Allow specifying the units of the wavelength range in relevant plot commands
 
 */
