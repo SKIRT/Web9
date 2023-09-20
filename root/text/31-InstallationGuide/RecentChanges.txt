@@ -101,7 +101,7 @@ Jun  8, 2023 | 587faab | Add temperature probing for individual grain population
 Aug 23, 2023 | 9e2c223 | Support hydroxyl with hyperfine structure and molecular hydrogen for non-LTE line transfer
 Aug 26, 2023 | 7d463e3 | Fix performance issue in photon life cycle without forced scattering
 Aug 30, 2023 | 879e9de | Introduce extrapolated optical properties for AGN dust mixes
-Sep 18, 2023 | 51292f7 | Honor wavelength output style for spectral units in ski files
+Sep 20, 2023 | 2609fd3 | Honor wavelength output style for spectral units in ski files, Q&A, and Makeup
 
 \*\* This update requires a ski file upgrade
 
