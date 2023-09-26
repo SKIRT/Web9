@@ -4,7 +4,7 @@
 
 This tutorial introduces the X-ray capabilities of the SKIRT code. You will study X-ray reprocessing in an obscured
 active galactic nucleus (AGN), represented by cold gas in a parsec-scale torus surrounding a central source. The goal
-is to produce X-ray SEDs in the 0.1 to 150 keV range, showing reflection from a clumpy wedge torus geometry. You will
+is to produce X-ray SEDs in the 0.3 to 150 keV range, showing reflection from a clumpy wedge torus geometry. You will
 create a ski file containing the appropriate simulation parameters, perform the SKIRT simulation, and review the
 simulation results focusing on the X-ray reflection spectra.
 
@@ -47,7 +47,7 @@ provided in the table below and put it into your local working directory.
 <TABLE>
 <TR><TH>Power-law %SED</TH>
         <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/PowerLawSED.txt">PowerLawSED.txt</a>
-        </TD>
+            (right-click & download/save)</TD>
 </TABLE>
 
 
@@ -105,7 +105,7 @@ level of the user. For this tutorial, select the \em Basic level.
   ? Enter one of these numbers [1,4] (3): 4
 \endverbatim
 
-As discussed in a previous tutorial (see \ref TutorialBasicsMonoUni), SKIRT offers offers several options for the
+As discussed in a previous tutorial (see \ref TutorialBasicsMonoUni), SKIRT offers several options for the
 output units. In this tutorial, you will be modelling an AGN, so select extragalactic units (the default option). In
 the X-ray range, you want to use photon energies in keV as the spectral variable, and photon counts per energy as the
 flux output style. The spatially integrated flux densities in output SEDs will then be expressed in standard X-ray
@@ -135,27 +135,27 @@ when configuring X-ray simulations.
 \subsection TutorialXRayTorusPho Photon packets
 
 \verbatim
- ? Enter the default number of photon packets launched per simulation segment [0,1e19] (1e6): 1e7
+ ? Enter the default number of photon packets launched per simulation segment [0,1e19] (1e6): 5e6
 \endverbatim
 
-X-ray simulations run faster than simulations including dust extinction and emission, and therefore you can increase
-the number of photon packets to \f$10^7\f$ for this tutorial. This will produce SEDs with a higher signal to noise,
-while maintaining a short run time.
+X-ray simulations run faster than simulations including dust extinction and emission, and therefore you can set the
+number of photon packets to \f$5\times 10^6\f$ for this tutorial rather than the default value of \f$10^6\f$. Further
+increasing this number will produce SEDs with an even higher signal to noise ratio.
 
 \subsection TutorialXRayTorusSrc Source system
 
 \verbatim
  ? Enter the shortest wavelength of photon packets launched from primary sources ...: 500 keV
- ? Enter the longest wavelength of photon packets launched from primary sources ...: 0.1 keV
+ ? Enter the longest wavelength of photon packets launched from primary sources ...: 0.3 keV
 \endverbatim
 
 For panchromatic simulations, the source system requests the limits of the wavelength range to be considered for the
 primary sources. Keep in mind that the shortest wavelength corresponds to the highest photon energy, and vice versa. In
-this tutorial, you are interested in X-ray SEDs in the 0.1 to 150 keV range. However, as X-ray interactions in cold
+this tutorial, you are interested in X-ray SEDs in the 0.3 to 150 keV range. However, as X-ray interactions in cold
 material reduce the photon energy, you also have to consider radiative transfer at higher photon energies. The exact
 energy range depends on the highest observed energy (higher energy photons experience stronger downshifts) and on the
 column density of the medium (more interactions cause more consecutive downshifts). For this tutorial, you can select a
-shortest wavelength of 500 keV, and a longest wavelength of 0.1 keV.
+shortest wavelength of 500 keV, and a longest wavelength of 0.3 keV.
 
 \verbatim
    Possible choices for item #1 in the primary sources list:
@@ -356,7 +356,7 @@ TutorialGridsTreeVoro.
          ...
  ? Enter one of these numbers [1,8] (1): 1
  ? Enter the shortest wavelength [1239.841876 keV,1.239841876e-9 keV]: 150 keV
- ? Enter the longest wavelength [1239.841876 keV,1.239841876e-9 keV]: 0.1 keV
+ ? Enter the longest wavelength [1239.841876 keV,1.239841876e-9 keV]: 0.3 keV
  ? Enter the number of wavelength grid points [2,2000000000] (25): 500
 \endverbatim
 
@@ -364,7 +364,7 @@ SKIRT instruments record wavelength-dependent quantities in a finite number of d
 experience level \em Basic, the default instrument wavelength grid is used by definition for all instruments. In higher
 experience levels, a specific wavelength grid can be configured for each individual instrument if so desired.
 
-For this tutorial, configure a logarithmic wavelength grid (the default option) with 500 bins between 150 keV and 0.1
+For this tutorial, configure a logarithmic wavelength grid (the default option) with 500 bins between 150 keV and 0.3
 keV, which will produce high-resolution X-ray spectra.
 
 \verbatim
@@ -409,6 +409,8 @@ When asked for a third instrument, enter zero to terminate the list.
       1. Convergence: information on the spatial grid
       2. Convergence: cuts of the medium density along the coordinate planes
          ...
+      9. Properties: data files for plotting the structure of the grid
+     10. Properties: aggregate optical material properties for each medium
  ? Enter one of these numbers or zero to terminate the list [0,10] (1): 1
  ? Enter the name for this probe: cnv
  ? Enter the wavelength at which to determine the optical depth ...: 40 keV
@@ -416,9 +418,19 @@ When asked for a third instrument, enter zero to terminate the list.
       1. Convergence: information on the spatial grid
       2. Convergence: cuts of the medium density along the coordinate planes
          ...
+      9. Properties: data files for plotting the structure of the grid
+     10. Properties: aggregate optical material properties for each medium
  ? Enter one of these numbers or zero to terminate the list [0,10] (1): 2
  ? Enter the name for this probe: dns
    Possible choices for item #3 in the probes list:
+      1. Convergence: information on the spatial grid
+      2. Convergence: cuts of the medium density along the coordinate planes
+         ...
+      9. Properties: data files for plotting the structure of the grid
+     10. Properties: aggregate optical material properties for each medium
+ ? Enter one of these numbers or zero to terminate the list [0,10] (1): 9
+ ? Enter the name for this probe: grd
+   Possible choices for item #4 in the probes list:
       1. Convergence: information on the spatial grid
       2. Convergence: cuts of the medium density along the coordinate planes
          ...
@@ -432,6 +444,7 @@ wavelength at which the optical depth should be calculated, enter 40 keV.
 |-------------|-------------|-----------
 | Convergence: information on the spatial grid                        | cnv | 40 keV
 | Convergence: cuts of the medium density along the coordinate planes | dns | --
+| Properties: data files for plotting the structure of the grid       | grd | --
 
 Finally, when asked for the subsequent probe, enter zero to terminate the list. SKIRT now stores the completed
 configuration into the ski file \c ClumpyTorus.ski.
@@ -455,11 +468,34 @@ $ skirt ClumpyTorus
 The output files for this tutorial are similar to those already described for a previous tutorial (see \ref
 TutorialBasicsMonoOutput and \ref TutorialBasicsPanOutput).
 
-You can open the output of the first convergence probe \c ClumpyTorus_cnv_convergence.dat in a text editor, to check
-the spatial grid convergence metrics. With the grid configuration recommended for this tutorial, the total mass
-convergence is quite good. However, when comparing the gridded optical depths through the medium with the input values,
-you might find differences up to 50 per cent. This is because the input values refer to the smooth base geometry, while
-the gridded values include the effect of random clumping.
+To check the spatial grid convergence metrics, open the output of the first convergence probe \c
+ClumpyTorus_cnv_convergence.dat in a text editor. You should see results similar to the following (your numbers will
+differ because of the random placement of the clumps and the random density sampling involved in constructing the
+spatial grid):
+
+\verbatim
+Total mass
+  Input:   4.188e+06 Msun
+  Gridded: 4.19e+06 Msun (0.06 %)
+
+Optical depth at 40 keV along full X-axis
+  Input:   1.44986
+  Gridded: 0.727971 (-49.79 %)
+
+Optical depth at 40 keV along full Y-axis
+  Input:   1.44986
+  Gridded: 1.76361 (21.64 %)
+
+Optical depth at 40 keV along full Z-axis
+  Input:   0
+  Gridded: 0
+\endverbatim
+
+With the grid configuration recommended for this tutorial, the total mass convergence is almost perfect. However, when
+comparing the gridded optical depths through the medium with the input values, you might find differences up to 50 per
+cent. This is because the input values refer to the smooth base geometry, while the gridded values include the effect
+of random clumping. For more information, see the optional advanced section \ref TutorialXRayTorusAdvancedSmoothTorus
+at the end of this tutorial.
 
 Because the geometry in this simulation is three-dimensional (i.e. it has no symmetries), the second convergence probe
 produces three cuts through the cold gas density. You can open the theoretical density cuts \c
@@ -480,7 +516,29 @@ The cuts in this figure show that the spatial grid encompasses the entire torus 
 distribution is nicely discretized. The purple cells at the torus edges are a consequence of applying adaptive gridding
 using cuboidal cells lined up with the Cartesian coordinate axes. These cells do not have a significant effect on the
 radiative transfer results because their medium density is orders of magnitude lower than the relevant torus densities.
-The figure also shows how the more dense clumps are nicely resolved with smaller grid cells.
+The figure also shows how the denser clumps are nicely resolved with smaller grid cells.
+
+You can also visualise this effect in the grid using PTS, using the information produced by the third probe configured
+for your simulation:
+
+\verbatim
+$ pts plot_grids .
+   Starting visual/plot_grids...
+   Created grid plot /.../ClumpyTorus_grd_grid_xy.pdf
+   Created /.../ClumpyTorus_grd_grid_xyz.pdf
+   Created grid plot /.../ClumpyTorus_grd_grid_xz.pdf
+   Created grid plot /.../ClumpyTorus_grd_grid_yz.pdf
+   Finished visual/plot_grids.
+(base) pcamps@kenobi:~/SKIRT/SKIRT9/run/xraytorus$
+\endverbatim
+
+This yields the following cuts along horizontal and vertical planes through the adaptive grid, showing that the grid
+closely follows the clumpy torus density distribution:
+
+<TABLE><TR>
+<TD>\image html TutorialXRayTorusGrid1.png</TD>
+<TD>\image html TutorialXRayTorusGrid2.png</TD>
+</TR></TABLE>
 
 \subsection TutorialXRayTorusSpectra Spectra
 
@@ -489,7 +547,7 @@ ClumpyTorus_I00_sed.dat and \c ClumpyTorus_I90_sed.dat represent the spectral en
 detected by each instrument. The total observed flux can be easily plotted using the following PTS command:
 
 \verbatim
-$ pts plot_seds . --unit=keV --wmin=150 --wmax=0.1 --dex=8
+$ pts plot_seds . --unit=keV --wmin=150 --wmax=0.3 --dex=8
    Starting visual/plot_seds...
    Created /.../ClumpyTorus_sed.pdf
    Finished visual/plot_seds.
@@ -502,10 +560,10 @@ By default, the SEDs for all instruments in the simulation are combined on the s
 I00 provides an unobscured, face-on view of the X-ray corona, and the  observed spectrum closely resembles the input
 power law, with an additional Fe Ka line at 6.4 keV and an Fe Kb line at 7.1 keV produced by reprocessing in the
 torus. The second instrument I90 probes a heavily obscured sightline (edge-on view of the torus), for which the
-primary emission is fully absorbed at soft X-ray energies. As the primary source is obscured, the X-ray reflection
-spectrum stands out more, showing many fluorescent lines, and a clear Fe K absorption edge at 7.1 keV.
+primary emission is mostly absorbed at soft X-ray energies. As the primary source is obscured, the X-ray reflection
+spectrum stands out more prominently, showing many fluorescent lines, and a clear Fe K absorption edge at 7.1 keV.
 
-Now inpect the file \c ClumpyTorus_I90_sed.dat in a text editor. In addition to the wavelength column (in keV), there
+Now inspect the file \c ClumpyTorus_I90_sed.dat in a text editor. In addition to the wavelength column (in keV), there
 are several corresponding flux columns (in 1/s/cm2/keV):
 
 - total flux: the total observed flux detected by the instrument, including the effects of extinction and reprocessing.
@@ -526,6 +584,8 @@ always zero in X-ray simulations.
 These individual flux contributions can easily be plotted by running the following Python script:
 
 \code{.py}
+import numpy as np
+import matplotlib.pyplot as plt
 E, T, I, D, S, *rest = np.loadtxt("ClumpyTorus_I90_sed.dat", unpack=True)
 plt.loglog(E, I, label="input")
 plt.loglog(E, S, label="reprocessed")
@@ -545,6 +605,16 @@ This figure shows the significant contribution of the reflection spectrum to the
 keV, forming the so-called Compton hump. The reflection spectrum still is a bit noisy, which can be improved by
 increasing the number of photon packets (which will also increase the simulation run time).
 
+
+\section TutorialXRayTorusAdvanced Optional advanced section: editing the ski file
+
+\subsection TutorialXRayTorusAdvancedSmoothTorus A smooth torus
+
+Bla.
+
+\subsection TutorialXRayTorusAdvancedWeightReduction Minimum weight reduction for photon packets
+
+Bla.
 
 <b><i>Congratulations, you made it to the end of this tutorial!</i></b>
 
