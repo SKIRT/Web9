@@ -494,8 +494,7 @@ Optical depth at 40 keV along full Z-axis
 With the grid configuration recommended for this tutorial, the total mass convergence is almost perfect. However, when
 comparing the gridded optical depths through the medium with the input values, you might find differences up to 50 per
 cent. This is because the input values refer to the smooth base geometry, while the gridded values include the effect
-of random clumping. For more information, see the optional advanced section \ref TutorialXRayTorusAdvancedSmoothTorus
-at the end of this tutorial.
+of random clumping. For more information, see the \ref TutorialXRayTorusSmoothTorus at the end of this tutorial.
 
 Because the geometry in this simulation is three-dimensional (i.e. it has no symmetries), the second convergence probe
 produces three cuts through the cold gas density. You can open the theoretical density cuts \c
@@ -606,15 +605,112 @@ keV, forming the so-called Compton hump. The reflection spectrum still is a bit 
 increasing the number of photon packets (which will also increase the simulation run time).
 
 
-\section TutorialXRayTorusAdvanced Optional advanced section: editing the ski file
+\section TutorialXRayTorusSmoothTorus Optional section: a smooth torus
 
-\subsection TutorialXRayTorusAdvancedSmoothTorus A smooth torus
+This optional tutorial section shows the effect of the clumps in the torus model by comparing the clumpy density
+distribution to a smooth distribution with the same total mass. This is very easy to accomplish as follows:
 
-Bla.
+- Make a copy of the ski file \c ClumpyTorus.ski and rename it to \c SmoothTorus.ski
+- Open \c SmoothTorus.ski in a text editor and scroll to the line representing the \em ClumpyGeometryDecorator
+- Update the value of the \em clumpFraction property to zero:
 
-\subsection TutorialXRayTorusAdvancedWeightReduction Minimum weight reduction for photon packets
+      <ClumpyGeometryDecorator clumpFraction="0" numClumps="1000" ... >
 
-Bla.
+- Save the changes
+
+\note You could also remove the \em ClumpyGeometryDecorator altogether, but this is somewhat tricky as you need to
+preserve the proper nesting in the XML-formatted ski file.
+
+Now perform the \c SmoothTorus simulation with SKIRT and evaluate the output files in the same way as you did
+previosuly for the \c ClumpyTorus simulation. Specifically, the optical depth convergence statistics produced by the
+first probe now show differences smaller than 1 per cent, because both the input and gridded metrics now apply to a
+smooth distribution. Also, the density cuts along the coordinate planes reflect a smooth (and constant) density
+across the torus geometry.
+
+You can plot the observed spectra in the same way as before. However, for an easier comparison it is desirable to plot
+the spectra from both simulations in a single figure. This can be accomplished by running a variation of the previously
+shown python script:
+
+\code{.py}
+import numpy as np
+import matplotlib.pyplot as plt
+E, T, I, *rest = np.loadtxt("ClumpyTorus_I90_sed.dat", unpack=True)
+plt.loglog(E, I, label="input")
+plt.loglog(E, T, label="clumpy torus")
+E, T, I, *rest = np.loadtxt("SmoothTorus_I90_sed.dat", unpack=True)
+plt.loglog(E, T, label="smooth torus")
+plt.xlim(1, 150)
+plt.ylim(1e-7, 0.2)
+plt.xlabel("$E~[keV]$")
+plt.ylabel("$F_E~[\mathrm{keV}^{-1}\,\mathrm{s}^{-1}\,\mathrm{cm}^{-2}]$")
+plt.legend()
+plt.savefig("SmoothTorusComparison.pdf")
+\endcode
+
+\image html TutorialXRayTorusComparison.png
+
+At an inclination of 90 degrees (edge-on), the observed X-ray spectra for the smooth torus geometry are significantly
+more absorbed. This is because the clumpy model sightline passes mostly through the inter-clump medium, which is only
+half as dense as the smooth torus medium (see the density cuts in \ref TutorialXRayTorusConvergence).
+
+
+\section TutorialXRayTorusLowIntensityLines Advanced section: low-intensity lines
+
+The output spectra simulated for the clumpy torus model in this tutorial clearly show a number of fluorescence lines in
+the energy range below 3 keV (see the figures in \ref TutorialXRayTorusSpectra). However, because of high absorption
+rates, the observed flux levels in that energy range are several orders of magnitude below the input spectrum and below
+the levels at energies above 10 keV. As a result, the numerical noise produced by the simulation may in fact dominate
+the true output signal, especially when studying relatively low-intensity fluorescence lines in this energy range.
+
+To increase the signal to noise ratio, we need to adjust two relevant simulation parameters: an advanced parameter
+called "minum weight reduction", which regulates an aspect of the Monte Carlo photon packet cycle in SKIRT, and the
+number of photon packets launched in the simulation.
+
+A transfer medium in SKIRT usually implements both absorption and scattering interactions with photon packets. For the
+XRayAtomicGasMix medium considered here, florescence is implemented as scattering: the photon packet, with reduced
+luminosity and new wavelength, is relaunched from the interaction location in a random direction. Thus, as SKIRT traces
+a photon packet through the medium, the packet looses luminosity at each interaction until it becomes sufficiently
+insignificant to be terminated. By default, a photon packet is terminated when its luminosity is four orders of
+magnitude lower than its original luminosity (the advanced parameter is set to \em minWeightReduction ="1e4"). With
+this value, low-intensity fluorescence photon packets may be terminated before having a chance to register in the
+instruments. To ensure that low-intensity lines are properly included in the output spectrum, the minimum weight
+reduction factor must be increased to, say, ten orders of magnitude (\em minWeightReduction ="1e10"). The simulation
+time increases (significantly but not dramatcially) because many photon packets have a longer life cycle.
+
+The other important parameter is the number of photon packets launched in the simulation (\em numPackets). This is the
+key parameter to reduce the level of noise inherent to the Monte Carlo method used by SKIRT. Unfortunately, the
+simulation time scales esentially linearly with the number of photon packets. The best way to find an optimal value for
+this parameter is to perform a convergence study: increase the number of photon packets until the relevant simulation
+results no longer vary significantly.
+
+To study these issues with the clumpy torus model, proceed as follows:
+
+- Make a copy of the ski file \c ClumpyTorus.ski and rename it to \c LineTorus5e6.ski
+- Open \c LineTorus5e6.ski in a text editor; leave the \em numPackets value untouched
+- In the \em PhotonPacketOptions, update \em minWeightReduction to 1e10
+- To increase the spectral resolution in the  energy range relevant for our study,
+  update the default wavelength grid in the instrument system to a range from 3.5 to 0.9 keV and 200 wavelengths:
+
+      <LogWavelengthGrid minWavelength="3.5 keV" maxWavelength="0.9 keV" numWavelengths="200"/>
+
+- Save the changes
+- Make two more copies of the file you just saved and rename them to \c LineTorus5e7.ski and \c LineTorus1e8.ski
+- Edit the \em numPackets in each of these files to reflect the number in listed in the filenames
+- Perform all three simulations with SKIRT; on a powerful desktop with 8+8 cores, the longest simulation takes about
+  30 minutes
+
+You can easily plot the resulting spectra (at inclination of 90 degrees) with an adjusted version of the python scripts
+shown earlier. This should yield a figure similar to this one:
+
+\image html TutorialXRayTorusLines.png
+
+With \f$5\times 10^6\f$ photon packets (the blue curve), the output spectrum is completely dominated by noise.
+Increasing the number of packets tenfold to \f$5\times 10^7\f$ (the orange curve) seems to mostly resolve this problem,
+however we cannot be sure without performing a further test. Doubling the number of packets to \f$10^8\f$ (the dotted
+green curve), we find that the spectrum is indeed converged in the energy range above 2 keV. For lower energies, the
+continuum spectrum still changes significantly with the number of photon packets. We would need to further increase the
+number of packets to find convergence in this energy range as well.
+
 
 <b><i>Congratulations, you made it to the end of this tutorial!</i></b>
 
