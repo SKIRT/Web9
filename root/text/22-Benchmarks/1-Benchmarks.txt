@@ -16,5 +16,6 @@ the corresponding page.
 - Camps et al. 2015: \ref Camps2015
 - Gordon et al. 2017: \ref Gordon2017
 - Peest et al. 2017: \ref Peest2017
+- Vander Meulen et al. 2023: \ref VanderMeulen2023
 
 */
