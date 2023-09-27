@@ -4,32 +4,94 @@
 
 \section VanderMeulenIntro Introduction
 
-Peest et al. 2017 describe a method for simulating the effects of scattering by spherical dust grains on the
-polarization of radiation in Monte Carlo codes such as SKIRT. Furthermore, they define a number of test cases to
-verify the simulation results by comparison with analytically calculated solutions.
+Vander Meulen et al. 2023 describe the X-ray implementation in SKIRT and perform a number of benchmark tests, comparing
+the SKIRT simulation results to the published results of other codes to verify its operation. This web page discusses
+the RXTORUS benchmark test, presented in their section 4.2.2, which compares the results for a smooth torus model
+originally calculated with the REFLEX code (Paltani & Ricci 2017). REFLEX implements a complete set of X-ray physics in
+cold-gas media, including bound-electron scattering and a large collection of fluorescent line transitions. It
+implements the same interaction cross sections as those that are incorporated in SKIRT, forming an ideal reference for
+benchmarking these processes.
+
 
 \section VanderMeulenRefs References and downloads
 
 <TABLE>
-<TR><TH>Publication</TH>  <TD>Vander Meulen et al. 2023 <a href="https://ui.adsabs.harvard.edu/abs/2023A%26A...674A.123V">[ADS]</a></TD>
+<TR><TH>Publications</TH>
+    <TD>Vander Meulen et al. 2023 <a href="https://ui.adsabs.harvard.edu/abs/2023A%26A...674A.123V">[ADS]</a> <br>
+        Paltani & Ricci 2017 <a href="https://ui.adsabs.harvard.edu/abs/2017A%26A...607A..31P">[ADS]</a>
+    </TD>
 <TR><TH>Ski files</TH>
-    <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc1.ski">peest_tc1.ski</a> <br>
-        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc2.ski">peest_tc2.ski</a> <br>
-        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/peest_tc3.ski">peest_tc3.ski</a>
+    <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/RXTORUS.ski">RXTORUS.ski</a> <br>
+        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/RXTORUS_CS.ski">RXTORUS_CS.ski</a>
+    </TD>
+<TR><TH>Input files</TH>
+    <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/RXTORUS_CUTOFFPL.txt">RXTORUS_CUTOFFPL.txt</a> <br>
+        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/RXTORUS_WLG.txt">RXTORUS_WLG.txt</a> <br>
+        <a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Benchmarks/RXTORUS_CS_WLG.txt">RXTORUS_CS_WLG.txt</a>
     </TD>
 </TABLE>
 
-\section VanderMeulenResults SKIRT results
 
-Bla.
+\section VanderMeulenResults Benchmark results
 
-| Test case 1         |  Test case 2        | Test case 3         |
-|---------------------|---------------------|---------------------|
-| ![ ](Peest_TC1.png) | ![ ](Peest_TC2.png) | ![ ](Peest_TC3.png) |
+\subsection VanderMeulenResultsOverall Overall comparison
+
+The RXTORUS model represents a ring torus of cold gas with a uniform density and a variable covering factor, which
+models scattering on bound electrons in addition to photo-absorption and fluorescence. We reproduce the RXTORUS model
+in SKIRT with a uniform ring torus of cold gas centered around an X-ray point source. We fix the torus opening angle to
+60 deg, and run SKIRT simulations for an unobscured (i = 45 deg) and an obscured (i = 75 deg) sightline. The equatorial
+hydrogen column density of the torus is varied between \f$10^{22}\f$ and \f$10^{25}~\mathrm{cm}^{−2}\f$, which are the
+\f$N_\mathrm{H}\f$-limits of the RXTORUS model. The following figure compares the SKIRT and REFLEX results.
+
+|  |
+|--|
+| ![ ](VanderMeulen_RXTORUS.png) |
+
+The results are found to be in excellent agreement over the entire simulation domain, for both sightlines and all
+considered column densities. The noise levels in the SKIRT results are significantly lower, in part because of the
+generic optimisation mechanisms implemented in SKIRT. Furthermore, the simulated SKIRT spectra have a much higher
+spectral resolution, producing narrower fluorescent lines and smoother reflection continua.
+
+\subsection VanderMeulenResultsZoom Zoom on narrow spectral range
+
+The following figure shows a zoom into the important 6.0 to 7.5 keV spectral range for the same ring torus model with
+\f$N_\mathrm{H} = 10^{24}~\mathrm{cm}^{−2}\f$ and i = 45 deg. This spectral range contains the three most prominent
+fluorescent lines (Fe Kα, Fe Kβ, and Ni Kα), plus the Fe Kα Compton shoulder.
+
+|  |
+|--|
+| ![ ](VanderMeulen_RXTORUS_CS.png) |
+
+Despite the limited spectral resolution of the REFLEX results, we distinguish clear Compton shoulders in both
+simulations, with similar strengths and consistent spectral shapes.
+
 
 \section VanderMeulenPerform Performing this benchmark
 
-To perform this benchmark, download the ski files provided above for each of the three test cases
-(\ref PeestRefs) and pass their names to SKIRT on the command line.
+To perform this benchmark, download the ski files, input spectrum, and wavelength grid data files provided above in
+\ref VanderMeulenRefs.
+
+To reproduce the results discussed above in \ref VanderMeulenResultsOverall, make a copy of the \c RXTORUS.ski file
+with a descriptive name for each variation of column density and open these copies in a text editor to adjust the
+column density value in the model:
+
+| Parameter      | XML element                          | XML attribute           |
+|----------------|--------------------------------------|-------------------------|
+| column density | \c NumberColumnMaterialNormalization | \em numberColumnDensity |
+
+Note that the SKIRT normalization occurs along the full X-axis, so the column density value must be doubled:
+
+| Radial column density          | Value of \em numberColumnDensity |
+|--------------------------------|----------------------------------|
+| \f$10^{22}~\mathrm{cm}^{−2}\f$ | <tt>2e22 1/cm2</tt>              |
+| \f$10^{23}~\mathrm{cm}^{−2}\f$ | <tt>2e23 1/cm2</tt>              |
+| \f$10^{24}~\mathrm{cm}^{−2}\f$ | <tt>2e24 1/cm2</tt>              |
+| \f$10^{25}~\mathrm{cm}^{−2}\f$ | <tt>2e25 1/cm2</tt>              |
+
+The \c RXTORUS_CS.ski file has already been adjusted to produce the results for the narrow spectral range discussed in
+\ref VanderMeulenResultsZoom.
+
+Once all files are in place, pass the name of each ski file to SKIRT as a single command line argument. Higher number
+column densities lead to longer simulation run times.
 
 */
