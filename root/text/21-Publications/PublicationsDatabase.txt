@@ -6,13 +6,189 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+Determining the dark matter distribution in simulated galaxies with deep learning
+de los Rios et al.
+MNRAS
+11 2023
+Application
+DeLosRios2023
+2023MNRAS.525.6015D
+
+Energy balance SED modelling can be effective at high redshifts regardless of UV-FIR offsets
+Haskell et al.
+MNRAS
+10 2023
+Application
+Haskell2023
+2023MNRAS.525.1535H
+
+The formation pathways of compact elliptical galaxies
+Deeley et al.
+MNRAS
+10 2023
+Application
+Deeley2023
+2023MNRAS.525.1192D
+
+Dust attenuation, dust content, and geometry of star-forming galaxies
+Zhang et al.
+MNRAS
+09 2023
+Application
+Zhang2023
+2023MNRAS.524.4128Z
+
+The problem of dust attenuation in photometric decomposition of edge-on galaxies and possible solutions
+Savchenko et al.
+MNRAS
+09 2023
+Application
+Savchenko2023
+2023MNRAS.524.4729S
+
+Spatially resolved mock observations of stellar kinematics: full radiative transfer treatment of simulated galaxies
+Barrientos Acevedo et al.
+MNRAS
+09 2023
+Application
+BarrientosAcevedo2023
+2023MNRAS.524..907B
+
+The role of grain size in active galactic nuclei torus dust models
+González-Martín et al.
+A&A
+08 2023
+Application
+GonzalezMartin2023
+2023A&A...676A..73G
+
+The impact of AGN-driven winds on physical and observable galaxy sizes
+Cochrane et al.
+MNRAS
+08 2023
+Application
+Cochrane2023b
+2023MNRAS.523.2409C
+
+iMaNGA: mock MaNGA galaxies based on IllustrisTNG and MaStar SSPs - II. The catalogue
+Nanni et al.
+MNRAS
+07 2023
+Application
+Nanni2023
+023MNRAS.522.5479N
+
+FIREbox: simulating galaxies at high dynamic range in a cosmological volume
+Feldmann et al.
+MNRAS
+07 2023
+Application
+Feldmann2023
+2023MNRAS.522.3831F
+
+X-ray radiative transfer in full 3D with SKIRT
+Vander Meulen et al.
+A&A
+06 2023
+Technical
+VanderMeulen2023
+2023A&A...674A.123V
+
+Formation of star clusters and enrichment by massive stars in simulations of low-metallicity galaxies with a fully sampled initial stellar mass function
+Lahén et al.
+MNRAS
+06 2023
+Application
+Lahen2023
+2023MNRAS.522.3092L
+
+Simulated Observations of Star Formation Regions: Infrared Evolution of Globally Collapsing Clouds
+Jáquez-Domínguez et al.
+ApJ
+06 2023
+Application
+JaquezDominguez2023
+2023ApJ...950...88J
+
+Translators of Galaxy Morphology Indicators between Observation and Simulation
+Jang et al.
+ApJ
+06 2023
+Application
+Jang2023
+2023ApJ...950....4J
+
+The atomic-to-molecular hydrogen transition in the TNG50 simulation: Using realistic UV fields to create spatially resolved H I maps
+Gebek et al.
+MNRAS
+06 2023
+Application
+Gebek2023
+2023MNRAS.521.5645G
+
+Predicting interstellar radiation fields from chemical evolution models
+Romero et al.
+MNRAS
+05 2023
+Application
+Romero2023
+2023MNRAS.521.1727R
+
+Expectations of the Size Evolution of Massive Galaxies at \f$3 \leq z \leq 6\f$ from the TNG50 %Simulation: The CEERS/JWST View
+Costantin et al.
+ApJ
+04 2023
+Application
+Costantin2023
+2023ApJ...946...71C
+
+Dissecting the active galactic nucleus in Circinus - III. VLT/FORS2 polarimetry confirms dusty cone illuminated by a tilted accretion disc
+Stalevski et al.
+MNRAS
+03 2023
+Application
+Stalevski2023
+2023MNRAS.519.3237S
+
+Morphological signatures of mergers in the TNG50 simulation and the Kilo-Degree Survey: the merger fraction from dwarfs to Milky Way-like galaxies
+Guzmán-Ortega et al.
+MNRAS
+03 2023
+Application
+GuzmanOrtega2023
+2023MNRAS.519.4920G
+
+Spatial field reconstruction with INLA. Application to simulated galaxies
+Smole et al.
+A&A
+01 2023
+Application
+Smole2023
+2023A&A...669A.152S
+
+Is the star-formation rate in z~6 quasars overestimated?
+Di Mascia et al.
+MNRAS
+01 2023
+Application
+DiMascia2023
+2023MNRAS.518.3667D
+
+Realistic galaxy images and improved robustness in machine learning tasks from generative modelling
+Holzschuh et al.
+MNRAS
+09 2022
+Application
+Holzschuh2022
+2022MNRAS.515..652H
+
 The origin of low-surface-brightness galaxies in the dwarf regime
 Jackson et al.
 MNRAS
 04 2021
 Application
 Jackson2021
-2021MNRAS.502.4262J 
+2021MNRAS.502.4262J
 
 Effects of dust sources on dust attenuation properties in IllustrisTNG galaxies at z~7
 Hsu et al.
@@ -20,7 +196,7 @@ MNRAS
 02 2023
 Application
 Hsu2023
-2023MNRAS.519.2475H 
+2023MNRAS.519.2475H
 
 Predicting sub-millimetre flux densities from global galaxy properties
 Cochrane et al.
