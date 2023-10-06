@@ -103,6 +103,7 @@ Aug 26, 2023 | 7d463e3 | Fix performance issue in photon life cycle without forc
 Aug 30, 2023 | 879e9de | Introduce extrapolated optical properties for AGN dust mixes
 Sep 20, 2023 | 2609fd3 | Honor wavelength output style for spectral units in ski files, Q&A, and Makeup
 Oct  4, 2023 | 6f61d94 | Add Nested Density Tree Policy
+Oct  6, 2023 | 21bd407 | Add option for oversampling to ParallelProjectionForm
 
 \*\* This update requires a ski file upgrade
 
