@@ -121,11 +121,12 @@ case, \em iteratePrimaryEmission can be left disabled unless such iteration is r
 to self-consistently calculate radiative dust destruction, see below).
 
 During each iteration, after the radiation field has been (re-)established, the NonLTELineGasMix is requested to update
-the medium state for each cell, and iteration continues until convergence is reached. The convergence criterion is
-configured by a combination of the maximum change in the level populations of a spatial cell and the number of cells
-allowed to exceed this maximum change (\em maxChangeInLevelPopulations and \em maxFractionNotConvergedCells properties
-of NonLTELineGasMix). Finally, the IterationOptions allow specifying the minimum and maximum number of iterations as a
-safety net.
+the medium state for each cell, and iteration continues until convergence is reached. The convergence criteria are
+configured through three properties of the NonLTELineGasMix class. The first two properties (\em
+maxChangeInLevelPopulations and \em maxFractionNotConvergedCells) configure a criterion based on statistics per spatial
+cell. The third property (\em maxChangeInGlobalLevelPopulations) configures a global criterion. For more information,
+see the NonLTELineGasMix documentation. Finally, the IterationOptions allow specifying the minimum and maximum number
+of iterations as a safety net.
 
 ### Dust destruction
 
