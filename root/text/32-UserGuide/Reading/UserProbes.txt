@@ -162,9 +162,9 @@ The table below lists the available internal spatial grid probes.
 
 | %Probe subclass | \# values | Aggregation | %Probe after | %Configuration options |
 | --- | --- | --- | --- | --- |
-| DensityProbe | 1 | Component, Type | Setup, Run, Primary, Secondary | |
-| OpacityProbe | 1 | Component, Type, %System | Setup, Run, Primary, Secondary | _wavelength_ |
-| TemperatureProbe | 1 | Component, Type, Fragment | Setup, Run, Primary, Secondary | |
+| DensityProbe | 1 | Fragment, Component, Type | Setup, Run, Primary, Secondary | |
+| OpacityProbe | 1 | Fragment, Component, Type, %System | Setup, Run, Primary, Secondary | _wavelength_ |
+| TemperatureProbe | 1 | Fragment, Component, Type | Setup, Run, Primary, Secondary | |
 | MetallicityProbe | 1 | Component | Setup, Run, Primary, Secondary | |
 | VelocityProbe | 3 | %System | Setup | |
 | MagneticFieldProbe | 3 | %System | Setup | |
@@ -181,9 +181,9 @@ The third column lists the supported aggregation mechanisms. Depending on the pr
 per individual medium component, per type of medium (dust, electrons, gas), and/or for the complete medium system.
 Quantities such as density cannot be aggregated across medium types because, for example, dust is characterized by mass
 density and gas by number density. On the other hand, the simulation stores just a single bulk velocity field for all
-media in the system (see \ref UserImportSnapMediaSample). The temperature probe offers a specialty aggregation option
+media in the system (see \ref UserImportSnapMediaSample). Some probes offers a specialty aggregation option
 to output information for each fragment in a dust mix decorated by the FragmentDustMixDecorator. Refer to the
-TemperatureProbe class documentation for more information.
+corresponding probe class documentation for more information.
 
 The fourth column indicates the options that specify when the probe will be performed during the simulation.
 Possibilities include at the end of the setup phase, at the very end of the simulation run, and after each primary or
