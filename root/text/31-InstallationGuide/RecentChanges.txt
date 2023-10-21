@@ -106,6 +106,8 @@ Oct  4, 2023 | 6f61d94 | Add Nested Density Tree Policy
 Oct  6, 2023 | 21bd407 | Add option for oversampling to ParallelProjectionForm
 Oct 20, 2023 | 0555100 | Add convergence criterion to NonLTELineGasMix using global level populations
 Oct 20, 2023 | 9c171a4 | Add density and opacity probing for individual grain populations in a dust mixture
+Oct 21, 2023 | 1288661 | Update atomic/molecular partitioning scheme in SpinFlipHydrogenGasMix
+Oct 21, 2023 | 1288661 | Add separate SpinFlip emission/absorption classes
 
 \*\* This update requires a ski file upgrade
 
