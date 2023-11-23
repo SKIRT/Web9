@@ -109,6 +109,7 @@ Oct 20, 2023 | 9c171a4 | Add density and opacity probing for individual grain po
 Oct 21, 2023 | 1288661 | Update atomic/molecular partitioning scheme in SpinFlipHydrogenGasMix
 Oct 21, 2023 | 1288661 | Add separate SpinFlip emission/absorption classes
 Nov  9, 2023 | 8cd4722 | Add power law redistribute geometry decorator classes
+Nov 23, 2023 | e790b9f | Add secondary dust luminosity probe
 
 \*\* This update requires a ski file upgrade
 
