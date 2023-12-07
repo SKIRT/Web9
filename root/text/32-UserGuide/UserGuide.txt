@@ -36,6 +36,7 @@ Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; 
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserMaterialMixes
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserImportSnap
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserProbes
+| \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialVolumetric
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserRedshift
 | \image html UserLevel3.png | \image html UserReading.png  | \ref UserIterations
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserParallel
