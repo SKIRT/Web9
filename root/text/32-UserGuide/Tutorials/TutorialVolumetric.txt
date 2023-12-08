@@ -145,10 +145,134 @@ import numpy as np
 import matplotlib.pyplot as plt
 \endcode
 
-At the start, import the packages used for handling the data and for plotting.
+At the start, import the Python packages used for handling the data and for plotting.
 
-XXX
+## Loading data
 
+\code{.py}
+x,y,z,V = np.loadtxt("volume_prp_cellprops.dat", usecols=(1,2,3,4), unpack=True)
+rho = np.loadtxt("volume_dns_dust_rho.dat", usecols=1)
+T = np.loadtxt("volume_tmp_dust_T.dat", usecols=1)
+print(len(V), len(rho), len(T))
+\endcode
+
+Read the relevant columns into numpy arrays. Verify that all arrays have the same length, equal to the total number of
+spatial cells listed in the log file.
+
+## Basic analysis
+
+To get a feel for the data, generate some basic histograms.
+
+\code{.py}
+plt.hist(np.log2(V**(1/3)), log=True, bins=100)
+plt.show()
+\endcode
+
+\image html TutorialVolumetricVolumeHistogram.png
+
+This plot shows that the cell volume distribution has a limited number of discrete values, and that those values differ
+by a factor of \f$2^3\f$. This is as expected for an octree grid, where nodes are recursively subdivided into 8
+subnodes until some termination criterion has been reached.
+
+\code{.py}
+plt.hist(T, log=True, bins=100)
+plt.show()
+\endcode
+
+\image html TutorialVolumetricTemperatureHistogram.png
+
+The indicative dust temperature values calculated by the simulation range from 11 to 45 K. Keep in mind that this plot
+shows the temperature distribution of the spatial cells, regardless of their size. It thus heavily depends on the
+discretization used in the simulation. See below for a histogram with a more appropriate physical interpretation.
+
+There is also a significant number of cells with zero temperature. It turns out that these cells do no contain any
+dust; this can be verified by removing the cells with zero density from the histogram (not shown here).
+
+\code{.py}
+plt.hist(np.log10(rho[rho>0]), log=True, bins=100)
+plt.show()
+\endcode
+
+\image html TutorialVolumetricDensityHistogram.png
+
+To allow showing the density on a logarithmic axis, this code removes empty cells before plotting the histogram. The
+density values have a wide dynamic range of 7 orders of magnitude. Again, this plot shows the density distribution of
+the spatial cells, regardless of their size and thus heavily depends on the discretization used in the simulation.
+
+## Volumetric histograms
+
+Now you can produce histograms with a more appropriate physical interpretation by combining information from the
+various probes.
+
+\code{.py}
+mask = rho>0
+plt.hist(T[mask], weights=V[mask], log=True, density=True, bins=100)
+plt.hist(T[mask], histtype='step', log=True, density=True, bins=100)
+plt.show()
+\endcode
+
+\image html TutorialVolumetricVolumeWeighted.png
+
+This plot shows the volume-weighted temperature distribution (solid blue) versus the purely cell-based temperature
+distribution considered in the previous paragraph (orange curve). Both distributions are normalized for ease of
+comparison. Compared to the physically meaningful volume-weighted distribution, the cell-based distribution is
+significantly shifted to higher temperatures. This indicates that higher-temperature regions are discretized with
+smaller and thus more numerous cells.
+
+\code{.py}
+mask = rho>0
+plt.hist(T[mask], weights=rho[mask]*V[mask], log=True, density=True, bins=100)
+plt.hist(T[mask], histtype='step', log=True, density=True, bins=100)
+plt.show()
+\endcode
+
+\image html TutorialVolumetricMassWeighted.png
+
+This plot shows the mass-weighted temperature distribution (solid blue) versus the purely cell-based temperature
+distribution (orange curve), again both normalized. The two distributions are surprisingly similar. This can be
+understood by realizing that the octree subdivision criteria are designed to place a roughly equal amount of mass in
+each cell.
+
+
+\section TutorialVolumetric3Dmaps Three-dimensional maps
+
+Using only a slightly more involved Python script, you can generate a simple 3D map of the indicative dust temperature
+calculated by SKIRT for the model. The code snippet below assumes that Python packages have been imported and data have
+been loaded in the same way as shown at the start of the previous section.
+
+\code{.py}
+fig = plt.figure(figsize=(10,10))
+ax = plt.axes(projection="3d")
+ax.view_init(35, 100)
+
+mask = T>20
+scatt = ax.scatter3D(x[mask], y[mask], z[mask], c=T[mask], cmap='OrRd', marker='8', s=1)
+
+cbar = fig.colorbar(scatt, ax=ax, shrink=0.5, aspect=10)
+cbar.set_label(r'$T\;[\mathrm{K}]$')
+
+R = 8000
+ax.set_xlim(-R, R)
+ax.set_ylim(-R, R)
+ax.set_zlim(-R, R)
+ax.set_xlabel('X-axis [pc]')
+ax.set_ylabel('Y-axis [pc]')
+ax.set_zlabel('Z-axis [pc]')
+
+plt.show()
+\endcode
+
+\image html TutorialVolumetricTemperatureMap.png
+
+The low-temperature cut-off of 20 K causes the cells on the outskirts of the galaxy model to be omitted from the plot,
+providing a clearer focus on the inside regions. You may want to study the effect of adjusting some of the hard-coded
+values, including the temperature cutoff, the 3D inclination and azimuth, and the size of the axis box.
+
+As shown here, the plot does not take into account the cell sizes. This can be mitigated by varying the size of the
+markers (determined by the \c s argument) with the cell volume. However, for this example the effect is small because
+the plot is mostly showing inner cells with comparable volumes. Also, in this plot, the high-temperature markers in the
+center of the model are in part obscured by the surrounding lower-temperature markers. This can be mitigated by
+constructing a color map that includes variable transparency, but that is outside the scope of this tutorial.
 
 
 <b><i>Congratulations, you made it to the end of this tutorial!</i></b>
