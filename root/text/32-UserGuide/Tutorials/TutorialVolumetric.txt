@@ -104,7 +104,7 @@ pts plot_seds .
 \image html TutorialVolumetricSEDs.png
 
 
-\section TutorialVolumetricHistograms Volumetric histograms
+\section TutorialVolumetricAnalysis Data analysis
 
 It is instructive to inspect the header information in the column text files produced by the "per cell" probes:
 
@@ -159,7 +159,7 @@ print(len(V), len(rho), len(T))
 Read the relevant columns into numpy arrays. Verify that all arrays have the same length, equal to the total number of
 spatial cells listed in the log file.
 
-## Basic analysis
+## Basic histograms
 
 To get a feel for the data, generate some basic histograms.
 
@@ -233,12 +233,10 @@ distribution (orange curve), again both normalized. The two distributions are su
 understood by realizing that the octree subdivision criteria are designed to place a roughly equal amount of mass in
 each cell.
 
-
-\section TutorialVolumetric3Dmaps Three-dimensional maps
+## Three-dimensional maps
 
 Using only a slightly more involved Python script, you can generate a simple 3D map of the indicative dust temperature
-calculated by SKIRT for the model. The code snippet below assumes that Python packages have been imported and data have
-been loaded in the same way as shown at the start of the previous section.
+calculated by SKIRT for the model.
 
 \code{.py}
 fig = plt.figure(figsize=(10,10))
@@ -272,7 +270,84 @@ As shown here, the plot does not take into account the cell sizes. This can be m
 markers (determined by the \c s argument) with the cell volume. However, for this example the effect is small because
 the plot is mostly showing inner cells with comparable volumes. Also, in this plot, the high-temperature markers in the
 center of the model are in part obscured by the surrounding lower-temperature markers. This can be mitigated by
-constructing a color map that includes variable transparency, but that is outside the scope of this tutorial.
+employing a color map that includes transparency for the colors representing lower temperatures. These embellishments
+are outside the scope of this tutorial.
+
+## 3D data querying
+
+The marker positions in the 3D plot above are determined by the cell centers in the spatial grid of the simulation. For
+a typical SKIRT simulation grid, this means the markers are unevenly spread over the domain because there are more
+(smaller) cells in high-density regions. In some cases, it may be preferable to instead place markers at set of
+predefined positions, for example the points on a regular grid. Similary, other applications may require obtaining the
+value of physical quantities at a set of predefined positions of interest.
+
+One option is to configure a probe with the AtPositionsForm probe form and provide a text column file listing the
+coordinates of the query points. In this case, SKIRT will perform the sampling and produce an output file with the
+required values.
+
+Another option is to query the 3D data discussed in this tutorial. In an octree grid, each cell has the same form
+factor as the complete spatial domain. Given the cell centers and volumes, one can thus reconstruct the cell bounding
+boxes, which allows determining the cell containing a given query location. For a limited number of queries, a brute
+force algorithm looping over all cells might be acceptable. For a larger number of queries, a more sophisticated search
+mechanism would be required.
+
+While this would be feasible, you can achieve approximate results through a much simpler approach. The Python \c scipy
+package implements efficient nearest neighbor querying using a tree-based mechanism. You can employ this mechanism to
+quickly find the cell center nearest to the query point. For an octree grid, this does not always correspond to the
+cell containing the query point: at the interface between cells of a different subdivision level, the nearest cell
+center may be the center of a neighboring cell. However, this approximation may be acceptable in many applications.
+
+For example, the following Python code retrieves the indicative dust temperature at the origin of the model coordinate
+system from the 3D data loaded earlier in this tutorial.
+
+\code{.py}
+from scipy.spatial import KDTree
+tree = KDTree(np.column_stack((x,y,z)))
+d, i = tree.query((0,0,0))
+print(T[i])
+\endcode
+
+Which should print a number in the high temperature range, e.g.:
+
+\verbatim
+45.57380517
+\endverbatim
+
+
+\section TutorialVolumetricVoronoi Voronoi grids
+
+To finalize this tutorial, it is instructive to perform the same simulation and data analysis using a different type of
+spatial grid. Specifically, replacing the hierarchical octree grid with an unstructured Voronoi grid offers some
+valuable insights.
+
+To this end, copy the ski file you have been using to another name and/or directory, and in the new file replace the 5
+lines defining the octree grid and its subdivision policy by the following definition of a Voronoi grid:
+
+\verbatim
+<VoronoiMeshSpatialGrid minX="-2e4 pc" maxX="2e4 pc" minY="-2e4 pc" maxY="2e4 pc" minZ="-1750 pc" maxZ="1750 pc"
+    policy="DustDensity" numSites="500000" filename="" relaxSites="true"/>
+\endverbatim
+
+This specifies a Voronoi grid with a half a million cells (roughly the number of cells in the octree) constructed from
+sites that are randomly sampled from the dust density distribution in the model. In other words, there will be more,
+smaller cells in high-density regions.
+
+Now run SKIRT with the new, adjusted ski file. Once the simulation completes, perform the same data analysis as
+presented in the previous sections of this tutorial. The results should be similar to those of the octree simulation.
+However, you should find some differences as indicated below.
+
+- In the gridded density and temperature cuts, the ragged borders at the outskirts of the distribution have an
+irregular rather than a rectangular form.
+
+- The cell volume distribution is continuous rather than discrete.
+
+- The cell density distribution is smoother, and most notably, lacks the four peaks apparent in the plot for the octree
+simulation. This indicates that these peaks are caused by the octree discretization using cells that have a very
+limited number of discrete sizes and are always oriented along the coordinate axes. The unstructured cells of the
+Voronoi grid more closely represent the smooth distribution of the input model.
+
+- The 3D scatter plot does not exhibit the "stratification" evident in the plot for the octree
+simulation, because the cell centers are randomly placed rather than being lined up on a Cartesian grid.
 
 
 <b><i>Congratulations, you made it to the end of this tutorial!</i></b>
