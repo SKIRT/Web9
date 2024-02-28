@@ -109,7 +109,9 @@ Oct 20, 2023 | 9c171a4 | Add density and opacity probing for individual grain po
 Oct 21, 2023 | 1288661 | Update atomic/molecular partitioning scheme in SpinFlipHydrogenGasMix
 Oct 21, 2023 | 1288661 | Add separate SpinFlip emission/absorption classes
 Nov  9, 2023 | 8cd4722 | Add power law redistribute geometry decorator classes
-Nov 23, 2023 | e790b9f | Add secondary dust luminosity probe
+Nov 23, 2023 | e790b9f | Add probe for dust luminosity spectrum during secondary emission
+Feb 19, 2024 | 0fced48 | Allow negative exponent for ShellGeometry
+Feb 28, 2024 | 2191a4e | Add a polarized point source using user-tabulated emission properties
 
 \*\* This update requires a ski file upgrade
 
