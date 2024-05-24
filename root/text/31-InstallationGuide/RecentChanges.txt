@@ -112,6 +112,8 @@ Nov  9, 2023 | 8cd4722 | Add power law redistribute geometry decorator classes
 Nov 23, 2023 | e790b9f | Add probe for dust luminosity spectrum during secondary emission
 Feb 19, 2024 | 0fced48 | Allow negative exponent for ShellGeometry
 Feb 28, 2024 | 2191a4e | Add a polarized point source using user-tabulated emission properties
+Mar  7, 2024 | 3c9e4d7 | Add observer angles and distance to output of distant instruments
+Mar 24, 2024 | 935d7ea | Support ExtraBands resource pack with HST and JWST filters
 
 \*\* This update requires a ski file upgrade
 

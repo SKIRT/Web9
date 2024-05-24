@@ -1,0 +1,92 @@
+/**
+
+\page InstallPTSWindows Installing PTS (Windows)
+
+\section InstallPTSWindowsClone Getting the source code
+
+To work with PTS you need to copy the Python source code to your local file system. First create a directory hierarchy
+that will hold the PTS source code and run-time information. The top-level directory can have any name (for example \c
+PTS) and can be located anywhere (for example in your home directory), but the subdirectories should be named as
+indicated below. Execute the following commands in a Terminal window to create the PTS directory in your \em home
+folder.
+
+    cd
+    mkdir PTS
+    cd PTS
+    mkdir run
+    mkdir pts
+
+The PTS source code is available from the <a href="https://github.com/SKIRT/PTS9">public PTS GitHub repository</a>.
+While any user can freely retrieve the code from this repository (even anonymously), only the SKIRT team has write
+access to it. To obtain the code, in a Git Bash terminal, navigate to the PTS directory and execute::
+
+    git clone https://github.com/SKIRT/PTS9.git pts
+
+To <em>update</em> your local copy of the source code after changes were made to the repository from which you cloned
+it, use:
+
+    git pull
+
+
+\section InstallPTSWindowsAlias Configuring PTS paths and aliases
+
+It is important that your Python install can automatically locate the PTS source code so that it can execute PTS
+commands and import PTS packages regardless of the current directory. Furthermore it is handy to provide an alias so
+that you can easily access PTS from the command line.
+
+Configure the Python path by opening Settings and searching for environment variables, then clicking "edit system
+environment variables". A pop-up window opens, which has a button "Environment variables" at the bottom. After clicking
+this button, a new pop-up window appears, where after clicking "New..." a new environment variable can be created with
+name PYTHONPATH and value ~/PTS (where ~ is the actual path of the directory).
+
+Create an alias by executing:
+
+    doskey pts=python -m pts.do $*
+
+However this alias is not remembered after closing the terminal window. We have not yet figured out how to solve this.
+As a workarounds, just execute this line each time you want to use PTS.
+
+
+\section InstallPTSWindowsTest Testing the PTS installation
+
+You can run a basic test of your PTS installation by entering the following command line:
+
+    pts try me
+
+which should produce a response similar to the following:
+
+    03/06/2019 16:52:05.043   Starting admin/try_do...
+    03/06/2019 16:52:05.043   Command line arguments are:
+    03/06/2019 16:52:05.043     Fixed string:    me
+    03/06/2019 16:52:05.043     Optional string: PTS is great
+    03/06/2019 16:52:05.043     Float number:    3.14
+    03/06/2019 16:52:05.043     Integer number:  7
+    03/06/2019 16:52:05.043   Finished admin/try_do.
+
+
+\section InstallPTSWindowsDeps Listing Python package dependencies
+
+You may need to install additional third-party Python packages on which the PTS code depends. To assist with this
+process, the \c list_dependencies command script lists all packages referred to by the PTS code, including
+an indication of whether each package is already installed or not:
+
+    $ pts list_dependencies
+      Starting admin/list_dependencies...
+      PTS depends on 32 packages:
+        argparse -- installed
+        astropy -- installed
+        datetime -- installed
+        ...
+    !   reportlab -- NOT INSTALLED
+        ...
+        scipy -- installed
+        zipfile -- installed
+     Finished admin/list_dependencies.
+
+The list includes both standard and third-party packages. Because the standard packages are built into the regular
+Python distribution, they will always be marked as "installed".
+
+Some dependencies are optional and will be invoked only when the related PTS functionalty is actually used. The \c fsps
+package is an example of this.
+
+*/
