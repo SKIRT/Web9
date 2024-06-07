@@ -114,6 +114,7 @@ Feb 19, 2024 | 0fced48 | Allow negative exponent for ShellGeometry
 Feb 28, 2024 | 2191a4e | Add a polarized point source using user-tabulated emission properties
 Mar  7, 2024 | 3c9e4d7 | Add observer angles and distance to output of distant instruments
 Mar 24, 2024 | 935d7ea | Support ExtraBands resource pack with HST and JWST filters
+Jun  7, 2024 | c991294 | Add intrinsic line shapes for key fluorescent lines in XRayAtomicGasMix
 
 \*\* This update requires a ski file upgrade
 
@@ -148,5 +149,6 @@ Aug  9, 2022 | 49f8d7d | Provide automated ski file upgrade procedure for revise
 Sep 15, 2022 | 06777ab | Provide automated ski file upgrade procedure for border wavelength grids
 Nov  4, 2022 | 5937da0 | Fix some very minor issues, mostly documentation
 Sep 14, 2023 | 2583d55 | Allow specifying the units of the wavelength range in relevant plot commands
+Jun  6, 2024 | 9864d2e | Built-in broadband definitions are now taken from SKIRT resources
 
 */
