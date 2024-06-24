@@ -86,10 +86,28 @@ multiple probes of the same type with a form with different properties or a diff
 probe a given quantity (e.g., dust mass density) in various ways (e.g., cuts along different planes or projections from
 different sight lines).
 
+For planar cuts, the model or grid is sampled at the center of each output pixel. Similarly, for planar projections, a
+ray is sent through the model or grid for each output pixel center, calculating the projection by accumulating
+information along that ray. Consequently, the probed output ignores small features in the model that intersect/project
+on the pixel but do not overlap the pixel center. To improve accuracy, decrease the pixel size by increasing the number
+of pixels along each axis.
+
 Most of the forms can be associated with any probe types, except that some forms do not work with the input model
 probes because they require the internal spatial grid. This includes the PerCellForm, for obvious reasons, and the
 DefaultCutsForm, because it requires the extent of the simulation's spatial grid.
 
+### The PerCellForm and 3D distributions
+
+The output of any spatial grid probe equipped with the PerCellForm can be used to extract a full 3D distribution or to
+construct a volumetric plot of the quantity being probed. To achieve this, the simulation configuration should also
+include an instance of the SpatialCellPropertiesProbe. This specialty probe outputs information for each spatial grid
+cell, including the x,y,z coordinates of the cell center and the cell volume, in the same order as the PerCellForm
+output files. This allows associating spatial information with the probed quantity
+
+For example, when using an octree grid, each grid cell has the same form factor as the complete spatial domain (a cube
+or a cuboid). Given the center and volume of a cell it is easy to reconstruct the cell corner coordinates. One can then
+determine the containing cell for an arbitrary point in the spatial domain by searching through all the cells (possibly
+optimized through a search tree). For other types of grids the procedure would be similar.
 
 \section UserProbesInput Input model probes
 
@@ -157,13 +175,14 @@ The table below lists the available internal spatial grid probes.
 
 | %Probe subclass | \# values | Aggregation | %Probe after | %Configuration options |
 | --- | --- | --- | --- | --- |
-| DensityProbe | 1 | Component, Type | Setup, Run, Primary, Secondary | |
-| OpacityProbe | 1 | Component, Type, %System | Setup, Run, Primary, Secondary | _wavelength_ |
-| TemperatureProbe | 1 | Component, Type | Setup, Run, Primary, Secondary | |
+| DensityProbe | 1 | Fragment, Component, Type | Setup, Run, Primary, Secondary | |
+| OpacityProbe | 1 | Fragment, Component, Type, %System | Setup, Run, Primary, Secondary | _wavelength_ |
+| TemperatureProbe | 1 | Fragment, Component, Type | Setup, Run, Primary, Secondary | |
 | MetallicityProbe | 1 | Component | Setup, Run, Primary, Secondary | |
 | VelocityProbe | 3 | %System | Setup | |
 | MagneticFieldProbe | 3 | %System | Setup | |
 | RadiationFieldProbe | \f$N_\mathrm{rf}\f$ | %System | Run, Primary, Secondary | _writeWavelengthGrid_ |
+| SecondaryDustLuminosityProbe | \f$N_\ell\f$ | Type | Run, Secondary | |
 | SecondaryLineLuminosityProbe | \f$N_\ell\f$ | Component | Run, Secondary | |
 | CustomStateProbe | \f$N_\mathrm{cs}\f$ | Component | Setup, Run, Primary, Secondary | _indices_ |
 
@@ -176,7 +195,9 @@ The third column lists the supported aggregation mechanisms. Depending on the pr
 per individual medium component, per type of medium (dust, electrons, gas), and/or for the complete medium system.
 Quantities such as density cannot be aggregated across medium types because, for example, dust is characterized by mass
 density and gas by number density. On the other hand, the simulation stores just a single bulk velocity field for all
-media in the system (see \ref UserImportSnapMediaSample).
+media in the system (see \ref UserImportSnapMediaSample). Some probes offers a specialty aggregation option
+to output information for each fragment in a dust mix decorated by the FragmentDustMixDecorator. Refer to the
+corresponding probe class documentation for more information.
 
 The fourth column indicates the options that specify when the probe will be performed during the simulation.
 Possibilities include at the end of the setup phase, at the very end of the simulation run, and after each primary or
@@ -191,12 +212,20 @@ Probes with multiple aggregation or probe-after possibilities offer the \em aggr
 options, respectively. The last column in the table lists any options in addition to these and to the probe name and
 form associated with the probe.
 
+### The dust luminosity probe
+
+The SecondaryDustLuminosityProbe probes the dust luminosity aggregated over all dust media as a function of wavelength,
+ignoring any kinematic effects, as discretized on the spatial grid of the simulation. By combining with an appropriate
+probe form, one can, for example, obtain the dust luminosity spectrum for each spatial cell or construct noise-free
+images of the transparent dust surface brightness (i.e. ignoring the effects of scattering or absorption on the
+secondary radiation).
+
 ### The line luminosity probe
 
-The SecondaryLineLuminosityProbe is intended for advanced users. It probes the line luminosities of secondary sources
-as discretized on the spatial grid of the simulation, ignoring any kinematic effects. It produces a separate output
-file for each medium component with an associated material mix that exhibits secondary line emission. Examples include
-the SpinFlipHydrogenGasMix and the NonLTELineGasMix. For more information, see the documentation for the
+The SecondaryLineLuminosityProbe similarly probes the line luminosities of secondary sources as discretized on the
+spatial grid of the simulation, ignoring any kinematic effects. It produces a separate output file for each medium
+component with an associated material mix that exhibits secondary line emission. Examples include the
+SpinFlipHydrogenGasMix and the NonLTELineGasMix. For more information, see the documentation for the
 SecondaryLineLuminosityProbe and MaterialMix classes.
 
 ### The custom state probe

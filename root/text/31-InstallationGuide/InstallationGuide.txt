@@ -42,6 +42,7 @@ scenario and operating system can hopefully be inferred by picking and choosing 
 - \ref InstallPythonUbuntu
 - \ref InstallPythonMac
 - \ref InstallPTS
+- \ref InstallPTSWindows
 
 
 \section InstallRequirements System requirements

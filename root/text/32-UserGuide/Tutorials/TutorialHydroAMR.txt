@@ -16,7 +16,7 @@ text column file in a format appropriate for importing into SKIRT.
 \section TutorialHydroAmrPre Getting ready
 
 This tutorial assumes that you have completed the introductory SKIRT tutorial \ref TutorialBasicsMono, or that you have
-otherwise acquired the working knowlegde introduced there. At the very least, before starting this tutorial, you should
+otherwise acquired the working knowledge introduced there. At the very least, before starting this tutorial, you should
 have installed the SKIRT code, and preferably also PTS and a FITS file viewer such as DS9 (see \ref InstallationGuide).
 
 To complete this tutorial, you need the example output file produced by the MPI-AMRVAC simulation. Download the file \c

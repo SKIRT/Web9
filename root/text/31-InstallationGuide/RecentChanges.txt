@@ -91,8 +91,30 @@ Aug  9, 2022 | 4dbf6f3 | \*\* Revised dynamic medium state concepts and executio
 Sep 15, 2022 | cfc43be | \*\* Extra flexibility for border wavelength grids loaded from file or list
 Sep 19, 2022 | 2c337c4 | Support self-consistent non-LTE line transfer for selected transitions and species
 Oct 12, 2022 | fbd00c8 | Add probe for line luminosity during secondary emission
-Nov  4, 2022 | edb826e | Fix multi-process hang in imaging form probes; plus some minor fixes
-
+Nov  4, 2022 | edb826e | Fix multi-process hang in imaging form probes
+Jan 23, 2023 | 6b8531e | Add annulus and donut geometries
+Apr 11, 2023 | 930a240 | Add extra fluorescent lines to XRayAtomicGasMix
+Apr 29, 2023 | 352bd26 | Support polarization for Compton scattering in ElectronMix and XRayAtomicGasMix
+May 19, 2023 | cbcac09 | Add three new GrainCompositions for AGN dusty torus
+Jun  7, 2023 | 1bba242 | Add TODDLERS star-forming region SED template library
+Jun  8, 2023 | 587faab | Add temperature probing for individual grain populations in a dust mixture
+Aug 23, 2023 | 9e2c223 | Support hydroxyl with hyperfine structure and molecular hydrogen for non-LTE line transfer
+Aug 26, 2023 | 7d463e3 | Fix performance issue in photon life cycle without forced scattering
+Aug 30, 2023 | 879e9de | Introduce extrapolated optical properties for AGN dust mixes
+Sep 20, 2023 | 2609fd3 | Honor wavelength output style for spectral units in ski files, Q&A, and Makeup
+Oct  4, 2023 | 6f61d94 | Add Nested Density Tree Policy
+Oct  6, 2023 | 21bd407 | Add option for oversampling to ParallelProjectionForm
+Oct 20, 2023 | 0555100 | Add convergence criterion to NonLTELineGasMix using global level populations
+Oct 20, 2023 | 9c171a4 | Add density and opacity probing for individual grain populations in a dust mixture
+Oct 21, 2023 | 1288661 | Update atomic/molecular partitioning scheme in SpinFlipHydrogenGasMix
+Oct 21, 2023 | 1288661 | Add separate SpinFlip emission/absorption classes
+Nov  9, 2023 | 8cd4722 | Add power law redistribute geometry decorator classes
+Nov 23, 2023 | e790b9f | Add probe for dust luminosity spectrum during secondary emission
+Feb 19, 2024 | 0fced48 | Allow negative exponent for ShellGeometry
+Feb 28, 2024 | 2191a4e | Add a polarized point source using user-tabulated emission properties
+Mar  7, 2024 | 3c9e4d7 | Add observer angles and distance to output of distant instruments
+Mar 24, 2024 | 935d7ea | Support ExtraBands resource pack with HST and JWST filters
+Jun  7, 2024 | c991294 | Add intrinsic line shapes for key fluorescent lines in XRayAtomicGasMix
 
 \*\* This update requires a ski file upgrade
 
@@ -126,5 +148,7 @@ May 18, 2022 | f5b3f85 | Adjust plotting commands and ski file upgrade to revise
 Aug  9, 2022 | 49f8d7d | Provide automated ski file upgrade procedure for revised execution flows
 Sep 15, 2022 | 06777ab | Provide automated ski file upgrade procedure for border wavelength grids
 Nov  4, 2022 | 5937da0 | Fix some very minor issues, mostly documentation
+Sep 14, 2023 | 2583d55 | Allow specifying the units of the wavelength range in relevant plot commands
+Jun  6, 2024 | 9864d2e | Built-in broadband definitions are now taken from SKIRT resources
 
 */

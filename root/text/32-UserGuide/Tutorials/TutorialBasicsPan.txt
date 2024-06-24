@@ -11,7 +11,7 @@ appropriate simulation parameters, perform the simulation, and review and interp
 \section TutorialBasicsPanPre Getting ready
 
 This tutorial assumes that you have completed the introductory SKIRT tutorial \ref TutorialBasicsMono, or that you have
-otherwise acquired the working knowlegde introduced there. At the very least, before starting this tutorial, you should
+otherwise acquired the working knowledge introduced there. At the very least, before starting this tutorial, you should
 have installed the SKIRT code, and preferably also PTS and a FITS file viewer such as DS9 (see \ref InstallationGuide).
 
 \section TutorialBasicsPanSki Creating the ski file

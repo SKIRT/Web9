@@ -9,7 +9,7 @@ polarization degree of the observed radiation, at least for this simplified mode
 \section TutorialPolarizationPre Getting ready
 
 This tutorial assumes that you have completed the introductory SKIRT tutorials \ref TutorialBasicsMono ad \ref
-TutorialBasicsPan, or that you have otherwise acquired the working knowlegde introduced there. At the very least,
+TutorialBasicsPan, or that you have otherwise acquired the working knowledge introduced there. At the very least,
 before starting this tutorial, you should have installed the SKIRT code, and preferably also PTS and a FITS file viewer
 such as DS9 (see \ref InstallationGuide).
 
