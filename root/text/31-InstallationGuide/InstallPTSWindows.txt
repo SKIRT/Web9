@@ -43,8 +43,16 @@ Create an alias by executing:
 
     doskey pts=python -m pts.do $*
 
-However this alias is not remembered after closing the terminal window. We have not yet figured out how to solve this.
-As a workarounds, just execute this line each time you want to use PTS.
+However this alias is not remembered after closing the terminal window. As a workaround, just execute this line each
+time you want to use PTS.
+
+To make the alias persistent when using Anaconda/Miniconda, find the location of the \c
+anaconda3/Scripts/activate.bat file (usually located somewhere like \c C:/Users/user/anaconda3/Scripts/activate.bat on
+Windows 10) and add the doskey command after the initial setting of arguments, e.g.:
+
+    @REM user added aliases
+    doskey pts=python -m pts.do $*
+    cls
 
 
 \section InstallPTSWindowsTest Testing the PTS installation
