@@ -51,13 +51,14 @@ last name.
 - Killian Braun
 - Peter Camps
 - Marjorie Decleir
-</TD><TD>
 - Gert De Geyter
+</TD><TD>
 - Ilse De Looze
 - Jacopo Fritz
 - Andrea Gebek
 - Tom Hendrix
 - Anand Utsav Kapoor
+- Kosei Matsumoto
 </TD><TD>
 - Alexander Mosenkov
 - Christian Peest
