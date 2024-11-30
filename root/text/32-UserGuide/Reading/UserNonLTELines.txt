@@ -1,0 +1,42 @@
+/**
+
+\page UserNonLTELines Configuring self-consistent atomic/molecular line calculations
+
+SKIRT allows self-consistently calculating the energy level populations and the resulting emission lines for selected
+transitions in a number of astrophysically relevant atomic and molecular species, given a spatial distribution and a
+background radiation field. This page describes how to configure such SKIRT simulations. Please refer to the
+NonLTELineGasMix class documentation for information on the supported transitions and species.
+
+## Introduction
+
+A SKIRT simulation that self-consistently calculates atomic/molecular line emission must include at least one medium
+component that is associated with the NonLTELineGasMix material mix. The NonLTELineGasMix class configuration selects
+one of the supported species. The medium component then defines the spatial distribution of the relevant properties,
+including the number density of the species under consideration and kinematic information such as temperature and bulk
+velocity. Most often, this information will be read from an input file by associating the NonLTELineGasMix with a
+subclass of ImportedMedium.
+
+The calculation requires iteration to obtain a converged result that is self-consistent with the medium's
+self-emission. During a given iteration in the simulation, the emission luminosity and absorption opacity for each
+supported transition are determined in each cell from the medium properties and the local radiation field calculated by
+the simulation.
+
+Simulations that include a gas species represented by the NonLTELineGasMix often also include dust, although this is
+not a requirement. In any case, the simulation must include one or more primary sources that trigger the energy
+transitions directly (e.g. the cosmic microwave background) or indirectly (e.g. by heating the dust and thus causing
+thermal dust emission), or both.
+
+The simulation's "global" radiation field wavelength grid should properly resolve the relevant emission line profiles
+as well as the continuum radiation resulting from primary and secondary sources. To avoid a prohibitively large number
+of grid points, this requires two levels of spectral resolution: a moderate resolution covering the full wavelength
+range considered in the simulation, and a much higher resolution covering each of the narrow line profiles. These two
+levels of resolution must be merged into a single radiation field wavelength grid.
+
+In contrast, multiple instruments can be configured for distinct wavelength ranges of interest. For example, the
+complete continuum spectrum can be covered by an instrument using a regular logarithmic grid, and each line profile can
+be covered by its own separate instrument using a linear grid.
+
+The following sections address more concrete configuration guidelines for these various issues.
+
+
+*/
