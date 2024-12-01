@@ -16,15 +16,15 @@ including the number density of the species under consideration and kinematic in
 velocity. Most often, this information will be read from an input file by associating the NonLTELineGasMix with a
 subclass of ImportedMedium.
 
-The calculation requires iteration to obtain a converged result that is self-consistent with the medium's
-self-emission. During a given iteration in the simulation, the emission luminosity and absorption opacity for each
-supported transition are determined in each cell from the medium properties and the local radiation field calculated by
-the simulation.
-
 Simulations that include a gas species represented by the NonLTELineGasMix often also include dust, although this is
 not a requirement. In any case, the simulation must include one or more primary sources that trigger the energy
 transitions directly (e.g. the cosmic microwave background) or indirectly (e.g. by heating the dust and thus causing
 thermal dust emission), or both.
+
+The calculation requires iteration to obtain a converged result that is self-consistent with the gas medium's
+own line emission. During a given iteration in the simulation, the emission luminosity and absorption opacity for each
+supported transition are determined in each cell from the medium properties and the local radiation field calculated by
+the simulation.
 
 The simulation's "global" radiation field wavelength grid should properly resolve the relevant emission line profiles
 as well as the continuum radiation resulting from primary and secondary sources. To avoid a prohibitively large number
@@ -37,6 +37,155 @@ complete continuum spectrum can be covered by an instrument using a regular loga
 be covered by its own separate instrument using a linear grid.
 
 The following sections address more concrete configuration guidelines for these various issues.
+
+## Experience level
+
+When configuring your first simulation of this type using the command line Q&A or the Makeup wizard, it is recommended
+to select user experience level "Regular". If needed, expert options can be adjusted later by manually editing the ski
+file.
+
+## %Simulation mode and iteration options
+
+A simulation of this type proceeds in two phases: primary emission and secondary emission.
+
+During primary emission, the simulation determines the radiation field resulting from the primary sources, dust
+attenuation (if present) and atomic/molecular line absorption based on default equilibrium level populations. The
+resulting radiation field allows a first estimation of the level populations for each spatial grid cell.
+
+During secondary emission, the simulation takes into account emission from all configured media in addition to
+absorption by these same media, including atomic/molecular lines in both cases. The previously stored level populations
+allow calculating the line emission spectrum and the line absorption cross sections. This results in an updated
+radiation field, which will in turn influence the level populations (and for high optical depths, possibly the dust
+temperature), which in turn influences the secondary emission spectra. In order to obtain a self-consistent result, the
+simulation must therefore iterate over secondary emission.
+
+This leads to the following configuration requirements/recommendations:
+
+- \em simulationMode must be set to "DustAndGasEmission" if the simulation includes dust or to "GasEmission" if it
+does not.
+
+- \em iteratePrimaryEmission (an expert option, disabled by default) should be enabled only in the rare case iteration
+is required for other media (for example, to self-consistently calculate radiative dust destruction).
+
+- \em iterateSecondaryEmission must be enabled.
+
+- \em includePrimaryEmission (an expert option, disabled by default) should be enabled only if the wavelength range of
+the primary source(s) significantly overlaps the emission lines of the species under consideration; in other words, if
+the opacity at the line wavelengths significantly affects the primary radiation field through absorption.
+
+- \em minSecondaryIterations can be left at the default value of 1.
+
+- \em maxSecondaryIterations most likely needs to be increased substantially from the default value of 10 to 50 or
+more, depending on the configured convergence criteria (see below) and the convergence behavior of the simulated model.
+
+## Convergence criteria
+
+The NonLTELineGasMix class offers options to configure the convergence criteria that determine when the iterative
+calculation terminates. The first two properties configure a criterion based on statistics per spatial cell, while the
+third property configures a global criterion. Both criteria must be satisfied simultaneously:
+
+- \em maxChangeInLevelPopulations specifies the maximum relative change between consecutive iterations in the level
+populations for a given spatial cell for that cell to be considered converged.
+
+- \em maxFractionNotConvergedCells specifies the maximum fraction of spatial cells (relative to the total number of
+spatial cells in the simulation) that may be left not converged for the whole spatial domain to be considered
+converged.
+
+- \em maxChangeInGlobalLevelPopulations specifies the maximum relative change between consecutive iterations in the
+global level populations, accumulated over the complete spatial domain, for the spatial domain to be considered
+converged.
+
+If the simulation includes dust, the DustEmissionOptions include properties to configure the convergence criteria
+for dust self-absorption and heating:
+
+- \em maxFractionOfPrimary: convergence is reached when the total absorbed dust luminosity is less than this fraction
+of the total absorbed primary luminosity.
+
+- \em maxFractionOfPrevious: convergence is reached when the total absorbed dust luminosity has changed by less than
+this fraction compared to the previous iteration.
+
+It is recommended to start with the default values for all convergence criteria and adjust them based on initial
+simulation results. For dust self-absorption, the defaults will suffice unless the dust opacity is very high. For the
+level populations, chances are that the defaults need to be adjusted. The objective is to obtain an acceptable balance
+between execution time (number of iterations) and accuracy of the simulated observables.
+
+## Spatial distribution of medium properties
+
+The NonLTELineGasMix material mix is often associated with a subclass of ImportedMedium. This allows reading the
+spatial distribution of the relevant medium properties from an input file, possibly exported from a hydrodynamical
+simulation snapshot. The input file must provide values for the spatial distribution of the number density of the
+species under consideration, the number density of any relevant collisional partner species, the kinetic gas
+temperature, and the turbulence velocity. Optionally, it may include values for the spatial distribution of the bulk
+velocity. Once imported, all of these values remain constant during the simulation.
+
+It is important to set the options in the ImportedMedium component appropriately as follows:
+
+- \em massType: set to "NumberDensity".
+- \em massFraction: leave at the default value of 1 unless the data in the input file must be reduced by a fixed factor.
+- \em importMetallicity: leave at the default value of "false".
+- \em importTemperature: set to "true" (!!).
+- \em maxTemperature: leave at the default value of 0 K.
+- \em importVelocity: set to "true" if the input file incudes bulk velocity components, "false" otherwise.
+- \em importMagneticField (an expert option): leave at the default value of "false".
+- \em importVariableMixParams: leave at the default value of "false".
+
+The additional columns required by the material mix are automatically imported and are expected <b>after</b> all other
+columns. For example, if bulk velocities are also imported for this medium component, the column order would be \f[
+..., n_\mathrm{mol}, T_\mathrm{kin}, v_\mathrm{x}, v_\mathrm{y}, v_\mathrm{z}, n_\mathrm{col1} [, n_\mathrm{col2},
+...], v_\mathrm{turb}\f]
+
+In this case, the NonLTELineGasMix options specifying default values for input data (\em defaultTemperature, \em
+defaultCollisionPartnerRatios, \em defaultTurbulenceVelocity) are not used because this information is read from the
+input file. It is best to leave these options at their respective default values.
+
+On the other hand, for basic testing purposes, the NonLTELineGasMix can also be associated with a geometric medium
+component. The geometry then defines the spatial density distribution of the species under consideration (i.e.
+\f$n_\mathrm{mol}\f$), and the NonLTELineGasMix configuration properties specify a fixed default value for the other
+properties that will be used across the spatial domain. The number densities of the collisional partners are now
+defined by a constant multiplier relative to \f$n_\mathrm{mol}\f$ as opposed to an absolute value.
+
+## Radiation field wavelength grid
+
+
+## Dust emission wavelength grid
+
+If the simulation includes dust, the dust emission wavelength grid controls the resolution of the dust emission
+spectrum calculated for each spatial cell. Especially when taking into account the stochastic heating of small dust
+grains, this spectrum contains many narrow infrared features. It is thus desirable to configure a grid that can
+properly resolve these features. Memory usage is not an issue because the emission spectrum is stored just once per
+execution thread. The performance impact is very limited as well because sampling these emission spectra is not the
+bottleneck of the calculation.
+
+It is recommended to employ a NestedLogWavelengthGrid with a resolution of 100 bins per dex in the overall range from
+0.2 to 2000 micron, and 200 narrower bins in the range from 3 to 25 micron, for a total of just over 500 bins. Even if
+the wavelength range of all instruments and probes is smaller, it is still important to configure a dust emission
+wavelength grid with this full spectral range for the dust emission calculations to be correct.
+
+## %Instrument wavelength grids
+
+Each instrument can be configured with its own distinct wavelength grid. It is usually more convenient to provide
+multiple instruments for a given line of sight rather than attempting to merge everything into a single instrument. The
+performance impact of doing so is limited as long as instruments with the same line of sight are placed consecutively
+in the \em ski file.
+
+Here are some examples of instrument/wavelength grid combinations that may be useful in this context:
+
+- an SEDInstrument with a high-resolution LogWavelengthGrid (1000 grid points or more) covering the complete combined
+wavelength range of the primary and secondary sources in the simulation, for recording the overall spectrum.
+
+- a FrameInstrument with a BandWavelengthGrid (pre-defined or configurable) for recording a set of broadband images.
+
+- an SEDInstrument with a high-resolution LinBorderWavelengthGrid (50 points or more) covering the line profile for one
+of the transitions studied in the simulation.
+
+- a FrameInstrument with a single-bin LinBorderWavelengthGrid covering the line profile for one of the transitions
+studied in the simulation. Alternatively, the grid might have two extra bins adjacent to the line profile (left and
+right) to get an estimate of the background continuum radiation.
+
+In the latter two cases, a separate instrument can be configured for each transition, or multiple line profiles can be
+combined into a single wavelength grid using the CompositeWavelengthGrid. Regardless, because a simulation may include
+a significant number of lines, it might be desirable to generate the relevant portion of the ski file automatically
+using techniques similar to those described above for the radiation field wavelength grid.
 
 
 */

@@ -103,6 +103,9 @@ The dust emission wavelength grid must have disjoint and preferable consecutive 
 simulation, one can employ a NestedLogWavelengthGrid with a resolution of 100 bins per dex in the overall range from
 0.2 to 2000 micron, and 200 narrower bins in the range from 3 to 25 micron, for a total of just over 500 bins.
 
+\note Even if the wavelength range of all instruments and probes is smaller, it is still important to configure a dust
+emission wavelength grid with the full spectral range described above for the emission calculations to be correct.
+
 For thermal dust emission, the wavelength bias distribution and the wavelength bias factor can be left to their default
 values; there seems to be no specific benefit in tweaking this aspect of the configuration.
 
