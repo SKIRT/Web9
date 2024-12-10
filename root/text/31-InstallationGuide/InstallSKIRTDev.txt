@@ -20,7 +20,7 @@ This advanced topic contains the following sections:
 
 \section InstallSKIRTDevClangFormat Install the source code formatter (optional)
 
-If you plan on writing or updating SKIRT source code, you may wish to install \c clang-format version 9, the tool
+If you plan on writing or updating SKIRT source code, you may wish to install \c clang-format version 16, the tool
 used to automatically format all C++ source code in the SKIRT repository, as described in this section.
 The \c clang-format tool is part of the open source Clang C/C++ compiler effort.
 
@@ -28,8 +28,12 @@ For information on how to use the source code formatter, see \ref DevCodingStyle
 
 \subsection InstallSKIRTDevClangFormatMac MacOS
 
-Apple's Xcode development environment includes an Apple-specific version of the Clang compiler. Unfortunately, it does
-not include the \c clang-format tool. The best option therefore is to install the pre-built binaries of the complete
+Apple's Xcode development environment includes an Apple-specific version of the Clang compiler, and recent Xcode
+versions also include \c clang-format. For example, Xcode 16.1 includes \c clang-format 16, which is the version used
+with SKIRT. Thus it suffices to install or upgrade to Xcode 16.1. Later versions of Xcode may include a later version
+of \c clang-format, which may be incompatible for use with SKIRT.
+
+Another option is to install the pre-built binaries of the complete
 Clang distribution for the macOS operating system, which can be obtained from the LLVM download page:
 http://releases.llvm.org/download.html. To avoid confusion with the default Apple-specific clang++ installation, do not
 install this extra version of Clang in any of the directories that are (or may be) part of your \c PATH. Instead,
@@ -38,9 +42,13 @@ procedure that formats the source code looks for the binary in this directory.
 
 \subsection InstallSKIRTDevClangFormatOther Other systems
 
-On recent Ubuntu systems, \c clang-format version 9 can be installed by entering:
+On recent Ubuntu systems, \c clang-format version 16 may be installed by entering:
 
     sudo apt-get install clang-format
+
+or
+
+    sudo apt-get install clang-format-16
 
 On other systems, the package manager might offer similar capabilities. Otherwise, refer to the installation
 instructions on the <a href="http://clang.llvm.org">Clang LLVM</a> web site. One option is to install the pre-built
@@ -162,7 +170,8 @@ OK button at the end to confirm the changes.
    - Add a new item called "Format C++ code in file" to this category
    - Configure the attributes for this item as follows:
      - Description: "Formats the C++ code in the complete file"
-     - Executable: path to the clang-format executable, e.g: ~/clang/bin/clang-format
+     - Executable: path to the clang-format executable, e.g: ~/clang/bin/clang-format or
+       /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-format
      - Arguments: "-style=file -i %{CurrentDocument:FilePath}"
      - Working directory: empty
      - Output: Show in pane

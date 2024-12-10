@@ -124,7 +124,7 @@ override the initialization of one or more data members, but there is no need to
 
 <b> C++ source code </b>
 
-All C++ code in the SKIRT repository has been automatically formatted by the \c clang-format tool (version 9). The
+All C++ code in the SKIRT repository has been automatically formatted by the \c clang-format tool. The
 formatting conventions are defined in a configuration file residing in the SKIRT build tree. For example, all lines
 of code and comments are kept within a 120 character limit, indentation is used for readability, and curly braces
 starting and ending a nesting level are usually placed on a line of their own. Newly submitted code must adhere to all
