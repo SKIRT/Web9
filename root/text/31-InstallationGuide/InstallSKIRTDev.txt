@@ -20,35 +20,43 @@ This advanced topic contains the following sections:
 
 \section InstallSKIRTDevClangFormat Install the source code formatter (optional)
 
-If you plan on writing or updating SKIRT source code, you may wish to install \c clang-format version 16, the tool
+If you plan on writing or updating SKIRT source code, you may wish to install \c clang-format, the tool
 used to automatically format all C++ source code in the SKIRT repository, as described in this section.
-The \c clang-format tool is part of the open source Clang C/C++ compiler effort.
+The \c clang-format tool is part of the open source LLVM Clang C/C++ compiler effort.
+
+Currently, the SKIRT repository requires \c clang-format version 18.1.x, where x stands for any subversion. It is
+important to install this same version because the various (major) versions of the tool tend to format the source code
+somewhat differently, even with the same option settings.
 
 For information on how to use the source code formatter, see \ref DevCodingStyleFormat.
 
 \subsection InstallSKIRTDevClangFormatMac MacOS
 
-Apple's Xcode development environment includes an Apple-specific version of the Clang compiler, and recent Xcode
-versions also include \c clang-format. For example, Xcode 16.1 includes \c clang-format 16, which is the version used
-with SKIRT. Thus it suffices to install or upgrade to Xcode 16.1. Later versions of Xcode may include a later version
-of \c clang-format, which may be incompatible for use with SKIRT.
+Recent versions of the Xcode development environment include an Apple-specific version of \c clang-format.
+Unfortunately, this version is not fully lined up with an official LLVM version, so it cannot be used for our purposes.
 
-Another option is to install the pre-built binaries of the complete
-Clang distribution for the macOS operating system, which can be obtained from the LLVM download page:
-http://releases.llvm.org/download.html. To avoid confusion with the default Apple-specific clang++ installation, do not
-install this extra version of Clang in any of the directories that are (or may be) part of your \c PATH. Instead,
-install it in your home directory in such a way that the binaries are reachable at \c ~/clang/bin. The SKIRT
-procedure that formats the source code looks for the binary in this directory.
+The best option is to install the complete Clang distribution, which includes \c clang-format. Information
+can be found at the LLVM download page: https://releases.llvm.org/download.html. Look for a pre-built binary package
+of the correct \c clang-format version that is also appropriate for your operating system version and hardware.
+However, it seems that the required combination is often not available.
+
+Another option is to build Clang from source code using an install tool such as \c port or \c brew.
+
+Once installed, you need to add the path to the \c clang-format executable to your \c PATH environment variable.
+For example, after building and installing \c clang-18 with the \c port install tool, adding the following line to the
+login script does the trick:
+
+    export PATH="/opt/local/libexec/llvm-18/bin:$PATH"
 
 \subsection InstallSKIRTDevClangFormatOther Other systems
 
-On recent Ubuntu systems, \c clang-format version 16 may be installed by entering:
+On Ubuntu 24.04 systems, \c clang-format version 18.1 can be installed by entering:
 
-    sudo apt-get install clang-format
+    sudo apt install clang-format
 
-or
+or perhaps
 
-    sudo apt-get install clang-format-16
+    sudo apt-get install clang-format-18
 
 On other systems, the package manager might offer similar capabilities. Otherwise, refer to the installation
 instructions on the <a href="http://clang.llvm.org">Clang LLVM</a> web site. One option is to install the pre-built
@@ -170,8 +178,7 @@ OK button at the end to confirm the changes.
    - Add a new item called "Format C++ code in file" to this category
    - Configure the attributes for this item as follows:
      - Description: "Formats the C++ code in the complete file"
-     - Executable: path to the clang-format executable, e.g: ~/clang/bin/clang-format or
-       /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-format
+     - Executable: path to the clang-format executable, for example: /opt/local/libexec/llvm-18/bin/clang-format
      - Arguments: "-style=file -i %{CurrentDocument:FilePath}"
      - Working directory: empty
      - Output: Show in pane
