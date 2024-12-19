@@ -35,7 +35,7 @@ can be configured for distinct wavelength ranges of interest. For example, the c
 covered by an instrument using a regular logarithmic grid, and each line profile can be covered by its own separate
 instrument using a linear grid.
 
-Finally, to boost performance, SKIRT must be told to favor photon packet wavelengths in the narrow regions around the
+Finally, to boost performance, SKIRT must be told to favor photon packet wavelengths in the narrow ranges around the
 line profiles over those in the overall continuum.
 
 The following sections address more concrete configuration guidelines for these various issues.
@@ -214,7 +214,9 @@ spectrum calculated for each spatial cell. It is configured through the DustEmis
 Especially when taking into account the stochastic heating of small dust grains, this spectrum contains many narrow
 infrared features. It is thus desirable to configure a grid that can properly resolve these features. Memory usage is
 not an issue because the emission spectrum is stored just once per execution thread. The performance impact is very
-limited as well because sampling these emission spectra is not the bottleneck of the calculation.
+limited as well because sampling these emission spectra is not the bottleneck of the calculation. On the other hand,
+because the dust emission spectrum is essentially constant across the width of a transition line, there is no need to
+have the dust emission wavelength grid resolve the line profiles considered in the simulation.
 
 One could employ a NestedLogWavelengthGrid with a resolution of 100 bins per dex in the overall range from 0.2 to at
 least 2000 micron, and 200 narrower bins in the range from 3 to 25 micron, for a total of just over 500 bins. Even if
@@ -223,8 +225,114 @@ wavelength grid with this full spectral range for the dust emission calculations
 
 ## Wavelength bias distribution
 
-TO DO.
+According to the Monte Carlo principle, when launching a photon packet, SKIRT should randomly sample its initial
+wavelength from the %SED of the source. However, this would cause many photon packets to be concentrated in
+high-luminosity spectral ranges, leaving ranges with lower luminosity poorly sampled. SKIRT therefore samples a
+fraction of the initial wavelengths from a "bias distribution", adjusting the relative photon packet weights to
+compensate. By configuring the bias distribution of a source (an expert option), a user can cause a larger fraction of
+photon packets to be launched in spectral ranges that need to be sampled more extensively, at the expense of poorer
+sampling in other ranges.
 
+By default, SKIRT samples half of the initial wavelengths from the source %SED, and the other half from a regular
+logarithmic distribution. For the majority of simulations, this provides a good balance between favoring
+high-luminosity ranges and acceptable sampling in low-luminosity ranges. For simulations with self-consistent line
+calculations, however, it is beneficial to force a more substantial fraction of the initial wavelengths to be inside
+the line profile ranges.
+
+To configure the wavelength bias distribution for a source, one could enter the appropriate choices and values during
+the Q&A session. As discussed in the section on the radiation field wavelength grid, it is far easier to automate this
+process through a simple Python script. One option is to produce a file tabulating the required probability
+distribution and use the FileWavelengthDistribution class to import this file. A nice alternative, however, is to
+employ a trick that allows piggy-backing on the method described for the radiation field wavelength grid, based on the
+CompositeWavelengthGrid class.
+
+The DiscreteWavelengthDistribution class was originally designed for a different purpose, but it comes in handy here.
+The class derives a discrete wavelength probability distribution from an arbitrary wavelength grid configured by the
+user. Specifically, it will select the initial photon packet wavelengths from the central wavelengths of the configured
+grid, with equal probability. Combined with the CompositeWavelengthGrid class, this can be used to construct a bias
+distribution that specifies discrete wavelengths across a given set of line profiles, as shown in the examples below.
+It may seem weird to use a distribution that launches photon packets at a set of specific wavelength values rather than
+at a continuous range of values. This is not really a problem here because the wavelengths are Doppler-shifted anyway as a
+result of the model kinematics. Also, the user can specify that a fraction of wavelengths should still be sampled from
+the source %SED as usual.
+
+For example, the following ski file snippet would define a background source with a wavelength bias distribution for
+three line profiles. Because the background radiation does not noticably affect the dust heating, there is no need to
+launch photon packets outside of the line profile ranges, so that the \em wavelengthBias property can be set to 1.
+
+    <CubicalBackgroundSource ... wavelengthBias="1">
+        <sed type="SED">
+            <BlackBodySED temperature="2.725 K"/>
+        </sed>
+        <normalization type="LuminosityNormalization">
+            <IntegratedLuminosityNormalization wavelengthRange="Custom" minWavelength="100 micron" maxWavelength="3000 micron" .../>
+        </normalization>
+        <wavelengthBiasDistribution type="WavelengthDistribution">
+            <DiscreteWavelengthDistribution>
+                <wavelengthGrid type="DisjointWavelengthGrid">
+                    <CompositeWavelengthGrid log="false">
+                        <wavelengthGrids type="DisjointWavelengthGrid">
+                            <LinWavelengthGrid minWavelength="2600.541 micron" maxWavelength="2600.975 micron" numWavelengths="50"/>
+                            <LinWavelengthGrid minWavelength="1300.301 micron" maxWavelength="1300.518 micron" numWavelengths="50"/>
+                            <LinWavelengthGrid minWavelength="866.8851 micron" maxWavelength="867.0297 micron" numWavelengths="50"/>
+                        </wavelengthGrids>
+                    </CompositeWavelengthGrid>
+                </wavelengthGrid>
+            </DiscreteWavelengthDistribution>
+        </wavelengthBiasDistribution>
+    </CubicalBackgroundSource>
+
+The same simulation model might include a point source emulating an active galactic nucleus. Because the spectrum of
+this source does not overlap the line profiles considered in the simulation, the default bias distribution is fine.
+
+    <PointSource ... wavelengthBias="0.5">
+        ...
+        <sed type="SED">
+            <FileSED filename="AGN_SED.txt"/>
+        </sed>
+        <normalization type="LuminosityNormalization">
+            <IntegratedLuminosityNormalization wavelengthRange="Custom" minWavelength="0.001 micron" maxWavelength="32 micron" ..."/>
+        </normalization>
+        <wavelengthBiasDistribution type="WavelengthDistribution">
+            <LogWavelengthDistribution minWavelength="1e-6 micron" maxWavelength="1e6 micron"/>
+        </wavelengthBiasDistribution>
+    </PointSource>
+
+Dust emission must also be configured with a wavelength bias distribution. Optionally including the same
+NestedLogWavelengthGrid as the one configured for calculating the emission spectrum helps favoring the spectral range
+with detailed dust features. In any case, the \em wavelengthBias property should be left at the default value of 0.5 to
+ensure that the regular dust spectrum is sampled as well.
+
+    <DustEmissionOptions dustEmissionType="Stochastic" ... wavelengthBias="0.5">
+        ...
+        <dustEmissionWLG type="DisjointWavelengthGrid">
+            <NestedLogWavelengthGrid ..."/>
+        </dustEmissionWLG>
+        <wavelengthBiasDistribution type="WavelengthDistribution">
+            <DiscreteWavelengthDistribution>
+                <wavelengthGrid type="DisjointWavelengthGrid">
+                    <CompositeWavelengthGrid log="false">
+                        <wavelengthGrids type="DisjointWavelengthGrid">
+                            <NestedLogWavelengthGrid .../>
+                            <LinWavelengthGrid minWavelength="2600.541 micron" maxWavelength="2600.975 micron" numWavelengths="50"/>
+                            <LinWavelengthGrid minWavelength="1300.301 micron" maxWavelength="1300.518 micron" numWavelengths="50"/>
+                            <LinWavelengthGrid minWavelength="866.8851 micron" maxWavelength="867.0297 micron" numWavelengths="50"/>
+                        </wavelengthGrids>
+                    </CompositeWavelengthGrid>
+                </wavelengthGrid>
+            </DiscreteWavelengthDistribution>
+        </wavelengthBiasDistribution>
+    </DustEmissionOptions>
+
+Finally, for the NonLTELineGasMix line emission, the wavelength bias distribution is ignored so it can be left at the
+default. The \em wavelengthBias property should be set to 1, specifying that photon packet launches will be distributed
+equally between all lines (as opposed to taking into account the relative line luminosities).
+
+    <NonLTELineGasMix ... wavelengthBias="1" ...>
+        <wavelengthBiasDistribution type="WavelengthDistribution">
+            <LinWavelengthDistribution minWavelength="1e-6 micron" maxWavelength="1e6 micron"/>
+        </wavelengthBiasDistribution>
+    </NonLTELineGasMix>
 
 ## %Instrument wavelength grids
 
