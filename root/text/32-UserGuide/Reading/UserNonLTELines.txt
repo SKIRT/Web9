@@ -26,23 +26,30 @@ own line emission. During a given iteration in the simulation, the emission lumi
 supported transition are determined in each cell from the medium properties and the local radiation field calculated by
 the simulation.
 
-The simulation's "global" radiation field wavelength grid should properly resolve the relevant emission line profiles
+The simulation's radiation field wavelength grid should therefore properly resolve the relevant emission line profiles
 as well as the continuum radiation resulting from primary and secondary sources. To avoid a prohibitively large number
 of grid points, this requires two levels of spectral resolution: a moderate resolution covering the full wavelength
 range considered in the simulation, and a much higher resolution covering each of the narrow line profiles. These two
-levels of resolution must be merged into a single radiation field wavelength grid.
+levels of resolution must be merged into a single radiation field wavelength grid. In contrast, multiple instruments
+can be configured for distinct wavelength ranges of interest. For example, the complete continuum spectrum can be
+covered by an instrument using a regular logarithmic grid, and each line profile can be covered by its own separate
+instrument using a linear grid.
 
-In contrast, multiple instruments can be configured for distinct wavelength ranges of interest. For example, the
-complete continuum spectrum can be covered by an instrument using a regular logarithmic grid, and each line profile can
-be covered by its own separate instrument using a linear grid.
+Finally, to boost performance, SKIRT must be told to favor photon packet wavelengths in the narrow regions around the
+line profiles over those in the overall continuum.
 
 The following sections address more concrete configuration guidelines for these various issues.
 
+\note While we provide suggestions for the values of several configuration parameters, it is important to run test
+simulations for a representative model in your study with varying parameter values until the simulated observables are
+properly converged.
+
+
 ## Experience level
 
-When configuring your first simulation of this type using the command line Q&A or the Makeup wizard, it is recommended
-to select user experience level "Regular". If needed, expert options can be adjusted later by manually editing the ski
-file.
+When configuring your first simulation of this type using the command line Q&A or the Makeup wizard, select user
+experience level "Regular" and configure straightforward, built-in wavelength grids. Expert options and complex
+wavelength grids can be adjusted or added later by manually editing the ski file.
 
 ## %Simulation mode and iteration options
 
@@ -115,13 +122,14 @@ The NonLTELineGasMix material mix is often associated with a subclass of Importe
 spatial distribution of the relevant medium properties from an input file, possibly exported from a hydrodynamical
 simulation snapshot. The input file must provide values for the spatial distribution of the number density of the
 species under consideration, the number density of any relevant collisional partner species, the kinetic gas
-temperature, and the turbulence velocity. Optionally, it may include values for the spatial distribution of the bulk
+temperature, and the turbulence velocity. It will often also include values for the spatial distribution of the bulk
 velocity. Once imported, all of these values remain constant during the simulation.
 
 It is important to set the options in the ImportedMedium component appropriately as follows:
 
 - \em massType: set to "NumberDensity".
-- \em massFraction: leave at the default value of 1 unless the data in the input file must be reduced by a fixed factor.
+- \em massFraction: leave at the default value of 1 unless the number density given in the input file must be reduced
+  by a fixed factor.
 - \em importMetallicity: leave at the default value of "false".
 - \em importTemperature: set to "true" (!!).
 - \em maxTemperature: leave at the default value of 0 K.
@@ -146,25 +154,82 @@ defined by a constant multiplier relative to \f$n_\mathrm{mol}\f$ as opposed to 
 
 ## Radiation field wavelength grid
 
+The simulation's radiation field wavelength grid must properly resolve the relevant emission line profiles as well as
+the continuum radiation resulting from primary and secondary sources. To avoid a prohibitively large number of grid
+points, this requires two levels of spectral resolution and thus a custom wavelength grid with precisely placed bins.
+While the appropriate values could be entered during the Q&A session, it is far easier to automate this process through
+a simple Python script. One option is to produce a file with the required wavelength points and use the
+FileWavelengthGrid class to build the corresponding grid. A nice alternative is to employ the CompositeWavelengthGrid
+class to combine a set of separately configured wavelength grids into a single grid. This explicitly documents the
+makeup of the grid in the ski file and avoids the need for a seperate input file.
 
-## Dust emission wavelength grid
+For example, the following composite wavelength grid covers a continuum range with 100 bins, plus three line profiles
+with 50 bins each:
+
+    <CompositeWavelengthGrid log="false">
+        <wavelengthGrids type="DisjointWavelengthGrid">
+            <LogWavelengthGrid minWavelength="0.01 micron" maxWavelength="30 micron" numWavelengths="100"/>
+            <LinWavelengthGrid minWavelength="2600.541 micron" maxWavelength="2600.975 micron" numWavelengths="50"/>
+            <LinWavelengthGrid minWavelength="1300.301 micron" maxWavelength="1300.518 micron" numWavelengths="50"/>
+            <LinWavelengthGrid minWavelength="866.8851 micron" maxWavelength="867.0297 micron" numWavelengths="50"/>
+        </wavelengthGrids>
+    </CompositeWavelengthGrid>
+
+This ski file snippet, or at least the portion covering the line profiles, could be automatically generated by a script
+and then hand-copied into the ski file. Note that the various subgrids are allowed to overlap, although this is not the
+case in the example above.
+
+The continuum portion of this wavelength grid is primarily important for calculating dust heating and emission. We
+expect the radiation field at shorter wavelengths to dominate the dust heating process, with the longer wavelengths
+having a minimal effect. We can also presume that the precise wavelength of an incoming photon packet is not so
+important as long as its energy is properly categorized, thus allowing fairly wide wavelength bins. Experiments have
+shown that for a typical (simulated) spiral galaxy, a grid ranging from 0.02 to 10 micron with 40 bins is sufficient.
+The short end of the range must be extended accordingly for models with sources emitting at shorter wavelengths. The
+long end of the range must be extended for models with high dust optical depth, because the dust heating process may be
+affected by longer wavelengths.
+
+The high-resolution portions of this wavelength grid should be sufficiently wide to cover the corresponding line profiles,
+and not wider to avoid wasting computation time and memory. A reasonable range seems to be 5 times the
+maximum microturbulence in the simulation on each side of the central line wavelength.
+
+## Primary sources
+
+The SourceSystem wavelength range determines the maximum range in which any source can radiate. This range is
+configured through the SourceSystem \em minWavelength and \em maxWavelength properties (the \em wavelengths property is
+not used in panchromatic simulations). Specifically, the wavelength range in which a given source will be emitting is
+determined by the intersection of the range over which the source's %SED is defined and the SourceSystem wavelength
+range.
+
+On a side note, when configuring the IntegratedLuminosityNormalization for a given source, one must specify a
+wavelength range. To avoid confusion, it is best to select the "Custom" option for the \em wavelengthRange property and
+then use the \em minWavelength and \em maxWavelength properties to specify the range. While this determines the
+spectral range of the integration involved in the normalization, it does \em not affect the range over which the source
+will be emitting.
+
+## Dust emission
 
 If the simulation includes dust, the dust emission wavelength grid controls the resolution of the dust emission
-spectrum calculated for each spatial cell. Especially when taking into account the stochastic heating of small dust
-grains, this spectrum contains many narrow infrared features. It is thus desirable to configure a grid that can
-properly resolve these features. Memory usage is not an issue because the emission spectrum is stored just once per
-execution thread. The performance impact is very limited as well because sampling these emission spectra is not the
-bottleneck of the calculation.
+spectrum calculated for each spatial cell. It is configured through the DustEmissionOptions option \em dustEmissionWLG.
 
-It is recommended to employ a NestedLogWavelengthGrid with a resolution of 100 bins per dex in the overall range from
-0.2 to 2000 micron, and 200 narrower bins in the range from 3 to 25 micron, for a total of just over 500 bins. Even if
+Especially when taking into account the stochastic heating of small dust grains, this spectrum contains many narrow
+infrared features. It is thus desirable to configure a grid that can properly resolve these features. Memory usage is
+not an issue because the emission spectrum is stored just once per execution thread. The performance impact is very
+limited as well because sampling these emission spectra is not the bottleneck of the calculation.
+
+One could employ a NestedLogWavelengthGrid with a resolution of 100 bins per dex in the overall range from 0.2 to at
+least 2000 micron, and 200 narrower bins in the range from 3 to 25 micron, for a total of just over 500 bins. Even if
 the wavelength range of all instruments and probes is smaller, it is still important to configure a dust emission
 wavelength grid with this full spectral range for the dust emission calculations to be correct.
 
+## Wavelength bias distribution
+
+TO DO.
+
+
 ## %Instrument wavelength grids
 
-Each instrument can be configured with its own distinct wavelength grid. It is usually more convenient to provide
-multiple instruments for a given line of sight rather than attempting to merge everything into a single instrument. The
+Each instrument can be configured with its own distinct wavelength grid. It is often convenient to provide
+multiple instruments for a given line of sight rather merging everything into a single instrument. The
 performance impact of doing so is limited as long as instruments with the same line of sight are placed consecutively
 in the \em ski file.
 
@@ -178,14 +243,16 @@ wavelength range of the primary and secondary sources in the simulation, for rec
 - an SEDInstrument with a high-resolution LinBorderWavelengthGrid (50 points or more) covering the line profile for one
 of the transitions studied in the simulation.
 
-- a FrameInstrument with a single-bin LinBorderWavelengthGrid covering the line profile for one of the transitions
-studied in the simulation. Alternatively, the grid might have two extra bins adjacent to the line profile (left and
-right) to get an estimate of the background continuum radiation.
+- a FrameInstrument with a limited-resolution LinBorderWavelengthGrid (say 10 bins or so) covering the line profile for
+one of the transitions studied in the simulation. The grid might need to include a few bins adjacent to the
+line profile to allow estimating of the background continuum radiation.
 
 In the latter two cases, a separate instrument can be configured for each transition, or multiple line profiles can be
-combined into a single wavelength grid using the CompositeWavelengthGrid. Regardless, because a simulation may include
-a significant number of lines, it might be desirable to generate the relevant portion of the ski file automatically
-using techniques similar to those described above for the radiation field wavelength grid.
+combined into a single wavelength grid using the CompositeWavelengthGrid. Note that the line profile wavelength grids
+now need to be sufficiently wide to also capture kinematic broadening. A reasonable starting point is to extend the
+range on each side of the central line wavelength by the largest bulk velocity in the simulation, in addition to 5
+times the microturbulence. As described above for the radiation field wavelength grid, it is usually desirable to
+generate the relevant ski file snippets automatically through a Python script.
 
 
 */
