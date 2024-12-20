@@ -117,6 +117,7 @@ Mar 24, 2024 | 935d7ea | Support ExtraBands resource pack with HST and JWST filt
 Jun  7, 2024 | c991294 | Add intrinsic line shapes for key fluorescent lines in XRayAtomicGasMix
 Sep  2, 2024 | d3343d6 | Add Hirashita (2015) grain size distribution
 Oct 11, 2024 | 8765014 | Properly calculate photon energy loss for bound-electron Compton scattering in X-ray gas
+Dec 20, 2024 | 81d2eda | Add Tetrahedral spatial grid
 
 \*\* This update requires a ski file upgrade
 
