@@ -1,30 +1,37 @@
 /**
 
-\page UserNonLTELines Configuring self-consistent atomic/molecular line calculations
+\page UserNonLTELines Configuring atomic/molecular line calculations in non-LTE conditions
 
-SKIRT allows self-consistently calculating the energy level populations and the resulting emission lines for selected
-transitions in a number of astrophysically relevant atomic and molecular species, given a spatial distribution and a
-background radiation field. This page describes how to configure such SKIRT simulations. Please refer to the
-NonLTELineGasMix class documentation for information on the supported transitions and species.
+To estimate the intensities of emission or absorption lines for atomic and molecular transitions under non-local
+thermodynamic equilibrium (non-LTE) conditions, it is crucial to self-consistently calculate both the energy level
+populations and the radiation field. SKIRT performs these self-consistent calculations, allowing for the accurate
+estimation of emission or absorption lines for selected transitions, given a spatial gas distribution and a background
+radiation. This page describes how to configure such SKIRT simulations. Please refer to the NonLTELineGasMix class
+documentation for information on the supported transitions and species.
+
+
+Refer to [Matsumoto et al. 2023](https://ui.adsabs.harvard.edu/abs/2023A%26A...678A.175M) (A&A, 678, A175).
+
+
+<em>Dust continuum and CO line emission maps for the AGN torus model discussed in
+[Matsumoto et al. 2023](https://ui.adsabs.harvard.edu/abs/2023A%26A...678A.175M).</em>
 
 ## Introduction
 
-A SKIRT simulation that self-consistently calculates atomic/molecular line emission must include at least one medium
+A SKIRT simulation that calculates atomic/molecular lines must include at least one medium
 component that is associated with the NonLTELineGasMix material mix. The NonLTELineGasMix class configuration selects
 one of the supported species. The medium component then defines the spatial distribution of the relevant properties,
 including the number density of the species under consideration and kinematic information such as temperature and bulk
 velocity. Most often, this information will be read from an input file by associating the NonLTELineGasMix with a
 subclass of ImportedMedium.
 
-Simulations that include a gas species represented by the NonLTELineGasMix often also include dust, although this is
-not a requirement. In any case, the simulation must include one or more primary sources that trigger the energy
-transitions directly (e.g. the cosmic microwave background) or indirectly (e.g. by heating the dust and thus causing
-thermal dust emission), or both.
-
-The calculation requires iteration to obtain a converged result that is self-consistent with the gas medium's
-own line emission. During a given iteration in the simulation, the emission luminosity and absorption opacity for each
-supported transition are determined in each cell from the medium properties and the local radiation field calculated by
-the simulation.
+A simulation that includes a gas species represented by the NonLTELineGasMix requires one or more primary sources that
+directly trigger energy transitions (e.g., the cosmic microwave background). Additionally, the simulation may
+incorporate a dust medium to estimate dust emission, which can also excite these energy transitions. In any case, the
+calculation requires iteration to obtain a converged result that is self-consistent with the gas medium's own line
+emission. During a given iteration in the simulation, the emission luminosity and absorption opacity for each supported
+transition are determined in each cell from the medium properties and the local radiation field calculated by the
+simulation.
 
 The simulation's radiation field wavelength grid should therefore properly resolve the relevant emission line profiles
 as well as the continuum radiation resulting from primary and secondary sources. To avoid a prohibitively large number
@@ -56,15 +63,18 @@ wavelength grids can be adjusted or added later by manually editing the ski file
 A simulation of this type proceeds in two phases: primary emission and secondary emission.
 
 During primary emission, the simulation determines the radiation field resulting from the primary sources, dust
-attenuation (if present) and atomic/molecular line absorption based on default equilibrium level populations. The
-resulting radiation field allows a first estimation of the level populations for each spatial grid cell.
+attenuation and atomic/molecular line absorption based on their level populations. Initially, the level populations are
+determined under LTE conditions, assuming no radiative transitions. However, after the calculation of the radiation
+field induced by primary emission, an improved estimate of the level populations for each spatial cell is made, taking
+both collisional and radiative transitions into account.
 
-During secondary emission, the simulation takes into account emission from all configured media in addition to
-absorption by these same media, including atomic/molecular lines in both cases. The previously stored level populations
-allow calculating the line emission spectrum and the line absorption cross sections. This results in an updated
-radiation field, which will in turn influence the level populations (and for high optical depths, possibly the dust
-temperature), which in turn influences the secondary emission spectra. In order to obtain a self-consistent result, the
-simulation must therefore iterate over secondary emission.
+During secondary emission, the simulation takes into account emission from all configured media, including atoms,
+molecules, and dust, in addition to absorption by these same media. Emission line profiles and line absorption cross
+sections are determined from the previously stored level populations. Similarly, dust heating and emission is
+determined from the previously stored radiation field. This secondary emission phase establishes an updated radiation
+field, which is used to update the level populations. However, the updated radiation field and level populations in
+turn influence the line emission/absorption profiles and the dust heating/emission. The simulation must therefore
+perform iterations over secondary and possibly primary emission to obtain a self-consistent result.
 
 This leads to the following configuration requirements/recommendations:
 
@@ -79,6 +89,8 @@ is required for other media (for example, to self-consistently calculate radiati
 - \em includePrimaryEmission (an expert option, disabled by default) should be enabled only if the wavelength range of
 the primary source(s) significantly overlaps the emission lines of the species under consideration; in other words, if
 the opacity at the line wavelengths significantly affects the primary radiation field through absorption.
+For example, when simulating sub-millimeter lines (e.g., CO, HCO+, etc.), the CMB radiation overlaps with
+the wavelengths of the emission lines. Therefore, this option must be enabled.
 
 - \em minSecondaryIterations can be left at the default value of 1.
 
@@ -101,6 +113,11 @@ converged.
 - \em maxChangeInGlobalLevelPopulations specifies the maximum relative change between consecutive iterations in the
 global level populations, accumulated over the complete spatial domain, for the spatial domain to be considered
 converged.
+
+\note: A parameter similar to \em maxChangeInLevelPopulations is used in many other non-LTE line radiative transfer
+codes. We recommend specifying a loose value (0.1-1.0) for \em maxChangeInLevelPopulations and applying a stricter
+value for \em maxChangeInGlobalLevelPopulations (0.01). This is because, in our Monte Carlo-based calculations, Monte
+Carlo noise can interfere with the convergence of the local level distribution.
 
 If the simulation includes dust, the DustEmissionOptions include properties to configure the convergence criteria
 for dust self-absorption and heating:
@@ -179,7 +196,7 @@ This ski file snippet, or at least the portion covering the line profiles, could
 and then hand-copied into the ski file. Note that the various subgrids are allowed to overlap, although this is not the
 case in the example above.
 
-The continuum portion of this wavelength grid is primarily important for calculating dust heating and emission. We
+The continuum portion of this wavelength grid is only required for calculating dust heating and emission. We
 expect the radiation field at shorter wavelengths to dominate the dust heating process, with the longer wavelengths
 having a minimal effect. We can also presume that the precise wavelength of an incoming photon packet is not so
 important as long as its energy is properly categorized, thus allowing fairly wide wavelength bins. Experiments have
