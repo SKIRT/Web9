@@ -6,12 +6,16 @@ To estimate the intensities of emission or absorption lines for atomic and molec
 thermodynamic equilibrium (non-LTE) conditions, it is crucial to self-consistently calculate both the energy level
 populations and the radiation field. SKIRT performs these self-consistent calculations, allowing for the accurate
 estimation of emission or absorption lines for selected transitions, given a spatial gas distribution and a background
-radiation. This page describes how to configure such SKIRT simulations. Please refer to the NonLTELineGasMix class
-documentation for information on the supported transitions and species.
+radiation. This page describes how to configure such SKIRT simulations.
 
+Additional reading:
+  - The NonLTELineGasMix class documentation lists the supported transitions and species.
+  - The web page \ref Zadelhoff2002 discusses the SKIRT results for the van Zadelhoff et al. 2002 benchmark,
+    a basic but relevant application of the concepts discussed here, and offers the related ski files for download.
+  - [Matsumoto et al. 2023](https://ui.adsabs.harvard.edu/abs/2023A%26A...678A.175M) (A&A, 678, A175)
+    describe the implementation of the atomic/molecular line calculations in SKIRT and present a study using them.
 
-Refer to [Matsumoto et al. 2023](https://ui.adsabs.harvard.edu/abs/2023A%26A...678A.175M) (A&A, 678, A175).
-
+\image html UserNonLTELinesMaps.png
 
 <em>Dust continuum and CO line emission maps for the AGN torus model discussed in
 [Matsumoto et al. 2023](https://ui.adsabs.harvard.edu/abs/2023A%26A...678A.175M).</em>
@@ -59,6 +63,8 @@ experience level "Regular" and configure straightforward, built-in wavelength gr
 wavelength grids can be adjusted or added later by manually editing the ski file.
 
 ## %Simulation mode and iteration options
+
+\image html UserNonLTELinesFlow.png
 
 A simulation of this type proceeds in two phases: primary emission and secondary emission.
 
@@ -114,7 +120,7 @@ converged.
 global level populations, accumulated over the complete spatial domain, for the spatial domain to be considered
 converged.
 
-\note: A parameter similar to \em maxChangeInLevelPopulations is used in many other non-LTE line radiative transfer
+\note A parameter similar to \em maxChangeInLevelPopulations is used in many other non-LTE line radiative transfer
 codes. We recommend specifying a loose value (0.1-1.0) for \em maxChangeInLevelPopulations and applying a stricter
 value for \em maxChangeInGlobalLevelPopulations (0.01). This is because, in our Monte Carlo-based calculations, Monte
 Carlo noise can interfere with the convergence of the local level distribution.
