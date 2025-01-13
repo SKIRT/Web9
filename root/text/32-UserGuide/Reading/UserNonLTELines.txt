@@ -8,6 +8,16 @@ populations and the radiation field. SKIRT performs these self-consistent calcul
 estimation of emission or absorption lines for selected transitions, given a spatial gas distribution and a background
 radiation. This page describes how to configure such SKIRT simulations.
 
+The \em ski file offered for download here is a fully configured example. It is not intended to be executed "as is"
+because the required input files are not available. However, it will serve as a helpful reference during the discussion
+on this page.
+
+<TABLE>
+<TR><TH>Example SKIRT parameter file</TH>
+  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/NonLTELines.ski">NonLTELines.ski</a>
+  </TD>
+</TABLE>
+
 Additional reading:
   - The NonLTELineGasMix class documentation lists the supported transitions and species.
   - The web page \ref Zadelhoff2002 discusses the SKIRT results for the van Zadelhoff et al. 2002 benchmark,
@@ -211,9 +221,11 @@ The short end of the range must be extended accordingly for models with sources 
 long end of the range must be extended for models with high dust optical depth, because the dust heating process may be
 affected by longer wavelengths.
 
-The high-resolution portions of this wavelength grid should be sufficiently wide to cover the corresponding line profiles,
-and not wider to avoid wasting computation time and memory. A reasonable range seems to be 5 times the
-maximum microturbulence in the simulation on each side of the central line wavelength.
+The high-resolution portions of this wavelength grid should be sufficiently wide to cover the corresponding line
+profiles, and not wider to avoid wasting computation time and memory. The local radiation field in each spatial cell is
+calculated in the rest frame of the medium in that cell. Therefore, it suffices to cover a gaussian profile broadened
+by thermal and microturbulence. A reasonable range seems to be 5 times the maximum microturbulence in the simulation on
+each side of the central line wavelength. The example above uses \f$\pm 25 \mathrm{km/s}\f$.
 
 ## Primary sources
 
@@ -295,15 +307,21 @@ launch photon packets outside of the line profile ranges, so that the \em wavele
                 <wavelengthGrid type="DisjointWavelengthGrid">
                     <CompositeWavelengthGrid log="false">
                         <wavelengthGrids type="DisjointWavelengthGrid">
-                            <LinWavelengthGrid minWavelength="2600.541 micron" maxWavelength="2600.975 micron" numWavelengths="50"/>
-                            <LinWavelengthGrid minWavelength="1300.301 micron" maxWavelength="1300.518 micron" numWavelengths="50"/>
-                            <LinWavelengthGrid minWavelength="866.8851 micron" maxWavelength="867.0297 micron" numWavelengths="50"/>
+                            <LinWavelengthGrid minWavelength="2599.456 micron" maxWavelength="2602.059 micron" numWavelengths="150"/>
+                            <LinWavelengthGrid minWavelength="1299.759 micron" maxWavelength="1301.060 micron" numWavelengths="150"/>
+                            <LinWavelengthGrid minWavelength="866.5236 micron" maxWavelength="867.3911 micron" numWavelengths="150"/>
                         </wavelengthGrids>
                     </CompositeWavelengthGrid>
                 </wavelengthGrid>
             </DiscreteWavelengthDistribution>
         </wavelengthBiasDistribution>
     </CubicalBackgroundSource>
+
+Note that the wavelength grids covering the line profiles now need to be sufficiently wide to also capture kinematic
+broadening. A reasonable starting point is to extend the range on each side of the central line wavelength by the
+largest bulk velocity in the simulation, in addition to 5 times the largest microturbulence. The example above uses
+\f$\pm 200 \mathrm{km/s}\f$. The example also specifies a larger number of grid points (150 points compared to the 50
+bins in the radiation field wavelength grid) to improve sampling of the emission spectrum and kinematic effects.
 
 The same simulation model might include a point source emulating an active galactic nucleus. Because the spectrum of
 this source does not overlap the line profiles considered in the simulation, the default bias distribution is fine.
@@ -337,9 +355,9 @@ ensure that the regular dust spectrum is sampled as well.
                     <CompositeWavelengthGrid log="false">
                         <wavelengthGrids type="DisjointWavelengthGrid">
                             <NestedLogWavelengthGrid .../>
-                            <LinWavelengthGrid minWavelength="2600.541 micron" maxWavelength="2600.975 micron" numWavelengths="50"/>
-                            <LinWavelengthGrid minWavelength="1300.301 micron" maxWavelength="1300.518 micron" numWavelengths="50"/>
-                            <LinWavelengthGrid minWavelength="866.8851 micron" maxWavelength="867.0297 micron" numWavelengths="50"/>
+                            <LinWavelengthGrid minWavelength="2599.456 micron" maxWavelength="2602.059 micron" numWavelengths="150"/>
+                            <LinWavelengthGrid minWavelength="1299.759 micron" maxWavelength="1301.060 micron" numWavelengths="150"/>
+                            <LinWavelengthGrid minWavelength="866.5236 micron" maxWavelength="867.3911 micron" numWavelengths="150"/>
                         </wavelengthGrids>
                     </CompositeWavelengthGrid>
                 </wavelengthGrid>
@@ -379,11 +397,9 @@ one of the transitions studied in the simulation. The grid might need to include
 line profile to allow estimating of the background continuum radiation.
 
 In the latter two cases, a separate instrument can be configured for each transition, or multiple line profiles can be
-combined into a single wavelength grid using the CompositeWavelengthGrid. Note that the line profile wavelength grids
-now need to be sufficiently wide to also capture kinematic broadening. A reasonable starting point is to extend the
-range on each side of the central line wavelength by the largest bulk velocity in the simulation, in addition to 5
-times the microturbulence. As described above for the radiation field wavelength grid, it is usually desirable to
-generate the relevant ski file snippets automatically through a Python script.
-
+combined into a single wavelength grid using the CompositeWavelengthGrid. Note that the wavelength grids covering the
+line profiles need to be sufficiently wide to capture kinematic as well as thermal broadening (see the discussion of
+wavelength bias distributions above). Again, it is usually desirable to generate the relevant ski file snippets
+automatically through a Python script.
 
 */
