@@ -119,6 +119,7 @@ Sep  2, 2024 | d3343d6 | Add Hirashita (2015) grain size distribution
 Oct 11, 2024 | 8765014 | Properly calculate photon energy loss for bound-electron Compton scattering in X-ray gas
 Dec 20, 2024 | 81d2eda | Add Tetrahedral spatial grid
 Jan 10, 2025 | 6bafd69 | Allow importing a per-particle source bias weight to reduce noise in low-luminosity regions
+Jan 22, 2025 | 828c3d1 | Support importing from snapshots in cylindrical coordinates
 
 \*\* This update requires a ski file upgrade
 
