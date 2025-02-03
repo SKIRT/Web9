@@ -120,6 +120,7 @@ Oct 11, 2024 | 8765014 | Properly calculate photon energy loss for bound-electro
 Dec 20, 2024 | 81d2eda | Add Tetrahedral spatial grid
 Jan 10, 2025 | 6bafd69 | Allow importing a per-particle source bias weight to reduce noise in low-luminosity regions
 Jan 22, 2025 | 828c3d1 | Support importing from snapshots in cylindrical coordinates
+Feb  3, 2025 | 1726ed2 | \*\* Add 3D spatial grids in cylindrical and spherical coordinates; add symmetric log mesh
 
 \*\* This update requires a ski file upgrade
 
@@ -155,5 +156,6 @@ Sep 15, 2022 | 06777ab | Provide automated ski file upgrade procedure for border
 Nov  4, 2022 | 5937da0 | Fix some very minor issues, mostly documentation
 Sep 14, 2023 | 2583d55 | Allow specifying the units of the wavelength range in relevant plot commands
 Jun  6, 2024 | 9864d2e | Built-in broadband definitions are now taken from SKIRT resources
+Feb  3, 2024 | f6a2431 | Provide automated ski file upgrade procedure for today's SKIRT update (grids and meshes)
 
 */
