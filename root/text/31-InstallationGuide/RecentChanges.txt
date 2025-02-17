@@ -121,6 +121,7 @@ Dec 20, 2024 | 81d2eda | Add Tetrahedral spatial grid
 Jan 10, 2025 | 6bafd69 | Allow importing a per-particle source bias weight to reduce noise in low-luminosity regions
 Jan 22, 2025 | 828c3d1 | Support importing from snapshots in cylindrical coordinates
 Feb  3, 2025 | 1726ed2 | \*\* Add 3D spatial grids in cylindrical and spherical coordinates; add symmetric log mesh
+Feb 17, 2025 | ba2f74c | Support importing from snapshots in spherical coordinates
 
 \*\* This update requires a ski file upgrade
 
