@@ -1,0 +1,275 @@
+/**
+
+\page UserImportColOrder Adjusting column order in import files
+
+The topic \ref UserImportSnap describes how to format column text files for importing data in SKIRT. By default, the
+columns in these files must be provided in the order expected by the SKIRT class governing the import. However, SKIRT
+also offers some schemes to allow more flexible column ordering. The formal rules are presented in the documentation of
+the TextInFile class and the TextInFile::useColumns() function. The capabilities are illustrated below in a more
+accessable manner through an example.
+
+- \ref UserImportColOrderDefault
+- \ref UserImportColOrderExplicit
+- \ref UserImportColOrderAutomatic
+
+
+\section UserImportColOrderDefault Default column order
+
+For clarity of presentation, we consider a specific example throughout this page. Assume that we plan to study the 21
+cm hydrogen spin-flip transition in a density distribution extracted from a 2D hydrodynamical simulation snapshot
+defined in cylindrical coordinates. To accomplish this, we might construct the relevant part of the ski file as
+follows:
+
+    <CylindricalCellMedium
+            filename="spin.txt" autoRevolve="true" numAutoRevolveBins="16" massType="NumberDensity" massFraction="1"
+            importMetallicity="true" importTemperature="true" maxTemperature="0 K" importVelocity="true"
+            importMagneticField="false" importVariableMixParams="false"
+            useColumns="">
+        <materialMix type="MaterialMix">
+            <SpinFlipHydrogenGasMix
+                    sourceWeight="1" wavelengthBias="0.5"
+                    defaultMetallicity="0.02" defaultTemperature="1e4 K" defaultNeutralSurfaceDensity="10 Msun/pc2">
+            </SpinFlipHydrogenGasMix>
+        </materialMix>
+    </CylindricalCellMedium>
+
+We enable the \em autoRevolve flag to automatically construct a 3D distribition from the 2D input. We also enable
+importing of metallicity and temperature, as required by the spin-flip material mix. From the documentation of the
+CylindricalCellMedium and SpinFlipHydrogenGasMix classes, we conclude that the import file must provide the following
+columns:
+
+\f[ R_\mathrm{min}, \varphi_\mathrm{min}, z_\mathrm{min}, R_\mathrm{max}, \varphi_\mathrm{max}, z_\mathrm{max},
+n_\mathrm{HI+H2}, Z, T, v_\mathrm{x}, v_\mathrm{y}, v_\mathrm{z}, \Sigma_\mathrm{HI+H2} \f]
+
+We therefore construct a column text file with the following header information (and corresponding data columns):
+
+    # Column 1: Rmin (cm)
+    # Column 2: phimin (deg)
+    # Column 3: zmin (cm)
+    # Column 4: Rmax (cm)
+    # Column 5: phimax (deg)
+    # Column 6: zmax (cm)
+    # Column 7: nHI+H2 (1/cm3)
+    # Column 8: Z (1)
+    # Column 9: T (K)
+    # Column 10: vR (m/s)
+    # Column 11: vphi (m/s)
+    # Column 12: vz (m/s)
+    # Column 13: SigmaHI+H2 (g/cm2)
+    ...
+
+When running the simulation, SKIRT logs the following column summary:
+
+    Column 1: box Rmin <-- Rmin (cm)
+    Column 2: box phimin <-- phimin (deg)
+    Column 3: box zmin <-- zmin (cm)
+    Column 4: box Rmax <-- Rmax (cm)
+    Column 5: box phimax <-- phimax (deg)
+    Column 6: box zmax <-- zmax (cm)
+    Column 7: number density <-- nHI+H2 (1/cm3)
+    Column 8: metallicity <-- Z (1)
+    Column 9: temperature <-- T (K)
+    Column 10: velocity R <-- vR (m/s)
+    Column 11: velocity phi <-- vphi (m/s)
+    Column 12: velocity z <-- vz (m/s)
+    Column 13: neutral hydrogen mass surface density <-- SigmaHI+H2 (g/cm2)
+
+From this log, we can verify that the imported quantity properly matches the expected quantity for each column, and
+that the employed units match the provided data.
+
+
+\section UserImportColOrderExplicit Explicit column re-ordering
+
+Because of SKIRT implementation details, the expected column order in this example is far from intuitive. It would be
+more logical to provide columns, for example, in the following order (we also dropped the optional column numbers):
+
+    # Column: Rmin (cm)
+    # Column: phimin (deg)
+    # Column: zmin (cm)
+    # Column: Rmax (cm)
+    # Column: phimax (deg)
+    # Column: zmax (cm)
+    # Column: vR (m/s)
+    # Column: vphi (m/s)
+    # Column: vz (m/s)
+    # Column: Z (1)
+    # Column: T (K)
+    # Column: nHI+H2 (1/cm3)
+    # Column: SigmaHI+H2 (g/cm2)
+    ...
+
+This is possible as long as we provide the correct ordering in the \em useColumns ski file property:
+
+    <CylindricalCellMedium
+        ...
+        useColumns="Rmin, phimin, zmin, Rmax, phimax, zmax, nHI+H2, Z, T, vR, vphi, vz, SigmaHI+H2">
+
+This leads to the following column summary in the SKIRT log:
+
+    Column 1: box Rmin <-- Rmin (cm)
+    Column 2: box phimin <-- phimin (deg)
+    Column 3: box zmin <-- zmin (cm)
+    Column 4: box Rmax <-- Rmax (cm)
+    Column 5: box phimax <-- phimax (deg)
+    Column 6: box zmax <-- zmax (cm)
+    Column 7: number density <-- column 12: nHI+H2 (1/cm3)
+    Column 8: metallicity <-- column 10: Z (1)
+    Column 9: temperature <-- column 11: T (K)
+    Column 10: velocity R <-- column 7: vR (m/s)
+    Column 11: velocity phi <-- column 8: vphi (m/s)
+    Column 12: velocity z <-- column 9: vz (m/s)
+    Column 13: neutral hydrogen mass surface density <-- SigmaHI+H2 (g/cm2)
+
+Because the snapshot being imported is two-dimensional, all values for \f$\varphi_\mathrm{min}\f$ and
+\f$\varphi_\mathrm{max}\f$ are zero. The CylindricalCellMedium class documentation clearly states that these columns
+cannot be omitted. However, we can use the special column name "0" to work around this issue. We can omit the columns
+from the import file:
+
+    # Column: Rmin (cm)
+    # Column: zmin (cm)
+    # Column: Rmax (cm)
+    # Column: zmax (cm)
+    # Column: vR (m/s)
+    # Column: vphi (m/s)
+    # Column: vz (m/s)
+    # Column: Z (1)
+    # Column: T (K)
+    # Column: nHI+H2 (1/cm3)
+    # Column: SigmaHI+H2 (g/cm2)
+    ...
+
+And in the \em useColumns ski file property replace "phimin" and "phimax" by "0":
+
+    <CylindricalCellMedium
+        ...
+        useColumns="Rmin, 0, zmin, Rmax, 0, zmax, nHI+H2, Z, T, vR, vphi, vz, SigmaHI+H2">
+
+This now leads to the following column summary in the SKIRT log:
+
+    Column 1: box Rmin <-- Rmin (cm)
+    Column 2: box phimin <-- 0
+    Column 3: box zmin <-- column 2: zmin (cm)
+    Column 4: box Rmax <-- column 3: Rmax (cm)
+    Column 5: box phimax <-- 0
+    Column 6: box zmax <-- column 4: zmax (cm)
+    Column 7: number density <-- column 10: nHI+H2 (1/cm3)
+    Column 8: metallicity <-- Z (1)
+    Column 9: temperature <-- T (K)
+    Column 10: velocity R <-- column 5: vR (m/s)
+    Column 11: velocity phi <-- column 6: vphi (m/s)
+    Column 12: velocity z <-- column 7: vz (m/s)
+    Column 13: neutral hydrogen mass surface density <-- column 11: SigmaHI+H2 (g/cm2)
+
+
+\section UserImportColOrderAutomatic Automatic column re-ordering
+
+There is a second, more automated mechanism to map physical to logical columns. This mechanism is enabled by specifying
+the special value "*" for the \em useColumns property. The column names in the file header information now must exactly
+match the expected logical column names specified by SKIRT. For example, the header information could become:
+
+    # Column: box Rmin (cm)
+    # Column: box phimin (deg)
+    # Column: box zmin (cm)
+    # Column: box Rmax (cm)
+    # Column: box phimax (deg)
+    # Column: box zmax (cm)
+    # Column: velocity R (m/s)
+    # Column: velocity phi (m/s)
+    # Column: velocity z (m/s)
+    # Column: metallicity (1)
+    # Column: temperature (K)
+    # Column: number density (1/cm3)
+    # Column: neutral hydrogen mass surface density (g/cm2)
+    ...
+
+With the \em useColumns property as follows:
+
+    <CylindricalCellMedium  ...  useColumns="*">
+
+This yields the following column summary in the SKIRT log:
+
+    Column 1: box Rmin <-- box Rmin (cm)
+    Column 2: box phimin <-- box phimin (deg)
+    Column 3: box zmin <-- box zmin (cm)
+    Column 4: box Rmax <-- box Rmax (cm)
+    Column 5: box phimax <-- box phimax (deg)
+    Column 6: box zmax <-- box zmax (cm)
+    Column 7: number density <-- column 12: number density (1/cm3)
+    Column 8: metallicity <-- column 10: metallicity (1)
+    Column 9: temperature <-- column 11: temperature (K)
+    Column 10: velocity R <-- column 7: velocity R (m/s)
+    Column 11: velocity phi <-- column 8: velocity phi (m/s)
+    Column 12: velocity z <-- column 9: velocity z (m/s)
+    Column 13: neutral hydrogen mass surface density <-- neutral hydrogen mass surface density (g/cm2)
+
+As an extra option, we can use the special value "*0" to cause unavailable columns to be automatically replaced by
+virtual zero columns. For example,
+
+    # Column: box Rmin (cm)
+    # Column: box zmin (cm)
+    # Column: box Rmax (cm)
+    # Column: box zmax (cm)
+    # Column: velocity R (m/s)
+    # Column: velocity phi (m/s)
+    # Column: velocity z (m/s)
+    # Column: metallicity (1)
+    # Column: temperature (K)
+    # Column: number density (1/cm3)
+    # Column: neutral hydrogen mass surface density (g/cm2)
+    ...
+
+With:
+
+    <CylindricalCellMedium  ...  useColumns="*0">
+
+Yields:
+
+    Column 1: box Rmin <-- box Rmin (cm)
+    Column 2: box phimin <-- 0
+    Column 3: box zmin <-- column 2: box zmin (cm)
+    Column 4: box Rmax <-- column 3: box Rmax (cm)
+    Column 5: box phimax <-- 0
+    Column 6: box zmax <-- column 4: box zmax (cm)
+    Column 7: number density <-- column 10: number density (1/cm3)
+    Column 8: metallicity <-- metallicity (1)
+    Column 9: temperature <-- temperature (K)
+    Column 10: velocity R <-- column 5: velocity R (m/s)
+    Column 11: velocity phi <-- column 6: velocity phi (m/s)
+    Column 12: velocity z <-- column 7: velocity z (m/s)
+    Column 13: neutral hydrogen mass surface density <-- column 11: neutral hydrogen mass surface density (g/cm2)
+
+When using this option, it is important to verify that none of the columns with actual data have been inadvertently
+replaced by zero.
+
+
+\subsection UserImportColOrderFinding Finding expected column names
+
+To determine the exact column names expected by SKIRT for a given import configuration, provide a dummy import file
+with at least one column information line, and specify "*0" for the \em useColumns property. For example:
+
+    # Column: (1)
+
+With:
+
+    <CylindricalCellMedium  ...  useColumns="*0">
+
+Yields the following column summary in the SKIRT log:
+
+    Column 1: box Rmin <-- 0
+    Column 2: box phimin <-- 0
+    Column 3: box zmin <-- 0
+    Column 4: box Rmax <-- 0
+    Column 5: box phimax <-- 0
+    Column 6: box zmax <-- 0
+    Column 7: number density <-- 0
+    Column 8: metallicity <-- 0
+    Column 9: temperature <-- 0
+    Column 10: velocity R <-- 0
+    Column 11: velocity phi <-- 0
+    Column 12: velocity z <-- 0
+    Column 13: neutral hydrogen mass surface density <-- 0
+
+All quantities have been replaced by zero, so this is not a very useful import operation. But it does tell us the
+expected column names.
+
+*/

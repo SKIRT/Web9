@@ -122,6 +122,7 @@ Jan 10, 2025 | 6bafd69 | Allow importing a per-particle source bias weight to re
 Jan 22, 2025 | 828c3d1 | Support importing from snapshots in cylindrical coordinates
 Feb  3, 2025 | 1726ed2 | \*\* Add 3D spatial grids in cylindrical and spherical coordinates; add symmetric log mesh
 Feb 17, 2025 | ba2f74c | Support importing from snapshots in spherical coordinates
+Mar  6, 2025 | 56c2a10 | Add automatic column order and virtual zero columns for import text column files
 
 \*\* This update requires a ski file upgrade
 
@@ -157,6 +158,7 @@ Sep 15, 2022 | 06777ab | Provide automated ski file upgrade procedure for border
 Nov  4, 2022 | 5937da0 | Fix some very minor issues, mostly documentation
 Sep 14, 2023 | 2583d55 | Allow specifying the units of the wavelength range in relevant plot commands
 Jun  6, 2024 | 9864d2e | Built-in broadband definitions are now taken from SKIRT resources
-Feb  3, 2024 | f6a2431 | Provide automated ski file upgrade procedure for today's SKIRT update (grids and meshes)
+Feb  3, 2025 | f6a2431 | Provide automated ski file upgrade procedure for today's SKIRT update (grids and meshes)
+Mar  2, 2025 | cd3c129 | Add function to write FITS file in SKIRT output style
 
 */
