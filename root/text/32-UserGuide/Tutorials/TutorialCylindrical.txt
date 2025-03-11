@@ -1,0 +1,46 @@
+/**
+
+\page TutorialCylindrical Importing a cylindrical 2D snapshot
+
+In this tutorial you are faced with a snapshot exported from a 2D hydrodynamical model. The model is defined in the
+meridional plane using cylindrical coordinates. The snapshot provides both density and velocity distributions. Assuming
+a central point source, the goal is to investigate the effect of the kinematics on the observed spectrum at various
+inclinations.
+
+Along the way, you will:
+ - prepare raw data for import into SKIRT,
+ - configure a SKIRT simulation for importing 2D cylindrical data,
+ - configure a cylindrical grid appropriate for the imported data,
+ - provide support for kinematics (i.e. bulk velocities),
+ - plot and interpret some of the simulation results.
+
+
+\section TutorialCylindricalPre Getting ready
+
+This tutorial assumes that you have completed the introductory SKIRT tutorials \ref TutorialBasicsMono and \ref
+TutorialBasicsPan, and that you have reviewed the topics on \ref UserImportSnap, \ref UserImportColOrder, and \ref
+UserSpatialGrids, or that you have otherwise acquired the working knowledge introduced there. At the very least, before
+starting this tutorial, you should have installed the SKIRT code, and preferably also PTS and a FITS file viewer such
+as DS9 (see \ref InstallationGuide).
+
+Begin by downloading the raw data used in this tutorial, i.e. the file \c TutorialCylindricalRawData.txt, using the
+first link provided in the table below. If you want (or need) to skip the data preparation step, you can also download
+the file \c TutorialCylindricalImportReady.txt using the second link provided in the table below.
+
+<TABLE>
+<TR><TH>Raw data</TH>
+  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialCylindricalRawData.txt">TutorialCylindricalRawData.txt</a>
+  </TD>
+<TR><TH>Import-ready data</TH>
+  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialCylindricalImportReady.txt">TutorialCylindricalImportReady.txt</a>
+  </TD>
+</TABLE>
+
+
+\section TutorialCylindricalIntro Introduction
+
+Bla.
+
+<b><i>Congratulations, you made it to the end of this tutorial!</i></b>
+
+*/
