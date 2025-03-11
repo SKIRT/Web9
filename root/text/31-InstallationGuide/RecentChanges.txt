@@ -123,6 +123,7 @@ Jan 22, 2025 | 828c3d1 | Support importing from snapshots in cylindrical coordin
 Feb  3, 2025 | 1726ed2 | \*\* Add 3D spatial grids in cylindrical and spherical coordinates; add symmetric log mesh
 Feb 17, 2025 | ba2f74c | Support importing from snapshots in spherical coordinates
 Mar  6, 2025 | 56c2a10 | Add automatic column order and virtual zero columns for import text column files
+Mar 11, 2025 | dcb3392 | Add quartic spline smoothing kernel
 
 \*\* This update requires a ski file upgrade
 
