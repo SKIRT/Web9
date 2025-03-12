@@ -15,7 +15,7 @@ Along the way, you will:
  - plot and interpret some of the simulation results.
 
 
-\section TutorialCylindricalPre Getting ready
+\section TutorialCylindricalBegin Getting ready
 
 This tutorial assumes that you have completed the introductory SKIRT tutorials \ref TutorialBasicsMono and \ref
 TutorialBasicsPan, and that you have reviewed the topics on \ref UserImportSnap, \ref UserImportColOrder, and \ref
@@ -35,6 +35,116 @@ the file \c TutorialCylindricalImportReady.txt using the second link provided in
   <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialCylindricalImportReady.txt">TutorialCylindricalImportReady.txt</a>
   </TD>
 </TABLE>
+
+\section TutorialCylindricalPrepare Prepare the raw data for import
+
+The raw data file comes with the following description.
+
+""The data represents the density and velocity of the material in an axi-symmetric wind solution near an AGN. There is
+an opening funnel region near the symmetry axis, which could be predominantly occupied by jets (not part of this
+model). The file contains the following 6 columns, in this order:
+
+- cylindrical radius \f$R/R_\text{in}\f$
+- cylindrical axial distance \f$z/R_\text{in}\f$
+- wind density \f$\log(n/n_\text{in})\f$
+- \f$v_\text{R/c}\f$
+- \f$v_\varphi/c\f$
+- \f$v_\text{z}/c\f$
+
+Herein \f$R_\text{in} = 9\times10^{13} \text{cm}\f$, \f$n_\text{in} = 10^{12} \text{cm}^{-3}\f$, and \f$c\f$ is the
+speed of light. The wind velocity components are “capped” at \f$0.99c\f$ in this non-relativistic framework. The
+spatial grid is given by \f$\Delta (\log R) = 0.1\f$ and \f$\Delta (\log z)=0.1\f$.""
+
+To get some insight in the data, make a quick and dirty plot using a simple python script, for example:
+
+\code{.py}
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+
+cmap = matplotlib.cm.get_cmap('RdYlBu')
+normalizer = matplotlib.colors.Normalize()
+
+R,z,n,_,_,_ = np.loadtxt("TutorialCylindricalRawData.txt", unpack=True)
+
+plt.xscale('log')
+plt.yscale('log')
+plt.scatter(R,z, color=cmap(normalizer(n)))
+plt.show()
+\endcode
+
+This yields:
+
+\image HTML TutorialCylindricalPrepare.png
+
+The SKIRT class CylindricalCellMedium imports a density distribution defined in cylindrical coordinates. However, it
+requires a list of cylindrical cells lined up with the cylindrical coordinate axes rather than a set of data points.
+You thus need to convert each of the data points in the raw data file to a cylindrical cell that encloses the point.
+This can be accomplished with a fairly straightforward python script as follows:
+
+\code{.py}
+import numpy as np
+
+# load raw data
+R, z, n, vR, vphi, vz = np.loadtxt("TutorialCylindricalRawData.txt", unpack=True)
+
+# R borders
+logR = np.log(R)
+logRgrid = np.unique(logR)
+logRshift = (logRgrid[1]-logRgrid[0])/2
+Rmin = np.exp(logR - logRshift)
+Rmax = np.exp(logR + logRshift)
+
+# z borders
+logz = np.log(z)
+logzgrid = np.unique(logz)
+logzshift = (logzgrid[1]-logzgrid[0])/2
+zmin = np.exp(logz - logzshift)
+zmax = np.exp(logz + logzshift)
+
+# scale to SKIRT units
+R_in = 9e13 # cm
+n_in = 1e12 # cm^-3
+c = 2.99792458e8 # m/s
+
+Rmin *= R_in
+Rmax *= R_in
+zmin *= R_in
+zmax *= R_in
+n = np.exp(n) * n_in
+vR *= c
+vphi *= c
+vz *= c
+
+# write header info
+outfile = open("TutorialCylindricalImportReady.txt", 'wt')
+outfile.write("# Column: position Rmin (cm)\n")
+outfile.write("# Column: position zmin (cm)\n")
+outfile.write("# Column: position Rmax (cm)\n")
+outfile.write("# Column: position zmax (cm)\n")
+outfile.write("# Column: density (1/cm3)\n")
+outfile.write("# Column: velocity vR (m/s)\n")
+outfile.write("# Column: velocity vphi (m/s)\n")
+outfile.write("# Column: velocity vz (m/s)\n")
+
+# write positive and negative z-axis
+np.savetxt(outfile, np.array((Rmin, zmin, Rmax, zmax, n, vR, vphi, vz)).T, fmt="%20.14e")
+np.savetxt(outfile, np.array((Rmin, -zmax, Rmax, -zmin, n, vR, vphi, -vz)).T, fmt="%20.14e")
+outfile.close()
+
+# print information to help configuring the spatial grid in SKIRT
+print ("R: {:1.12e} .. {:1.12e} cm".format(Rmin.min(), Rmax.max()))
+print ("   use LogMesh with {:1d} bins and central bin fraction {:1.12e}".format(len(logRgrid), Rmin.min()/Rmax.max()))
+print ("z: {:1.12e} .. {:1.12e} cm (mirrored)".format(zmin.min(), zmax.max()))
+print ("   use SymLogMesh with {:1d} bins and central bin fraction {:1.12e}".format(1+2*len(logzgrid), zmin.min()/zmax.max()))
+\endcode
+
+After loading the raw data, the script builds a cylindrical cell around each grid point by shifting the cell borders by
+half of the bin width in logarithmic space. It then scales the data values to SKIRT-supported units, using the
+normalization constants given in the description accompanying the raw data file. Finally the script outputs the result
+as a text file including header information for each column in SKIRT format. In fact, each cell is written twice,
+mirroring the material distribution about the equatorial plane. At the very end, the script prints some information
+to the console that will help configuring the spatial grid in SKIRT, as will be discussed later in this tutorial.
 
 
 \section TutorialCylindricalIntro Introduction
