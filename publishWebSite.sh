@@ -5,8 +5,8 @@
 #
 # Instructions:
 #   - use on Mac OS X only
-#   - you need write access to the SKIRT area of the Ghent University web host
-#   - first run the stageWebSite.sh script
+#   - you need write access to the SKIRT area of the Ghent University web host share
+#   - first run the stageWebSite.sh script with the master branch checked out for SKIRT and PTS
 #   - run this script with "git" as default directory
 #
 # This script assumes that:
@@ -24,9 +24,6 @@
 
 # Mount the webhost at a local mount point
 mkdir -p ../webhost
-read -s -p "Password for web host user $USER: " PASSWORD
-echo
-#mount -t smbfs //UGENT\;$USER:$PASSWORD@files.ugent.be/$USER/www/shares/skirt ../webhost
 mount -t smbfs //UGENT\;$USER@files.ugent.be/$USER/www/shares/skirt ../webhost
 if [ $? -ne 0 ]
   then exit
