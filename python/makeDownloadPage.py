@@ -39,16 +39,17 @@ with open(outdir/"DownloadResourcePacks.txt", 'w') as pg:
     pg.write("\n")
 
     # write table header
-    pg.write("| Resource pack | Description |\n")
-    pg.write("|--|--|\n")
+    pg.write("| Resource pack | Size | Description |\n")
+    pg.write("|--|--|--|\n")
 
     # write links to the resource packs
     for zipname in zipnames:
+        zipsize = (zipdir / zipname).stat().st_size
         ziplink = "https://sciences.ugent.be/skirtextdat/SKIRT9/Resources/" + zipname
         resourcename = zipname.split("_")[2]
         with open(defdir/resourcename/"history.txt") as history:
             zipdesc = history.readline().strip()
-        pg.write("| [{}]({}) | {} |\n".format(zipname, ziplink, zipdesc))
+        pg.write("| [{}]({}) | {:1.1f} MB | {} |\n".format(zipname, ziplink, zipsize/(1024**2), zipdesc))
 
     # write page footer
     pg.write("\n")
