@@ -10,7 +10,7 @@ inclinations.
 Along the way, you will:
  - prepare raw data for import into SKIRT,
  - configure a SKIRT simulation for importing 2D cylindrical data,
- - configure a cylindrical grid appropriate for the imported data,
+ - configure a cylindrical radiative-transfer grid appropriate for the imported data,
  - provide support for kinematics (i.e. bulk velocities),
  - plot and interpret some of the simulation results.
 
@@ -23,11 +23,14 @@ UserSpatialGrids, or that you have otherwise acquired the working knowledge intr
 starting this tutorial, you should have installed the SKIRT code, and preferably also PTS and a FITS file viewer such
 as DS9 (see \ref InstallationGuide).
 
-Begin by downloading the raw data used in this tutorial, i.e. the file \c TutorialCylindricalRawData.txt, using the
-first link provided in the table below. If you want (or need) to skip the data preparation step, you can also download
-the file \c TutorialCylindricalImportReady.txt using the second link provided in the table below.
+Begin by downloading the ski file and the raw data file used in this tutorial using the first two links provided in the
+table below. If you want (or need) to skip the data preparation step, you can also download the import-ready data file
+using the third link provided in the table below.
 
 <TABLE>
+<TR><TH>Ski file</TH>
+  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialCylindrical.ski">TutorialCylindrical.ski</a>
+  </TD>
 <TR><TH>Raw data</TH>
   <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialCylindricalRawData.txt">TutorialCylindricalRawData.txt</a>
   </TD>
@@ -47,7 +50,7 @@ model). The file contains the following 6 columns, in this order:
 - cylindrical radius \f$R/R_\text{in}\f$
 - cylindrical axial distance \f$z/R_\text{in}\f$
 - wind density \f$\log(n/n_\text{in})\f$
-- \f$v_\text{R/c}\f$
+- \f$v_\text{R}/c\f$
 - \f$v_\varphi/c\f$
 - \f$v_\text{z}/c\f$
 
@@ -118,14 +121,15 @@ vz *= c
 
 # write header info
 outfile = open("TutorialCylindricalImportReady.txt", 'wt')
-outfile.write("# Column: position Rmin (cm)\n")
-outfile.write("# Column: position zmin (cm)\n")
-outfile.write("# Column: position Rmax (cm)\n")
-outfile.write("# Column: position zmax (cm)\n")
-outfile.write("# Column: density (1/cm3)\n")
-outfile.write("# Column: velocity vR (m/s)\n")
-outfile.write("# Column: velocity vphi (m/s)\n")
-outfile.write("# Column: velocity vz (m/s)\n")
+outfile.write("# SKIRT-ready data for cylindrical import tutorial\n")
+outfile.write("# Column: box Rmin (cm)\n")
+outfile.write("# Column: box zmin (cm)\n")
+outfile.write("# Column: box Rmax (cm)\n")
+outfile.write("# Column: box zmax (cm)\n")
+outfile.write("# Column: number density (1/cm3)\n")
+outfile.write("# Column: velocity R (m/s)\n")
+outfile.write("# Column: velocity phi (m/s)\n")
+outfile.write("# Column: velocity z (m/s)\n")
 
 # write positive and negative z-axis
 np.savetxt(outfile, np.array((Rmin, zmin, Rmax, zmax, n, vR, vphi, vz)).T, fmt="%20.14e")
@@ -134,7 +138,7 @@ outfile.close()
 
 # print information to help configuring the spatial grid in SKIRT
 print ("R: {:1.12e} .. {:1.12e} cm".format(Rmin.min(), Rmax.max()))
-print ("   use LogMesh with {:1d} bins and central bin fraction {:1.12e}".format(len(logRgrid), Rmin.min()/Rmax.max()))
+print ("   use LogMesh with {:1d} bins and central bin fraction {:1.12e}".format(1+len(logRgrid), Rmin.min()/Rmax.max()))
 print ("z: {:1.12e} .. {:1.12e} cm (mirrored)".format(zmin.min(), zmax.max()))
 print ("   use SymLogMesh with {:1d} bins and central bin fraction {:1.12e}".format(1+2*len(logzgrid), zmin.min()/zmax.max()))
 \endcode
@@ -144,12 +148,234 @@ half of the bin width in logarithmic space. It then scales the data values to SK
 normalization constants given in the description accompanying the raw data file. Finally the script outputs the result
 as a text file including header information for each column in SKIRT format. In fact, each cell is written twice,
 mirroring the material distribution about the equatorial plane. At the very end, the script prints some information
-to the console that will help configuring the spatial grid in SKIRT, as will be discussed later in this tutorial.
+to the console that will help configuring the spatial grid in SKIRT, as will be discussed later in this tutorial:
+
+    R: 1.008235702265e+14 .. 1.157281232035e+17 cm
+       use LogMesh with 34 bins and central bin fraction 8.712106222376e-04
+    z: 8.114174078163e+12 .. 1.119638154725e+17 cm (mirrored)
+       use SymLogMesh with 93 bins and central bin fraction 7.247139661970e-05
 
 
-\section TutorialCylindricalIntro Introduction
+\section TutorialCylindricalConfigure Configure the SKIRT simulation
 
-Bla.
+The ski file for this tutorial is offered for download through the link at the start of this page. Although this avoids
+spending time on entering all the required details, it is important to understand the various elements of the
+configuration as discussed below. As is often the case for complex configurations, this ski file was constructed in
+several phases. First, we used the console Q&A (or MakeUp) to generate the basic structure with the appropriate source
+and medium components, and with just a few instruments and probes. We then manually edited the ski file to improve
+readability, removing some default elements and wrapping long lines. Finally we filled in the appropriate numbers for
+things that are hard to get right in one go (domain sizes, field of views, grid details) and we added the desired
+instruments and probes by copying and adjusting those already there. When introducing a new type of instrument or
+probe, we consulted the ski file reference in the online documentation to find the precise class and property names.
+Alternatively, we sometimes used the console Q&A or MakeUp to construct a dummy ski file that contained the desired
+elements and manually copied them over into the target ski file.
+
+Open the downloaded ski file in a text editor and follow along with the discussion below.
+
+<h2>Front matter</h2>
+
+    <MonteCarloSimulation userLevel="Regular" simulationMode="ExtinctionOnly" numPackets="1e7">
+        <units type="Units">
+            <StellarUnits wavelengthOutputStyle="Wavelength" fluxOutputStyle="Frequency"/>
+        </units>
+
+We want to simulate the effects of the medium extinction and kinematics on the radiation emitted by a central point
+source. There is no need for secondary emission, so the simulation mode is set to extinction-only. The number of
+photon packets can be adjusted to achieve a desired level of Monte Carlo noise in the results. We selected stellar
+units because of the size of the object under consideration. The flux output style is a matter of preference.
+
+<h2>%Source</h2>
+
+    <PointSource positionX="0 pc" positionY="0 pc" positionZ="0 pc"
+                 velocityX="0 km/s" velocityY="0 km/s" velocityZ="0 km/s"
+                 sourceWeight="1" wavelengthBias="0">
+        <sed type="SED">
+            <SingleWavelengthSED wavelength="0.55 micron"/>
+        </sed>
+        <normalization type="LuminosityNormalization">
+            <LineLuminosityNormalization wavelength="0.55 micron" luminosity="1 Lsun"/>
+        </normalization>
+    </PointSource>
+
+The point source is stationary at the model origin. For an actual science case, we would configure a spectrum that is
+relevant for the object under study. For this tutorial, however, the point source emits at a single optical wavelength,
+making it easy to study the effects of the moving medium in the observed spectra. Note that SingleWavelengthSED is a
+subclass of LineSED, corresponding to a luminosity normalization using LineLuminosityNormalization. The actual
+normalization value is arbitrary since all observed fluxes scale linearly with the source luminosity.
+
+<h2>%Medium</h2>
+
+    <CylindricalCellMedium filename="TutorialCylindricalImportReady.txt"
+            autoRevolve="true" numAutoRevolveBins="32" massType="NumberDensity" massFraction="3e-7"
+            importMetallicity="false" importTemperature="false" maxTemperature="0 K"
+            importVelocity="true" importMagneticField="false" importVariableMixParams="false"
+            useColumns="*0">
+        <materialMix type="MaterialMix">
+            <MeanInterstellarDustMix/>
+        </materialMix>
+    </CylindricalCellMedium>
+
+We use a CylindricalCellMedium to import the 2D density and velocity distribution defined in the prepared import file.
+The \em autoRevolve flag is enabled to automatically revolve the meridional plane around the vertical axis. While the
+density is axially symmetric and thus constant with azimuth, the velocity vectors are rotated and thus do change with
+azimuth. Consequently, it is important for the grid to properly resolve the velocity field in the azimuthal direction.
+The value of the \em numAutoRevolveBins property controls this discretization. The number 32 seems reasonable but
+remains arbitrary.
+
+Because the snapshot data being imported represents gas around an AGN, it provides number densities as hydrogen atoms
+per unit of volume. For this tutorial we instead insert a basic dust model. We further specify an arbitrary, very small
+mass fraction to bring the optical depth of the system down to a reasonable value (see the optical depth map produced
+by SKIRT, shown later in this tutorial). While this is obviously artificial, it limits the simulation run time and
+simplifies the interpretation of the results.
+
+The \em importVelocity is enabled to properly handle the velocity columns. All other flags are disabled.
+
+Very importantly, the \em useColumns property is set to a value of "*0". This causes the import procedure to
+automatically look for matching column names in the import file header \em and allows the missing azimuth columns to be
+automatically replaced by zeroes, as required by the CylindricalCellMedium for 2D import. When using "*0", always
+verify the column assignments listed in the simulation log file during setup:
+
+    Column 1: box Rmin <-- box Rmin (cm)
+    Column 2: box phimin <-- 0
+    Column 3: box zmin <-- column 2: box zmin (cm)
+    Column 4: box Rmax <-- column 3: box Rmax (cm)
+    Column 5: box phimax <-- 0
+    Column 6: box zmax <-- column 4: box zmax (cm)
+    Column 7: number density <-- column 5: number density (1/cm3)
+    Column 8: velocity R <-- column 6: velocity R (m/s)
+    Column 9: velocity phi <-- column 7: velocity phi (m/s)
+    Column 10: velocity z <-- column 8: velocity z (m/s)
+
+<h2>Spatial Grid</h2>
+
+    <Cylinder3DSpatialGrid minRadius="0 cm" maxRadius="1.157281232035e+17 cm"
+                           minZ="-1.119638154725e+17 cm" maxZ="1.119638154725e+17 cm">
+        <meshRadial type="Mesh">
+            <LogMesh numBins="35" centralBinFraction="8.712106222376e-04"/>
+        </meshRadial>
+        <meshAzimuthal type="Mesh">
+            <LinMesh numBins="32"/>
+        </meshAzimuthal>
+        <meshZ type="Mesh">
+            <SymLogMesh numBins="93" centralBinFraction="7.247139661970e-05"/>
+        </meshZ>
+    </Cylinder3DSpatialGrid>
+
+The CylindricalCellMedium class treats the cylindrical cells in the import file as separate, individual entities. This
+means that cells can be listed in arbitrary order, cells covering empty regions of the domain can be omitted, and cells
+can even overlap (although that is not recommended). While SKIRT can import information in this manner, such a set of
+unrelated cells is not suitable for tracing photon packets while performing radiative transfer. SKIRT thus always uses
+a distinct internal spatial grid optimized to perform radiative transfer, and thus requires regridding the imported
+distribution on this internal grid.
+
+It would be perfectly possible to use one of the regular or hierarchical Cartesian grids offered by SKIRT, or perhaps a
+Voronoi grid. However, regridding the imported distribution (defined on a cylindrical grid) would introduce additional
+inaccuracies and noise to the simulation model. We instead aim to perfectly match the imported grid by configuring a
+Cylinder3DSpatialGrid with the appropriate properties. This is possible because SKIRT offers many flexible ways to
+position the cell borders in each coordinate direction through one of the Mesh subclasses. In this case, the python
+script used to prepare the import data file also calculated the domain borders, number of bins, and central bin
+fraction for the logarithmic grid in the radial and vertical directions. We merely need to copy the values. The
+aximuthal grid simply matches the 32 bins specified for the auto-revolve feature of the CylindricalCellMedium class.
+
+<h2>Instruments</h2>
+
+    <FrameInstrument instrumentName="xy" distance="10 pc" inclination=" 0 deg" azimuth="  0 deg" roll="90 deg"
+            fieldOfViewX="2.32e17 cm" numPixelsX="500" centerX="0" fieldOfViewY="2.32e17 cm" numPixelsY="500" centerY="0"
+            recordComponents="true" numScatteringLevels="0" recordPolarization="false" recordStatistics="false">
+        <wavelengthGrid type="WavelengthGrid">
+            <PredefinedBandWavelengthGrid includeGALEX="true" includeSDSS="true" include2MASS="true"/>
+        </wavelengthGrid>
+    </FrameInstrument>
+
+We configured a FrameInstrument parallel to each Cartesian coordinate plane with a field of view that covers the full
+model and using 10 standard broadbands in the UV to NIR range, in hopes of capturing the kinematic structure of the model.
+The \em recordComponents flag is enabled because the scattered component avoids the direct radiation from the
+central source, which can be annoying in the total flux for sight-lines with low or no extinction.
+
+    <SEDInstrument instrumentName="i05" distance="10 pc" inclination="05 deg" azimuth="0 deg" roll="0 deg" radius="0 pc"
+            recordComponents="false" numScatteringLevels="0" recordPolarization="false" recordStatistics="false">
+        <wavelengthGrid type="WavelengthGrid">
+            <LogWavelengthGrid minWavelength="0.03 micron" maxWavelength="3 micron" numWavelengths="300"/>
+        </wavelengthGrid>
+    </SEDInstrument>
+
+We further included an SEDInstrument for each of four inclinations. The wavelength range was adjusted to include the
+red- and blueshifted fluxes observed from the model, based on early simulation runs.
+
+<h2>Probes</h2>
+
+    <ImportedMediumDensityProbe probeName="imp_dns_cut">
+    <ImportedMediumVelocityProbe probeName="imp_vel_cut">
+    <DensityProbe probeName="grd_dns_cut" aggregation="Type" probeAfter="Setup">
+    <VelocityProbe probeName="grd_vel_cut">
+    <OpacityProbe probeName="grd_opa_pro" wavelength="0.55 micron" aggregation="Type" probeAfter="Setup">
+
+We configured various probes to help evaluate our model setup (shown partially above; please refer to the ski file).
+Most importantly, we included density and velocity cuts on both the imported and internal grid. This allow us to verify
+whether we succeeded in exactly matching these grids. The opacity probe uses an all sky projection to show optical
+depth viewed from the center of the model. The results of these probes are shown in the following sections.
+
+
+\section TutorialCylindricalInterpret Interpret the simulation results
+
+Run the simulation. It is often handy to place the output files in a separate directory:
+
+    $ skirt -o out TutorialCylindrical
+
+With \f$10^7\f$ photon packets, the simulation runs for about 2 minutes on a recent powerful desktop computer.
+
+<h2>Density</h2>
+
+First have a look at the output of the ConvergenceInfoProbe. The input and gridded mass should be equal because we
+exactly matched both grids. The optical depth along each of the coordinate axes is zero because the distribution is
+discretized on a logarithmic grid, which leaves a thin empty slice in its center.
+
+Now plot the density cuts using the following PTS command, and/or have a look at the FITS files produced by the
+ImportedMediumDensityProbe and the DensityProbe:
+
+    $ pts plot_density out --dex 2
+
+Both density cuts look exactly the same because we did properly match the internal grid to the import grid. The
+distribution also nicely follows the plot of the raw data points you made earlier in this tutorial. One of the vertical
+cuts is shown below.
+
+\image HTML TutorialCylindricalDensityCut.png
+
+<h2>Optical depth</h2>
+
+Have a look at the FITS file produced by the OpacityProbe probe paired with the AllSkyProjectionForm, or plot the
+optical depth using:
+
+    $ pts plot_opacity out --dex 1
+
+As shown below, the result is obviously axi-symmetric. The radial optical depth reaches a maximum of about 3 near the
+equitorial plane.
+
+\image HTML TutorialCylindricalDepth.png
+
+<h2>Velocity</h2>
+
+Plot the cuts through the velocity field using:
+
+$ pts plot_velocity out --bin 64
+
+Again, the imported and gridded results match perfectly, as expected. Two of the cuts are shown below.
+
+![ ](TutorialCylindricalVelocity1.png)  ![ ](TutorialCylindricalVelocity2.png)
+
+<h2>Obervables</h2>
+
+Plot the spectra generated by the SEDInstrument instances:
+
+    $ pts plot_sed out --wmin 0.03 --wmax 3
+
+As shown below, the blueshift significantly depends on inclination, while the redshift does not.
+
+\image HTML TutorialCylindricalSpectra.png
+
+Open the \c primaryscattered FITS files for the various FrameInstrument instances and scroll through the wavelength
+bands to get an impression of the kinematical structure of the medium.
+
 
 <b><i>Congratulations, you made it to the end of this tutorial!</i></b>
 
