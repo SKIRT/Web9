@@ -1,0 +1,99 @@
+/**
+
+\page TutorialSpherical Constructing a quasar model in spherical coordinates
+
+In this tutorial, you study the polarization characteristics of the UV emission from a typical quasar using a SKIRT
+model that benefits from being simulated in spherical coordinates. Although you can download all ingredients to perform
+the simulations being discussed, the text is perhaps conceived more as a case study than as a detailed tutorial.
+
+Along the way, you will:
+ - construct a nontrivial model that uses the library of geometries and dust mixtures built into SKIRT.
+ - use a geometry decorator to adjust the model.
+ - configure a spatial grid (for radiative transfer) using spherical coordinates.
+ - discover the important benefits of 2D and 3D spherical grids for the type of models under consideration.
+
+
+\section TutorialSphericalBegin Getting ready
+
+This text below assumes that you have completed the introductory SKIRT tutorials \ref TutorialBasicsMono and \ref
+TutorialBasicsPan, and that you have reviewed the topic on and \ref UserSpatialGrids, or that you have otherwise
+acquired the working knowledge introduced there.
+
+While you do not necessarily need to run any SKIRT simulations to follow along with this tutorial/case study, it
+certainly is instructive to review the ski files being discussed. Thus, begin by downloading the ski files using the
+links provided in the table below.
+
+If you do want to perform the simulations on your system. pehaps in slightly modified form, then you should obviously
+have installed the SKIRT code, and preferably also PTS and a FITS file viewer such as DS9 (see \ref InstallationGuide).
+
+
+<TABLE>
+<TR><TH>Ski file</TH>
+  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialSpherical2D.ski">TutorialSpherical2D.ski</a>
+  </TD>
+<TR><TH>Raw data</TH>
+  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialSpherical3Dtop.ski">TutorialSpherical3Dtop.ski</a>
+  </TD>
+<TR><TH>Import-ready data</TH>
+  <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialSpherical3Dbot.ski">TutorialSpherical3Dbot.ski</a>
+  </TD>
+</TABLE>
+
+
+\section TutorialSphericalImages Images
+
+Bla
+
+| Vertical cut through original model | Vertical cut zoomed in on central portion |
+|----|----|
+| ![ ](TutorialSphericalCut1All.png) | ![ ](TutorialSphericalCut1Zoom.png) |
+
+Bla
+
+| All-sky optical depth for original model |
+|----|
+| ![ ](TutorialSphericalDepth1.png) |
+
+Bla
+
+| Polarization for models with full and half cone |
+|----|
+| ![ ](TutorialSphericalPolSphe.png) |
+
+Bla
+
+| Vertical cut through model with half cone | Vertical cut zoomed in on central portion |
+|----|----|
+| ![ ](TutorialSphericalCut2All.png) | ![ ](TutorialSphericalCut2Zoom.png) |
+
+Bla
+
+| All-sky optical depth for model with half cone |
+|----|
+| ![ ](TutorialSphericalDepth2.png) |
+
+Bla
+
+| Vertical cut through model using octree grid | Vertical cut zoomed in on central portion |
+|----|----|
+| ![ ](TutorialSphericalCut3All.png) | ![ ](TutorialSphericalCut3Zoom.png) |
+
+Bla
+
+| All-sky optical depth for model using octree grid|
+|----|
+| ![ ](TutorialSphericalDepth3.png) |
+
+Bla
+
+| Comparing spherical and octree grids |
+|----|
+| ![ ](TutorialSphericalPolOct.png) |
+
+Bla
+
+
+
+<b><i>Congratulations, you made it to the end of this tutorial!</i></b>
+
+*/
