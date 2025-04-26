@@ -16,8 +16,8 @@ Along the way, you will:
 \section TutorialSphericalBegin Getting ready
 
 This text below assumes that you have completed the introductory SKIRT tutorials \ref TutorialBasicsMono and \ref
-TutorialBasicsPan, and that you have reviewed the topic on and \ref UserSpatialGrids, or that you have otherwise
-acquired the working knowledge introduced there.
+TutorialBasicsPan, and that you have reviewed the topics on \ref UserSpatialGrids and \ref UserPolarize, or that you
+have otherwise acquired the working knowledge introduced there.
 
 While you do not necessarily need to run any SKIRT simulations to follow along with this tutorial/case study, it
 certainly is instructive to review the ski files being discussed. Thus, begin by downloading the ski files using the
@@ -40,37 +40,124 @@ have installed the SKIRT code, and preferably also PTS and a FITS file viewer su
 </TABLE>
 
 
-\section TutorialSphericalImages Images
+\section TutorialSphericalModel2D The 2D model
 
-Bla
+Imagine you plan to develop a suite of SKIRT models for interpreting the (rest frame) UV polarization of so-called Blue
+Hot DOGs (hot dust-obscured galaxies with excess of blue emission), an intriguing subpopulation of heavily obscured
+quasars. You start by constructing and studying a single representative model (described here). You can subsequently
+vary the parameters of the model to investigate the effects of the precise geometry on the results (not described
+here).
 
-| Vertical cut through original model | Vertical cut zoomed in on central portion |
+Your basic model specifies a typical configuration for an active galactic nucleus (AGN), namely a central point source
+surrounded by a torus and a conical shell. Since you are interested in UV polarization, the torus has a role of
+blocking the central source, while most of the polarization signal is produced by scattering in the cone. The
+illustration below shows a vertical cut through the medium density distribution. Note the large dynamic range: the cone
+is about 5 orders of magnitude less dense than the torus.
+
+Vertical cut through basic model | Vertical cut zoomed in on central portion |
 |----|----|
 | ![ ](TutorialSphericalCut1All.png) | ![ ](TutorialSphericalCut1Zoom.png) |
 
-Bla
+This model is described in the \c TutorialSpherical2D.ski file. Open this file in a text editor and locate the various
+elements described below.
 
-| All-sky optical depth for original model |
+- The simulation mode is extinction-only because the focus is on scattering in the UV regime; there is no interest in
+secondary emission from the medium.
+
+- The simulation mode is oligochromatic, implying that the simulation runs at a small set of discrete wavelengths.
+These wavelengths are specified in the \em wavelengths property of the SourceSystem. This is essentially a way to
+shorten the run time of the simulation: rather than distributing the photon packets over a continuous wavelength range,
+they are concentrated in a few wavelength points. This is acceptable for this simulation because (1) there is no
+interest in obtaining the detailed spectrum, (2) there are no kinematics so the wavelength of a photon packet never
+changes, and (3) there is no need to store the radiation field to calculate secondary emission.
+
+- The PointSource is configured with the built-in QuasarSED and normalized to an arbitrary luminosity. Because the
+simulation considers extinction only, the resulting fluxes are linearly proportional to the source luminosity.
+
+- The TorusGeometry is configured with a dust mixture containing graphite and silicate grains with a custom size
+distribution and offering support for polarization. The \em scatteringType property of the ConfigurableDustMix is set
+to "SphericalPolarization". The radial optical depth is set to \f$\tau_{9.7\mu\text{m}}=5\f$ in the infrared, which
+means that the UV optical depth will be significantly higher (see below).
+
+- The ConicalShellGeometry is configured with a dust mixture that contains just graphite grains, again offering support
+for polarization. The radial optical depth is set to \f$\tau_\text{V}=0.1\f$ in the V band, which means that the UV
+optical depth will be somewhat higher (see below).
+
+The illustration below shows an all-sky projection of the UV optical depth viewed from the model center. Note that
+equatorial (edge-on) sight lines show a radial optical depth of \f$\tau_{0.21\mu\text{m}}>200\f$.
+
+| All-sky optical depth at \f$0.21~\mu\text{m}\f$ for basic model |
 |----|
 | ![ ](TutorialSphericalDepth1.png) |
 
-Bla
+- The properties for the geometry, density exponent, and optical depth of the TorusGeometry and the
+ConicalShellGeometry have representative values that could be varied for other instances of this model.
+
+- The internal spatial grid of the simulation, used to perform radiative transfer, is configured to a
+Sphere2DSpatialGrid. The axial symmetry of the model allows selecting a 2D grid, with cells defined in a meridional
+plane and revolved around the central vertical axis. This reduces the number of cells required to properly resolve the
+spatial domain, lowering memory requirements and accelerating run times. The choice for a grid defined in spherical
+coordinates allows the cell borders to precisely line up with the boundaries of both the torus and the cone (see the
+vertical cuts and optical depth map shown above, which are taken from the gridded density distribution).
+
+- The SEDInstrument instances have sight lines ranging from just outside the torus (no obscuration) to edge-on (maximum
+obscuration). They are configured to record polarization, i.e. the Stokes vector components, also to record the
+scattering and direct flux components separately (not used here, but could be interesting to study).
+
+The solid lines in the plot below show the simulated linear polarization (in percent) for the four sight lines as a
+function of wavelength. For a definition of linear polarization, refer to \ref UserPolarize. Please ignore the dashed
+and dotted lines for now; they are discussed in the next section. The unobscured sight line (black) shows no
+polarization because direct emission of the unpolarized source fully dominates any scattered component. The edge-on
+sight line (blue) shows maximum polarization because (1) direct emission is strongly attenuated and (2) the 90 deg
+scattering angle from the source maximizes polarization strength.
+
 
 | Polarization for models with full and half cone |
 |----|
 | ![ ](TutorialSphericalPolSphe.png) |
 
-Bla
 
-| Vertical cut through model with half cone | Vertical cut zoomed in on central portion |
+\section TutorialSphericalModel3D The 3D model
+
+The observations of some of the Blue Hot DOGs under study show only a single cone. To mimick this in your SKIRT model,
+you employ a geometry decorator to remove the top or bottom portion of the "dual" cone. This results in two models, one
+with a cone pointing towards the instruments and one with a cone pointing away from the instruments. (Alternatively,
+you could use a single cone-configuration and add instruments at inclinations below the equatorial plane.)
+
+The model with just the top portion of the cone is described in the \c TutorialSpherical3Dtop.ski file. Open this file
+in a text editor and review the differences with the original model as described below.
+
+- The ConicalShellGeometry is now enclosed inside a BoxClipGeometryDecorator that removes the bottom portion of the
+cone. Because this decorator uses Cartesian coordinates to define the clipped region, it breaks the axial symmetry in
+the model. One could conceivably develop a clip decorator that preserves axial symmetry in this situation, but another
+solution is available as described next.
+
+- The spatial grid in the new ski file is "upgraded" to a Sphere3DSpatialGrid, which does not require any symmetries in
+the geometry of the model, but still employs spherical coordinates to define the cells. This preserves the important
+benefit of aligning the grid cell borders with the boundaries of the torus and cone density distributions.
+
+The illustrations below show the vertical cuts and optical depth map for this adjusted model.
+
+| Vertical cut through model with top cone | Vertical cut zoomed in on central portion |
 |----|----|
 | ![ ](TutorialSphericalCut2All.png) | ![ ](TutorialSphericalCut2Zoom.png) |
 
-Bla
 
-| All-sky optical depth for model with half cone |
+| All-sky optical depth for model with top cone |
 |----|
 | ![ ](TutorialSphericalDepth2.png) |
+
+Similarly, the \c TutorialSpherical3Dbot.ski file describes the model with just the bottom portion of the cone. The
+only difference is the value of the BoxClipGeometryDecorator \em remove property.
+
+The polarization results for these new models are also plotted in the figure shown at the end of the previous section.
+The dashed lines reflect the model where the cone is oriented towards the instruments; the dotted lines where the cone
+is oriented away from the instrument. For the unobscured and edge-on sight lines, the results are identical, as
+expected. For the intermediate sight lines, the polarization fraction is higher when the cone is oriented towards the
+instrument. This seems to be a reasonable result.
+
+
+\section TutorialSphericalOctree The failure of the Octree
 
 Bla
 

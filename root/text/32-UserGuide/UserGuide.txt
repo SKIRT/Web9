@@ -37,7 +37,6 @@ Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; 
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserImportSnap
 | \image html UserLevel3.png | \image html UserReading.png  | \ref UserImportColOrder
 | \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialCylindrical
-| \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialSpherical
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserProbes
 | \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialVolumetric
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserRedshift
@@ -49,6 +48,7 @@ Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; 
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserStatistics
 | \image html UserLevel2.png | \image html UserTutorial.png | \ref TutorialPolarization
 | \image html UserLevel2.png | \image html UserConfig.png   | \ref UserPolarize
+| \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialSpherical
 | \image html UserLevel3.png | \image html UserConfig.png   | \ref UserPhotonCycle
 | \image html UserLevel3.png | \image html UserConfig.png   | \ref UserLymanAlpha
 | \image html UserLevel3.png | \image html UserConfig.png   | \ref UserNonLTELines
