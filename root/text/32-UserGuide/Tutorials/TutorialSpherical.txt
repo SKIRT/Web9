@@ -143,7 +143,7 @@ The illustrations below show the vertical cuts and optical depth map for this ad
 | ![ ](TutorialSphericalCut2All.png) | ![ ](TutorialSphericalCut2Zoom.png) |
 
 
-| All-sky optical depth for model with top cone |
+| All-sky optical depth at \f$0.21~\mu\text{m}\f$ for model with top cone |
 |----|
 | ![ ](TutorialSphericalDepth2.png) |
 
@@ -159,27 +159,52 @@ instrument. This seems to be a reasonable result.
 
 \section TutorialSphericalOctree The failure of the Octree
 
-Bla
+The hierarchical octree has become the spatial grid of choice for a large class of models, and especially for imported
+3D medium density distributions. It automatically places smaller cells in regions of higher density or optical depth,
+providing an optimal balance between resolution (quality) and number of cells (memory usage and run time).
+
+However, the octree grid fails to deliver for the quasar models considered here. The figure below compares the
+polarization characteristics for the dual-cone model calculated by a simulation using an octree grid to those
+calculated with a (2D or 3D) spherical grid. The octree grid has well over 16 million cells, i.e. slightly more than
+the number of cells in the grid for the 3D model.
+
+
+| Comparing polarization for spherical and octree grids |
+|----|
+| ![ ](TutorialSphericalPolOct.png) |
+
+It is obvious that the results differ dramatically. Further testing (not explored here) shows that the models with just
+the top and bottom cones, simulated with the octree grid, produce clearly inconsistent results for the edge-on sight
+line (which should be identical for both models). This clearly indicates that the octree grid causes a problem. Even
+refining the octree grid to a hefty 180 million cells (using 120 GB of memory) does not solve the issue.
+
+The figures below show a vertical cut and all-sky map using the density distribution gridded with an octree of 16
+million cells (i.e. the simulation producing the polarization results shown in the above plot).
 
 | Vertical cut through model using octree grid | Vertical cut zoomed in on central portion |
 |----|----|
 | ![ ](TutorialSphericalCut3All.png) | ![ ](TutorialSphericalCut3Zoom.png) |
 
-Bla
 
-| All-sky optical depth for model using octree grid|
+| All-sky optical depth at \f$0.21~\mu\text{m}\f$ for model using octree grid|
 |----|
 | ![ ](TutorialSphericalDepth3.png) |
 
-Bla
 
-| Comparing spherical and octree grids |
-|----|
-| ![ ](TutorialSphericalPolOct.png) |
+It is evident that the cells of the octree, which are aligned with the Cartesian coordinate axes, are unable to
+properly resolve the slanted borders of the torus and cone geometry. Furthermore, the edges of the low-density cone are
+discretized with significantly larger cells than those of the torus. This is caused by the subdivision algorithm used
+by the SKIRT octree grid, which is mostly controlled by density and optical depth. Because the cone is 5 orders of
+magnitude less dense than the torus, it is exceedlingly hard to have the octree use smaller cells for the cone, unless
+by resolving the empty space in the model by a large number of unnecessarily small cells.
 
-Bla
-
-
+The polarization characteristics of the observed radiation in the models discussed here are dominated by scattering
+strengths and scattering angles, mostly off the low-density cone and perhaps the edges of the torus. This causes the
+results to be very sensitive to the precise geometry of the density distribution, and thus to its precise
+discretization. Because of the model's makeup, a grid defined in spherical coordinates is much better suited to do this
+well than a Cartesian octree. Note that this situation arises in part because the synthetic model specifies very steep
+(actually, infinite) gradients at the borders of the density distributions. Still, even in a more realistic setting,
+the Cartesian octree cells will have trouble "following" the slanted surfaces.
 
 <b><i>Congratulations, you made it to the end of this tutorial!</i></b>
 
