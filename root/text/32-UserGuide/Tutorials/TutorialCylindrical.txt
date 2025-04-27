@@ -357,7 +357,7 @@ equitorial plane.
 
 Plot the cuts through the velocity field using:
 
-$ pts plot_velocity out --bin 64
+    $ pts plot_velocity out --bin 64
 
 Again, the imported and gridded results match perfectly, as expected. Two of the cuts are shown below.
 
