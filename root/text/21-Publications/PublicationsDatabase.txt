@@ -6,6 +6,382 @@
 # PDF (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+The multi-wavelength Tully-Fisher relation in the TNG50 cosmological simulation
+Baes et al.
+A&A
+04 2025
+Application
+Baes2025
+2025A&A...696A..52B
+
+Direct imaging of active galactic nucleus outflows and their origin with the 23 m Large Binocular Telescope
+Isbell et al.
+NatAs
+03 2025
+Application
+Isbell2025
+2025NatAs...9..417I
+
+Diverse Rotation Curves of Galaxies in a Simulated Universe: The Observed Dependence on Stellar Mass and Morphology Reproduced
+Jeong et al.
+ApJ
+03 2025
+Application
+Jeong2025
+2025ApJ...982...11J
+
+Euclid preparation: LXVIII. Extracting physical parameters from galaxies with machine learning
+Euclid Collaboration
+A&A
+03 2025
+Application
+EuclidCollab2025
+2025A&A...695A.284E
+
+The mass-dependent UVJ diagram at cosmic noon: A challenge for galaxy evolution models and dust radiative transfer
+Gebek et al.
+A&A
+03 2025
+Application
+Gebek2025
+2025A&A...695A..90G
+
+Investigating ultraviolet and infrared radiation through the turbulent life of molecular clouds
+DiMascia et al.
+A&A
+03 2025
+Application
+DiMascia2025
+2025A&A...695A..77D
+
+A dusty dawn: galactic dust buildup at z ≳ 5
+Choban et al.
+MNRAS
+02 2025
+Application
+Choban2025
+2025MNRAS.537.1518C
+
+The importance of nuclear star clusters for massive black hole growth and nuclear star formation in simulated low-mass galaxies
+Partmann et al.
+MNRAS
+02 2025
+Application
+Partmann2025
+2025MNRAS.537..956P
+
+Hooks, Lines, and Sinkers: How Active Galactic Nucleus Feedback and Cosmic-Ray Transport Shape the Far-infrared–Radio Correlation of Galaxies
+Ponnada et al.
+ApJ
+02 2025
+Application
+Ponnada2025
+2025ApJ...980..135P
+
+Elevated UV luminosity density at Cosmic Dawn explained by non-evolving, weakly mass-dependent star formation efficiency
+Feldmann et al.
+MNRAS
+01 2025
+Application
+Feldmann2025
+2025MNRAS.536..988F
+
+Y Gem, a symbiotic star outshone by its asymptotic giant branch primary component
+Guerrero et al.
+A&A
+01 2025
+Application
+Guerrero2025
+2025A&A...693A.203G
+
+The impact of periastron passage on the X-ray and optical properties of the Symbiotic System R Aquarii
+Vasquez-Torres et al.
+MNRAS
+12 2024
+Application
+VasquezTorres2024
+2024MNRAS.535.2724V
+
+Signatures of Massive Black Hole Merger Host Galaxies from Cosmological Simulations. II. Unique Stellar Kinematics in Integral Field Unit Spectroscopy
+Bardati et al.
+ApJ
+12 2024
+Application
+Bardati2024
+2024ApJ...977..265B
+
+Exploring Lenticular Galaxy Formation in Field Environments Using NewHorizon: Evidence for Counterrotating Gas Accretion as a Formation Channel
+Han et al.
+ApJ
+12 2024
+Application
+Han2024
+2024ApJ...977..116H
+
+TODDLERS: A new UV-millimeter emission library for star-forming regions: II. Star-formation rate indicators using Auriga zoom simulations
+Kapoor et al.
+A&A
+12 2024
+Application
+Kapoor2024
+2024A&A...692A..79K
+
+The THESAN project: galaxy sizes during the epoch of reionization
+Shen et al.
+MNRAS
+10 2024
+Application
+Shen2024
+2024MNRAS.534.1433S
+
+X-ray polarisation in AGN circumnuclear media: Polarisation framework and 2D torus models
+Vander Meulen et al.
+A&A
+09 2024
+Technical
+VanderMeulen2024b
+2024A&A...689A.297V
+
+Observational signatures of the dust size evolution in isolated galaxy simulations
+Matsumoto et al.
+A&A
+09 2024
+Application
+Matsumoto2024
+2024A&A...689A..79M
+
+Tetrahedral grids in Monte Carlo radiative transfer
+Lauwers et al.
+A&A
+09 2024
+Technical
+Lauwers2024
+2024A&A...689A..13L
+
+Overview and public data release of the augmented Auriga Project: cosmological simulations of dwarf and Milky Way-mass galaxies
+Grand et al.
+MNRAS
+08 2024
+Application
+Grand2024
+2024MNRAS.532.1814G
+
+On the Origin of Star Formation Quenching of Galaxies in Group Environments Using the NewHorizon Simulation
+Rhee et al.
+ApJ
+08 2024
+Application
+Rhee2024
+2024ApJ...971..111R
+
+Intrinsic line profiles for X-ray fluorescent lines in SKIRT
+Vander Meulen et al.
+A&A
+08 2024
+Technical
+VanderMeulen2024a
+2024A&A...688L..33V
+
+The many colours of the TNG100 simulation
+Gebek et al.
+MNRAS
+07 2024
+Application
+Gebek2024
+2024MNRAS.531.3839G
+
+Formation Pathways of the Compact Stellar Systems
+Jang et al.
+ApJ
+07 2024
+Application
+Jang2024
+2024ApJ...969...59J
+
+Galaxies with grains: unraveling dust evolution and extinction curves with hydrodynamical simulations
+Dubois et al.
+A&A
+07 2024
+Application
+Dubois2024
+2024A&A...687A.240D
+
+The S-PLUS Fornax Project (S+FP): A first 12-band glimpse of the Fornax galaxy cluster
+Smith et al.
+MNRAS
+06 2024
+Application
+Smith2024
+2024MNRAS.530.3787S
+
+The THESAN project: public data release of radiation-hydrodynamic simulations matching reionization-era JWST observations
+Garaldi et al.
+MNRAS
+06 2024
+Application
+Garaldi2024
+2024MNRAS.530.3765G
+
+The impact of cosmic rays on the interstellar medium and galactic outflows of Milky Way analogues
+Rodríguez Montero et al.
+MNRAS
+06 2024
+Application
+RodriguezMontero2024
+2024MNRAS.530.3617R
+
+HaloFlow. I. Neural Inference of Halo Mass from Galaxy Photometry and Morphology
+Hahn et al.
+ApJ
+06 2024
+Application
+Hahn2024
+2024ApJ...968...90H
+
+Quantitatively rating galaxy simulations against real observations with anomaly detection
+Jin et al.
+MNRAS
+04 2024
+Application
+Jin2024
+2024MNRAS.529.3536J
+
+The limitations (and potential) of non-parametric morphology statistics for post-merger identification
+Wilkinson et al.
+MNRAS
+03 2024
+Application
+Wilkinson2024
+2024MNRAS.528.5558W
+
+The TNG50-SKIRT Atlas: Wavelength dependence of the effective radius
+Baes et al.
+A&A
+03 2024
+Application
+Baes2024b
+2024A&A...683A.182B
+
+The TNG50-SKIRT Atlas: Post-processing methodology and first data release
+Baes et al.
+A&A
+03 2024
+Application
+Baes2024a
+2024A&A...683A.181B
+
+Reflection physics in X-ray-emitting symbiotic stars
+Toalá
+MNRAS
+02 2024
+Application
+Toala2024
+2024MNRAS.528..987T
+
+[C II] 158 μm emission as an indicator of galaxy star formation rate
+Liang et al.
+MNRAS
+02 2024
+Application
+Liang2024
+2024MNRAS.528..499L
+
+IllustrisTNG in the HSC-SSP: image data release and the major role of mini mergers as drivers of asymmetry and star formation
+Bottrell et al.
+MNRAS
+01 2024
+Application
+Bottrell2024
+2024MNRAS.527.6506B
+
+Polar-ring galaxies in the Illustris TNG50 simulation
+Smirnov et al.
+MNRAS
+01 2024
+Application
+Smirnov2024
+2024MNRAS.527.4112S
+
+Disappearing Galaxies: The Orientation Dependence of JWST-bright, HST-dark, Star-forming Galaxy Selection
+Cochrane et al.
+ApJ
+01 2024
+Application
+Cochrane2024
+2024ApJ...961...37C
+
+Emulating radiative transfer with artificial neural networks
+Sethuram et al.
+MNRAS
+12 2023
+Application
+Sethuram2023
+2023MNRAS.526.4520S
+
+TODDLERS: a new UV-mm emission library for star-forming regions - I. Integration with SKIRT and public release
+Kapoor et al.
+MNRAS
+12 2023
+Technical
+Kapoor2023
+2023MNRAS.526.3871K
+
+Panchromatic Simulated Galaxy Observations from the NIHAO Project
+Faucher et al.
+ApJ
+11 2023
+Application
+Faucher2023
+2023ApJ...957....7F
+
+Galaxy mergers in Subaru HSC-SSP: A deep representation learning approach for identification, and the role of environment on merger incidence
+Omori et al.
+A&A
+11 2023
+Application
+Omori2023
+2023A&A...679A.142O
+
+Self-consistent dust and non-LTE line radiative transfer with SKIRT
+Matsumoto et al.
+A&A
+10 2023
+Application
+Matsumoto2023
+2023A&A...678A.175M
+
+The problem of dust attenuation in photometric decomposition of edge-on galaxies and possible solutions
+Savchenko et al.
+MNRAS
+09 2023
+Application
+Savchenko2023b
+2023MNRAS.524.4729S
+
+Modeling the Spectral Energy Distribution of the Active Galactic Nucleus inside NGC 4395
+Cruz et al.
+ApJ
+09 2023
+Application
+Cruz2023
+2023ApJ...955...78C
+
+The atomic-to-molecular hydrogen transition in the TNG50 simulation: Using realistic UV fields to create spatially resolved H I maps
+Gebek et al.
+MNRAS
+06 2023
+Application
+Gebek2023b
+2023MNRAS.521.5645G
+
+Paradigmatic examples for testing models of optical light polarization by spheroidal dust
+Peest et al.
+A&A
+05 2023
+Technical
+Peest2023
+2023A&A...673A.112P
+
 Determining the dark matter distribution in simulated galaxies with deep learning
 de los Rios et al.
 MNRAS

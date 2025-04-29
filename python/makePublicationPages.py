@@ -65,6 +65,8 @@ for record in records:
     if pdfdir is not None:
         pdfpath = pdfdir + record['pdfname'] + ".pdf"
         if not os.path.exists(pdfpath): warn(record, "PDF file does not exist '" + record['pdfname'] + "'")
+        pngpath = pdfdir + record['pdfname'] + ".png"
+        if not os.path.exists(pngpath): warn(record, "PNG file does not exist '" + record['pdfname'] + "'")
     record['month'] = 0
     record['year'] = 0
     try:
