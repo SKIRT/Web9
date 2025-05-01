@@ -207,7 +207,7 @@ Dubois2024
 2024A&A...687A.240D
 
 The S-PLUS Fornax Project (S+FP): A first 12-band glimpse of the Fornax galaxy cluster
-Smith et al.
+Smith Castelli et al.
 MNRAS
 06 2024
 Application
@@ -346,7 +346,7 @@ Self-consistent dust and non-LTE line radiative transfer with SKIRT
 Matsumoto et al.
 A&A
 10 2023
-Application
+Technical
 Matsumoto2023
 2023A&A...678A.175M
 
