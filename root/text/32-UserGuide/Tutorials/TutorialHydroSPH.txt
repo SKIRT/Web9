@@ -364,9 +364,10 @@ When asked for a second medium component, enter zero to terminate the list.
 
 \verbatim
    Possible choices for the spatial grid:
-      1. A Cartesian spatial grid
-      2. A tree-based spatial grid
- ? Enter one of these numbers [1,2] (2): 2
+      1. A 3D spatial grid in cylindrical coordinates
+      2. A Cartesian spatial grid
+      3. A tree-based spatial grid
+ ? Enter one of these numbers [1,3] (3): 3
  ? Enter the start point of the box in the X direction ]-∞ pc,∞ pc[: -20 kpc
  ? Enter the end point of the box in the X direction ]-∞ pc,∞ pc[: 20 kpc
  ? Enter the start point of the box in the Y direction ]-∞ pc,∞ pc[: -20 kpc
@@ -470,13 +471,13 @@ When asked for a third instrument, enter zero to terminate the list.
       2. Convergence: cuts of the medium density along the coordinate planes
       3. Source: luminosities of primary sources
       4. Internal spatial grid: density of the medium
-      5. Internal spatial grid: opacity of the medium
-      6. Internal spatial grid: indicative temperature of the medium
-      7. Properties: basic info for each spatial cell
-      8. Properties: data files for plotting the structure of the grid
-      9. Properties: aggregate optical material properties for each medium
- ? Enter one of these numbers or zero to terminate the list [0,9] (1): 1
+         ...
+      8. Properties: basic info for each spatial cell
+      9. Properties: data files for plotting the structure of the grid
+     10. Properties: aggregate optical material properties for each medium
+ ? Enter one of these numbers or zero to terminate the list [0,10] (1): 1
  ? Enter the name for this probe: cnv
+ ? Enter the wavelength at which to determine the optical depth [1e-6 micron,1e6 micron] (0.55 micron):
 
    Possible choices for item #2 in the probes list:
          ...

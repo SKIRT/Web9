@@ -313,10 +313,10 @@ specify a luminosity at \f$\lambda=0.55~\mu\text{m}\f$ (the wavelength specified
       2. A gamma geometry
       3. A Sérsic geometry
          ...
-     16. A decorator that adds a rotation to any geometry
-     17. A decorator that constructs a spheroidal variant of any spherical geometry
+     18. A decorator that adds a rotation to any geometry
+     19. A decorator that constructs a spheroidal variant of any spherical geometry
          ...
- ? Enter one of these numbers [1,21] (1): 17
+ ? Enter one of these numbers [1,23] (1): 19
    Possible choices for the spherical geometry to be made spheroidal:
       1. A Plummer geometry
       2. A gamma geometry
@@ -458,11 +458,13 @@ When asked for the second medium component, terminate the list by entering zero.
 
 \verbatim
    Possible choices for the spatial grid:
-      1. An axisymmetric spatial grid in cylindrical coordinates
-      2. A Cartesian spatial grid
-      3. A tree-based spatial grid
- ? Enter one of these numbers [1,3] (1):
- ? Enter the cylindrical radius of the grid [0 pc,∞ pc]: 20000
+      1. A 2D axisymmetric spatial grid in cylindrical coordinates
+      2. A 3D spatial grid in cylindrical coordinates
+      3. A Cartesian spatial grid
+      4. A tree-based spatial grid
+ ? Enter one of these numbers [1,4] (1): 1
+ ? Enter the inner cylindrical radius of the grid [0 pc,∞ pc[ (0 pc):
+ ? Enter the outer cylindrical radius of the grid ]0 pc,∞ pc[: 20000
  ? Enter the start point of the cylinder in the Z direction [-∞ pc,∞ pc]: -5000
  ? Enter the end point of the cylinder in the Z direction [-∞ pc,∞ pc]: 5000
    Possible choices for the bin distribution in the radial direction:
@@ -604,6 +606,7 @@ All probes are part of the probe system. Because there is only one type of probe
       8. Properties: aggregate optical material properties for each medium
  ? Enter one of these numbers or zero to terminate the list [0,8] (1): 1
  ? Enter the name for this probe: cnv
+ ? Enter the wavelength at which to determine the optical depth [1e-6 micron,1e6 micron] (0.55 micron):
 
    Possible choices for item #2 in the probes list:
          ...
