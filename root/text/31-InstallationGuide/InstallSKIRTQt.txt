@@ -2,10 +2,12 @@
 
 \page InstallSKIRTQt Install SKIRT using Qt Creator (all platforms)
 
-You may wish to install the Qt development environment (although the SKIRT command line program does
-not depend on it), so that you can use the graphical user interface offered by the optional MakeUp utility for
-configuring parameter files. Apart from this, Qt Creator is an excellent C++ source code editor and build environment.
-So you can just as well use it to configure and build the SKIRT code.
+The SKIRT command line program, including the interactive console Q&A to configure simulations, does not depend on the
+Qt development environment or run time facilities. You may still wish to install Qt, however, to build and use the
+optional MakeUp utility, which offers a graphical user interface for configuring SKIRT parameter files as a more
+user-friendly alternative to the console Q&A. Apart from this, Qt Creator is an excellent C++ source code editor and
+build environment. So you can use it to configure and build the SKIRT code as an alternative to the command line build
+procedure.
 
 This topic contains the following sections:
 - \ref InstallSKIRTQtToolsGet
@@ -32,7 +34,7 @@ that will be accomplished with Qt Creator as described below.
 
 \section InstallSKIRTQtInstall Install the development environment
 
-The MakeUp program that is part of the SKIRT project requires Qt Desktop v5.9.0 or later.
+The optional MakeUp program that is part of the SKIRT project requires Qt Desktop v5.9.0 or later.
 
 In addition to cross-platform run-time libraries, the Qt development environment includes a convenient integrated code
 editor/builder called Qt Creator. All of these components can be installed with a single installer.
@@ -40,11 +42,9 @@ editor/builder called Qt Creator. All of these components can be installed with 
 <b> Download the installer </b>
 
 - Go to the <a href="https://www.qt.io/download">Qt download page</a>.
-- Follow the "Go open source" button.
+- Follow the "Open source" or "Qt community edition" button.
 - Follow the "Download the Qt online installer" button.
-- If the web site properly identified your operating system, press "Download" and wait for the installer
-  to be downloaded.
-- Otherwise, press "View other options" and download an installer appropriate for your system.
+- Select and download an installer appropriate for your system.
 
 <b> Open the installer </b>
 
@@ -89,7 +89,7 @@ editor/builder called Qt Creator. All of these components can be installed with 
 - Show the Qt Creator preferences panel (depending on your operating system, choose the menu item
   "Qt Creator -> Preferences..." or "Tools->Options...").
 
-- Select the "Kits->CMake" tab and verify that Qt automatically detected the correct version of CMake installed
+- Select the "CMake->Tools" tab and verify that Qt automatically detected the correct version of CMake installed
   on your computer. If not, manually add it to the list. <em>Important note for macOS</em>: configure the command
   line version of cmake that resides \em inside the <tt>CMake.app</tt> directory, i.e.
   <tt>/Applications/CMake.app/Contents/bin/cmake</tt>, rather than the <tt>CMake.app</tt> GUI application itself.
@@ -100,16 +100,15 @@ editor/builder called Qt Creator. All of these components can be installed with 
 - Select the "Kits->Qt Versions" tab and verify that Qt automatically detected the Qt version you just installed.
   If not, manually add an appropriate Qt version.
 
-- Select the "Kits->Kits" tab. Usually there is only a single kit called "Desktop xxxx (Default)". If there are
-  muliple kits, verify that the appropriate kit is marked as "Default". Verify and if needed configure the properties
-  of the default kit, specifically "Compiler", "Qt version" and "CMake Tool". The "CMake Generator" property should
-  be set to "Code Blocks - Unix Makefiles ..."
+- Select the "Kits->Kits" tab. If there are muliple kits, verify that the appropriate kit is marked as "Default".
+Verify and if needed configure the properties of the default kit, specifically "Compiler", "Qt version" and "CMake
+Tool". The "CMake Generator" property should be set to "Unix Makefiles ..."
 
 - Press "OK" to accept any changes and close the preferences panel.
 
 <b> Install system libraries if required </b>
 
-On some Unix systems other than MacOS, the Qt libraries used by the optional MakeUp tool in the SKIRT project
+On some Unix systems other than macOS, the Qt libraries used by the optional MakeUp tool in the SKIRT project
 depend on extra system libraries. On Ubuntu these libraries can be installed as follows:
 
     sudo apt-get install libgl1-mesa-dev
@@ -163,7 +162,7 @@ build options. For a list of build options, see \ref InstallSKIRTOptions.
 
 Qt Creator offers built-in support for configuring build options and passing them on to the CMake build tool. To use
 this feature, select the "Projects" mode in the left margin of the Qt Creator window, and then select the "Build" item
-in the lefthand column of the window, just below a "Desktop" header stating your Qt and compiler versions. Your window
+in the lefthand column of the window, just below a header stating the name of your default Qt kit. Your window
 should now look similar to this:
 
 \image html InstallQtBuildSettings.png
@@ -173,7 +172,7 @@ In this window, Qt Creator shows a list of CMake variables that control the buil
   - Use the checkboxes or the "Edit" button to adjust one or more values in the list. For example, to build the
     MakeUp utility, enable the checkbox next to the BUILD_MAKE_UP option.
 
-  - Press the wide "Apply Configuration Changes" button at the bottom of the list. This causes the changes to be
+  - Press the "Run CMake" button at the bottom of the list. This causes the changes to be
     integrated into the CMake configuration, and the list of variables shown to be updated accordingly.
 
   - In some cases, you need to repeat this process:

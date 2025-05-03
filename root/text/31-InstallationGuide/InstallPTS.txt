@@ -38,10 +38,15 @@ project. Refer to \ref Contributing and \ref DevGitHubFlow for more information.
 
 It is important that your Python install can automatically locate the PTS source code so that it can execute PTS
 commands and import PTS packages regardless of the current directory. Furthermore it is handy to provide an alias so
-that you can easily access PTS from the command line.
+that you can easily access PTS from the command line. To accomplish this, you will have to add some lines to your login
+script.
 
-To accomplish this, you will have to add the following lines to your login script (<tt>.profile</tt> or
-<tt>.bash_profile</tt> or equivalent if you are using a shell other than \c bash):
+The name of your login script depends on the shell in use. For <tt>zsh</tt>, the default shell on recent macOS systems,
+it is called <tt>.zshrc</tt>. For the classic <tt>bash</tt> shell, the standard on many Linux distributions, it is
+called <tt>.profile</tt> or <tt>.bash_profile</tt>. Note that, on macOS, the <tt>.profile</tt> script is not loaded
+when there is a <tt>.bash_profile</tt> in your home directory.
+
+Add the following lines to your login script:
 
     export PYTHONPATH=~/PTS
     alias pts="python -m pts.do"

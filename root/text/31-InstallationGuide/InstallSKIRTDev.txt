@@ -161,7 +161,7 @@ other settings untouched), and at the end press the OK button to confirm the cha
    - Merge stderr and stdout: On
 
 - "Build & Run -> Compile Output" tab
-    - Open pane when building: On
+    - Open Compile Output when building: On
 
 
 \subsection InstallSKIRTDevQtFormat The source code and documentation formatters

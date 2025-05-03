@@ -45,15 +45,19 @@ Apple LLVM version 10.0.1 (clang-1001.0.46.4)
 \endverbatim
 
 Download the most recent CMake for macOS (as a disk image or ".dmg" file) from https://cmake.org/download/ and
-perform the installation by opening the disk image and dragging "CMake.app" to the Application folder. Then edit your
-login script (<tt>.profile</tt> or <tt>.bash_profile</tt> or equivalent if you are using a shell other than \c bash)
-to add the cmake command residing inside "CMake.app" to your system path. For example, add the following line:
+perform the installation by opening the disk image and dragging "CMake.app" to the Application folder. Then edit the
+login script in your home directory to add the cmake command residing inside "CMake.app" to your system path.
+
+The name of your login script depends on the shell in use. For <tt>zsh</tt>, the default shell on recent macOS systems,
+it is called <tt>.zshrc</tt>. For the classic <tt>bash</tt> shell, it is called <tt>.profile</tt> or
+<tt>.bash_profile</tt>. Note that, on macOS, the <tt>.profile</tt> script is not loaded when there is a
+<tt>.bash_profile</tt> in your home directory.
+
+For example, add the following line to the login script:
 
 \verbatim
 export PATH="/Applications/CMake.app/Contents/bin:${PATH}"
 \endverbatim
-
-\note On macOS, the <tt>.profile</tt> script is not loaded when there is a <tt>.bash_profile</tt> in your home directory.
 
 Open a new Terminal window (so that the new login script gets loaded) and verify that the installed build tool
 has an appropriate version (see \ref InstallSKIRTUnixToolsVersions) by entering the following command:
@@ -337,15 +341,19 @@ offers brief historical release notes for the corresponding resource pack.
 
 \section InstallSKIRTUnixFinal Finalize the installation
 
-To provide easy access to the executables in the SKIRT code, edit your login script (<tt>.profile</tt> or
-<tt>.bash_profile</tt> or equivalent if you are using a shell other than \c bash) to add the appropriate SKIRT
-executable paths to your system path. For example, add the following line:
+To provide easy access to the executables in the SKIRT code, edit your login script to add the appropriate SKIRT
+executable path to your system path.
+
+The name of your login script depends on the shell in use. For <tt>zsh</tt>, the default shell on recent macOS systems,
+it is called <tt>.zshrc</tt>. For the classic <tt>bash</tt> shell, the standard on many Linux distributions, it is
+called <tt>.profile</tt> or <tt>.bash_profile</tt>. Note that, on macOS, the <tt>.profile</tt> script is not loaded
+when there is a <tt>.bash_profile</tt> in your home directory.
+
+For example, add the following line:
 
 \verbatim
 export PATH="${HOME}/SKIRT/release/SKIRT/main:${PATH}"
 \endverbatim
-
-\note On macOS, the <tt>.profile</tt> script is not loaded when there is a <tt>.bash_profile</tt> in your home directory.
 
 To verify your installation of the SKIRT code, close all Terminal windows and launch a new one, so that your
 updated login script gets executed. Enter the command "skirt" without any command-line arguments. If the SKIRT
