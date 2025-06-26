@@ -124,6 +124,9 @@ Feb  3, 2025 | 1726ed2 | \*\* Add 3D spatial grids in cylindrical and spherical 
 Feb 17, 2025 | ba2f74c | Support importing from snapshots in spherical coordinates
 Mar  6, 2025 | 56c2a10 | Add automatic column order and virtual zero columns for import text column files
 Mar 11, 2025 | dcb3392 | Add quartic spline smoothing kernel
+Apr  9, 2025 | 09eb9e8 | Provide fully revised version of the TODDLERS SED models
+Jun 12, 2025 | 233b0e9 | Update BPASS SED family with new versions for IMF and wavelength resolution
+Jun 26, 2025 | 7c80f52 | Improved Starburst99 SED templates without nebular emission
 
 \*\* This update requires a ski file upgrade
 
