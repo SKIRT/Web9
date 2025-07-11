@@ -1,0 +1,32 @@
+/**
+
+\page AdminPresence Online presence of the SKIRT project
+
+This page discusses the components of the SKIRT project's online presence, supporting the prime objective of offering
+the project's capabilities to the broad astrophysical community and enabling the community to contribute to the
+project.
+
+Before continuing, please carefully read the page on \ref Contributing to the SKIRT project. The information provided
+there is not repeated here.
+
+## GitHub
+
+The SKIRT project's code repositories are hosted on the GitHub platform as part of a GitHub \em organization called \c
+SKIRT with URL https://github.com/SKIRT. The organization has two teams: Core and Contributor. A SKIRT project
+administrator must have a GitHub account that has been setup as a member of the Core team with Owner access rights.
+This can only be done by another administrator.
+
+## Web site
+
+The SKIRT web site with public URL www.skirt.ugent.be is hosted on the Ghent University web server. It can be reached
+as a shared disk through the internal university network using "smb://UGENT\USER@files.ugent.be/USER/www/shares/skirt"
+(after replacing USER by your user name). Access can be granted only by the university's DICT department.
+
+## Data
+
+Extra data files are hosted on the Ghent University data file server. The SKIRT section has been setup with public URL
+https://sciences.ugent.be/skirtextdat/ and it can be reached as a shared disk through the internal university network
+using "smb://UGENT\USER@files.ugent.be/USER/shares/skirtextdat" (after replacing USER by your user name). Access can be
+granted only by the university's DICT department.
+
+*/

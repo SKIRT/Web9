@@ -1,0 +1,17 @@
+/**
+
+\page AdministratorGuide Administrator Guide
+
+This guide is intended for members of the Core SKIRT Team who are responsible for managing the SKIRT project and its
+online presence. It is of no interest to other users because, for example, it assumes write access to the relevant
+servers.
+
+Topics covered:
+  - \ref AdminPresence
+  - Github: organization, repositories, teams
+  - UGent servers: web site, resource and document server
+  - Local prerequisites and directory structure
+  - Updating the SKIRT code: pull requests, functional tests, resource packs, web site
+  - Backups
+
+*/

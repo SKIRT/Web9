@@ -121,7 +121,7 @@ actually publish the web site because it requires write access rights to the web
 \section ContributingData Data
 
 Because of size limitations on the Ghent University web server and in GitHub repositories, data files needed by the
-code and/or linked from the web site are handled separately and are hosted on the Ghent University science faculty data
+code and/or linked from the web site are handled separately and are hosted on the Ghent University data file
 server. Examples of extra data files include:
 
  - External resources for SKIRT.
