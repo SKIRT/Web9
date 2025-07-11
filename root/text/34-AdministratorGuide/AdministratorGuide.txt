@@ -2,16 +2,46 @@
 
 \page AdministratorGuide Administrator Guide
 
-This guide is intended for members of the Core SKIRT Team who are responsible for managing the SKIRT project and its
-online presence. It is of no interest to other users because, for example, it assumes write access to the relevant
-servers.
+\note This guide is intended for members of the Core SKIRT Team who are responsible for managing the SKIRT project and
+its online presence. It is of no interest to other users.
+
+The topics in the administrator guide are organized in three chapters: background information, setting up, and regular
+operation.
+
+
+##Background information
+
+To become an administrator you should be an experienced SKIRT user and an at least occasional SKIRT developer, so that
+you already have a working knowledge of many of the relevant subjects. In any case, the following topics provided by
+other areas of this web site are of special interest to an administrator. You should carefully review them before
+proceeding.
+
+- \ref Contributing - describes the key elements of the SKIRT project's online presence
+- \ref UserComponents
+- \ref DevStructSKIRT
+- \ref DevStructPTS
+- \ref DevCoding
+- \ref DevCodingPTS
+- \ref DevGitHubFlow
+- \ref DevDocs
+
+
+## Setting up
+
+As an administrator you need write access to the relevant servers, and you need a very complete SKIRT project and
+tooling installation on your computer. This section provides guidance on how to accomplish this setup.
+
+- \ref AdminPresence
+- \ref AdminTools
+- \ref AdminStruct
+
+
+## Regular operation
 
 Topics covered:
-  - \ref AdminPresence
-  - Github: organization, repositories, teams
-  - UGent servers: web site, resource and document server
-  - Local prerequisites and directory structure
   - Updating the SKIRT code: pull requests, functional tests, resource packs, web site
+  - AdminGithub: organization, repositories, teams, issues
+  - GitHub issues
   - Backups
 
 */

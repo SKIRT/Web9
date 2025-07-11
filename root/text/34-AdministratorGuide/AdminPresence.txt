@@ -1,13 +1,7 @@
 /**
 
-\page AdminPresence Online presence of the SKIRT project
+\page AdminPresence Write access to the SKIRT project's online presence
 
-This page discusses the components of the SKIRT project's online presence, supporting the prime objective of offering
-the project's capabilities to the broad astrophysical community and enabling the community to contribute to the
-project.
-
-Before continuing, please carefully read the page on \ref Contributing to the SKIRT project. The information provided
-there is not repeated here.
 
 ## GitHub
 
@@ -28,5 +22,13 @@ Extra data files are hosted on the Ghent University data file server. The SKIRT 
 https://sciences.ugent.be/skirtextdat/ and it can be reached as a shared disk through the internal university network
 using "smb://UGENT\USER@files.ugent.be/USER/shares/skirtextdat" (after replacing USER by your user name). Access can be
 granted only by the university's DICT department.
+
+## Backup
+
+While the code repositories are automatically backed up by GitHub (one would hope), other data relevant to the SKIRT
+project must be backed up manually on some meaningful schedule. Ghent University provides a backup server for this
+purpose, which can be reached as a shared disk through the internal university network using
+"smb://UGENT\USER@files.ugent.be/USER/shares/vakgroep/astro_skirt/USER" (after replacing USER by your user name).
+Access can be granted only by the university's DICT department.
 
 */

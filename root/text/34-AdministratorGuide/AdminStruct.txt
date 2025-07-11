@@ -1,0 +1,7 @@
+/**
+
+\page AdminStruct SKIRT project directory structure
+
+Bla.
+
+*/

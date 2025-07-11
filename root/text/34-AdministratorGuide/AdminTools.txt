@@ -1,0 +1,55 @@
+/**
+
+\page AdminTools Software tools for the administrator
+
+## Portability issues
+
+As of this writing, SKIRT administration has been performed on macOS with Qt Creator as a development environment. It
+is recommended to use the same setup unless there are good reasons to do otherwise.
+
+If necessary, using another Unix-based operating system is probably feasible with limited work. Similarly, building
+SKIRT through the command line interface (shell scripts) instead of Qt Creator should work fine. However, building the
+MakeUp utility requires the Qt libraries anyway, so one can then simply install Qt Creator as well.
+
+Here is a list of known portability issues; most likely there will be others:
+
+- The shell scripts used for interacting with the Ghent University servers contain macOS specific commands.
+
+- Some of the PTS command line operations related to administration automatically locate the relevant components
+  in the SKIRT directory hierarchy relative to the user's home directory. This may fail on other systems.
+
+- For a significant fraction of the functional tests, the precise results depend on the C/C++ run-time environment,
+  which differs between operating systems and compilers. As a result, annoyingly, the reference files provided for the
+  functional tests are not portable. The reason for these discrepancies is that the C/C++ standard allows the output of
+  goniometric functions (and perhaps other mathematical functions) to differ in the least-significant bit. This tiny
+  difference suffices for the SKIRT photon packets to follow a slightly different path, and thus produce different
+  results.
+
+
+## Software tools
+
+As an administrator you need essentially all software tools mentioned in the SKIRT \ref InstallationGuide.
+Assuming macOS and Qt Creator, this means you need to install the tools listed in the following table.
+
+\note To clone the SKIRT and/or PTS respositories, do not follow the instructions in the regular installation guide.
+Instead, follow the procedure prescribed in the topic \ref AdminStruct.
+
+| Tool | Instructions | Comments |
+|---|---|---|
+| C/C++ compiler | \ref InstallSKIRTUnixToolsMac "Build tools" | |
+| CMake | \ref InstallSKIRTUnixToolsMac "Build tools" | |
+| git | \ref InstallSKIRTUnixToolsMac "Build tools"| |
+| ''  | \ref DevGitHubFlow "Configure git" | |
+| GitHub desktop | https://desktop.github.com/download/ | Optional but very handy as a compliment to git |
+| Qt/Qt Creator | \ref InstallSKIRTQtInstall "Development environment" | |
+| '' | \ref InstallSKIRTDevQt "Configure Qt Creator" | |
+| clang-format | \ref InstallSKIRTDevClangFormat "Source code formatter" | |
+| doxstyle | \ref InstallSKIRTDevDoxstyle "Header documentation formatter" | Possible only AFTER installing SKIRT |
+| Doxygen, Graphviz | \ref InstallSKIRTDevDoxygen "Documentation generator" | |
+| LaTeX distribution | https://www.latex-project.org/get/ | Optional but important to check formulas |
+| MPI | \ref InstallSKIRTMPIInstallMac | Optional but required for multi-processing |
+| DS9 | \ref InstallFITSGraphical "FITS viewer" | |
+| python | \ref InstallPythonMac "Python distribution" | |
+
+
+*/
