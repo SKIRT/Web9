@@ -1,0 +1,7 @@
+/**
+
+\page AdminFunTests Managing functional tests
+
+Bla.
+
+*/

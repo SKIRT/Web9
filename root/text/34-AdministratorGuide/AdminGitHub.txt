@@ -1,0 +1,9 @@
+/**
+
+\page AdminGitHub Managing the GitHub presence
+
+Bla.
+
+organization, repositories, teams, issues, pull requests
+
+*/

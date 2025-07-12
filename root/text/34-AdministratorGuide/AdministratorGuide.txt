@@ -38,10 +38,15 @@ tooling installation on your computer. This section provides guidance on how to 
 
 ## Regular operation
 
-Topics covered:
-  - Updating the SKIRT code: pull requests, functional tests, resource packs, web site
-  - AdminGithub: organization, repositories, teams, issues
-  - GitHub issues
-  - Backups
+These topics provide guidance for performing the "daily" administrative operations for the SKIRT project.
+
+- \ref AdminGitHub
+- \ref AdminResources
+- \ref AdminFunTests
+- \ref AdminBenchmarks
+- \ref AdminUpdateSKIRT
+- \ref AdminUpdatePTS
+- \ref AdminUpdateWeb
+- \ref AdminBackup
 
 */

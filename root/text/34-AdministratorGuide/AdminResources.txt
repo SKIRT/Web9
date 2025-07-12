@@ -1,0 +1,7 @@
+/**
+
+\page AdminResources Creating resources and resource packs
+
+Bla.
+
+*/

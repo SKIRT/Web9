@@ -1,0 +1,10 @@
+/**
+
+\page AdminUpdateWeb Updating the web site
+
+Bla.
+
+recent changes, publications, benchmarks, python-generated contents,
+source code documentation, installatiom, user, developer, administration guide
+
+*/

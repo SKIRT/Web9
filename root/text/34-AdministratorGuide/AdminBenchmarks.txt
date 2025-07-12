@@ -1,0 +1,7 @@
+/**
+
+\page AdminBenchmarks Managing benchmarks
+
+Bla.
+
+*/

@@ -1,0 +1,9 @@
+/**
+
+\page AdminUpdateSKIRT Updating SKIRT
+
+Bla.
+
+pull requests, styling/formatting, functional tests, resource packs, web site, ...
+
+*/
