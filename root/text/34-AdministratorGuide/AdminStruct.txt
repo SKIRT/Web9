@@ -2,7 +2,11 @@
 
 \page AdminStruct SKIRT project directory structure
 
-Bla.
+An administator's SKIRT project directory must be complete and have the exact structure described below. This is
+important because the administator shell scripts and PTS commands rely on this structure. For example, the contents of
+the SKIRT web site is derived from sources and data spread out across many of the project's subdirectories.
+
+# The SKIRT project directory
 
     SKIRT
         Backup
@@ -14,8 +18,146 @@ Bla.
         SKIRT9
         Web9
 
+The top level directory for the SKIRT project is called SKIRT and resides directly in the administator's home folder,
+i.e. at the highest level. Its subdirectories, shown above in alphabetical order, are described in the following
+sections.
+
+When setting up this directory structure:
+
+- The SKIRT9, PTS9, and Web9 directory contents should be cloned from the corresponding GitHub repositories in the
+  manner described below for each directory (\em not following the installation instructions for a regular user).
+
+- The contents of the other directories must be obtained from a current backup created by another administrator.
+
+\note There are currently no provisions for synchronizing the contents of the non-GitHub directories between multiple
+administrators/computers. The most straighforward manual synchronization technique is to ensure that (1) just a single
+administrator is making changes at any one time, and (2) backups of the most recent version are exchanged when
+transitioning between administrators.
+
+# Directories obtained from GitHub
+
+The SKIRT9 and PTS9 repositories follow the GitHub \em fork \em and \em pull workflow model. This means you should \em
+never push any changes directly to these repositories. Let us repeat this. You should <b>never</b> push any changes
+directly to the SKIRT9 and PTS9 repositories. Instead, contributors <b>including administrators</b> push suggested
+changes to their own fork and initiate a pull request. After approval, an administrator then merges the pull request to
+the master branch in the main SKIRT9 or PTS9 repository. For more information, see \ref DevGitHubFlow.
+
+The Web9 repository currently does not follow this workflow model because the administrator is the sole contributor.
+In other words, until this policy is modified, you can push any updates directly to the Web9 repository.
+
+
+## SKIRT9
+
+As an administrator, your local copy of the SKIRT code must be connected to both the main SKIRT9 repository and your
+own fork of this repository. This is accomplished as follows.
+
 Bla.
 
+- Administrator guide: \ref AdminUpdateSKIRT
 
+## PTS9
+
+Bla.
+
+- Administrator guide: \ref AdminUpdatePTS
+
+## Web9
+
+Bla.
+
+- Administrator guide: \ref AdminUpdateWeb
+
+
+# Directories obtained from administrator backups
+
+## Backup
+
+    Backup
+        create_backup.txt
+        Backup--2025-07-12--10-09-27
+
+This directory contains information related to backing up the SKIRT project. Specifically:
+
+- the \c create_backup.txt text file provides manually edited instructions for the PTS create_backup command,
+  essentially describing the type of information residing in each of the SKIRT project subdirectories.
+
+- The \c Backup--* directories, if present, contain backup ZIP archives created by the PTS create_backup command.
+  After moving the backups in these directories to an off-line backup location, the local copies can be deleted.
+
+For more information, see:
+
+- Administrator guide: \ref AdminBackup
+- PTS reference: pts.admin.do.create_backup
+
+
+## Benchmark9
+
+    Benchmark9
+        _ReadMe.txt
+        1997_Ivezic
+        2002_vanZadelhoff_1
+        ...
+        XRAY3_ISMDUST
+        XRAY4_RXTORUS
+
+This directory contains all documentation, runtime specifications, and reference results for the formal benchmarks
+comparing SKIRT output to published results. For more information, see:
+
+- Administrator guide: \ref AdminBenchmarks
+- Community info: \ref Benchmarks
+- The \c _ReadMe.txt text file in the Benchmark9 directory
+
+
+## Functional9
+
+    Functional9
+        _testreports
+        Cosmology
+        Emission
+        ...
+        Units
+        WavelengthDistributions
+        WavelengthGrids
+
+This directory contains the specifications and reference results for over 800 functional tests that can be run and
+verified automatically to avoid regression after each update or addition to the SKIRT code. For more information, see:
+
+- Administrator guide: \ref AdminFunTests
+- PTS reference: pts.test.do.test_functional
+- PTS reference: pts.test.functional.SkirtTestSuite
+
+
+## Resources9
+
+    Resources9
+        OriginalData
+        Publish
+        StoredTables
+
+This directory contains all data related to the resources used by the SKIRT code. This includes the orginal data
+obtained from a third party where applicable, the corresponding "stored table" files consumed by SKIRT, the resource
+packs to be made available for public download, the specifications for converting between these formats, and the
+procedures for publishing the resource packs to the SKIRT data file server. For more information, see:
+
+- Administrator guide: \ref AdminResources
+- PTS reference: pts.admin.do.create_resource_archives
+- PTS reference: pts.storedtable.do.construct_skirt_resources
+
+
+## ResourcesC
+
+    ResourcesC
+        Benchmarks
+        DustPediaData
+        Publications
+        Publish
+        Tutorials
+
+This directory contains all data files referenced from the web site and published on the SKIRT data file server (other
+than the resource packs discussed in the previous section). This includes example ski files referenced from benchmark
+descriptions or tutorials, and a copy of papers listed in the web site's publications section. For more information,
+see:
+
+- Administrator guide: \ref AdminUpdateWeb
 
 */
