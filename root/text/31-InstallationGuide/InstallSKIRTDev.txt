@@ -213,7 +213,7 @@ request. The changes can be pulled into the original repository by a SKIRT Core 
 and/or being adjusted in one or more iterations.
 
 To get started with contributing to one of the SKIRT project repositories:
- - On the GitHub web site, fork the relevant repository (see section \ref ContributingRepositories above).
+ - On the GitHub web site, fork the relevant repository (see section \ref ContributingRepositories).
  - Clone this personal fork to your computer, possibly replacing your direct clone of the original repository.
 
 To initiate a pull request:

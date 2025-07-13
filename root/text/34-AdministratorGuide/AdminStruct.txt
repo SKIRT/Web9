@@ -34,6 +34,11 @@ administrators/computers. The most straighforward manual synchronization techniq
 administrator is making changes at any one time, and (2) backups of the most recent version are exchanged when
 transitioning between administrators.
 
+\note Do not include directories in this structure with names such as SKIRT or PTS. Some PTS commands may look in those
+directories first (for example, for locating a \c skirt executable) to accommodate regular users who don't include the
+9 suffix. But this will confuse the operation of the administrator procedures.
+
+
 # Directories obtained from GitHub
 
 The SKIRT9 and PTS9 repositories follow the GitHub \em fork \em and \em pull workflow model. This means you should \em
@@ -48,23 +53,153 @@ In other words, until this policy is modified, you can push any updates directly
 
 ## SKIRT9
 
+    SKIRT9
+        git
+        html
+        release
+        resources
+
+This directory contains a local copy of the SKIRT9 repository, plus build and resource directories.
 As an administrator, your local copy of the SKIRT code must be connected to both the main SKIRT9 repository and your
 own fork of this repository. This is accomplished as follows.
 
-Bla.
+- If you have not already done so, configure your local \c git so that your identity will be attached to your commits
+(include the quotation marks and replace \c USERNAME by your GitHub user name and \c name@domain.com by your email
+address):
 
+    \verbatim
+$ git config --global user.name "USERNAME"
+$ git config --global user.email "name@domain.com"
+    \endverbatim
+
+- If you have not already done so, fork the SKIRT9 repository (a fork is a personal copy of a repository hosted on
+GitHub). On the GitHub web site, login under your personal account, navigate to the page for the SKIRT9 repository,
+click the "Fork" dropdown and select "Create a new fork".
+
+- Back on your computer, verify whether your local copy of the SKIRT9 directory, if present, contains any code changes
+or other information you wish to retain. If so, make a backup copy. Then remove the complete contents of the SKIRT9
+directory.
+
+- Clone <b>your personal fork</b> to a local copy on your computer (replace \c USERNAME by your GitHub user name):
+
+    \verbatim
+$ cd ~/SKIRT
+$ mkdir SKIRT9
+$ cd SKIRT9
+$ git clone https://github.com/USERNAME/SKIRT9.git git
+$ cd git
+$ git remote -v
+origin https://github.com/USERNAME/SKIRT9.git (fetch)
+origin https://github.com/USERNAME/SKIRT9.git (push)
+    \endverbatim
+
+- Establish the main SKIRT9 repository as the "upstream" respository for your local copy:
+
+    \verbatim
+$ git remote add upstream https://github.com/SKIRT/SKIRT9.git
+$ git remote -v
+origin https://github.com/petercamps/SKIRT9.git (fetch)
+origin https://github.com/petercamps/SKIRT9.git (push)
+upstream https://github.com/SKIRT/SKIRT9.git (fetch)
+upstream https://github.com/SKIRT/SKIRT9.git (push)
+    \endverbatim
+
+- Download and install all SKIRT resource packs (enter "y" in response to all questions):
+
+    \verbatim
+$ ./downloadResources.sh
+...
+    \endverbatim
+
+- Using Qt Creator, configure the SKIRT build options to include \c doxstyle and \c MakeUp, and build the project.
+For more information, see \ref InstallSKIRTQtBuild.
+
+- If you have not already done so, add or adjust the location of the \c skirt executable in your PATH. For example, add
+the following line to your login script:
+
+    \verbatim
+export PATH="${HOME}/SKIRT/SKIRT9/release/SKIRT/main:${PATH}"
+    \endverbatim
+
+For more information, see:
+- Developer guide: \ref DevGitHubFlow
+- Installation guide: \ref InstallSKIRTQt
 - Administrator guide: \ref AdminUpdateSKIRT
+
 
 ## PTS9
 
-Bla.
+    PTS9
+        html
+        pts
 
+This directory essentially contains a local copy of the PTS9 repository. As for the SKIRT code, your local copy of the
+PTS code must be connected to both the main PTS9 repository and your own fork of this repository. A key difference is
+that PTS must be cloned into a \c pts subdirectory instead of a \c git subdirectory.
+
+- If you have not already done so, configure your local \c git so that your identity will be attached to your commits
+(see previous section for instructions).
+
+- If you have not already done so, fork the PTS9 repository (see previous section for instructions).
+
+- Back on your computer, verify whether your local copy of the PTS9 directory, if present, contains any code changes or
+other information you wish to retain. If so, make a backup copy. Then remove the complete contents of the PTS9
+directory.
+
+- Clone <b>your personal fork</b> to a local copy on your computer, and establish the main PTS9 repository as the
+"upstream" respository for your local copy (replace \c USERNAME by your GitHub user name):
+
+    \verbatim
+$ cd ~/SKIRT
+$ mkdir PTS9
+$ cd PTS9
+$ git clone https://github.com/USERNAME/PTS9.git pts
+$ cd pts
+$ git remote add upstream https://github.com/SKIRT/PTS9.git
+    \endverbatim
+
+- If you have not already done so, provide or adjust the location of the PTS modules in your login script. For example:
+
+    \verbatim
+export PYTHONPATH=~/SKIRT/PTS9
+alias pts="python -m pts.do"
+    \endverbatim
+
+For more information, see:
+- Developer guide: \ref DevGitHubFlow
+- Installation guide: \ref InstallPTS
 - Administrator guide: \ref AdminUpdatePTS
+
 
 ## Web9
 
-Bla.
+    Web9
+        git
+        html
+        public
+        stage
 
+This directory contains a local copy of the Web9 repository, plus directories for building and publishing the SKIRT web
+site. The Web9 repository contains the source text (and some python code) for a significant fraction of the web site,
+including the community section and the installation, user, developer, and administration guides. On the other hand,
+the reference documentation is derived directly from the source code residing in the SKIRT9 and PTS9 directories.
+
+The Web9 repository currently does not follow the GitHub workflow model, so you can clone the repository in a
+straightforward manner:
+
+\verbatim
+$ cd ~/SKIRT
+$ mkdir Web9
+$ cd Web9
+$ git clone https://github.com/SKIRT/Web9.git git
+$ cd git
+$ git remote -v
+origin https://github.com/SKIRT/Web9.git (fetch)
+origin https://github.com/SKIRT/Web9.git (push)
+\endverbatim
+
+For more information, see:
+- Developer guide: \ref DevDocs
 - Administrator guide: \ref AdminUpdateWeb
 
 
