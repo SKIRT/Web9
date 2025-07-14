@@ -2,8 +2,84 @@
 
 \page AdminGitHub Managing the GitHub presence
 
-Bla.
+The GitHub web platform offers various tools to help communicate with users and developers of an open source code base.
+It is the responsibility of an administrator to adjust the configuration of these tools as the requirements of the
+project evolve over time, and to monitor and respond to the messages initiated by other users through the GitHub
+platform. This page briefly describes the components of the current SKIRT project's GitHub presence, and the specific
+actions expected from an administrator.
 
-organization, repositories, teams, issues, pull requests
+For more information, see:
+- the GitHub online documentation: https://docs.github.com/en
+- overview of the SKIRT project's GitHub presence: \ref Contributing
+
+
+# Organization
+
+The SKIRT project's GitHib presence is bundled in a GitHub \em organization called "SKIRT" and with URL
+https://github.com/SKIRT. As an administrator, you can switch your dashboard between a personal context (your username)
+and an organization context (SKIRT). The former focuses on your personal forks, which may include forks from
+repositories unrelated to SKIRT, and the latter on the original SKIRT respositories.
+
+The organization page is where much of the GitHub presence can be configured. Action is necessary only when the
+requirements of the SKIRT project evolve.
+
+
+# Teams
+
+Because the repositories are public, any GitHub user has read access and can post an issue or send a pull request.
+In addition, the SKIRT organization defines two teams that offer extra capabilities to their members:
+
+- The Contributor Team members have access to the SKIRT Contributor Team page so that they can participate in
+project-wide discussions and receive SKIRT-related broadcast notifications. In practice, however, these features have
+not been used in recent years. It would be worth revisiting the goals of this team and considering more active
+management of its contents or replacing it by another mechanism.
+
+- The Core Team members have full administrative rights for the SKIRT organization, including write access to the
+repositories. A new administrator should be added to this team.
+
+
+# Repositories
+
+The SKIRT organization currently includes the following repositories:
+
+- SKIRT9, PTS9, Web9: the currently active respositories; management of these repositories is discussed elsewhere in
+  this administrator guide (e.g., \ref AdminUpdateSKIRT, \ref AdminUpdatePTS, \ref AdminUpdateWeb).
+
+- SKIRT7, SKIRT8, WEB8, PTS: obsolete repositories for users who didn't yet make the transition to version 9; perhaps
+  these repositories can be removed in the near future (caveat: the PTS repository contains a suite of python code
+  developed by Sam Verstocken that is not directly related to SKIRT but may still be in use by some authors -- ask
+  Marjorie Decleir).
+
+- CosTuuM: a code for calculating emission properties of spheroidal dust grains developed by Bert Vandenbroucke; it is
+  hosted here because it can generate material properties for use with SKIRT.
+
+
+# Issues
+
+The SKIRT9 and PTS9 repositories are configured with an \em issues page and with templates for reporting questions and
+bugs through the issues page. An important benefit of communicating through this mechanism (as opposed to private
+messages via email) is that the questions and responses are and remain publicly available and thus automatically
+augment the body of documentation for the SKIRT project.
+
+All members of the Core Team should be configured to receive an automatic email from the GitHub platform whenever an
+issue is added or updated. It is the administrator's responsibility to ensure a timely response to each question,
+handle the issue appropriately, and finally close it.
+
+The issue feature is already used fairly actively, although some users still contact us through private email. Those
+users should be encouraged to report their questions as a GitHub issue.
+
+
+# Pull requests
+
+The SKIRT9 and PTS9 repositories are configured with a \em pull \em requests page and with a template for creating a
+pull request. As mentioned in the description of the \ref AdminStruct and in the instructions for \ref AdminUpdateSKIRT
+and \ref AdminUpdatePTS, <b>any and all</b> changes to these repositories must be affected through a pull request. A
+key benefit of this requirement is that all updates are and remain publicly documented.
+
+All members of the Core Team should be configured to receive an automatic email from the GitHub platform whenever an
+pull request is added. It is the administrator's responsibility to ensure a timely response and to handle the pull
+request appropriately, leading to either merging the pull request into the main repository or rejecting the request.
+For more information, see \ref AdminUpdateSKIRT and \ref AdminUpdatePTS.
+
 
 */
