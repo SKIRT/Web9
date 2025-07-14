@@ -41,9 +41,9 @@ tooling installation on your computer. This section provides guidance on how to 
 These topics provide guidance for performing the "daily" administrative operations for the SKIRT project.
 
 - \ref AdminGitHub
-- \ref AdminResources
 - \ref AdminFunTests
 - \ref AdminBenchmarks
+- \ref AdminResources
 - \ref AdminUpdateSKIRT
 - \ref AdminUpdatePTS
 - \ref AdminUpdateWeb

@@ -2,6 +2,153 @@
 
 \page AdminFunTests Managing functional tests
 
-Bla.
+## Introduction
+
+Testing a complex code such as SKIRT is a nontrivial undertaking that requires constant care. One crucial aspect of
+this challenge is to avoid breaking the existing functionality by code updates, no matter how large or small. To this
+end, we established the mechanism of functional tests, introduced here.
+
+The unit test concept is well known in the software development community. The functional tests developed for SKIRT
+resemble unit tests, although there are significant differences. Unit tests operate from within the code, so that they
+can, in principle, access and test each and every code path. The functional tests for SKIRT operate from the outside,
+using SKIRT's flexible configuration capability to access many, but not all code paths. Specifically, they cannot test
+features such as optional command line arguments or the Q\&A user interface. For reasons explained later in this
+section, all functional tests are run in serial mode, so they cannot test SKIRT's parallelization features. Finally,
+each functional test by necessity relies on nontrivial sections of common code, such as the module loading the
+configuration file, while a unit test usually focuses on a specific small area in the code.
+
+PTS includes facilities for running and validating a batch of functional SKIRT test cases. The test case definitions
+reside in a nested directory hierarchy; each test case consists of a particular SKIRT configuration file, optional
+input files, and a set of reference output files. The PTS procedure automatically locates and runs the tests, compares
+the generated output files to the reference files, and produces a concise report with a success/failure status for each
+test. For failed tests, the report also provides some details on the differences between the generated and reference
+output.
+
+A major issue in this context is that the values in most SKIRT output files depend on the (pseudo-)random sequence used
+by the Monte Carlo processes throughout the simulation. For a sufficiently large number of photon packets, the results
+should be statistically equivalent. This is, however, hard to verify in an automated fashion and, perhaps more
+importantly, the run time for test cases should be kept at a minimum. So we need to ensure that the reference and test
+simulations are performed with the same random sequence.
+
+Each execution thread in SKIRT is equipped with its private random number generator. Each of these generators receives
+a different, randomized seed at the start of the simulation. Furthermore, parallel execution threads will receive
+chunks of work in an unpredictable order, causing the random number sequences used for each chunk to be mixed up
+unpredictably. In contrast, in serial mode, using a single process with a single execution thread, the random number
+sequence will always be the same. Therefore, the PTS procedure always performs each test in serial mode, launching
+multiple SKIRT instances for different tests in parallel to optimally use the available computing resources.
+
+One important use of the automated tests is to verify the operation of the code after an update. If a code adjustment
+causes, for example, an additional random number to be consumed at some point in time, all subsequent calculations and
+results will change (although they should be statistically equivalent). In such situations, a human must evaluate the
+new test results and update the reference output where appropriate. To assist with this verification, the automated
+test procedure provides some statistics on the changes to each file. The report includes three columns listing the
+number and percentage of nonzero values that differ by more than 0, 10 and 50 percent, respectively.
+
+Another problem is that the precise output of a numeric calculation may vary between run-time environments. As a first
+example, the evaluation order of function arguments in C++ is unspecified (C++ Standard, section 5.2.2/8) and thus
+sometimes differs between compilers. When two or more of the arguments to the same function call request a random
+number, the random number sequence used in the function body will differ between compilers. This is easily avoided by
+requesting the random numbers in separate statements ahead of the function call. As a second example, the result
+returned by the cosine and sine functions sometimes differs in the least significant bit between implementations of the
+standard library. There seems to be no solution to this problem other than creating and manually verifying a set of
+reference files for each relevant operating system/compiler combination.
+
+Despite these limitations, the current suite of functional tests covers most of the relevant features and code paths.
+Whenever a new SKIRT feature is developed, one or more test cases must be added, and the reference output files must be
+verified. As a side benefit, the requirement of developing these tests often acts as a reminder to also test marginal
+cases. At the time of writing, there are more than 800 test cases. Because the full test suite completes in about 10
+minutes on a present-day multi-core desktop computer, it is quite feasible to run it before a code update is merged
+into the master branch in the GitHub repository.
+
+
+## Configuring a functional test case
+
+Whenever a new SKIRT feature is added or a bug has been fixed, one or more test cases should be added to verify the
+operation of that area of the code, avoiding regression problems in the future. The structure of a test case is
+described here: pts.test.functional.SkirtTestSuite. The existing test cases also serve as a large set of examples.
+
+Some rules of thumb:
+  - Avoid unnecessary dependencies in the ski file; use the simplest possible configuration that still tests the
+    targeted feature.
+  - Do not test too many features or aspects of a feature in a single test case.
+  - Keep the runtime of a test case down to a few seconds (using a single thread!) unless really necessary. For
+    example, reduce the number of photon packets and the size of grids and instruments. You don't need the results
+    to look good, just to be sufficient for proper validation.
+  - Also test for marginal cases such as the borders of a parameter range or values that cause an equation or method
+    to become mathematically or numerically degenerate.
+
+Refer to the next section for instructions on how to perform a test case. After manually verifying the results of a new
+test case, you need to move the output files from the \c out directory to the \c ref directory. Do \em not move or copy
+the \c _testreport.txt file to the \c ref directory -- it is not part of the simulation output.
+
+## Running test cases
+
+The PTS command "test_functional" allows running all or a subset of test cases:
+
+    $ pts test_fun *Disk*
+       Starting test/test_functional...
+       Using SKIRT v9.0 (git 1cb67c4 built on 08/07/2025 at 18:06:18)
+       With path /Users/.../SKIRT/SKIRT9/release/SKIRT/main/skirt
+       Running on ... for ...
+       Performing 8 functional test case(s) in 8 parallel processes...
+         1 -- MediumGeometries/BrokenExpDisk: Succeeded
+         2 -- MediumGeometries/ExpDiskA: Succeeded
+         3 -- MediumGeometries/ExpDiskB: Succeeded
+         4 -- MediumGeometries/TTauriDisk: Succeeded
+         5 -- SourceGeometries/BrokenExpDisk: Succeeded
+         6 -- SourceGeometries/ExpDiskA: Succeeded
+         7 -- SourceGeometries/ExpDiskB: Succeeded
+         8 -- SourceGeometries/TTauriDisk: Succeeded
+       Summary for 8 test case(s):
+         Succeeded: 8
+       Finished test/test_functional.
+    $
+    $ pts test_fun .
+       Starting test/test_functional...
+       Using SKIRT v9.0 (git 1cb67c4 built on 08/07/2025 at 18:06:18)
+       With path /Users/.../SKIRT/SKIRT9/release/SKIRT/main/skirt
+       Running on ... for ...
+       Performing 829 functional test case(s) in 16 parallel processes...
+         1 -- Cosmology/FlatZeroRedshift: Succeeded
+              ...
+       829 -- WavelengthGrids/Resolution: Succeeded
+       Summary for 829 test case(s):
+         Succeeded: 829
+       Finished test/test_functional.
+    $
+
+The first example performs all text cases with a name including the phrase "Disk", regardless of where they are located
+in the \c Functional9 directory hierarchy. The second example simply performs all availabe test cases. For each
+invocation, the procedure creates a test report in the \c Functional9/_testreports subdirectory. The name of the report
+starts with a time stamp and ends with the number of test cases performed. The test cases are performed in somewhat
+arbitrary order, which is reflected in the console log during execution. However, the report file always lists test
+cases in alphabetical order.
+
+The procedure logs the version and build time stamp of the SKIRT executable used to perform the tests. It is wise to
+pay attention to this information and particularly to the time stamp. For example, during debugging it may happen that
+you introduce a fix in the code, rebuild the \em debug version of the executable, and then wonder why the test case
+(which uses the older \em release version of the executable) still fails...
+
+For more information, see pts.test.do.test_functional and pts.test.functional.SkirtTestSuite.
+
+
+## Endorsing test results
+
+As described earlier, after verifying the results of a new test case, you need to move the output files from the \c out
+directory to the \c ref directory. As long as there are just a few test cases, you can easily do this manually.
+However, after some changes to the source code, a larger number of test cases may fail although the code still works
+properly (see the introduction on this page). In such case, after verifying that the results are still statistically
+equivalent, you can use the PTS command "endorse_functional" to automatically copy the test results for a given
+selection of test cases. For example:
+
+    $ pts endorse_fun WavelengthGrids/Log*
+       Starting test/endorse_functional...
+     ! ** This will replace the reference output for 2 test cases by the current test output **
+     Enter 'YES' to overwrite test cases (2): YES
+       Replacing the reference output for 2 test cases...
+       Finished test/endorse_functional.
+    $
+
+For more information, see pts.test.do.endorse_functional.
 
 */
