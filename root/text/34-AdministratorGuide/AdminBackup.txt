@@ -2,6 +2,63 @@
 
 \page AdminBackup Making backups
 
-Bla.
+## Types of information
+
+It is important to backup the information in the SKIRT project directory on a regular basis:
+
+- The repositories are hosted on GitHub where one can expect appropriate backup measures are being taken. Still, it
+seems prudent to make a yearly backup in a different location.
+
+- Original data, such as resources obtained from third parties and benchmark or functional test specifications, should
+be backed up up as soon as relevant changes were applied.
+
+- Derived data, such as resource files converted from original data or test results, can be easily regenerated, at
+least in principle. Still, it seems prudent to make a yearly backup.
+
+## Backup instructions
+
+The \c Backup/create_backup.txt text file describes the type of information residing in each of the SKIRT project
+subdirectories. Whenever the structure of the SKIRT project (sub)directories changes, the contents of this file must be
+manually adjusted. The format of the instructions is described here: pts.admin.do.create_backup.
+
+## Creating backup archives
+
+Using the instructions in \c create_backup.txt, the PTS create_backup command can be used to create ZIP archives
+containing a backup of all or some SKIRT project (sub)directories. For example:
+
+    $ pts create_backup --help
+       ...
+       optional arguments:
+         -h, --help           show this help message and exit
+         --derived <int>      backup derived data (specify zero to skip) (default: 1)
+         --repos <int>        backup repositories (specify zero to skip) (default: 1)
+         --name <str>         backup only project subdirectories starting with this name (default: )
+    $ pts create_backup --name ResourcesC/Publications
+       Starting admin/create_backup...
+       Creating backup directory: /Users/.../SKIRT/Backup/Backup--2025-07-14--11-27-06
+       Creating backup for original data ResourcesC/Publications...
+         Including /Users/pcamps/SKIRT/ResourcesC/Publications/Isbell2025.png
+         ...
+         Including /Users/pcamps/SKIRT/ResourcesC/Publications/Dubois2021.pdf
+       Finished admin/create_backup.
+    $ pts create_backup --derived 0 --repos 0
+       ...
+    $
+
+The first command in this example lists the optional arguments as a reminder for the user. The second command creates
+a single ZIP archive including the contents of the specified subdirectory. The third and last command creates a ZIP
+archive for each of the (sub)directories specified as "original" in the instructions text file. In each case, the
+ZIP archives are placed in a Backup subdirectory with a name that includes a time stamp.
+
+For more information, see pts.admin.do.create_backup.
+
+## Moving backups offsite
+
+It does not make sense to leave the backup ZIP archives on your local computer because they would be vulnerable to
+failures such as disk crashes or physical theft. Furthermore, placing the backups in a shared location allows others to
+recover the data in case of an emergency or when moving responsibilities from one administrator to another. All backup
+ZIP archives should therefore be moved to the designated Ghent University backup server.
+
+For more information, see \ref AdminPresence.
 
 */
