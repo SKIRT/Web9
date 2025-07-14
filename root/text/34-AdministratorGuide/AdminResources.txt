@@ -2,6 +2,63 @@
 
 \page AdminResources Creating resources and resource packs
 
-Bla.
+## Introduction
+
+SKIRT offers many "built-in" simulation components that require a significant amount of data, such as source spectra or
+optical medium properties. This information is loaded from external resource files located next to the SKIRT
+executable. The available resource files are bundled in resource packs which can be downloaded and installed separately
+from the source code (see \ref InstallSKIRTUnixResource). The Core resource pack is obligatory; the other packs are
+optional so that users can avoid using disk space for resources that are not used in their simulations.
+
+Most resource files are distributed in the binary "stored table" file format with the ".stab" filename extension. The
+use of this SKIRT-specific file format avoids implementing a plethora of input data formats in SKIRT and allows
+efficient loading of the file contents. As a result, resource data obtained from third parties must be converted to
+stored table format before being included in a resource pack. Resource packs are simply ZIP archives.
+
+In conjunction with the download procedure, SKIRT implements a versioning system for resource packs. A resource pack
+advertises its version number as part of its file name and in a tiny text file enclosed in the pack. On the other hand,
+the SKIRT code includes a text file listing the expected version for each of the known resource packs. This way, SKIRT
+can log an error or warning message if there is a mismatch between the expected and installed versions.
+
+Within the SKIRT code, resource files are identified by their filename, without any directory or path information. In
+other words, a resource file can be located in any (nested) subdirectory of a resource pack. On the other hand, this
+means that resource file names must be unique across all resource packs.
+
+The Resource9 directory contains the orginal data obtained from a third party where applicable, the corresponding
+"stored table" files consumed by SKIRT, the resource packs to be made available for public download, the specifications
+for converting between these formats, and the procedures for publishing the resource packs to the SKIRT data file
+server.
+
+
+## Specifying a SKIRT resource
+
+As indicated in the introduction, the input data for a resource is often available in a file format not under the
+control of the SKIRT team. Such data needs to be converted to stored table format.
+
+Each (nested) subdirectory of the Resources9/OriginalData directory contains the following files:
+ - A \c Notes.txt text file with free format documentation on the source of the data.
+ - A \c ConversionSpec.txt text file specifying the conversion mechanism for the resource data,
+   including input and output file names.
+ - Any required input files, possibly in one or more subdirectories.
+
+The conversion specification drives the corresponding Python functions found in the pts.storedtable module. For more
+information, see pts.storedtable.conversionspec and the implementations of the conversion functions, found in the
+Python source files named "convert_*.py" in the pts.storedtable package. To handle cases where no conversion is needed,
+there a copy "conversion" function.
+
+The output of the conversion operation is always stored in a subdirectory of the Resources9/StoredTables directory.
+
+
+## Constructing a SKIRT resource
+
+
+For more information, see:
+- pts.storedtable.do.construct_skirt_resources
+
+
+## Creating a SKIRT resource pack
+
+
+For more information, see pts.admin.do.create_resource_archives
 
 */
