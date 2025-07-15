@@ -1,0 +1,46 @@
+/**
+
+\page AdminSkiUpgrade Providing automated ski file upgrades
+
+## Introduction
+
+Sometimes, a new or revised SKIRT feature requires an incompatible change to the structure of the \em ski file. This
+can involve, for example, renaming entities or moving them around to different places. When this happens, running an
+existing \em ski file may cause the new SKIRT version to produce a fatal error. PTS offers a procedure for users to
+automatically upgrade existing ski files to the most recent SKIRT version.
+
+For more information, see:
+ - User guide: \ref UserUpgradeSki.
+ - PTS reference: pts.skiupgrade.do.upgrade_ski_files
+
+
+## Extending the upgrade procedure
+
+When an update to the SKIRT code involves an incompatible ski file change, the automated ski file upgrade procedure
+must be extended to accommodate this new upgrade. This functionality is implemented in the pts.skiupgrade.skiupgrade
+module using XPath conditions and XSLT templates for transforming the ski file XML contents.
+
+Using XSLT is extremely flexible, but unfortunately the XSLT language is fairly obscure an thus has a steep learning
+curve. To alleviate this problem to some extent, the upgrade procedure's implementation provides a set of functions
+that generate upgrade definitions for specific types of changes, such as, for example, changing the name of a property.
+That way, as soon as the XSLT sheet for a particular type of change has been developed, it can be more easily reused
+for other, similar changes. New generators will have to be added as the need arises.
+
+For more information, see the implementation of the _getUpgradeDefinitions() function and related helper functions in
+the \c skiupgrade.py source code. Good luck with this...
+
+
+## Extra PTS commands for administrators
+
+PTS offers two extra commmands for helping administrators with ski file upgrades.
+
+The regular "upgrade_ski_files" command overwrites the original ski file with the upgraded version, which can be very
+annoying during testing. Instead, the "test_upgrade_ski_files" command upgrades a ski file without touching the
+original file. For more information, see pts.skiupgrade.do.test_upgrade_ski_files.
+
+The "upgrade_functional_tests" command assists with upgrading functional test ski files. This comes in very handy when
+a ski file upgrade affects a sizeable fraction of the existing functional test cases. For more information, see
+pts.skiupgrade.do.upgrade_functional_tests.
+
+
+*/

@@ -44,6 +44,7 @@ These topics provide guidance for performing the "daily" administrative operatio
 - \ref AdminFunTests
 - \ref AdminBenchmarks
 - \ref AdminResources
+- \ref AdminSkiUpgrade
 - \ref AdminUpdateSKIRT
 - \ref AdminUpdatePTS
 - \ref AdminUpdateWeb
