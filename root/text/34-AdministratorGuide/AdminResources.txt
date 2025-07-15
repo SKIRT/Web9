@@ -24,7 +24,7 @@ Within the SKIRT code, resource files are identified by their filename, without 
 other words, a resource file can be located in any (nested) subdirectory of a resource pack. On the other hand, this
 means that resource file names must be unique across all resource packs.
 
-The Resource9 directory contains the orginal data obtained from a third party where applicable, the corresponding
+The Resources9 directory contains the orginal data obtained from a third party where applicable, the corresponding
 "stored table" files consumed by SKIRT, the resource packs to be made available for public download, the specifications
 for converting between these formats, and the procedures for publishing the resource packs to the SKIRT data file
 server.
@@ -41,24 +41,93 @@ Each (nested) subdirectory of the Resources9/OriginalData directory contains the
    including input and output file names.
  - Any required input files, possibly in one or more subdirectories.
 
-The conversion specification drives the corresponding Python functions found in the pts.storedtable module. For more
-information, see pts.storedtable.conversionspec and the implementations of the conversion functions, found in the
-Python source files named "convert_*.py" in the pts.storedtable package. To handle cases where no conversion is needed,
-there a copy "conversion" function.
+The conversion specification drives the corresponding conversion functions found in the pts.storedtable package. A copy
+function is provided to handle cases where no conversion is needed. The output of the conversion operation is always
+stored in a subdirectory of the Resources9/StoredTables directory.
 
-The output of the conversion operation is always stored in a subdirectory of the Resources9/StoredTables directory.
+For more information, see:
+ - pts.storedtable.conversionspec.ConversionSpec
+ - the conversion functions named \c convert_* in the pts.storedtable package
 
 
 ## Constructing a SKIRT resource
 
+Once a SKIRT resource is properly specified as described in the previous section, it can be constructed using the PTS
+command "construct_skirt_resources". For example:
 
-For more information, see:
-- pts.storedtable.do.construct_skirt_resources
+    $ pts construct_skirt_resource --help
+       ...
+       positional arguments:
+         ...
+         subDirectory          name of subdirectory to process or . for all
+         ...
+    $
+    $ pts construct_skirt_resource Sun
+       Starting storedtable/construct_skirt_resources...
+       Starting set Sun of 1 conversion specs
+       Performing conversion spec Sun
+       Created stored table file: /Users/.../SKIRT/Resources9/StoredTables/SED/SunSED.stab
+       Finished set of conversion specs
+       Finished storedtable/construct_skirt_resources.
+    $
+    $ pts construct_skirt_resource .
+       ...
+    $
+
+For more information, see pts.storedtable.do.construct_skirt_resources.
+
+
+## Specifying a SKIRT resource pack
+
+As indicated in the introduction, SKIRT resources are bundled in resource packs for distribution to users. The \c
+Resources9/Publish/Definitions directory contains the resource pack specification. Each specification directory
+contains the following files:
+- \c version.txt : the current version number of the resource pack
+- \c include.txt : a list of names, relative to \c Resources9/StoredTables, for directories containing
+                   the resource files to be included in the resource pack
+- \c history.txt : a free form text file briefly describing the contents of the resource pack
+                   and the changes to each version
+
+For more information, see pts.admin.do.create_resource_archives.
 
 
 ## Creating a SKIRT resource pack
 
+To actually create resource packs from their specification, use the PTS command "create_resource_archives". Without
+arguments, the command creates a resource pack for all available specifications. Use the --name option to create just a
+single resource pack. For example:
 
-For more information, see pts.admin.do.create_resource_archives
+    $ pts create_resource_archives --help
+       ...
+       optional arguments:
+         -h, --help            show this help message and exit
+         --name <str>          create only the resource archive with this name (default: )
+    $
+    $ pts create_resource_archives --name ExtraDust
+       Starting admin/create_resource_archives...
+       Creating archive /Users/.../SKIRT/Resources9/Publish/Archives/SKIRT9_Resources_ExtraDust_v3.zip...
+         Including version.txt
+         Including history.txt
+         Including OpticalProps_Extra/BegemannPorousAluminaOpticalProps.stab
+         Including OpticalProps_Extra/HofmeisterPericlaseOpticalProps.stab
+         Including OpticalProps_Extra/DorschnerOlivineOpticalProps.stab
+       Finished admin/create_resource_archives.
+    $
+
+The resulting ZIP archives are placed in the \c Resources9/Publish/Archives directory. It is important to leave
+previous resource pack versions in that directory until you are confident that they are no longer required by any SKIRT
+user.
+
+For more information, see pts.admin.do.create_resource_archives.
+
+
+## Publishing resource packs
+
+To publish resource packs to the Ghent University data file server, run the \c publishResources9.sh shell script
+with \c Resources9/Publish as the default directory.
+
+For more information, see
+  - \ref AdminPresence
+  - the documentation inside the \c publishResources9.sh shell script
 
 */
