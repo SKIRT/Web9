@@ -2,8 +2,102 @@
 
 \page AdminUpdateSKIRT Updating SKIRT
 
-Bla.
+## Introduction
 
-pull requests, styling/formatting, functional tests, resource packs, web site, ...
+The SKIRT9 repository follows the GitHub \em fork \em and \em pull workflow model. This means you should <b>never</b>
+push any changes directly to the SKIRT9 repository. Instead, contributors <b>including administrators</b> should push
+suggested changes to a topic branch (\em not the master branch) in their own fork and create a pull request, which is
+then handled by an administrator as described on this page below. For more information, see \ref DevGitHubFlow.
+
+As an administrator, your local copy of the SKIRT code must be connected to both the main SKIRT9 repository and your
+own fork of this repository. For more information, see \ref AdminStruct.
+
+The GitHub Desktop application provides a nice graphical user interface on top of \c git. It facilitates many \c git
+workflow operations and is easy to learn. Moreover, GitHub Desktop operations can be mixed with raw \c git commands in
+a terminal at will. For more information, see \ref AdminTools.
+
+## Handling a pull request
+
+Handling a pull request for the SKIRT repository, created by yourself or by another user, involves the steps listed
+below. Depending on the type of proposed change, some of these steps are trivial or even not applicable.
+
+- Pull a copy of the pull request to your local computer (instructions can be found on the GitHub page for the pull
+request). This step is not applicable if you created the pull request.
+
+- Verify that the code conforms to the \ref DevCoding for SKIRT and that it compiles and builds without warnings or
+errors. If not, fix the issues or ask the pull request author to do so. In the latter case, pull the changes to your
+local copy before proceeding.
+
+- Verify that the code is properly formatted as explained in the topic \ref DevCodingStyleFormat. If necessary, run
+the code formatter using the \c formatSourceCode.sh shell script.
+
+- If the proposed change requires one or more new or updated resource files (for more information, see \ref
+AdminResources):
+
+    - Obtain the input data from the pull request author through different channels (GitHub does not allow sizeable
+    data files to be passed along).
+
+    - Construct the appropriate resource file(s) and resource pack. When updating an existing resource pack, remember
+    to increase the version number in the resource pack definition to avoid overwriting the previous version.
+
+    - Publish the new resource pack.
+
+    - Adjust the expected resource pack name and/or version number in the text file inside the SKIRT code tree with
+    path <tt>~/SKIRT/SKIRT9/git/SKIRT/resources/ExpectedResources.txt</tt>.
+
+    - Download and install the new resource pack using the \c downloadResources.sh shell script.
+
+- If the proposed change adds new features, construct functional test cases that properly test these features (for more
+information, see \ref AdminFunTests).
+
+- If the proposed change intentionally includes any ski file incompatibilities, extend the PTS procedure for automated
+ski file upgrade to handle this incompatibility (for more information, see \ref AdminSkiUpgrade). This leads to a
+separate pull request in the PTS9 repository, which needs to be handled as described in \ref AdminUpdatePTS.
+
+- Run all available functional test cases and verify their successful completion (for more information, see \ref
+AdminFunTests). If one or more test cases fail, resolve the issue(s) in one of the following ways:
+
+    - If the failure is unexpected, fix the code or ask the pull request author to do so.
+
+    - If the failure is caused by an intentional change or by a side effect that cannot be avoided,
+      verify that the new test case results are correct and endorse them by moving them to the reference directory.
+
+    - If the failure is caused by an intentional ski file incompatibility, upgrade the test case ski file.
+
+- Commit any changes made locally and push them to the pull request. This step may be interspersed with some of
+the previous steps and repeated iteratively as needed.
+
+- On the GitHub page for the pull request, verify that all checks performed by GitHub actions complete successfully. If
+not, fix the issue and repeat the previous steps as needed.
+
+- Now that all is well, on the GitHub page for the pull request, "merge and squash" the pull request into the master
+branch of the main SKIRT9 repository. The squash option combines all changes of the pull request into a single commit,
+thereby simplifying the main repository's history.
+
+- If you created the pull request, remove the corresponding remote branch by clicking the button offered on the GitHub
+page for the pull request. (If the pull request was authored by someone else, you cannot remove their branch).
+
+- Back on your local computer, update your local copy of the code \em and your personal fork by executing the following
+commands (you can do this in GitHub Desktop as well, but it is often easier to copy/paste the raw \c git commands):
+
+\verbatim
+git fetch upstream
+git checkout master
+git merge upstream/master
+git push
+\endverbatim
+
+- Remove your local branch corresponding to the pull request.
+
+- Rebuild SKIRT, making sure to include \c doxstyle and \c MakeUp in the build. This step is very important because
+some information on the web site is based on data created by the build procedure (see \ref AdminUpdateWeb).
+
+- If the change affected by the pull request is relevant to users, accordingly adjust the list of recent changes which
+is published on the web site. Specifically, open the text file with path
+<tt>~/SKIRT/Web9/git/root/text/31-InstallationGuide/RecentChanges.txt</tt> and add a line describing the change at the
+end of the SKIRT section. The line should include the date and the git commit hash of the merge commit.
+
+- Update and publish the SKIRT web site as described in \ref AdminUpdateWeb. This step can be omitted if the change is
+trivial, or delayed to combine multiple changes in a single publish operation.
 
 */
