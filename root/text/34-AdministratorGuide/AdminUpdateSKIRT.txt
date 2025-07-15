@@ -18,7 +18,7 @@ a terminal at will. For more information, see \ref AdminTools.
 
 ## Handling a pull request
 
-Handling a pull request for the SKIRT repository, created by yourself or by another user, involves the steps listed
+Handling a pull request for the SKIRT9 repository, created by yourself or by another user, involves the steps listed
 below. Depending on the type of proposed change, some of these steps are trivial or even not applicable.
 
 - Pull a copy of the pull request to your local computer (instructions can be found on the GitHub page for the pull
@@ -80,12 +80,12 @@ page for the pull request. (If the pull request was authored by someone else, yo
 - Back on your local computer, update your local copy of the code \em and your personal fork by executing the following
 commands (you can do this in GitHub Desktop as well, but it is often easier to copy/paste the raw \c git commands):
 
-\verbatim
+    \verbatim
 git fetch upstream
 git checkout master
 git merge upstream/master
 git push
-\endverbatim
+    \endverbatim
 
 - Remove your local branch corresponding to the pull request.
 
