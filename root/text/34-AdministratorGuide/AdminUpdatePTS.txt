@@ -30,6 +30,10 @@ request). This step is not applicable if you created the pull request.
 - Verify that the code conforms to the \ref DevCodingPTS. If not, fix the issues or ask the pull request author to do
 so. In the latter case, pull the changes to your local copy before proceeding.
 
+- Verify that the code is properly documented, with special attention to Doxygen-interpreted portion of the
+documentation. If there were any changes to the latter, run the \c makeHTML.sh shell script and verify that it does not
+issue any warnings or errors. Open the relevant generated HTML pages to verify correctness. Fix any issues.
+
 - Perform manual tests to ensure that new or updated features work as intended.
 
 - Also attempty to verify that the proposed changes do not break any existing features. Because there are no formal
@@ -59,9 +63,10 @@ git push
 - If the change affected by the pull request is relevant to users, accordingly adjust the list of recent changes which
 is published on the web site. Specifically, open the text file with path
 <tt>~/SKIRT/Web9/git/root/text/31-InstallationGuide/RecentChanges.txt</tt> and add a line describing the change at the
-end of the PTS section. The line should include the date of the merge commit.
+end of the PTS section. The line should include the date of the merge commit. Finally, commit and push the updated \c
+RecentChanges.txt file to the Web9 repository.
 
-- Update and publish the SKIRT web site as described in \ref AdminUpdateWeb. This step can be omitted if the change is
+- Publish the SKIRT web site as described in \ref AdminUpdateWebPublish. This step can be omitted if the change is
 trivial, or delayed to combine multiple changes in a single publish operation.
 
 */

@@ -31,6 +31,14 @@ local copy before proceeding.
 - Verify that the code is properly formatted as explained in the topic \ref DevCodingStyleFormat. If necessary, run
 the code formatter using the \c formatSourceCode.sh shell script.
 
+- Verify that the code is properly documented, with special attention to Doxygen-interpreted documentation in the
+header files. If there were any changes to the latter, run the \c makeHTML.sh shell script and verify that it does not
+issue any warnings or errors. Open the relevant generated HTML pages to verify correctness. Fix any issues.
+\note The \c makeHTML.sh procedure uses LaTeX to render each formula, which means that it will detect formula errors
+while processing the pages. Unfortunately, it also means that running \c makeHTML.sh for the first time takes a very
+long time. (In contrast, the published web site uses MathJax, where errors surface only when the formula is displayed
+in a browser).
+
 - If the proposed change requires one or more new or updated resource files (for more information, see \ref
 AdminResources):
 
@@ -90,14 +98,15 @@ git push
 - Remove your local branch corresponding to the pull request.
 
 - Rebuild SKIRT, making sure to include \c doxstyle and \c MakeUp in the build. This step is very important because
-some information on the web site is based on data created by the build procedure (see \ref AdminUpdateWeb).
+some information on the web site is based on data created by the build procedure (see \ref AdminUpdateWebStruct).
 
 - If the change affected by the pull request is relevant to users, accordingly adjust the list of recent changes which
 is published on the web site. Specifically, open the text file with path
 <tt>~/SKIRT/Web9/git/root/text/31-InstallationGuide/RecentChanges.txt</tt> and add a line describing the change at the
-end of the SKIRT section. The line should include the date and the git commit hash of the merge commit.
+end of the SKIRT section. The line should include the date and the git commit hash of the merge commit. Finally, commit
+and push the updated \c RecentChanges.txt file to the Web9 repository.
 
-- Update and publish the SKIRT web site as described in \ref AdminUpdateWeb. This step can be omitted if the change is
+- Publish the SKIRT web site as described in \ref AdminUpdateWebPublish. This step can be omitted if the change is
 trivial, or delayed to combine multiple changes in a single publish operation.
 
 */

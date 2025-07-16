@@ -2,9 +2,117 @@
 
 \page AdminUpdateWeb Updating the web site
 
-Bla.
+\section AdminUpdateWebStruct Structure of the web site
 
-recent changes, publications, benchmarks, python-generated contents,
-source code documentation, installatiom, user, developer, administration guide
+The SKIRT web site includes two categories of files. These categories are discussed in turn in the sections below.
+
+### HTML pages
+
+The HTML pages (and some images embedded therein) are hosted on the Ghent University web server (see \ref
+AdminPresence). These files are generated through Doxygen (see \ref AdminTools) directly or indirectly from various
+sources by the <tt>~/SKIRT/Web9/git/stageWebSite.sh</tt> shell script. The script constructs the complete web site in
+a local staging area, ready to be copied (published) to the web server as is.
+
+The scripts first executes Python programs to automatically generate Doxygen input pages for several web site areas
+from other sources:
+
+- The web pages in the Publications section are derived from the publications database, a manually edited text file
+listing the known publications related to SKIRT. This procedure also verifies that the corresponding \c .pdf and \c
+.png files are present in the designated directory (see the "Data Files" subsection below).
+
+- The ski file reference in the documentation section is derived from the SMILE schema produced by the SKIRT build
+procedure (see \ref AdminUpdateSKIRT).
+
+- The download page is derived from the contents of the directory containing the SKIRT resource packs (see \ref
+AdminResources).
+
+The script then invokes Doxygen (see \ref AdminTools) to generate HTML pages from the following sources:
+
+- The text and image files in the \c ~/SKIRT/Web9/git/root directory, comprising the main body of the web site.
+This includes the community section and the various guides (installation, user, developer, administrator).
+
+- The C++ \c .hpp header files in the SKIRT9 repository, leading to the SKIRT reference documentation.
+
+- The Python \c .py source code in the PTS9 repository, leading to the PTS reference documentation.
+
+Finally, the script downloads and installs the MathJax repository, if not already present in the staging area.
+This javascript code is used for displaying formulas on the web site.
+
+For more information, refer to the documentation and implementation of the \c stageWebSite.sh shell script.
+
+### Data files
+
+The files offered for download by links on the web site are hosted on the Ghent University data file server (see \ref
+AdminPresence). File types include \c .txt, \c .pdf, \c .ski, \c .png and \c .stab. These files are created or located
+through manual procedures and assembled in one of the subdirectories of the \c ~/SKIRT/Web9/ResourceC directory.
+
+- Benchmarks: files offered for download by the Benchmark pages in the Community section of the web site.
+- Publications: files offered for download by the Publication pages in the Community section of the web site.
+- Tutorials: files offered for download by tutorials in the Documentation section of the web site.
+- DustPediaData: files offered for download by a "hidden" section of the web site (not reachable from the main page).
+
+The \c Publish subdirectory contains a shell script to publish the above files to the data file server.
+
+Moreover, the SKIRT resource packs (see \ref AdminResources) can also be downloaded from the web site. This option is
+provdided for users that run SKIRT on a platform that does not support the download shell script, such as Microsoft
+Windows.
+
+
+\section AdminUpdateWebUpdate Updating the web site
+
+### HTML pages
+
+The textual sources, embedded images, Doxygen configuration files, and Python programs to generate the HTML pages of
+the web site are mostly contained in the Web9 repository. The exceptions are discussed in the previous section
+(e.g., the documentation in C++ and Python source code).
+
+The contents of the Web9 repository is currently updated solely by an administrator, so it is acceptable to simply push
+changes to the master branch. Complex changes that take a long time to complete could be prepared on a topic branch and
+merged into the master when ready. This allows updating other aspects on the web site without exposing the unfinished
+new portion.
+
+\note Do \em not use PDF files as embedded images. Viewing embedded PDF files in a browser works fine on some systems,
+such as macOS, but not on many other systems. Use PNG with its lossless compression as the preferred image format, and
+JPEG for photograph-like images if necessary to limit the file size.
+
+### Data files
+
+The data files offered for download on the web site are located in the ResourceC and Resource9 directories, as
+discussed in the previous section. These files can be updated and new files can be added at will, as long as the
+corresponding links on the web pages are properly synchronized.
+
+Because of their size, these files are not part of the Web9 repository. Consequently, they must be backed up
+separately as described in \ref AdminBackup.
+
+
+\section AdminUpdateWebPublish Publishing the web site
+
+### Data files
+
+To publish changes in the contents of the ResourceC directory to the data file server, run the
+<tt>~/SKIRT/ResourcesC/Publish/publishResourcesC.sh</tt> shell script. For more information, see the documentation in
+the script and \ref AdminPresence.
+
+To publish new resource packs in the Resource9 directory to the data file server, see \ref AdminResources.
+
+### HTML pages
+
+To publish the HTML pages with embedded images to the web server, proceed as follows:
+
+- Make sure that the SKIRT9, PTS9, and Web9 repositories have their master branch checked out and "pulled".
+
+- Make sure that SKIRT9 has been built for the current master branch, including \c doxstyle and \c MakeUp.
+
+- With \c ~/SKIRT/Web9/git as default directory, run the \c stageWebSite.sh shell script to generate the complete web
+site in the local \c ~/SKIRT/Web9/stage directory. If the procedure logs any warnings or errors, fix the issues and
+retry.
+
+- Open the <tt>~/SKIRT/Web9/stage/index.html</tt> file in a browser and navigate to any updated pages to verify that
+everything works as intended. Fix any issues and retry.
+
+- Still with \c ~/SKIRT/Web9/git as default directory, run the \c publishWebSite.sh shell script to copy the contents
+of the staging area to the web server. This happens in two steps in an attempt to limit the number of actually
+transferred files. For more details, refer to the documentation and implementation of the \c publishWebSite.sh shell
+script and to \ref AdminPresence.
 
 */

@@ -12,9 +12,10 @@ This can only be done by another administrator.
 
 ## Web site
 
-The SKIRT web site with public URL www.skirt.ugent.be is hosted on the Ghent University web server. It can be reached
-as a shared disk through the internal university network using "smb://UGENT\USER@files.ugent.be/USER/www/shares/skirt"
-(after replacing USER by your user name). Access can be granted only by the university's DICT department.
+The SKIRT web site with public URL https://skirt.ugent.be is hosted on the Ghent University web server. It can be
+reached as a shared disk through the internal university network using
+"smb://UGENT\USER@files.ugent.be/USER/www/shares/skirt" (after replacing USER by your user name). Access can be granted
+only by the university's DICT department.
 
 ## Data
 
