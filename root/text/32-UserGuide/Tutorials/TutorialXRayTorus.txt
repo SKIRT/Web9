@@ -260,9 +260,10 @@ randomly distributed over the torus base geometry.
       1. A typical interstellar dust mix (mean properties)
          ...
       7. A population of electrons
-      8. A gas mix supporting photo-absorption and fluorescence for X-ray wavelengths
          ...
- ? Enter one of these numbers [1,10] (1): 8
+     10. A gas mix supporting photo-absorption and fluorescence for X-ray wavelengths
+         ...
+ ? Enter one of these numbers [1,11] (1): 10
 \endverbatim
 
 Next, you specify the composition of the medium contained in the clumpy torus. Select the gas mix that implements X-ray
@@ -311,9 +312,10 @@ When asked for a second medium component, enter zero to terminate the list.
 
 \verbatim
    Possible choices for the spatial grid:
-      1. A Cartesian spatial grid
-      2. A tree-based spatial grid
- ? Enter one of these numbers [1,2] (2): 2
+      1. A 3D spatial grid in cylindrical coordinates
+      2. A Cartesian spatial grid
+      3. A tree-based spatial grid
+ ? Enter one of these numbers [1,3] (3): 3
  ? Enter the start point of the box in the X direction ]-∞ pc,∞ pc[: -15
  ? Enter the end point of the box in the X direction ]-∞ pc,∞ pc[: 15
  ? Enter the start point of the box in the Y direction ]-∞ pc,∞ pc[: -15
@@ -376,7 +378,7 @@ keV, which will produce high-resolution X-ray spectra.
  ? Enter the name for this instrument: I00
  ? Enter the distance to the system [0 Mpc,∞ Mpc[: 10
  ? Enter the inclination angle θ of the detector [0 deg,180 deg] (0 deg): 0
- ? Enter the azimuth angle φ of the detector [-360 deg,360 deg] (0 deg):
+ ? Enter the azimuth angle φ of the detector [-360 deg,360 deg] (0 deg): 0
  ? Do you want to record flux components separately? [yes/no] (no): y
    Possible choices for item #2 in the instruments list:
       1. A distant instrument that outputs the spatially integrated flux density as an SED
@@ -386,7 +388,7 @@ keV, which will produce high-resolution X-ray spectra.
  ? Enter the name for this instrument: I90
  ? Enter the distance to the system [0 Mpc,∞ Mpc[: 10
  ? Enter the inclination angle θ of the detector [0 deg,180 deg] (0 deg): 90
- ? Enter the azimuth angle φ of the detector [-360 deg,360 deg] (0 deg):
+ ? Enter the azimuth angle φ of the detector [-360 deg,360 deg] (0 deg): 0
  ? Do you want to record flux components separately? [yes/no] (no): y
    Possible choices for item #3 in the instruments list:
       1. A distant instrument that outputs the spatially integrated flux density as an SED
@@ -573,21 +575,34 @@ this case this is identical to the input power-law spectrum.
 - direct primary flux: the flux originating from primary sources that directly reaches the instrument, i.e. the extinct
 power-law emission.
 
-- scattered primary flux: the flux originating from the primary sources that interacted with the medium at least once
-before reaching the instrument (and possibly attenuated by absorption); this is the reflected X-ray spectrum that is
-the focus of this tutorial.
+- scattered primary flux: the flux originating from the primary sources that was scattered by the medium at least once
+before reaching the instrument.
 
-- three columns of secondary flux: because of the way X-ray reprocessing is implemented in SKIRT, these columns are
-always zero in X-ray simulations.
+- direct secondary flux: the flux originating from fluorescence interactions with the medium that directly reaches the
+instrument.
+
+- scattered secondary flux: the flux originating from fluorescence interactions with the medium that was scattered by
+the medium at least once before reaching the instrument.
+
+- transparent secondary flux: the flux originating from fluorescence interactions without taking into account any
+further interactions with the medium.
+
+All flux components other than the "transparent" fluxes properly include extinction effects. Consequently, the total
+flux equals the sum of the four components (direct primary flux, scattered primary flux, direct secondary flux,
+scattered secondary flux).
+
+\note Because of the way X-ray reprocessing is implemented in SKIRT, the fluorescent flux is recorded as secondary flux
+(direct or scattered) even if the simulation does not explictly include a secondary emission phase. This allows users
+to distinguish the effects of the various phsyical processes (most notably, Compton scattering and fluorescence).
 
 These individual flux contributions can easily be plotted by running the following Python script:
 
 \code{.py}
 import numpy as np
 import matplotlib.pyplot as plt
-E, T, I, D, S, *rest = np.loadtxt("ClumpyTorus_I90_sed.dat", unpack=True)
+E, T, I, D, S1, S2, S3, _ = np.loadtxt("ClumpyTorus_I90_sed.dat", unpack=True)
 plt.loglog(E, I, label="input")
-plt.loglog(E, S, label="reprocessed")
+plt.loglog(E, S1+S2+S3, label="reprocessed")
 plt.loglog(E, D, label="direct")
 plt.loglog(E, T, label="total")
 plt.xlim(1, 150)
@@ -675,7 +690,7 @@ magnitude lower than its original luminosity (the advanced parameter is set to \
 this value, low-intensity fluorescence photon packets may be terminated before having a chance to register in the
 instruments. To ensure that low-intensity lines are properly included in the output spectrum, the minimum weight
 reduction factor must be increased to, say, ten orders of magnitude (\em minWeightReduction ="1e10"). The simulation
-time increases (significantly but not dramatcially) because many photon packets have a longer life cycle.
+time increases (significantly but not dramatically) because many photon packets have a longer life cycle.
 
 The other important parameter is the number of photon packets launched in the simulation (\em numPackets). This is the
 key parameter to reduce the level of noise inherent to the Monte Carlo method used by SKIRT. Unfortunately, the
