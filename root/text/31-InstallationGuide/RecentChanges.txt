@@ -127,6 +127,7 @@ Mar 11, 2025 | dcb3392 | Add quartic spline smoothing kernel
 Apr  9, 2025 | 09eb9e8 | Provide fully revised version of the TODDLERS SED models
 Jun 12, 2025 | 233b0e9 | Update BPASS SED family with new versions for IMF and wavelength resolution
 Jun 26, 2025 | 7c80f52 | Improved Starburst99 SED templates without nebular emission
+Sep 26, 2025 | 3cd53cb | Make instruments record fluorescence as secondary emission
 
 \*\* This update requires a ski file upgrade
 

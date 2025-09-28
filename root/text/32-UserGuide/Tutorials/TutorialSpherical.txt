@@ -28,13 +28,13 @@ have installed the SKIRT code, and preferably also PTS and a FITS file viewer su
 
 
 <TABLE>
-<TR><TH>Ski file</TH>
+<TR><TH>Ski file for 2D model</TH>
   <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialSpherical2D.ski">TutorialSpherical2D.ski</a>
   </TD>
-<TR><TH>Raw data</TH>
+<TR><TH>Ski file for 3D model</TH>
   <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialSpherical3Dtop.ski">TutorialSpherical3Dtop.ski</a>
   </TD>
-<TR><TH>Import-ready data</TH>
+<TR><TH>Ski file for 3D model</TH>
   <TD><a href="https://sciences.ugent.be/skirtextdat/SKIRTC/Tutorials/TutorialSpherical3Dbot.ski">TutorialSpherical3Dbot.ski</a>
   </TD>
 </TABLE>
