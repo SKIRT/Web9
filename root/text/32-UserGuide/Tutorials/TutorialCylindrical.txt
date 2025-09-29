@@ -308,7 +308,7 @@ red- and blueshifted fluxes observed from the model, based on early simulation r
     <ImportedMediumVelocityProbe probeName="imp_vel_cut">
     <DensityProbe probeName="grd_dns_cut" aggregation="Type" probeAfter="Setup">
     <VelocityProbe probeName="grd_vel_cut">
-    <OpacityProbe probeName="grd_opa_pro" wavelength="0.55 micron" aggregation="Type" probeAfter="Setup">
+    <OpacityProbe probeName="grd_opa_pro" aggregation="Type" probeAfter="Setup">
 
 We configured various probes to help evaluate our model setup (shown partially above; please refer to the ski file).
 Most importantly, we included density and velocity cuts on both the imported and internal grid. This allow us to verify

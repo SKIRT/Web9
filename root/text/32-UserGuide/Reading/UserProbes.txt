@@ -176,7 +176,7 @@ The table below lists the available internal spatial grid probes.
 | %Probe subclass | \# values | Aggregation | %Probe after | %Configuration options |
 | --- | --- | --- | --- | --- |
 | DensityProbe | 1 | Fragment, Component, Type | Setup, Run, Primary, Secondary | |
-| OpacityProbe | 1 | Fragment, Component, Type, %System | Setup, Run, Primary, Secondary | _wavelength_ |
+| OpacityProbe | 1 | Fragment, Component, Type, %System | Setup, Run, Primary, Secondary | _wavelengthGrid_ |
 | TemperatureProbe | 1 | Fragment, Component, Type | Setup, Run, Primary, Secondary | |
 | MetallicityProbe | 1 | Component | Setup, Run, Primary, Secondary | |
 | VelocityProbe | 3 | %System | Setup | |
@@ -188,7 +188,7 @@ The table below lists the available internal spatial grid probes.
 
 The second column lists the number of values for each quantity sample. Scalar quantities have a single value and vector
 quantities have three values, one for each vector component. The radiation field probe outputs a value for each bin in
-the radiation field wavelength grid configured for the simulation. The last two probes in the table are briefly
+the radiation field wavelength grid configured for the simulation. The last three probes in the table are briefly
 described in subsections below.
 
 The third column lists the supported aggregation mechanisms. Depending on the probe type, the options include output
