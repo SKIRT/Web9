@@ -6,6 +6,110 @@
 # Filename (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
+Towards an observationally motivated AGN dusty torus model – II. The roles of density distribution and chemical composition of the dust
+Reyes-Amador et al.
+MNRAS
+10 2025
+Application
+ReyesAmador2025
+2025MNRAS.543..813R
+
+Tiānguān (ζ Tau) as a binary system consisting of a Be star and an accreting white dwarf: opening a gate to understanding enigmatic γ Cas analogues
+Toalá et al.
+MNRAS
+09 2025
+Application
+Toala2025
+2025MNRAS.542..876T
+
+Learning the Universe: Physically Motivated Priors for Dust Attenuation Curves
+Sommovigo et al.
+ApJ
+09 2025
+Application
+Sommovigo2025b
+2025ApJ...990..114S
+
+Tracing the Formation History of Intrahalo Light with Horizon Run 5
+Joo et al.
+ApJ
+09 2025
+Application
+Joo2025
+2025ApJ...990...96J
+
+Assessing differences between local dust attenuation and point source extinction within the same galactic environments
+Duarte et al.
+A&A
+08 2025
+Application
+Duarte2025
+2025A&A...700A.169D
+
+GalaxyGenius: Mock galaxy image generator for various telescopes from hydrodynamical simulations
+Zhou et al.
+A&A
+08 2025
+Application
+Zhou2025
+2025A&A...700A.120Z
+
+Realistic multitemperature dust: how well can we constrain the dust properties of high-redshift galaxies?
+Sommovigo and Algera
+MNRAS
+07 2025
+Application
+Sommovigo2025a
+2025MNRAS.540.3693S
+
+Dust extinction measures for z ∼ 8 galaxies using machine learning on JWST imaging
+Fu et al.
+MNRAS
+07 2025
+Application
+Fu2025
+2025MNRAS.540.2081F
+
+Born to be Starless: Revisiting the Missing Satellite Problem
+Jeon et al.
+ApJ
+07 2025
+Application
+Jeon2025
+2025ApJ...988..136J
+
+Multi-wavelength properties of z ≳ 6 Laser Interferometer Space Antenna detectable events
+Chakraborty et al.
+A&A
+06 2025
+Application
+Chakraborty2025
+2025A&A...698A.268C
+
+Galaxy populations of protoclusters in cosmological hydrodynamical simulations
+Esposito
+A&A
+05 2025
+Application
+Esposito2025
+2025A&A...697A.142E
+
+The CIELO project: The chemo-dynamical properties of galaxies and the cosmic web
+Tissera
+A&A
+05 2025
+Application
+Tissera2025
+2025A&A...697A.134T
+
+First Light And Reionisation Epoch Simulations (FLARES): XVI. Size evolution of massive dusty galaxies at cosmic dawn from the ultraviolet to infrared
+Punyasheel
+A&A
+04 2025
+Application
+Punyasheel2025
+2025A&A...696A.234P
+
 The multi-wavelength Tully-Fisher relation in the TNG50 cosmological simulation
 Baes et al.
 A&A
