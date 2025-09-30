@@ -1,0 +1,117 @@
+/**
+
+\page AdminPublications Maintaining the publications gallery
+
+
+## Introduction
+
+The \ref PublicationsGallery is part of the community section on the SKIRT web site. It lists peer-reviewed papers that
+describe aspects of the SKIRT code or report on its use in science applications or technical studies.
+
+The gallery offers different views on the same publications database. The default view shows a table where each paper
+is visually represented by (part of) a key figure. Links under each figure point to a PDF version of the paper and to
+its ADS abstract page. This view provides an overall impression and showcases the diversity of SKIRT-related papers.
+The other gallery views offer text tables with different subsets and sorting orders of the papers in the database.
+These views facilitate searching for a specific paper or subject area.
+
+The HTML pages for these various views are automatically created by a Python script based on information in a text file
+(the core database) and a set of corresponding .pdf and .png files (additional resources). The Python script is
+executed as part of the procedure for staging the web site (see \ref AdminUpdateWeb). The core database and additional
+resources must be manually prepared and maintained on a regular basis to add recently published papers.
+
+\note By convention, the publications gallery includes only peer-reviewed, accepted publications that are listed in the
+ADS database with their final bibcode reference (i.e. excluding arXiv or other temporary references).
+
+
+##The core database
+
+The core data base is a manually edited text file, unsurprisingly called \c PublicationsDatabase.txt, with the formal
+structure shown and described below.
+
+    # Title (full title)
+    # Authors ("First et al." or "First and Second"; last names only)
+    # Journal (abbreviation)
+    # Month Year (decimal numbers seperated by space)
+    # Category (Technical or Application)
+    # Filename (filename body without directory nor filename extension)
+    # ADS (bibcode reference without the other portions of the URL)
+
+    The multi-wavelength Tully-Fisher relation in the TNG50 cosmological simulation
+    Baes et al.
+    A&A
+    04 2025
+    Application
+    Baes2025
+    2025A&A...696A..52B
+
+    Direct imaging of active galactic nucleus outflows and their origin with the 23 m Large Binocular Telescope
+    Isbell et al.
+    NatAs
+    03 2025
+    Application
+    Isbell2025
+    2025NatAs...9..417I
+
+    ...
+    SKIRT 9: Redesigning an advanced dust radiative transfer code to allow kinematics, line transfer and polarization by aligned dust grains
+    Camps and Baes
+    A&C
+    04 2020
+    Technical
+    Camps2020
+    2020A&C....3100381C
+
+    ...
+
+Each paper is represented by a block of 8 lines, as summarized in the file header. The order of these blocks is not
+significant (the Python script will sort them appropriately), but the convention is to add new papers at the top, just
+below the file header, in approximate reverse publication date order.
+
+The 8 lines in each block provide the following information, which can be readily copied from ADS:
+
+1. Title: the full title of the paper. Even if the title is very long, it must be listed on a single line.
+
+2. Authors: last name ony. If there is a single author, use "First"; if there are two authors, use "First and Second";
+   if there are three or more authors, use "First et al.".
+
+3. Journal: abbreviation of the journal name. Wherever possible, use the official shorthand employed by ADS.
+
+4. Month Year: publication month (two decimal digits) and year (four decimal digits) seperated by a space.
+
+5. Category: use "Technical" for papers that describe a technical aspect of the SKIRT code; use "Application" for all
+   other papers.
+
+6. Filename: filename body without directory nor filename extension. The name is extended with ".pdf" to locate the PDF
+   version of the paper, and with ".png" to locate the figure representing the paper in the default gallery view. By
+   convention, use the first author's last name <em>after removing any spacing, punctuation and diacritical marks</em>,
+   followed by the year, and possibly followed by a lowercase letter (a, b, c, ...) to disambiguate multiple papers by
+   the same author in the same year.
+
+7. ADS: the final, offical ADS bibcode reference without the other portions of the URL. Papers with arXiv or other
+   temporary references should not (yet) be included in the database.
+
+8. Empty line
+
+
+## Additional resources
+
+The .pdf and .png files corresponding to the entries in the core publication data base must be obtained manually and
+placed in the \c ~/SKIRT/ResourcesC/Publications directory. These files must then be published to the data file server
+through a seperate procedure (see \ref AdminUpdateWeb).
+
+Some areas of note:
+
+- Use the exact filename specified in line 6 of the corresponding core database entry, extended with ".pdf" and ".png"
+  respectively.
+
+- Download the PDF file including the accepted paper from the official journal web site. Do not use the arXiv version,
+  except in rare cases where the UGent does not have a subscription and you cannot otherwise obtain the offical PDF
+  version.
+
+- For the PNG file, select a figure in the paper that seems representative for its key results or for its use of SKIRT.
+  Use a screen grab utility to copy (a portion of) this figure. Ensure that the grabbed portion is legible on the scale
+  it will be shown in the default gallery view. Also, zoom in or out to adjust the pixel size of the grabbed portion,
+  keeping the file size below 500 KB.
+
+
+*/

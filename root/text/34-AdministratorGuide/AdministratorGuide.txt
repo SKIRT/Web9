@@ -48,6 +48,7 @@ These topics provide guidance for performing the "daily" administrative operatio
 - \ref AdminPlatforms
 - \ref AdminUpdateSKIRT
 - \ref AdminUpdatePTS
+- \ref AdminPublications
 - \ref AdminUpdateWeb
 - \ref AdminBackup
 

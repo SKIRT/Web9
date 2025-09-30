@@ -44,7 +44,7 @@ For more information, refer to the documentation and implementation of the \c st
 
 The files offered for download by links on the web site are hosted on the Ghent University data file server (see \ref
 AdminPresence). File types include \c .txt, \c .pdf, \c .ski, \c .png and \c .stab. These files are created or located
-through manual procedures and assembled in one of the subdirectories of the \c ~/SKIRT/Web9/ResourceC directory.
+through manual procedures and assembled in one of the subdirectories of the \c ~/SKIRT/ResourcesC directory.
 
 - Benchmarks: files offered for download by the Benchmark pages in the Community section of the web site.
 - Publications: files offered for download by the Publication pages in the Community section of the web site.
@@ -77,7 +77,7 @@ JPEG for photograph-like images if necessary to limit the file size.
 
 ### Data files
 
-The data files offered for download on the web site are located in the ResourceC and Resource9 directories, as
+The data files offered for download on the web site are located in the ResourcesC and Resources9 directories, as
 discussed in the previous section. These files can be updated and new files can be added at will, as long as the
 corresponding links on the web pages are properly synchronized.
 

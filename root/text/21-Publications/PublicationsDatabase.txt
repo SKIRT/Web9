@@ -3,7 +3,7 @@
 # Journal (abbreviation)
 # Month Year (decimal numbers seperated by space)
 # Category (Technical or Application)
-# PDF (filename body without directory nor filename extension)
+# Filename (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
 
 The multi-wavelength Tully-Fisher relation in the TNG50 cosmological simulation
