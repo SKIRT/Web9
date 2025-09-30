@@ -166,6 +166,6 @@ Sep 14, 2023 | 2583d55 | Allow specifying the units of the wavelength range in r
 Jun  6, 2024 | 9864d2e | Built-in broadband definitions are now taken from SKIRT resources
 Feb  3, 2025 | f6a2431 | Provide automated ski file upgrade procedure for today's SKIRT update (grids and meshes)
 Mar  2, 2025 | cd3c129 | Add function to write FITS file in SKIRT output style
-Sep 29, 2025 | e6b86a1 | Provide automated ski file upgrade procedure for today's SKIRT update (opacity probe)
+Sep 30, 2025 | 21cce82 | Provide automated ski file upgrade procedure for today's SKIRT update (opacity probe)
 
 */
