@@ -169,7 +169,7 @@ def makeGalleryPage(records):
             d["title"] = record['author'] + " " + str(record['year']) + " (" + record['journal'] + "): " + \
                          record['title']
             pg.write(('<TD><IMG src="{imgpath}" style="max-width:{maxwidth}%;" alt="{alttext}" title="{title}" ' + \
-                      'onclick="location.href=\'{pdfpath}\';" loading="lazy"/>\n  {pdflink} {adslink}\n').format(**d))
+                      'onclick="location.href=\'{pdfpath}\';" loading="lazy"/>\n <br> {pdflink} {adslink}\n').format(**d))
         pg.write("</TABLE>\n")
 
         # write page footer
