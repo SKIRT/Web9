@@ -130,6 +130,7 @@ Jun 26, 2025 | 7c80f52 | Improved Starburst99 SED templates without nebular emis
 Sep 26, 2025 | 3cd53cb | Make instruments record fluorescence as secondary emission
 Sep 29, 2025 | 828a736 | OpacityProbe uses wavelength grid instead of single wavelength
 Oct 21, 2025 | 9424bd5 | Add decorator to remove scattering from any material mix
+Nov  2, 2025 | 4fdaaf1 | Add a "Hubble Flow" vector field
 
 \*\* This update requires a ski file upgrade
 
