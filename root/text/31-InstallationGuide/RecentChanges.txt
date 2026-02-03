@@ -133,6 +133,7 @@ Oct 21, 2025 | 9424bd5 | Add decorator to remove scattering from any material mi
 Nov  2, 2025 | 4fdaaf1 | Add a "Hubble Flow" vector field
 Dec 18, 2025 | 100a264 | Add the Kroupa IMF to the BPASS SED family
 Dec 26, 2025 | deb687e | Add X-ray scattering on H2 molecules to the XRayAtomicGasMix
+Feb  3, 2026 | d762d4b | Output separate flux contributions from scattering etc. for Stokes Q, U, and V
 
 \*\* This update requires a ski file upgrade
 
