@@ -136,7 +136,7 @@ There are four options for the output style of flux-related values, summarized i
 \f$F\f$ for spatially integrated flux and lowercase \f$f\f$ for surface brightness.
 
 <TABLE>
-<TR><TD>Style</TD>      <TD>Quantity</TD> <TD>SI units</TD></TR> <TD>Stellar & Extragal. units</TD></TR>
+<TR><TD>Style</TD>      <TD>Quantity</TD> <TD>SI units</TD> <TD>Stellar & Extragal. units</TD></TR>
 <TR><TD>Neutral</TD>    <TD>\f$\lambda F_\lambda = \nu F_\nu\f$</TD>
                             <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\f$</TD>
                             <TD>\f$\mathrm{W}\,\mathrm{m}^{-2}\f$</TD></TR>

@@ -148,7 +148,7 @@ hydrogen and molecular hydrogen fractions.
 For GeometricSource and GeometricMedium components, a bulk velocity field can be specified through the combination of
 the \c velocityDistribution and \c velocityMagnitude configuration options. As the names imply, the first option
 specifies the spatial velocity distribution as a normalized VectorField object, and the second option specifies the
-overall velocity magnitude (a multiplier applied to the normalized vector field, which may be negative to `flip' the
+overall velocity magnitude (a multiplier applied to the normalized vector field, which may be negative to flip the
 direction of the field vectors). If no vector field is specified or the magnitude is zero, the bulk velocity is taken
 to be zero.
 

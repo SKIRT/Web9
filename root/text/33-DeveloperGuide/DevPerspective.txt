@@ -302,7 +302,7 @@ This can be accomplished through the homogeneous transformation matrix
 \f]
 keeping in mind that the \f$x_{v}\f$ and \f$y_{v}\f$ coordinates will be divided by \f$w_{v}=z_{e}/F_{e}\f$ when
 converting from homogeneous to regular coordinates, and assuming that the \f$z_{v}\f$ coordinate will not be divided by
-this factor. This ``trick'' for the \f$z\f$ coordinate works only because we have set \f$w=1\f$ when converting the
+this factor. This "trick" for the \f$z\f$ coordinate works only because we have set \f$w=1\f$ when converting the
 original point to homogeneous coordinates, and none of the other transformation matrices change the \f$w\f$ coordinate.
 
 

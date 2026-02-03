@@ -69,7 +69,7 @@ where \f$T\f$ is the computer time spent on the simulation in seconds. Because t
 proportional to the number of photon packets \f$N\f$ and the square of the relative error should scale more or less as
 \f$1/N\f$ (for large \f$N\f$), the FOM should be approximately constant once the solution has converged. The evolution
 of the FOM for increasing \f$N\f$ can thus be used as a reliability indicator. The FOM also provides a measure for the
-efficiency or `merit' of a particular method for solving the problem at hand. A higher FOM indicates that the
+efficiency or "merit" of a particular method for solving the problem at hand. A higher FOM indicates that the
 simulation can reach a given noise level in less computer time.
 
 
