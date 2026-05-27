@@ -1,0 +1,97 @@
+/**
+
+\page UserTimeLags Tracking time lags with SKIRT
+
+\section UserTimeLagsIntro Introduction
+
+SKIRT includes a mechanism to record and output photon arrival time lags. This enables self-consistent calculation of
+both the spectral and timing properties of reprocessed emission in a 3D model, with some limitations as discussed
+below. This user guide topic provides an overview of this feature, organized in sections as follows:
+
+- \ref UserTimeLagsDecription
+- \ref UserTimeLagsInstruments
+- \ref UserTimeLagsLimitations
+
+
+\section UserTimeLagsDecription Feature description
+
+Information on the geometry of certain astrophysical systems can be obtained by studying the relative arrival times of
+reprocessed photons in different wavelength regimes. The SKIRT time lag mechanism determines the response to an
+infinitely short pulse emitted by the model source(s) across the full spectral range. Most models intended for timing
+studies will include a single point source placed at the model origin. However, if a model includes multiple or
+spatially distributed sources, all sources are assumed to simultaneously emit a pulse, whether this is physically
+meaningful or not.
+
+Photon arrival time lags are determined by tracking the distance travelled by each photon packet. The origin of the
+arrival time is defined as the time at which a photon packet emitted at the spatial origin arrives at the observer
+directly. The time lag will be positive for photon packets that take a detour, for example, through scattering
+interactions. The time lag will be negative for sources closer to the observer than the spatial origin.
+
+SKIRT offers two time lag instruments. The LightCurveInstrument records the both spatially and spectrally integrated
+flux density for each time lag interval in a user-configured time grid, and outputs the resulting light curve. The
+SpectralTimeMapInstrument records the spatially integrated flux density per wavelength interval and per time lag
+interval, and outputs a FITS file containing a 2D spectral-time map.
+
+
+\section UserTimeLagsInstruments Instruments and time grids
+
+Both the LightCurveInstrument and the SpectralTimeMapInstrument derive from DistantInstrument, which means that they
+are assumed to be sufficiently distant from the observed model to justify the use of parallel projection. They also
+share the properties for configuring the line of sight with DistantInstrument. Both timing instruments record spatially
+integrated fluxes, and offer an option to limit this integration to photons arriving inside a given circular aperture.
+The calibration of output fluxes proceeds as described elsewhere for distant instruments.
+
+Importantly, the timing instruments require the user to configure a time grid for discretizing the recorded time lags.
+For this purpose, SKIRT offers the following TimeGrid subclasses:
+ - LinTimeGrid with linearly distributed time bins,
+ - LogTimeGrid with logarithmically distributed time bins, possibly shifted by a given offset to allow negative values,
+ - FileTimeGrid with time bins that are fully specified in an input text column file.
+
+The SpectralTimeMapInstrument evidently requires a wavelength grid for discretizing the recorded fluxes on the spectral
+axis, in addition to the discretization along the time lag axis. While the LightCurveInstrument does not discretize the
+recorded fluxes along the spectral axis, it still requires a wavelength grid to determine its spectral response. Most
+often, the wavelength grid is used to simply limit the spectral range of the recorded photons, but it is also possible
+to specify an arbitrary response curve. See the LightCurveInstrument class documentation for more information.
+
+The LightCurveInstrument output units are W/m2/s (wavelength flavor) or 1/s/cm2/s (energy flavor).
+The SpectralTimeMapInstrument output units are W/m2/micron/s (wavelength flavor) or 1/s/cm2/keV/s (energy flavor).
+
+
+\section UserTimeLagsLimitations Assumptions and limitations
+
+\subsection UserTimeLagsLimitationsA Applicability to radiative processes
+
+The key assumption is that the time lag associated with each photon is fully determined by its geometrical path length,
+implying that interaction processes can be treated as effectively instantaneous. This is an excellent approximation for
+many physical processes implemented in SKIRT. In particular, scattering is intrinsically instantaneous, and
+fluorescence occurs on timescales that are entirely negligible compared to the light-travel times relevant for the
+systems under study.
+
+However, care must be taken when extending the approach to processes in which energy exchange is not local in time. A
+clear example is absorption and re-emission by dust grains. This process involves energy storage and re-emission over a
+finite timescale that depends on grain properties and local conditions. A similar caveat may apply to photoionised
+plasmas, where recombination emission and line emission processes can introduce additional timescales. In such cases,
+the present implementation would not capture the full time-delay behaviour, and a more general treatment including
+process-dependent delay times would be required. To help avoid these issues, the current time lag mechanism is disabled
+for simulation modes that include secondary emission, i.e. it requires an "extinction-only" mode.
+
+On the other hand, the time lag mechanism is fully compatible with SKIRT's implementation of kinematics (Doppler
+shifts) and with its treatment of polarisation.
+
+\subsection UserTimeLagsLimitationsB Relativistic effects
+
+SKIRT assumes photon propagation in Euclidean space, neglecting general relativistic effects such as light bending and
+gravitational time dilation. This approximation is appropriate only for regions suﬃciently far from compact objects,
+where spacetime curvature is weak.
+
+\subsection UserTimeLagsLimitationsC Numerical aspects
+
+Most of the acceleration techniques implemented in SKIRT are fully compatible with the time lag mechanism. A prominent
+exception is the (approximate) line core skipping technique used in Lyα radiative transfer to effectively bypass large
+numbers of resonant scattering events. This technique must to be turned off for Lyα timing studies.
+
+Finally, the accuracy of the derived timing observables is limited by Monte Carlo noise and by the adopted temporal
+binning. Applications that require high precision in the time lag distribution or higher-order timing diagnostics may
+demand a substantial number of photon packets, particularly in optically thick or multi-scattering regimes.
+
+*/
