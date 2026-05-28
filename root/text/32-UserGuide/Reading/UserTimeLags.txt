@@ -47,6 +47,9 @@ For this purpose, SKIRT offers the following TimeGrid subclasses:
  - LogTimeGrid with logarithmically distributed time bins, possibly shifted by a given offset to allow negative values,
  - FileTimeGrid with time bins that are fully specified in an input text column file.
 
+If needed, the InstrumentTimeGridProbe outputs detailed information on the time grids configured for each timing
+instrument.
+
 The SpectralTimeMapInstrument evidently requires a wavelength grid for discretizing the recorded fluxes on the spectral
 axis, in addition to the discretization along the time lag axis. While the LightCurveInstrument does not discretize the
 recorded fluxes along the spectral axis, it still requires a wavelength grid to determine its spectral response. Most

@@ -267,8 +267,8 @@ respective class documentation.
 | DustEmissionWavelengthGridProbe | Column text | Wavelength, width, and borders for each dust emission wavelength bin |
 | InstrumentWavelengthGridProbe | Column text | Wavelength, width, and borders for each instrument wavelength bin |
 | - <em>Other:</em> |||
+| InstrumentTimeGridProbe | Column text | Time grid bin details for timing instruments |
 | SpatialGridSourceDensityProbe | Column text | Discretization of geometric source luminosity on the spatial grid |
 | DustAbsorptionPerCellProbe | Column text | Luminosity absorbed by dust for each cell in the spatial grid |
-
 
 */
