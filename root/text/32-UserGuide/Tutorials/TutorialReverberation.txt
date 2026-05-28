@@ -1,0 +1,550 @@
+/**
+
+\page TutorialReverberation X-ray reverberation mapping of an AGN geometry
+
+This tutorial introduces the time lag tracking capabilities of the SKIRT code (see \ref UserTimeLags). You will examine
+X-ray reverberation mapping, a technique used to estimate the time lag between direct and reprocessed emission in an
+active galactic nucleus (AGN). In this model, the AGN is represented by cold gas in a parsec-scale torus surrounding a
+central source. You will create a ski file containing the appropriate simulation parameters, perform the SKIRT
+simulation, and analyze the results, focusing on the time lag and X-ray spectra in the 2 to 12 keV range.
+
+\section TutorialReverberationPre Getting ready
+
+This tutorial assumes that you have completed the introductory SKIRT tutorial \ref TutorialXRayTorus and that you have
+reviewed the topic \ref UserTimeLags, or that you have otherwise acquired the working knowledge introduced there. At
+the very least, before starting this tutorial, you should have installed the SKIRT code.
+
+
+\section TutorialReverberationSki Creating the ski file
+
+\subsection TutorialReverberationStart Starting the SKIRT Q&A
+
+In a terminal window, with your local working directory as the current directory, start SKIRT without any command line
+arguments. SKIRT responds with a welcome message and starts an interactive session in the terminal window, during
+which it will prompt you for all the information describing the simulation:
+
+\verbatim
+   Welcome to SKIRT v___
+   Running on ___ for ___
+   Interactively constructing a simulation...
+ ? Enter the name of the ski file to be created: reverberation
+\endverbatim
+
+The first question is for the filename of the ski file. For this tutorial, enter "reverberation".
+
+\subsection TutorialReverberationLev Experience level
+
+\verbatim
+   Possible choices for the user experience level:
+      1. Basic: for beginning users (hides many options)
+      2. Regular: for regular users (hides esoteric options)
+      3. Expert: for expert users (hides no options)
+ ? Enter one of these numbers [1,3] (2): 2
+\endverbatim
+
+As discussed in a previous tutorial (see \ref TutorialBasicsMonoLev), the Q&A session can be tailored to the experience
+level of the user. For this tutorial, select the \em Regular level.
+
+\subsection TutorialReverberationUni Units
+
+\verbatim
+   Possible choices for the units system:
+      1. SI units
+      2. Stellar units (length in AU, distance in pc)
+      3. Extragalactic units (length in pc, distance in Mpc)
+ ? Enter one of these numbers [1,3] (3): 3
+   Possible choices for the output style for wavelengths:
+      1. As photon wavelength: λ
+      2. As photon frequency: ν
+      3. As photon energy: E
+ ? Enter one of these numbers [1,3] (1): 3
+   Possible choices for the output style for flux density and surface brightness:
+      1. Neutral: λ F_λ = ν F_ν
+      2. Per unit of wavelength: F_λ
+      3. Per unit of frequency: F_ν
+      4. Counts per unit of energy: F_E
+  ? Enter one of these numbers [1,4] (4): 4
+\endverbatim
+
+As discussed in a previous tutorial (see \ref TutorialBasicsMonoUni), SKIRT offers several options for the
+output units. In this tutorial, you will be modelling an AGN, so select extragalactic units (the default option). In
+the X-ray range, you want to use photon energies in keV as the spectral variable, and photon counts per energy as the
+flux output style.
+
+\subsection TutorialReverberationSim Simulation mode
+
+\verbatim
+   Possible choices for the overall simulation mode:
+      1. No medium - oligochromatic regime (a few discrete wavelengths)
+      2. Extinction only - oligochromatic regime (a few discrete wavelengths)
+      3. No medium (primary sources only)
+      4. Extinction only (no secondary emission)
+      5. Extinction only with Lyman-alpha line transfer
+      6. With secondary emission from dust
+      7. With secondary emission from gas
+      8. With secondary emission from dust and gas
+ ? Enter one of these numbers [1,8] (4): 4
+\endverbatim
+
+As discussed in a previous tutorial (see \ref TutorialBasicsMonoSim), the answer to this question determines the
+wavelength regime of the simulation (oligochromatic or panchromatic) and sets the overall scheme for handling media in
+the simulation.
+
+The SKIRT timing capability requires one of the "Extinction only" modes, i.e. "2", "4", or "5" in the above list.
+Furthermore, as X-ray interactions modify the photon energy, oligochromatic simulations are not very useful in the
+X-ray range. For this tutorial, select "Extinction only (no secondary emission)".
+
+\subsection TutorialReverberationPho Photon packets
+
+\verbatim
+ ? Enter the default number of photon packets launched per simulation segment [0,1e19] (1e6): 1e7
+\endverbatim
+
+For an acceptable level of Monte Carlo noise in this tutorial, set the number of photon packets to \f$10^7\f$ rather
+than the default value of \f$10^6\f$. Further increasing this number will improve the signal to noise ratio.
+
+\subsection TutorialReverberationCos Cosmology parameters
+
+\verbatim
+   Possible choices for the cosmology parameters:
+      1. The model is at redshift zero in the Local Universe
+      2. The model is at a given redshift in a flat universe
+ ? Enter one of these numbers [1,2] (1):
+\endverbatim
+
+We assume a redshift of zero for the local universe.
+
+\subsection TutorialReverberationSrc Source system
+
+\verbatim
+ ? Enter the shortest wavelength of photon packets launched from primary sources ...: 100 keV
+ ? Enter the longest wavelength of photon packets launched from primary sources ...: 0.1 keV
+\endverbatim
+
+The source system requests the limits of the wavelength range to be considered for the primary sources. Keep in mind
+that the shortest wavelength corresponds to the highest photon energy, and vice versa. In this tutorial, you are
+interested in the 2 to 12 keV range. However, as X-ray interactions in cold material reduce the photon energy, you also
+have to consider radiative transfer at higher photon energies. For this tutorial, you can select a shortest wavelength
+of 100 keV and a longest wavelength of 0.1 keV.
+
+\verbatim
+   Possible choices for item #1 in the primary sources list:
+      1. A primary point source
+      2. A primary source with a built-in geometry
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,12] (2): 1
+ ? Enter the position of the point source, x component ]-∞ pc,∞ pc[ (0 pc):
+ ? Enter the position of the point source, y component ]-∞ pc,∞ pc[ (0 pc):
+ ? Enter the position of the point source, z component ]-∞ pc,∞ pc[ (0 pc):
+\endverbatim
+
+The source of primary X-ray photons (i.e. the X-ray corona of the AGN) can be modelled as a point source at the origin
+(the default position coordinate values).
+
+\verbatim
+   Possible choices for the angular luminosity distribution of the emission:
+      1. An isotropic emission profile
+      2. A laser emission profile
+      3. An anisotropic conical emission profile
+      4. A Netzer AGN accretion disk emission profile
+ ? Enter one of these numbers or zero to select none [0,4] (1):
+   Possible choices for the polarization profile of the emission:
+      1. An unpolarized emission profile
+      2. An axysimmetric sine-square polarization emission profile
+ ? Enter one of these numbers or zero to select none [0,2] (1):
+ ? Enter the bulk velocity of the source, x component [-1e5 km/s,1e5 km/s] (0 km/s):
+ ? Enter the bulk velocity of the source, y component [-1e5 km/s,1e5 km/s] (0 km/s):
+ ? Enter the bulk velocity of the source, z component [-1e5 km/s,1e5 km/s] (0 km/s):
+ \endverbatim
+
+For this tutorial, the primary radiation is assumed to be isotropic, unpolarized, and lacking bulk motion. Note that
+the SKIRT timing capability remains enabled even if these assumptions are not met.
+
+\verbatim
+   Possible choices for the spectral energy distribution for the source:
+      1. A black-body spectral energy distribution
+         ...
+     12. A spectral energy distribution loaded from a text file
+     13. A spectral energy distribution specified inside the configuration file
+         ...
+ ? Enter one of these numbers [1,16] (1): 13
+ ? Enter the wavelengths at which to specify the specific luminosity [... keV]: 100 keV, 0.1 keV
+   Possible choices for the luminosity unit style:
+      1. Neutral: λ L_λ = ν L_ν
+      2. Per unit of wavelength: L_λ
+      3. Per unit of frequency: L_ν
+      4. Counts per unit of energy: L_E
+ ? Enter one of these numbers [1,4] (2): 4
+ ? Enter the specific luminosities at each of the given wavelengths ]... 1/s/keV[: 4e-6, 1
+\endverbatim
+
+In an actual research setting, you would probably consider an exponentially cut-off power-law spectrum for the X-ray
+corona. However, in this tutorial, configure the spectrum to be a straightforward power law with a negative photon
+index of 1.8 and arbitrary scaling (the normalization is specified in the following step). Because SKIRT log-log
+interpolates between wavelength points in a tabulated grid, a power-law can be specified with just two points, one at
+each end of the wavelength range.
+
+Thus, you can simply use the ListSED class to specify the two outer points of the spectral range. Assuming a scale-free
+specific luminosity of 1 at 0.1 keV, the corresponding value at 100 keV is \f$(100/0.1)^{-1.8}\approx 4 \times
+10^{-6}\f$. Make sure to select the option "Counts per unit of energy" to specify the power law in energy space.
+
+\verbatim
+   Possible choices for the type of luminosity normalization for the source:
+      1. Source normalization through the integrated luminosity for a given wavelength range
+      2. Source normalization through the specific luminosity at a given wavelength
+      3. Source normalization through the specific luminosity for a given wavelength band
+ ? Enter one of these numbers [1,3] (1): 1
+   Possible choices for the wavelength range for which to provide the integrated luminosity:
+      1. The wavelength range of the primary sources
+      2. All wavelengths (i.e. over the full SED)
+      3. A custom wavelength range specified here
+ ? Enter one of these numbers [1,3] (1): 3
+ ? Enter the shortest wavelength of the integration range ...: 12 keV
+ ? Enter the longest wavelength of the integration range ...: 2 keV
+ ? Enter the integrated luminosity for the given wavelength range ]0 erg/s,∞ erg/s[: 5e41 erg/s
+\endverbatim
+
+Select the option to normalise the source spectrum through the integrated luminosity for a given wavelength range,
+choose a custom wavelength range, and specify the shortest (12 keV) and longest (2 keV) wavelengths. Finally, provide
+an AGN luminosity of \f$5\times 10^{41}~\mathrm{erg}\,\mathrm{s}^{-1}\f$.
+
+\verbatim
+   Possible choices for item #2 in the primary sources list:
+      1. A primary point source
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,12] (2): 0
+\endverbatim
+
+When asked for a second source component, enter zero to terminate the list. The SKIRT timing capability remains enabled
+even if a second source component is added.
+
+\subsection TutorialReverberationMed Medium system
+
+\verbatim
+   Possible choices for item #1 in the transfer media list:
+      1. A transfer medium with a built-in geometry
+      2. A transfer medium imported from smoothed particle data
+         ...
+ ? Enter one of these numbers [1,7] (1): 1
+   Possible choices for the geometry of the spatial density distribution for the medium:
+      1. A Plummer geometry
+         ...
+     11. A torus geometry
+         ...
+ ? Enter one of these numbers [1,41] (1): 11
+ ? Enter the radial powerlaw exponent p of the torus [0,∞[: 2
+ ? Enter the polar index q of the torus [0,∞[: 0
+ ? Enter the half opening angle of the torus [0 deg,90 deg]: 5
+ ? Enter the minimum radius of the torus ]0 pc,∞ pc[: 2.4e-2 pc
+ ? Enter the maximum radius of the torus ]0 pc,∞ pc[: 4.8e-2 pc
+ ? Do you want to reshape the inner radius according to the Netzer luminosity profile? [yes/no] (no):
+\endverbatim
+
+You now introduce the torus of cold gas to the simulation. Select a transfer medium with a built-in geometry (the
+default option). Then, select a plain (wedge) torus base geometry and configure its properties: a density profile with
+radial index of 2 and polar index of 0, an opening angle of 5 degrees (measured from the equatorial plane), and radii
+extending from \f$2.4\times 10^{-2}\f$ to \f$4.8\times 10^{-2}\f$ pc.
+
+\verbatim
+   Possible choices for the material type and properties throughout the medium:
+      1. A typical interstellar dust mix (mean properties)
+         ...
+     19. A gas mix supporting photo-absorption and fluorescence for X-ray wavelengths
+         ...
+ ? Enter one of these numbers [1,20] (1): 19
+ ? Enter the abundancies for the elements with atomic number Z = 1,...,30 [0,1] ():
+ ? Enter the temperature of the gas or zero to disable thermal dispersion [0 K,1e9 K] (1e4 K): 0 K
+\endverbatim
+
+Next, you select the gas mix that implements photo-absorption and fluorescence for X-ray wavelengths (see \ref
+TutorialXRayTorusMed). Choose the default element abundancies by entering an empty string, and specify a temperature of
+zero to disable thermal dispersion.
+
+\verbatim
+   Possible choices for the type of normalization for the amount of material:
+      1. Normalization by defining the total mass
+      2. Normalization by defining the total number of entities
+      3. Normalization by defining the optical depth along a coordinate axis
+      4. Normalization by defining the mass column density along a coordinate axis
+      5. Normalization by defining the number column density along a coordinate axis
+ ? Enter one of these numbers [1,5] (3): 5
+   Possible choices for the axis along which to specify the normalization:
+      1. The X axis of the model coordinate sytem
+      2. The Y axis of the model coordinate sytem
+      3. The Z axis of the model coordinate sytem
+ ? Enter one of these numbers [1,3] (3): 1
+ ? Enter the number column density along this axis ]0 1/cm2,∞ 1/cm2[: 1e25
+\endverbatim
+
+The total amount of obscuring gas in a torus is commonly expressed through the equatorial number column density of
+neutral hydrogen \f$N_\mathrm{H}\f$. You can follow this convention by selecting "normalization through the number
+column density" and "along the X-axis". However, SKIRT normalizes the medium along the entire X-axis, while the
+observed value characterizes the amount of material as measured from the source outwards. Therefore, to model a torus
+with \f$N_\mathrm{H} = 5 \times 10^{24}~\mathrm{cm}^{-2}\f$, you must specify twice this value in SKIRT.
+
+\verbatim
+   Possible choices for the spatial distribution of the velocity, if any:
+      1. A vector field pointing away from the origin
+      ...
+ ? Enter one of these numbers or zero to select none [0,7] (0):
+ \endverbatim
+
+We assume there are no bulk velocities, but you can set a velocity field if you prefer.
+
+\verbatim
+   Possible choices for item #2 in the transfer media list:
+      1. A transfer medium with a built-in geometry
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,7] (1): 0
+\endverbatim
+
+When asked for a second medium component, enter zero to terminate the list.
+
+\subsection TutorialReverberationGrid Spatial grid
+
+\verbatim
+ ? Enter the number of random density samples for determining spatial cell mass [1,10000] (100):
+\endverbatim
+
+This value specifies the number of random locations sampled within each spatial cell to estimate its total mass. A
+higher value improves the accuracy of the mass distribution, especially in regions with steep density gradients, but
+increases the initial setup time. For this tutorial, specify the default value.
+
+\verbatim
+   Possible choices for the spatial grid:
+      1. A 2D axisymmetric spatial grid in spherical coordinates
+      2. A 2D axisymmetric spatial grid in cylindrical coordinates
+      3. A 3D spatial grid in spherical coordinates
+         ...
+ ? Enter one of these numbers [1,9] (2): 1
+ ? Enter the inner radius of the grid [0 pc,∞ pc[ (0 pc): 2.4e-2 pc
+ ? Enter the outer radius of the grid ]0 pc,∞ pc[: 4.8e-2 pc
+\endverbatim
+
+SKIRT discretizes the medium on a spatial grid, i.e. a collection of small cells in which properties such as medium
+density are considered to be uniform. For this model, choose a 2D axisymmetric grid in spherical coordinates to take
+advantage of the model's symmetry. This significantly reduces computational costs while maintaining high resolution.
+
+Configure the inner and outer radii of the grid to coincide with the extent of the torus, i.e. from \f$2.4\times
+10^{-2}\f$ to \f$4.8\times 10^{-2}\f$ pc.
+
+\verbatim
+   Possible choices for the bin distribution in the radial direction:
+      1. A linear mesh
+      2. A power-law mesh
+      3. A symmetric power-law mesh
+      4. A logarithmic mesh
+      5. A symmetric logarithmic mesh
+      6. A symmetric cosine mesh
+      7. A mesh read from a file
+      8. A mesh specified inside the configuration file
+ ? Enter one of these numbers [1,8] (1): 4
+ ? Enter the number of bins in the mesh [1,100000] (100):
+ ? Enter the central bin width fraction ]0,1[ (0.001):
+   Possible choices for the bin distribution in the polar direction:
+      1. A linear mesh
+      2. A power-law mesh
+      3. A symmetric power-law mesh
+      4. A logarithmic mesh
+         ...
+ ? Enter one of these numbers [1,8] (1): 1
+ ? Enter the number of bins in the mesh [1,100000] (100):
+\endverbatim
+
+Next, you configure the distribution of cells in the grid. For the radial direction, choose a logarithmic mesh with 100
+bins and a central bin width fraction of 0.001. This provides higher resolution near the central source where the
+density is higher. For the polar direction, choose a linear mesh with 100 bins to distribute cells evenly across the
+angular range.
+
+\subsection TutorialReverberationInst Instrument system
+
+\verbatim
+   Possible choices for the default instrument wavelength grid:
+      1. A logarithmic wavelength grid
+         ...
+ ? Enter one of these numbers [0,14] (1): 1
+ ? Enter the shortest wavelength [1239.841876 keV,1.239841876e-9 keV]: 12 keV
+ ? Enter the longest wavelength [1239.841876 keV,1.239841876e-9 keV]: 2 keV
+ ? Enter the number of wavelength grid points [2,2000000000] (25): 1000
+\endverbatim
+
+The default instrument wavelength grid is used for all instruments that do not specify their own wavelength grid. For
+this tutorial, configure a logarithmic wavelength grid with 1000 bins between 12 keV and 2 keV.
+
+\verbatim
+   Possible choices for item #1 in the instruments list:
+      1. A distant instrument that outputs the spatially integrated flux density as an SED
+         ...
+      7. A distant instrument that outputs the spatially integrated flux density as a light curve
+      8. A distant instrument that outputs the spatially integrated flux density as a spectral time map
+ ? Enter one of these numbers or zero to terminate the list [0,8] (1): 8
+ ? Enter the name for this instrument: timelagenergy
+\endverbatim
+
+For this tutorial, select the instrument that produces a spectral time map and name it "timelagenergy". This instrument
+records a time-lag distribution for each energy bin, whereas the light curve instrument records the time-lag
+distribution integrated over all energies.
+
+\verbatim
+   Possible choices for the wavelength grid for this instrument:
+      1. A logarithmic wavelength grid
+         ...
+ ? Enter one of these numbers or zero to select none [0,14] (0):
+\endverbatim
+
+Enter the default value of zero to select the default instrument wavelength grid configured earlier.
+
+\verbatim
+ ? Enter the distance to the system [0 Mpc,∞ Mpc[: 10 Mpc
+ ? Enter the inclination angle θ of the detector [0 deg,180 deg] (0 deg):
+ ? Enter the roll angle ω of the detector [-360 deg,360 deg] (0 deg):
+ ? Enter the radius of the circular aperture, or zero for no aperture [0 pc,∞ pc[ (0 pc):
+\endverbatim
+
+Next, set the observer distance  to 10 Mpc, and leave the inclination angle, roll angle, and aperture radius at
+their default values (0 deg and 0 pc).
+
+\verbatim
+   Possible choices for the time grid for this instrument:
+      1. A linear time grid
+      2. A logarithmic time grid
+      3. A time grid loaded from a text file
+ ? Enter one of these numbers [1,3] (1): 1
+ ? Enter the minimum time ]-∞ s,∞ s[: 0 pc
+ ? Enter the maximum time ]-∞ s,∞ s[: 1 pc
+ ? Enter the number of time grid points [2,2000000000] (25): 1000
+\endverbatim
+
+For the instrument's time grid, select a linear grid ranging from 0 to 1 pc. While the boundaries of a time grid are by
+default expressed in seconds, you can instead use distance units such as pc. SKIRT converts a distance value to the
+corresponding travel time at the speed of light.
+
+\verbatim
+ ? Do you want to record flux components separately? [yes/no] (no):
+ ? Do you want to record polarization (Stokes vector elements)? [yes/no] (no):
+ ? Do you want to record information for calculating statistical properties? [yes/no] (no):
+\endverbatim
+
+For this tutorial, leave the remaining options for recording flux components, polarization, and statistical properties at their default
+value of "no".
+
+\note In the current implementation, the timing instruments do not output statistical properties, even if the
+corresponding option is enabled.
+
+\verbatim
+   Possible choices for item #2 in the instruments list:
+      1. A distant instrument that outputs the spatially integrated flux density as an SED
+         ...
+ ? Enter one of these numbers or zero to terminate the list [0,8] (1): 0
+\endverbatim
+
+When asked for a second instrument, enter zero to terminate the list.
+
+\subsection TutorialReverberationProbe Probe system
+
+\verbatim
+   Possible choices for item #1 in the probes list:
+      1. Convergence: information on the spatial grid
+      2. Convergence: cuts of the medium density along the coordinate planes
+      ...
+ ? Enter one of these numbers or zero to terminate the list [0,13] (1): 2
+ ? Enter the name for this probe: density
+   Possible choices for item #2 in the probes list:
+      1. Convergence: information on the spatial grid
+      ...
+ ? Enter one of these numbers or zero to terminate the list [0,13] (1): 0
+\endverbatim
+
+Configure the "cuts of the medium density" probe and name it "density". Finally, when asked for the subsequent probe,
+enter zero to terminate the list. SKIRT now stores the completed configuration into the ski file \c reverberation.ski.
+
+
+\section TutorialReverberationPerform Performing the simulation
+
+\subsection TutorialReverberationRun The simulation
+
+Assuming that the generated ski file is in your current directory, you can perform the simulation by specifying the
+name of the ski file on the SKIRT command line:
+
+\verbatim
+$ skirt reverberation
+\endverbatim
+
+
+\subsection TutorialReverberationDis Time-lag and energy distribution
+
+The following python script visualizes the time-lag and energy distribution stored by SKIRT as a spectral-time map
+(STM) in FITS format.
+
+\code{.py}
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
+from astropy.io import fits
+
+def process_and_plot(path_stm, path_gas):
+    e_edges = np.logspace(np.log10(2.0), np.log10(12.0), 1001)
+    e_centers = np.sqrt(e_edges[:-1] * e_edges[1:])
+    e_widths = np.diff(e_edges)
+
+    t_edges = np.linspace(0, 3.08567758e18 / 2.99792458e10, 1001)
+    t_widths = np.diff(t_edges)
+    t_edges_shifted = t_edges - t_widths[0] / 2.0
+    t_scaled = (t_edges_shifted[:-1] + t_edges_shifted[1:]) / 2.0 / 1e6
+
+    with fits.open(path_stm) as h_stm, fits.open(path_gas) as h_gas:
+        data_stm = h_stm[0].data.astype(float)
+        data_rho = np.squeeze(h_gas[0].data).astype(float)
+
+    data_stm[data_stm <= 1e-50] = np.nan
+    data_rho[data_rho <= 1e-50] = np.nan
+
+    spectrum = np.nansum(data_stm * t_widths[:, None], axis=0)
+    lightcurve = np.nansum(data_stm * e_widths[None, :], axis=1)
+
+    fig, axs = plt.subplots(2, 2, figsize=(12, 10), gridspec_kw={'wspace': 0.3, 'hspace': 0.3})
+    ax_top, ax_density, ax_main, ax_right = axs.flatten()
+
+    for cmap in ['viridis', 'magma']:
+        plt.get_cmap(cmap).set_bad('white')
+
+    # (a) Spectrum
+    ax_top.plot(e_centers, spectrum, color='black', lw=1.5)
+    ax_top.set(xscale='log', yscale='log', xlim=(2, 12), xlabel='Energy (keV)', ylabel='Flux')
+
+    # (b) Density Map
+    extent = np.array([-512.5, 511.5, -512.5, 511.5]) * 9.346484375e-5 * 100
+    im = ax_density.imshow(data_rho, origin='lower', cmap='magma', extent=extent, norm=LogNorm())
+    ax_density.set(xlabel=r'X ($10^{-2}$ pc)', ylabel=r'Y ($10^{-2}$ pc)', xlim=(-5, 5), ylim=(-5, 5))
+    plt.colorbar(im, ax=ax_density, label='Number density')
+
+    # (c) STM
+    X, Y = np.meshgrid(e_edges, t_edges_shifted / 1e6)
+    pcm = ax_main.pcolormesh(X, Y, data_stm, cmap='viridis', norm=LogNorm())
+    ax_main.set(xscale='log', xlim=(2, 12), ylim=(-0.2, 40), xlabel='Energy (keV)', ylabel='Time lag ($10^6$ s)')
+    plt.colorbar(pcm, ax=ax_main, label='Flux Density')
+
+    # (d) Lightcurve
+    ax_right.plot(lightcurve, t_scaled, color='black', lw=1.5)
+    ax_right.set(xscale='log', xlim=(1e-18, 1e-7), ylim=(-0.2, 40), xlabel='Flux', ylabel='Time lag ($10^6$ s)')
+
+    plt.savefig('stm.png', dpi=300, bbox_inches='tight')
+    plt.close()
+
+if __name__ == "__main__":
+    base = "reverberation"
+    process_and_plot(base + "_timelagenergy_stm_total.fits", base + "_density_gas_g_xy.fits")
+\endcode
+
+\image html TutorialReverberationResults.png
+
+The script generates the figure displayed above, including the following four panels:
+- (a) The integrated spectrum (Flux vs. Energy).
+- (b) A 2D density map of the medium.
+- (c) The Spectral Time Map (Time lag vs. Energy).
+- (d) The integrated light curve (Time lag vs. Flux).
+
+
+<b><i>Congratulations, you made it to the end of this tutorial!</i></b>
+
+*/
