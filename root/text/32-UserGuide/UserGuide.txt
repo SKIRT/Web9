@@ -15,6 +15,7 @@ Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; 
 | \image html UserLevel1.png | \image html UserReading.png  | \ref UserComponents
 | \image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialBasicsMono
 | \image html UserLevel1.png | \image html UserTutorial.png | \ref TutorialBasicsPan
+| \image html UserLevel1.png | \image html UserReading.png  | \ref UserDiscretization
 | \image html UserLevel1.png | \image html UserReading.png  | \ref UserCmdLine
 | \image html UserLevel2.png | \image html UserReading.png  | \ref UserCommands
 | \image html UserLevel1.png | \image html UserConfig.png   | \ref UserMakeUp

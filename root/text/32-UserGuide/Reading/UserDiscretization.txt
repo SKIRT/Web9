@@ -1,0 +1,98 @@
+/**
+
+\page UserDiscretization Discretization and numerical convergence
+
+By the nature of numerical methods, SKIRT discretizes the physical quantities defining a simulated model into distinct
+resolution elements. Various parameters in the configuration ski file control the level of discretization. Generally
+speaking, a finer-grained resolution improves the approximation to the continuous variables and thus the simulation
+results, while also increasing the computational costs. To find a acceptable balance, and to ensure meaningful results,
+<b>it essential to perform numerical convergence tests</b>.
+
+The first section below describes the generic procedure for testing numerical convergence. Subsequent sections consider
+the following categories of physical quantities and corresponding discretization mechanisms:
+
+- \ref UserDiscretizationSpatial
+- \ref UserDiscretizationSpectral
+- \ref UserDiscretizationEnergy
+- \ref UserDiscretizationMaterial
+
+\section UserDiscretizationTesting Determining numerical convergence
+
+For the vast majority of SKIRT simulations, the correct result is not known a priori - usually that's why we perform
+the simulations to begin with. We therefore need mechanisms that enhance our confidence in the simulated observables.
+
+The most fundamental issue is the quality of the model, or in other words, how accurately the model represents the
+astrophyscial system under consideration. The scientific community predominantly tackles this problem by comparing
+simulation results with observed data, and improving the computer models iteratively over time. A second issue is the
+correctness of the algorithms and their implementation in the simulation code. SKIRT has been benchmarked, tested and
+used extensively, so we can be fairly confident in this area.
+
+The discussion here, however, focuses on numerical issues, and specifically the effects of discretization. The SKIRT
+user is responsible for setting the parameters in the configuration ski file that control the level of discretization
+of the various model properties (spatial and spectral distributions) and simulation algorithms (photon packets). But
+how to find the parameter values that produce a meaningful result using an acceptable amount of compute resources?
+
+A good starting point can often be found in papers where authors describe their use of SKIRT for applications similar
+to yours (see \ref PublicationsGallery). Likewise, the examples and guidelines offered in the SKIRT user guide form a
+important body of information (see \ref UserGuide). Still, the optimal values depend on the specific properties of the
+model and on the observables being simulated. It is therefore always necessary to perform further tests.
+
+The overall idea is to refine the discretization resolution until the relevant simulated observables are converged,
+i.e. the observables no longer change significantly between resolution steps. The procedure can be summarized as
+follows:
+
+- Construct a set of models that is representative for your study. For example, include varying geometries and sizes,
+provide a range of optical depths, or simply randomly select models. Depending on your study, this set may include a
+single model or several dozens of models.
+
+- Select the simulated observables that are key to your study. Perhaps your study focuses on simulated spectra or
+images. Alternatively, your study may focus on quantities derived from these simulation results.
+
+- Choose an appropriate distance metric for comparing two versions of an observable. This is trivial for scalar values
+such as a colour but somewhat more tricky for observables with many values such as spectra or images. For example, use
+the maximum difference, the 90 percentile difference, a mean square root difference, or any other metric that makes
+sense in your case. You may end up with multiple metrics to cover all relevant observables in your study.
+
+- For each of these metrics/observables, define a criterion for acceptable accuracy. For example, a criterion might
+require the simulated spectrum to be accurate within 0.1 dex across the full wavelength range.
+
+- Based on experience or external guidance, set initial parameter values specifying a fairly coarse resolution that
+should provide reasonable but not yet perfect results. Run the simulation and store the results.
+
+- Adjust the parameters to specify significantly finer resolution (say, by a factor 3 to 5). Run the simulation and
+store the results. Compare the metrics of the simulation observables for this simulation and the previous one.
+If the accuracy criterion is met for all metrics, consider the results to be converged. If not, repeat with
+finer resolution until convergence has been reached.
+
+- The last simulation in the above iteration determines the proper parameter values. Or, if it is really important to
+fine-tune the simulation runtime (and perhaps memory usage), you can backtrack to a coarser resolution or perform a
+binary search if the accuracy criteria are significantly exceeded.
+
+You usually need to perform this procedure for each of the discretization mechanisms (see the following sections)
+employed by the SKIRT simulations for your study. In some specific cases you can instead pinpoint the proper values
+with a high degree of confidence based on experience or external guidance.
+
+\note SKIRT can produce statistical information which can be used as a metric to more precisely evaluate the
+reliability of simulated observables as a function of the number of emitted photon packets. See \ref UserStatistics.
+
+
+\section UserDiscretizationSpatial Spatial discretization of the transfer medium
+
+Bla.
+
+
+\section UserDiscretizationSpectral Spectral discretization of the radiation field and instruments
+
+Bla.
+
+
+\section UserDiscretizationEnergy Discretization of the energy flow (photon packets)
+
+Bla.
+
+\section UserDiscretizationMaterial Discretization of material properties
+
+Bla.
+
+
+*/
