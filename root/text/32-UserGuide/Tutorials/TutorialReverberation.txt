@@ -539,10 +539,28 @@ if __name__ == "__main__":
 \image html TutorialReverberationResults.png
 
 The script generates the figure displayed above, including the following four panels:
-- (a) The integrated spectrum (Flux vs. Energy).
-- (b) A 2D density map of the medium.
-- (c) The Spectral Time Map (Time lag vs. Energy).
-- (d) The integrated light curve (Time lag vs. Flux).
+- top-right: a 2D density cut through the medium along the equatorial plane
+- bottom-left: the spatially integrated Spectral Time Map (Time lag vs. Energy, colored by Flux)
+- top-left: the STM integrated over Time Lag, i.e. the spectrum (Flux vs. Energy)
+- bottom-right: the STM integrated over Energy (viewed sideways), i.e. the light curve (Flux vs. Time lag)
+
+Direct emission from the source is shown at a time lag of \f$0\f$, whereas reprocessed emission is shown at time lags
+\f$>0\f$. The prominent features among the reprocessed emission are fluorescence lines, such as the
+\f$\mathrm{Fe}\;\mathrm{K}\alpha\f$ line at \f$6.4~\mathrm{keV}\f$. Because the photoelectric absorption cross-section
+is higher at lower energies, high-energy photons can penetrate and reach the outer regions of the torus. Consequently,
+these fluorescence lines are produced by the high-energy photons in these outer regions. As a result, the emission of
+these lines is delayed, exhibiting relatively large time-lag values compared to those of the low-energy reprocessed
+continuum emission, which is produced predominantly in the inner regions.
+
+\subsection TutorialReverberationMap Reverberation mapping
+
+The time lag of the \f$\mathrm{Fe}\;\mathrm{K}\alpha\f$ line band relative to the continuum band of the direct
+emission, measured using the cross-correlation function (CCF), enables reverberation mapping of the surrounding
+material. First, an intrinsic light curve is assumed. Second, this intrinsic light curve is convolved with the
+two-dimensional time-lag and energy distribution obtained by SKIRT to produce a mock observed light curve. Third, the
+mock data are integrated over the fluorescence line energy band and the continuum energy band. Finally, by calculating
+the CCF between the mock observed light curves of the fluorescence line and the continuum, we obtain a correlation
+profile that can be directly compared with observations.
 
 
 <b><i>Congratulations, you made it to the end of this tutorial!</i></b>
