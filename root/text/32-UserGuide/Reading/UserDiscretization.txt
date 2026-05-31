@@ -18,6 +18,8 @@ the following categories of physical quantities and corresponding discretization
 
 \section UserDiscretizationTesting Determining numerical convergence
 
+\image html UserDiscretizationConvergence.png
+
 For the vast majority of SKIRT simulations, the correct result is not known a priori - usually that's why we perform
 the simulations to begin with. We therefore need mechanisms that enhance our confidence in the simulated observables.
 
@@ -78,21 +80,112 @@ reliability of simulated observables as a function of the number of emitted phot
 
 \section UserDiscretizationSpatial Spatial discretization of the transfer medium
 
-Bla.
+\image html UserDiscretizationSpatial.png
+
+In a SKIRT simulation, the spatial distributions of all transfer medium properties are discretized on a single internal
+spatial grid. This includes input model properties such as the local density for each medium component as well as
+calculated properties such as the radiation field. Property values are considered to be uniform within each cell of the
+spatial grid. To properly resolve the medium, small cells must be placed in regions where input model properties and/or
+calculated properties vary rapidly. A higher resolution grid will generally enable more accurate simulation results,
+while significantly increasing computational costs in terms of both memory usage and runtime.
+
+Because all medium properties in the simulation's input model are discretized on the same spatial grid, (re-)gridding
+is necessary during setup in most cases. This mechanism allows SKIRT to handle a wide range of input model types (even
+in the same simulation), including mathematically-defined built-in density profiles and distributions interpolated from
+a set of smoothed particles or tabulated on structured or unstructured grids. In all cases, SKIRT samples the input
+model at a (user-configurable) number of random locations within each cell of the internal spatial grid to determine
+the average property values.
+
+As an aside, note that information about primary sources is \em not stored on the internal spatial grid. Locations for
+emitting photon packets are sampled straight from the input model definition while the simulation progresses, without
+any regridding. On the other hand, secondary sources are defined on the internal spatial grid because their properties
+are calculated on that grid during the simulation. Photon locations for secondary emission are thus sampled on the
+internal spatial grid.
+
+SKIRT offers a wealth of spatial grid types, ranging from regular grids with spherical or cylindrical symmetries
+to structured or unstructured adaptive grids. Selecting and configuring an appropriate grid for a given simulation
+is an essential but often nontrivial task.
+
+For more information, see:
+- \ref UserSpatialGrids
+- \ref TutorialGridsTreeVoro
+- \ref UserImportSnap
 
 
 \section UserDiscretizationSpectral Spectral discretization of the radiation field and instruments
 
-Bla.
+\image html UserDiscretizationSpectral.png
+
+Wavelength plays an important role in SKIRT simulations because interactions between radiation and matter are usually
+wavelength-dependent, and the wavelength of an interacting photon may change along its path. Therefore, SKIRT offers an
+advanced and thus fairly involved treatment of wavelengths and spectral discretization.
+
+Each photon packet has a wavelength property that can take on any floating point value, i.e. it is not discretized. A
+photon packet's wavelength can therefore be considered to be "exact", and it can be updated with "exact" precision
+whenever an interaction requires this.
+
+Most source spectra employed by SKIRT are tabulated on some wavelength grid. Possibilities include a built-in %SED or
+%SED family, an input file provided by the user, or for secondary emission, a table calculated by a previous phase in
+the simulation. In all cases, during emission, a wavelength is sampled straight from the tabulated source spectrum
+using log-log interpolation. Each source spectrum can use its own specific wavelength grid and there is no regridding.
+
+On the other hand, a wavelength-dependent quantity calculated and stored during the simulation must be discretized on
+some wavelength grid with a finite number of bins. Because each simulation has different requirements and memory usage
+limitations, this wavelength grid must be configured by the user. Specifically, SKIRT employs a user-configured
+wavelength grid for storing the radiation field in simulations that require it, usually to enable secondary emission
+calculations. Because the radiation field is stored for every spatial cell, the number of bins in the spectral grid
+must be carefully managed to avoid excessive memory usage.
+
+Furthermore, each instrument in the simulation must be configured with a wavelength grid to store the fluxes being
+recorded. This wavelength grid can be tailored to the type of instrument, for example a high-resolution grid for
+spectra and a lower-resolution grid for images, again to manage memory usage.
+
+One last type of spectral discretization is used for calculating secondary emission in each spatial cell. For example,
+calculating the emission spectrum of a dust grain population embedded in a given radiation field requires a fairly
+high-resolution wavelength grid. Fortunately, this grid is used on the fly while processing secondary emission for a
+given cell and thus does not contribute much to memory usage.
+
+For more information, see:
+- \ref UserWaveTreat
+- \ref UserWaveGrids
+- \ref UserWaveConfigure
+- \ref UserBroadbands
 
 
-\section UserDiscretizationEnergy Discretization of the energy flow (photon packets)
+\section UserDiscretizationEnergy Discretization of the radiation flow (photon packets)
 
-Bla.
+\image html UserDiscretizationEnergy.png
+
+SKIRT represents the flow of radiation through the spatial domain by a large number of photon packets. The origin and
+interactions of each photon packet are determined probabilistically and its contribution to the simulated observables
+is recorded. In the limit of an infinite number of packets, this produces the intended results. With a more achievable
+finite number of packets, the results inevitably show Monte Carlo noise.
+
+It is the user's responsibility to choose a number of photon packets so that (a) all relevant regions in the spatial
+domain are properly sampled by the random paths, and (2) the Monte Carlo noise is at an acceptable level for the key
+simulated observables. This is best achieved by performing convergence tests as described earlier in this topic.
+
+In addition, SKIRT offers some contol over the photon packet cycle employed during this process. These parameters
+can usually be left to their default values, but some simulations can benefit from adjustments.
+
+For more information, see:
+- \ref UserPhotonCycle
+- \ref UserWaveTreat
+
 
 \section UserDiscretizationMaterial Discretization of material properties
 
-Bla.
+SKIRT implements many photon-material interactions. In some cases, the corresponding wavelength-dependent behavior can
+be easily modeled mathematically and is thus hardwired in code. More often, specific material properties are built into
+SKIRT as tabulated resources. The user does not have any control over the resolution of these tables nor over the
+interpolation mechanisms used to extract information from them.
 
+One notable exception is the treatment of dust grain size distributions in simulations with secondary dust emission.
+The dust emission spectrum depends on the grain size, so the dust grain population must be discretized into a number of
+size bins. In this case, the user can configure the number of these bins.
+
+For more information, see:
+- \ref UserMaterialMixes
+- \ref TutorialCustomDust
 
 */
