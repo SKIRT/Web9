@@ -3,10 +3,11 @@
 \page UserDiscretization Discretization and numerical convergence
 
 By the nature of numerical methods, SKIRT discretizes the physical quantities defining a simulated model into distinct
-resolution elements. Various parameters in the configuration ski file control the level of discretization. Generally
+resolution elements such as spatial cells, wavelength bins, and photon packets.
+Various parameters in the configuration ski file control the level of discretization. Generally
 speaking, a finer-grained resolution improves the approximation to the continuous variables and thus the simulation
 results, while also increasing the computational costs. To find a acceptable balance, and to ensure meaningful results,
-<b>it essential to perform numerical convergence tests</b>.
+<b>it is essential to perform numerical convergence tests</b>.
 
 The first section below describes the generic procedure for testing numerical convergence. Subsequent sections consider
 the following categories of physical quantities and corresponding discretization mechanisms:
@@ -22,12 +23,7 @@ the following categories of physical quantities and corresponding discretization
 
 For the vast majority of SKIRT simulations, the correct result is not known a priori - usually that's why we perform
 the simulations to begin with. We therefore need mechanisms that enhance our confidence in the simulated observables.
-
-The most fundamental issue is the quality of the model, or in other words, how accurately the model represents the
-astrophyscial system under consideration. The scientific community predominantly tackles this problem by comparing
-simulation results with observed data, and improving the computer models iteratively over time. A second issue is the
-correctness of the algorithms and their implementation in the simulation code. SKIRT has been benchmarked, tested and
-used extensively, so we can be fairly confident in this area.
+SKIRT has been benchmarked, tested and used extensively, so we can be fairly confident in this area.
 
 The discussion here, however, focuses on numerical issues, and specifically the effects of discretization. The SKIRT
 user is responsible for setting the parameters in the configuration ski file that control the level of discretization
@@ -35,7 +31,7 @@ of the various model properties (spatial and spectral distributions) and simulat
 how to find the parameter values that produce a meaningful result using an acceptable amount of compute resources?
 
 A good starting point can often be found in papers where authors describe their use of SKIRT for applications similar
-to yours (see \ref PublicationsGallery). Likewise, the examples and guidelines offered in the SKIRT user guide form a
+to yours (see \ref PublicationsGallery). Likewise, the examples and guidelines offered in the SKIRT user guide form an
 important body of information (see \ref UserGuide). Still, the optimal values depend on the specific properties of the
 model and on the observables being simulated. It is therefore always necessary to perform further tests.
 
@@ -137,8 +133,12 @@ calculations. Because the radiation field is stored for every spatial cell, the 
 must be carefully managed to avoid excessive memory usage.
 
 Furthermore, each instrument in the simulation must be configured with a wavelength grid to store the fluxes being
-recorded. This wavelength grid can be tailored to the type of instrument, for example a high-resolution grid for
-spectra and a lower-resolution grid for images, again to manage memory usage.
+recorded. These wavelength grids should be fine-tuned to fit the needs of the use case while keeping an eye on the
+required computational resources. Increasing the spectral resolution will deteriorate the signal-to noise ratio in
+individual wavelength bins unless the number of photon packets in the simulation is increased. Also, because IFU data
+cubes can be large, it is sometimes useful to assign a lower-resolution grid to a FrameInstrument in combination with a
+higher-resolution grid for an SEDInstrument in the same sight line. This boosts the signal-to noise ratio in the data
+cube pixels while also limiting memory usage.
 
 One last type of spectral discretization is used for calculating secondary emission in each spatial cell. For example,
 calculating the emission spectrum of a dust grain population embedded in a given radiation field requires a fairly
