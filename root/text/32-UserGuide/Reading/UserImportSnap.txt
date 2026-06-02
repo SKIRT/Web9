@@ -374,6 +374,43 @@ specified as described in \ref UserImportSnapMediaSPHDust and \ref UserImportSna
 Because the VoronoiMeshSnapshot class builds the structure of the mesh during import, it is possible to use the
 imported Voronoi grid during the simulation's radiative transfer phase; see \ref UserImportSnapMediaGrid.
 
+\subsubsection UserImportSnapMediaVoroNonCubodial Importing subvolumes extracted from a larger Voronoi grid
+
+This section discusses an issue that leads to unexpected results when importing subvolumes extracted from a larger
+Voronoi grid.
+
+Consider a hydrodynamical simulation that employs a Voronoi tessellation for discretizing the medium density
+distribution. The procedure for extracting a gravitationally bound structure (such as a galaxy) from a snapshot may
+produce a set of cells covering an irregularly shaped volume. When importing this structure, SKIRT will recreate the
+cells on the outskirts of the volume so that they fill the simulation's spatial domain -- which, by definition, is
+always a cuboid. This is inevitable because SKIRT sees only the Voronoi sites inside the imported volume.
+
+\note This Voronoi cell reconstruction happens regardless of the actual spatial grid type used to perform radiation
+transport in SKIRT. Building the Voronoi grid is necessary during setup to represent the imported density distribution
+and then possibly re-grid it.
+
+\image html UserImportSnapMediaVoroNonCubodial.png
+
+The process is illustrated with a 2D example in the diagram above. The left panel represents the (complete or partial)
+simulation volume defined in the snapshot. The colored cells represent the gravitationally bound structure extracted
+from the snaphot. The import file presented to SKIRT thus contains the Voronoi sites corresponding to the colored
+cells, but \em not the sites corresponding to the uncolored cells. Assuming the SKIRT spatial grid fully encloses the
+imported structure, SKIRT is forced to create new Voronoi cells at the outer edges. The right panel shows the SKIRT
+grid with green color covering the shape as it was in the snapshot and red color covering the enlarged cells.
+
+Now assume that each cell (site) in the import file specifies an associated medium density, and that the ski file
+accordingly specifies the _massType_ as \c MassDensity. Because the reconstructed cells in the outskirts are so much
+larger, with uniform density, they will contain an excessive amount of mass that no longer corresponds to the
+definition in the snapshot. This will in turn lead to incorrect simulation results.
+
+The following actions should be taken to mitigate this problem:
+
+- Configure the SKIRT spatial grid so that it narrowly encloses the imported volume, or even cuts away some less
+important outer regions. Alternatively, enlarge the extracted volume to include more of the outskirts.
+
+- Set the _massType_ as \c Mass (and adjust the data in the import file accordingly). This causes total mass to be
+preserved, although some of the mass in the outskirts will be smeared out over the larger reconstructed cells.
+
 \subsection UserImportSnapMediaAMR Adaptive mesh media
 
 Simulations with an adaptive mesh paradigm use a hierarchical grid that is refined to a variable level depending on
