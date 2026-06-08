@@ -2,6 +2,9 @@
 
 \page UserDiscretization Discretization and numerical convergence
 
+This section describes how to evaluate the numerical accuracy of a SKIRT simulation, enabling reliable and
+scientifically robust results.
+
 By the nature of numerical methods, SKIRT discretizes the physical quantities defining a simulated model into distinct
 resolution elements such as spatial cells, wavelength bins, and photon packets.
 Various parameters in the configuration ski file control the level of discretization. Generally
@@ -43,10 +46,10 @@ follows:
 provide a range of optical depths, or simply randomly select models. Depending on your study, this set may include a
 single model or several dozens of models.
 
-- Select the simulated observables that are key to your study. Perhaps your study focuses on simulated spectra or
-images. Alternatively, your study may focus on quantities derived from these simulation results.
+- Select the simulated observables that are key to your study, such as %SEDs, line profiles, intensity maps or IFUs.
+Alternatively, your study may focus on quantities derived from these simulation results.
 
-- Choose an appropriate distance metric for comparing two versions of an observable. This is trivial for scalar values
+- Choose an appropriate metric for comparing two versions of an observable. This is trivial for scalar values
 such as a colour but somewhat more tricky for observables with many values such as spectra or images. For example, use
 the maximum difference, the 90 percentile difference, a mean square root difference, or any other metric that makes
 sense in your case. You may end up with multiple metrics to cover all relevant observables in your study.
@@ -66,12 +69,24 @@ finer resolution until convergence has been reached.
 fine-tune the simulation runtime (and perhaps memory usage), you can backtrack to a coarser resolution or perform a
 binary search if the accuracy criteria are significantly exceeded.
 
-You usually need to perform this procedure for each of the discretization mechanisms (see the following sections)
-employed by the SKIRT simulations for your study. In some specific cases you can instead pinpoint the proper values
-with a high degree of confidence based on experience or external guidance.
-
 \note SKIRT can produce statistical information which can be used as a metric to more precisely evaluate the
 reliability of simulated observables as a function of the number of emitted photon packets. See \ref UserStatistics.
+
+
+\section UserDiscretizationWhere Where to start?
+
+In some specific cases you can pinpoint the proper parameter values for a simulation with a high degree of confidence
+based on experience or external guidance. Most often though, you need to verify convergence through the above procedure
+for each of the discretization mechanisms employed by the SKIRT simulations in your study. To complicate matters even
+more, these tests are interdependent. For example, a finer spatial or spectral grid requires a larger number of photon
+packets to propertly sample the smaller cells or bins. Or, vice versa, for a constant number of photon packets, higher
+resolution spatial or spectral grids yield increased statistical noise per cell/bin. So, where to start?
+
+There is no "optimal" ordering of convergence tests. One approach is to alternate between the various discretization
+types. First establish convergence for all discretization types towards significantly relaxed observable criteria. This
+offers insights in how the simulation responds to parameter value changes, requiring limited compute resources because
+of the relaxed target criteria. Then tighten the observable criteria and again establish convergence for all
+discretization types.
 
 
 \section UserDiscretizationSpatial Spatial discretization of the transfer medium
@@ -130,7 +145,9 @@ some wavelength grid with a finite number of bins. Because each simulation has d
 limitations, this wavelength grid must be configured by the user. Specifically, SKIRT employs a user-configured
 wavelength grid for storing the radiation field in simulations that require it, usually to enable secondary emission
 calculations. Because the radiation field is stored for every spatial cell, the number of bins in the spectral grid
-must be carefully managed to avoid excessive memory usage.
+must be carefully managed to avoid excessive memory usage. On the other hand, the number of bins should be sufficiently
+large to properly resolve the spectral signature of the radiation field, enabling accurate calculation of secondary
+emission spectra.
 
 Furthermore, each instrument in the simulation must be configured with a wavelength grid to store the fluxes being
 recorded. These wavelength grids should be fine-tuned to fit the needs of the use case while keeping an eye on the
@@ -162,7 +179,7 @@ is recorded. In the limit of an infinite number of packets, this produces the in
 finite number of packets, the results inevitably show Monte Carlo noise.
 
 It is the user's responsibility to choose a number of photon packets so that (a) all relevant regions in the spatial
-domain are properly sampled by the random paths, and (2) the Monte Carlo noise is at an acceptable level for the key
+domain are properly sampled by the random paths, and (b) the Monte Carlo noise is at an acceptable level for the key
 simulated observables. This is best achieved by performing convergence tests as described earlier in this topic.
 
 In addition, SKIRT offers some contol over the photon packet cycle employed during this process. These parameters
