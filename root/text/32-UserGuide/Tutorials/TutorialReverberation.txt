@@ -117,15 +117,15 @@ We assume a redshift of zero for the local universe.
 \subsection TutorialReverberationSrc Source system
 
 \verbatim
- ? Enter the shortest wavelength of photon packets launched from primary sources ...: 100 keV
- ? Enter the longest wavelength of photon packets launched from primary sources ...: 0.1 keV
+ ? Enter the shortest wavelength of photon packets launched from primary sources ...: 50 keV
+ ? Enter the longest wavelength of photon packets launched from primary sources ...: 1.9 keV
 \endverbatim
 
 The source system requests the limits of the wavelength range to be considered for the primary sources. Keep in mind
 that the shortest wavelength corresponds to the highest photon energy, and vice versa. In this tutorial, you are
-interested in the 2 to 12 keV range. However, as X-ray interactions in cold material reduce the photon energy, you also
-have to consider radiative transfer at higher photon energies. For this tutorial, you can select a shortest wavelength
-of 100 keV and a longest wavelength of 0.1 keV.
+interested in the 2 to 12 keV range. However, fluorescence in this energy range can be triggered by absorption at much
+higher energies, so you have to consider radiative transfer at photon energies up to 50 keV. At the lower energy limit,
+enter 1.9 keV to avoid any discontinuities at 2 keV.
 
 \verbatim
    Possible choices for item #1 in the primary sources list:
@@ -168,14 +168,14 @@ the SKIRT timing capability remains enabled even if these assumptions are not me
      13. A spectral energy distribution specified inside the configuration file
          ...
  ? Enter one of these numbers [1,16] (1): 13
- ? Enter the wavelengths at which to specify the specific luminosity [... keV]: 100 keV, 0.1 keV
+ ? Enter the wavelengths at which to specify the specific luminosity [... keV]: 50 keV, 1.9 keV
    Possible choices for the luminosity unit style:
       1. Neutral: λ L_λ = ν L_ν
       2. Per unit of wavelength: L_λ
       3. Per unit of frequency: L_ν
       4. Counts per unit of energy: L_E
  ? Enter one of these numbers [1,4] (2): 4
- ? Enter the specific luminosities at each of the given wavelengths ]... 1/s/keV[: 4e-6, 1
+ ? Enter the specific luminosities at each of the given wavelengths ]... 1/s/keV[: 2.8e-3, 1
 \endverbatim
 
 In an actual research setting, you would probably consider an exponentially cut-off power-law spectrum for the X-ray
@@ -185,8 +185,8 @@ interpolates between wavelength points in a tabulated grid, a power-law can be s
 each end of the wavelength range.
 
 Thus, you can simply use the ListSED class to specify the two outer points of the spectral range. Assuming a scale-free
-specific luminosity of 1 at 0.1 keV, the corresponding value at 100 keV is \f$(100/0.1)^{-1.8}\approx 4 \times
-10^{-6}\f$. Make sure to select the option "Counts per unit of energy" to specify the power law in energy space.
+specific luminosity of 1 at 1.9 keV, the corresponding value at 50 keV is \f$(50/1.9)^{-1.8}\approx 2.8 \times
+10^{-3}\f$. Make sure to select the option "Counts per unit of energy" to specify the power law in energy space.
 
 \verbatim
    Possible choices for the type of luminosity normalization for the source:
