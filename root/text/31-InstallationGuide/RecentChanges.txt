@@ -137,6 +137,7 @@ Feb  3, 2026 | d762d4b | Output separate flux contributions from scattering etc.
 May  5, 2026 | dcac71e | Add instruments to record time-delay response to source luminosity pulse
 Jun 29, 2026 | e95085f | Add iteration packet ramp for primary emission
 Jul  6, 2026 | e8e29d7 | Add DiffuseIonizedGasMix with gas-phase line and continuum emission
+Jul 21, 2026 | b533e20 | Use “mass in box” technique to calculate smoothed particle mass in Cartesian cells
 
 \*\* This update requires a ski file upgrade
 
