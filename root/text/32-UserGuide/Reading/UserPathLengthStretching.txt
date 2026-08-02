@@ -1,0 +1,199 @@
+/**
+
+\page UserPathLengthStretching Path length stretching
+
+\section UserPathLengthStretchingIntro Introduction
+
+Path length stretching (PLS) is an optimization (variance-reduction) technique used in Monte Carlo Radiation Transfer
+simulations to help photon packets efficiently traverse regions of higher optical depth. It is implemented in SKIRT and
+exposed through the \em pathLengthBias property of the \c PhotonPacketOptions in the ski file. The technique has side
+effects that cause it to be less desireable (or even not applicable) in certain simulation regimes.
+
+This topic investigates the merits and limitations of PLS as it is implemented in SKIRT.
+
+
+\subsection UserPathLengthStretchingTechnique The path length stretching (PLS) technique
+
+In the forced-scattering photon life cycle (see \ref UserPhotonCycle), the optical depth \f$\tau\f$ at which the next
+interaction occurs is normally drawn from the physical exponential distribution \f$p(\tau)=\text{e}^{-\tau}\f$,
+truncated to the total optical depth \f$\tau_\text{path}\f$ along the photon packet's path through the model. This
+distribution is strongly peaked towards small \f$\tau\f$, so that interaction points deep inside an optically thick
+region are exceedingly rare: for example, a random optical depth beyond \f$\tau=20\f$ occurs only about once in 485
+million draws. Probing such regions with an unbiased Monte Carlo method therefore requires a very large number of
+photon packets.
+
+PLS addresses this by sampling \f$\tau\f$ from a shallower, artificial exponential distribution instead, and
+compensating for the bias with a corresponding weight factor on the photon packet. Pushed too far, however, this shift
+can itself introduce excessively large weight factors, trading one source of noise for another. [Baes et al.
+(2016)](https://ui.adsabs.harvard.edu/abs/2016A%26A...590A..55B) resolve this trade-off with \em composite \em biasing:
+rather than replacing the physical pdf outright, the biased pdf used to draw \f$\tau\f$ is a weighted combination of
+the physical distribution and the stretched one, with a mixing parameter \f$\xi\in[0,1]\f$ that sets the fraction of
+path lengths effectively drawn from the stretched distribution. In the SKIRT implementation, the user can control the
+value of \f$\xi\f$ through the \em pathLengthBias property of \c PhotonPacketOptions.
+
+Because forced scattering already limits \f$\tau\f$ to the finite range \f$[0,\tau_\text{path}]\f$, SKIRT combines the
+physical distribution with a uniform distribution over that same range, leading to the biased pdf \f[ q_(\tau) =
+(1-\xi)\,\frac{\text{e}^{-\tau}}{1-\text{e}^{-\tau_\text{path}}} + \frac{\xi}{\tau_\text{path}} \qquad
+0\le\tau<\tau_\text{path} \f] and the corresponding weight factor \f[ w_(\tau) = \frac{p_(\tau)}{q_(\tau)} =
+\frac{1}{(1-\xi) + \xi\left(\dfrac{1-\text{e}^{-\tau_\text{path}}}{\tau_\text{path}}\right) \text{e}^{\tau}}, \f] which
+never exceeds \f$1/(1-\xi)\f$, however large \f$\tau_\text{path}\f$ becomes.
+
+There are important caveats, however. Although the bias weight for a single scattering event is be bounded to
+\f$1/(1-\xi)\f$, multiple consecutive scattering events may still lead to large combined bias factors on some photon
+packets. See \ref UserPathLengthStretchingHighAlbedo for a regime where this becomes problematic. At the other end of
+the bias scale, the applied bias weight might be so small that the contribution of the photon packet becomes
+negligible. Such photon packets get killed prematurely at the cutoff luminosity controlled by the \em
+minWeightReduction property of \c PhotonPacketOptions. See \ref UserPathLengthStretchingHighTau for a regime where this
+becomes problematic.
+
+SKIRT does not implement PLS when forced scattering is disabled (by setting the \em forceScattering property of \c
+PhotonPacketOptions to 'false'). The main benefit of the non-forced-scattering photon life cycle is that the optical
+depth for each path segment is calculated only up to the next interaction point, without the need for determining the
+optical depth along the full path to the edge of the model. Thus significantly increasing performance for simulations
+with very short free paths between frequent scattering events. But because the optical depth of the full path is
+unknown, it is not possible to derive a meaningful alternate, stretched distribution that could be used to sample the
+interaction optical depth in the PLS technique.
+
+
+\subsection UserPathLengthStretchingFOM The figure of merit
+
+The standard yardstick for judging whether a variance-reduction technique such as PLS is actually worthwhile is the
+figure of merit, \f$\text{FOM}=1/(R^2\,T)\f$, where \f$R\f$ is a measure for the error (Monte Carlo noise) of the
+quantity being estimated and \f$T\f$ is the computation time needed to obtain it. A technique that reduces the noise
+but adds substantial overhead or requires many more photon packets may not actually improve the figure of merit; one
+that reduces the noise at negligible extra cost clearly does.
+
+SKIRT supports the calculation of the figure of merit for the output of its instruments by tracking the relevant
+higher-order moments of the flux contributions in each bin. This option is enabled for a given instrument by setting
+the \em statistics property of the instrument to 'true'. The topic \ref UserStatistics describes this feature in
+detail.
+
+In this topic, we use the FOM measure to help us evaluate the PLS technique in various simulation regimes.
+
+
+\section UserPathLengthStretchingRegimes Simulation regimes
+
+\subsection UserPathLengthStretchingComfortZone The comfort zone
+
+|                                 |
+|---------------------------------|
+| ![ ](UserPLS-FOM.png) |
+
+This plot shows the figure of merit (FOM) on an arbitrary scale (larger is better) as a function of optical depth, for
+a simulation that tracks the light penetrating through a slab of dust with uniform density. The configuration is
+borrowed from the TRUST benchmark [Gordon et al.
+(2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...603A.114G/abstract) and is also used as an example in the SKIRT 9
+paper [Camps and Baes (2020)](https://ui.adsabs.harvard.edu/abs/2020A%26C....3100381C/abstract). It is summarized as
+well in this user guide in \ref UserStatisticsExample1.
+
+The horizontal axis of the figure indicates the optical depth across the slab between the radiation source and the
+observer. Given the dimensions of the slab, the most extreme optical depth that would be seen by a photon packet
+scattered along the diagonal is nearly 5 times higher than the transverse optical depth.
+
+At the single wavelength used in the simulation, the slab material has an albedo of 0.46, which means that about half
+of the photon packet energy is lost to absorption in each interaction (because SKIRT employs the scattering/absorption
+split technique that simulates both an absorption and scattering event at each interaction site). The scattering phase
+function is approximated by the "standard" Henyey-Greenstein function with an asymmetry parameter of 0.25, slightly
+favoring the forward direction in scattering events.
+
+The figure clearly shows that, in this regime, the PLS technique offers a significant benefit to the simulation's
+performance. This is the "comfort zone" of the technique: low to mid-range optical depths and significant absorption
+relative to scattering. This regime includes, for example, the typical models of dusty galaxies that have been -- and
+to some extent still are -- the dominant application for SKIRT.
+
+
+\subsection UserPathLengthStretchingHighTau High optical depth
+
+|                                |
+|--------------------------------|
+| ![ ](UserPLS-WeightsSmall.png) |
+
+Although PLS was designed to more easiy penetrate regions of high optical depth, the technique gets into trouble if the
+optical depth becomes too high. Even obtaining properly converged FOM values is hard because the simulation runtimes
+quickly become prohibitive. Instead, the figure above shows the probability distribution of the bias factor applied by
+PLS with \f$\xi=0.5\f$ (the default value of the \em pathLengthBias property) for \f$\tau_\text{path}\f$ up to 100.
+
+To avoid spending time on photon packets with a negligible contribution to the end result, SKIRT aborts a photon packet
+as soon as its cumulative bias weight becomes smaller than a given threshold. This cutoff threshold is set through (the
+inverse of) the minWeightReduction \em property of \c PhotonPacketOptions, which has a default value of \f$10^4\f$.
+Assuming this default cutoff threshold, the legend of the figure above shows that 18% of the interaction points sampled
+for paths with \f$\tau_\text{path}=20\f$ will cause the packet under consideration to be aborted. For
+\f$\tau_\text{path}=100\f$, the abort probability becomes 43%, and for \f$\tau_\text{path}=1000\f$ (not shown in the
+figure) it already is at 49%, near the theoretical limit of 50%.
+
+These numbers represents the single-interaction abort rate. In practice, because packets are forced to interact
+multiple times during their lifetime, the compound multi-interaction rejection probability because of PLS can become
+exceedingly high. As a result, a simulation must launch a very large number of photon packets to generate a sufficient
+number of packets that properly sample the model, making the PLS technique largely ineffective in a regime with optical
+depths well above 20.
+
+
+\subsection UserPathLengthStretchingHighAlbedo High albedo
+
+|                                 |                                 |
+|---------------------------------|---------------------------------|
+| ![ ](UserPLS-WeightsLarge1.png) | ![ ](UserPLS-WeightsLarge2.png) |
+
+As mentioned in \ref UserPathLengthStretchingComfortZone, SKIRT uses the scattering/absorption split technique. For
+each interaction, a bias weight is applied to the photon packet corresponding to the albedo of the medium, effectively
+mimicking the effect of absorption at the interaction site. In a medium with significant absorption, a packet
+"naturally" hits the cutoff threshold after a number of interactions. For media with little or no absorption, this is
+no longer the case. The only factor limiting a packet's lifetime is the "escape fraction", yet another bias weight
+representing the portion of the packet that would have left the model if it were not forced to scatter.
+
+As a result, scattering-dominated media with a non-trivial optical depth present a challenge of a different nature to
+the PLS technique. The left panel of the figure above again shows the probability distribution of the bias weight
+applied by PLS with \f$\xi=0.5\f$ for \f$\tau_\text{path}\f$ up to 100, but now focusing on the portion with a weight
+larger than 1. By design, the weight is never above 2 (see \ref UserPathLengthStretchingTechnique). However, as listed
+in the legend, for all optical depths, slightly over 50% of the sampled weights are above 1. Repeated application might
+lead to large cumulative bias factors on some "lucky" photon packets.
+
+To illustrate this further, the right panel of the figure above shows the mean (solid curves) and median (dashed
+curves) accumulated bias weight for a photon packet as a function of the number of consecutive scattering events,
+assuming that <em>any photon packet that dips under the threshold is aborted</em> (and thus no longer takes part in the
+statistics). The plot also assumes that only the PLS bias weights affect the photon packets, approximating a medium
+that is strongly dominated by scattering and has a fair optical depth.
+
+As expected, the median accumulated bias weight drifts steadily down as the number of scatterings increases. For most
+photon packets, the very small PLS bias weights win from those above 1 and pull the accumulated product down. However,
+some packets get an extremely lucky run of large weight draws and reach very large products. Those rare packets
+strongly pull up the mean accumulated product. Even if they are outliers, they do cause serious trouble as we will see
+next.
+
+On a side note, as listed in the figure's legend, for \f$\tau_\text{path}=3\f$ only 39% of the launched photon packets
+make it to 100 scattering events. For \f$\tau_\text{path}=5\f$ this has decreased to less than 1%, and for
+\f$\tau_\text{path}=10\f$ only 1 out of 4 millon packets reach the finish.
+
+|                              |
+|------------------------------|
+| ![ ](UserPLS-HighAlbedo.png) |
+
+
+To produce the above figure, SKIRT was equipped with temporary instrumentation to log information at the start of each
+leg of the photon packet life cycle, i.e. just after emission and just after each scattering event. The figure shows
+results for two simulations of the slab configuration presented above in \ref UserPathLengthStretchingComfortZone. The
+only difference between the simulations is the albedo of the medium: roughly half in one simulation, and essentially
+one (i.e. scattering-only) in the other.
+
+The histograms show the unnormalized distribution of the photon packet's cumulative bias weight at the time of logging.
+The cutoff threshold was set to \f$10^{-9}\f$ (in an unsuccessful attempt to improve the efficiency), and evidently
+there are no values to the left of this cutoff in the figure. For the simulation with albedo 0.46, there are no
+cumulative weights above 1 because the absorption bias at each interaction compensates for a potential increase. For
+the simulation with albedo 0.99, the cumulative bias weight for some photon packets rises up to a value of \f$10^4\f$.
+These "boosted" packets contribute huge, unrealistic flux peaks in the simulated observables, significantly increasing
+noise and decreasing the correspondimg FOM.
+
+In conclusion, the PLS technique does not apply well to scattering-dominated media.
+
+
+\subsection UserPathLengthStretchingToDo To be evaluated/documented
+
+- explicit absorption
+- resonant scattering (Lyman-alpha)
+- kinematics
+- scattering dispersion
+- time lag instruments
+- other media types?
+
+
+*/

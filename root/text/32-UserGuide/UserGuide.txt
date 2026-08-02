@@ -53,6 +53,7 @@ Also see: \ref HomeFeaturesSKIRT; \ref HomeFeaturesPTS; \ref InstallationGuide; 
 | \image html UserLevel2.png | \image html UserConfig.png   | \ref UserPolarize
 | \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialSpherical
 | \image html UserLevel3.png | \image html UserConfig.png   | \ref UserPhotonCycle
+| \image html UserLevel3.png | \image html UserReading.png  | \ref UserPathLengthStretching
 | \image html UserLevel3.png | \image html UserConfig.png   | \ref UserLymanAlpha
 | \image html UserLevel3.png | \image html UserConfig.png   | \ref UserNonLTELines
 | \image html UserLevel3.png | \image html UserTutorial.png | \ref TutorialCustomDust
