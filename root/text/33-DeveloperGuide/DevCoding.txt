@@ -19,6 +19,9 @@ exceptions to this rule are:
    code is built with support for multi-processing. Again, the MPI-specific code portions are guarded by conditional
    compilation directives.
 
+This subsection is about external, platform-level dependencies. For dependencies between the project's own modules,
+which must never be circular, see \ref DevDependencies.
+
 \subsection DevCodingDesignInter Internationalization
 
 The user interface, implementation and documentation are written in US English

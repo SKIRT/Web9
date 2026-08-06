@@ -21,6 +21,7 @@ The developer guide includes the following topics:
 ###SKIRT
 
 - \ref DevStructSKIRT
+- \ref DevDependencies
 - \ref DevItems
 - \ref DevGeometry
 - \ref DevCoding

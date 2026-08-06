@@ -1,0 +1,73 @@
+/**
+
+\page DevDependencies Dependencies between modules
+
+\section DevDependenciesIntro Introduction
+
+As described in \ref DevStructSKIRTModules, the code for the SKIRT project is organized into a set of \em modules,
+grouped into the \c SMILE, \c SKIRT, \c MakeUp, and \c Docs subprojects. Each module is built as a separate static
+library (or, for a few of them, an executable), and a module may depend on other modules, meaning that its code
+includes header files from those other modules and links against their libraries.
+
+These dependencies form a strict hierarchy: there are no two-way or circular dependencies between modules, and this
+is enforced rather than merely encouraged. When adjusting or extending the code, it is important not to
+inadvertently introduce a new dependency that would close a cycle, for example by having a lower-level module call
+back into a higher-level one. If you are unsure whether a change you are considering would introduce such a cycle,
+consult the tables below.
+
+The tables list, for every module in the project, the other modules it depends on, split into:
+
+- \b Direct dependencies -- modules whose header files are included directly by this module's own source files.
+- \b Indirect dependencies -- modules that are not included directly, but are pulled in transitively through one or
+  more of the direct dependencies.
+
+A module that does not appear as a direct or indirect dependency of a second module can safely be assumed to not
+be needed by, and must not be made to depend on, that second module.
+
+\section DevDependenciesSmile SMILE subproject
+
+Module | Direct dependencies | Indirect dependencies
+-------|----------------------|------------------------
+\c build | \c fundamentals | \em none
+\c fundamentals | \em none | \em none
+\c schema | \c fundamentals | \em none
+\c serialize | \c fundamentals, \c schema | \em none
+\c wizard | \c fundamentals, \c schema, \c serialize | \em none
+\c smiletool | \c build, \c fundamentals, \c schema, \c serialize | \em none
+\c shapes | \c build, \c fundamentals, \c schema, \c serialize | \em none
+
+\section DevDependenciesSkirt SKIRT subproject
+
+Module | Direct dependencies | Indirect dependencies
+-------|----------------------|------------------------
+\c fitsio | \em none | \em none
+\c voro | \em none | \em none
+\c tetgen | \em none | \em none
+\c mpi | \c fundamentals | \em none
+\c utils | \c fundamentals | \em none
+\c tools | \c fitsio, \c fundamentals, \c mpi, \c schema, \c utils | \em none
+\c field | \c fundamentals, \c tools, \c utils | \c fitsio, \c mpi, \c schema
+\c grain | \c fundamentals, \c tools, \c utils | \c fitsio, \c mpi, \c schema
+\c sed | \c fundamentals, \c tools, \c utils | \c fitsio, \c mpi, \c schema
+\c geometry | \c fundamentals, \c mpi, \c tools, \c utils, \c voro | \c fitsio, \c schema
+\c wavelength | \c fundamentals, \c tools, \c utils | \c fitsio, \c mpi, \c schema
+\c source | \c field, \c fundamentals, \c geometry, \c mpi, \c sed, \c tools, \c utils, \c wavelength | \c fitsio, \c schema, \c voro
+\c material | \c fundamentals, \c grain, \c mpi, \c tools, \c utils, \c wavelength | \c fitsio, \c schema
+\c medium | \c field, \c fundamentals, \c geometry, \c material, \c mpi, \c tetgen, \c tools, \c utils, \c wavelength | \c fitsio, \c grain, \c schema, \c voro
+\c instrument | \c fundamentals, \c medium, \c mpi, \c tools, \c utils, \c wavelength | \c field, \c fitsio, \c geometry, \c grain, \c material, \c schema, \c tetgen, \c voro
+\c probe | \c fundamentals, \c geometry, \c grain, \c instrument, \c material, \c medium, \c mpi, \c source, \c tools, \c utils, \c wavelength | \c field, \c fitsio, \c schema, \c sed, \c tetgen, \c voro
+\c simulation | \c build, \c field, \c fundamentals, \c geometry, \c grain, \c instrument, \c material, \c medium, \c mpi, \c probe, \c schema, \c sed, \c serialize, \c source, \c tools, \c utils, \c wavelength | \c fitsio, \c tetgen, \c voro
+
+\section DevDependenciesMakeUp MakeUp subproject
+
+Module | Direct dependencies | Indirect dependencies
+-------|----------------------|------------------------
+\c main | \c build, \c fundamentals, \c wizard | \c schema, \c serialize
+
+\section DevDependenciesDocs Docs subproject
+
+Module | Direct dependencies | Indirect dependencies
+-------|----------------------|------------------------
+\c doxstyle | \c fundamentals | \em none
+
+*/

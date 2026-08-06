@@ -48,6 +48,9 @@ subproject; the other boxes depict a module. A colored border indicates that the
 rather than source code. Most module boxes represent a static library that can be used by other modules; those with a
 symbol in the upper right corner represent an executable program. Refer to the diagram legend for further details.
 
+Modules depend on each other in a strict hierarchy; there are no two-way or circular dependencies. For a complete
+overview of which modules depend on which, see \ref DevDependencies.
+
 These are the subprojects of the SKIRT code:
  - \c SMILE -- contains the code for generic, fundamental facilities, including those for handling XML-based
    parameter files; see \ref DevSmile.
