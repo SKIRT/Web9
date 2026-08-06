@@ -46,12 +46,7 @@ modules.
 The above diagram lists the various subprojects and modules in the SKIRT code. Boxes with a gray background depict a
 subproject; the other boxes depict a module. A colored border indicates that the module contains supporting data files
 rather than source code. Most module boxes represent a static library that can be used by other modules; those with a
-symbol in the upper right corner represent an executable program.
-
-The symbols in the upper left corner of each module box indicate internal and external dependencies. Refer to the
-diagram legend for details. Note that there are no two-way or circular dependencies between modules. When adjusting or
-extending the code, it is important not to inadvertently create new inter-module dependencies. In any case, circular
-dependencies between modules are not allowed.
+symbol in the upper right corner represent an executable program. Refer to the diagram legend for further details.
 
 These are the subprojects of the SKIRT code:
  - \c SMILE -- contains the code for generic, fundamental facilities, including those for handling XML-based
@@ -87,21 +82,47 @@ SMILE subproject (also see \ref DevSmile):
 SKIRT subproject (also see \ref UserCmdLine):
 
  - \c resources -- This module includes information on which resource data files are required by the various classes
-   in the <tt>SKIRT/core</tt> module.
+   throughout the SKIRT source tree.
  - \c fitsio -- This library provides input/output capabilities for FITS files. It contains a subset of the cfitsio
    source files available from NASA's HEASARC software site. For more information see \ref DevCfitsio.
  - \c voro -- This library provides support for building Voronoi tessellations.
    The source code is adapted from the Voro++ library written by Chris H. Rycroft (LBL / UC Berkeley).
    For more information see \ref DevVoroPlusPlus.
+ - \c tetgen -- This library provides support for building Delaunay tetrahedralizations.
+   The source code is adapted from the TetGen library written by Hang Si (WIAS Berlin).
  - \c mpi -- This library encapsulates any and all invocations of the Message Passing Interface (MPI) optionally
    linked in as an external library. Concentrating all MPI calls in a single module allows the code in other modules
    to be compiled without the MPI extra's.
  - \c utils -- This library provides some basic SKIRT-specific functionality that does \em not depend on
    the SimulationItem class.
- - \c core -- This library provides the core SKIRT functionality for setting up and performing a simulation. It
-   includes all SimulationItem subclasses and the corresponding registry. Also see \ref DevItems.
- - \c main -- This is the SKIRT console application. It handles the command line arguments and links in everything
-   else from other libraries.
+ - \c tools -- This library provides tool classes that \em do depend on the SimulationItem class, including logging,
+   random numbers, unit systems, the parallel execution engine, and stored-table, text, and FITS file I/O.
+ - \c field -- This library implements the VectorField class hierarchy representing velocity or magnetic vector
+   fields that can be attached to sources and media.
+ - \c grain -- This library implements the optical and calorimetric properties of dust grain materials
+   (GrainComposition), dust grain size distributions (GrainSizeDistribution), and the GrainPopulation class that
+   combines these into an ingredient for a multi-grain dust mix.
+ - \c sed -- This library implements spectral energy distributions (the SED class) and parameterized SED libraries
+   (SEDFamily) from which an SED can be obtained through interpolation.
+ - \c geometry -- This library implements three-dimensional density distributions (the Geometry class and its
+   decorators), SPH smoothing kernels, and readers for imported N-body/hydrodynamical simulation snapshots.
+ - \c wavelength -- This library implements wavelength grids (WavelengthGrid), wavelength-weighting distributions
+   (WavelengthDistribution), and photometric bands (Band).
+ - \c source -- This library implements primary emitting sources (the Source class), their angular emission patterns
+   and polarization profiles, and the luminosity normalizations used to scale them.
+ - \c material -- This library implements the MaterialMix class hierarchy representing the optical and other
+   physical properties of dust, electron, and gas material mixtures.
+ - \c medium -- This library implements MediumSystem and the Medium class hierarchy representing the transfer media
+   in a simulation, including the spatial grid, the secondary (dust/line re-emission) sources, and related material
+   normalization and dynamic state recipe classes.
+ - \c instrument -- This library implements InstrumentSystem and the Instrument class hierarchy representing the
+   virtual detectors that record a simulation's output.
+ - \c probe -- This library implements the Probe and Form class hierarchies used to extract and output additional
+   information about a simulation while it is running.
+ - \c simulation -- This library provides the top-level simulation orchestration classes, including
+   MonteCarloSimulation and the SimulationItem registry (also see \ref DevItems), together with the SKIRT console
+   application entry point. It handles the command line arguments and links in everything else from the other
+   libraries, producing the \c skirt executable.
 
 MakeUp subproject (also see \ref UserMakeUp):
 

@@ -2279,7 +2279,31 @@ SEARCH_INCLUDES        = YES
 # RECURSIVE has no effect here.
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
-INCLUDE_PATH           = ../../SKIRT9/git/SMILE/schema
+INCLUDE_PATH           = ../../SKIRT9/git/SMILE/schema \
+                          ../../SKIRT9/git/SKIRT/field \
+                          ../../SKIRT9/git/SKIRT/fitsio \
+                          ../../SKIRT9/git/SKIRT/geometry \
+                          ../../SKIRT9/git/SKIRT/grain \
+                          ../../SKIRT9/git/SKIRT/instrument \
+                          ../../SKIRT9/git/SKIRT/material \
+                          ../../SKIRT9/git/SKIRT/medium \
+                          ../../SKIRT9/git/SKIRT/mpi \
+                          ../../SKIRT9/git/SKIRT/probe \
+                          ../../SKIRT9/git/SKIRT/sed \
+                          ../../SKIRT9/git/SKIRT/simulation \
+                          ../../SKIRT9/git/SKIRT/source \
+                          ../../SKIRT9/git/SKIRT/tetgen \
+                          ../../SKIRT9/git/SKIRT/tools \
+                          ../../SKIRT9/git/SKIRT/utils \
+                          ../../SKIRT9/git/SKIRT/voro \
+                          ../../SKIRT9/git/SKIRT/wavelength
+# Since INCLUDE_PATH is not recursive (see above), every top-level SKIRT/<target> directory must be
+# listed explicitly so that Doxygen's preprocessor can resolve a #include of a header living in a
+# different target directory while expanding the ItemInfo.hpp macros (see SMILE/schema/ItemInfo.hpp).
+# Without this, cross-target #include directives are only found by luck (depending on scan order),
+# which silently drops the macro-generated property-getter documentation for the affected classes
+# and can trigger spurious "Found ';' while parsing initializer list!" warnings. Keep this list in
+# sync with the SKIRT/ subdirectory list whenever a target is added, removed, or renamed.
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the

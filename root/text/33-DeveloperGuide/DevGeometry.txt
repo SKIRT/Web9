@@ -131,7 +131,7 @@ new geometry.
 \section DevGeometryCre Creating the new source and header files
 
 Locate the files \c ExpDiskGeometry.hpp and \c ExpDiskGeometry.cpp in your local working copy of the SKIRT source
-code (in the <tt>SKIRT/core</tt> directory), and copy them to a set of new files named \c IsoThermalDiskGeometry.hpp
+code (in the <tt>SKIRT/geometry</tt> directory), and copy them to a set of new files named \c IsoThermalDiskGeometry.hpp
 and \c IsoThermalDiskGeometry.cpp in the same directory. Do not remove the original files!
 
 In the new header file (.hpp), replace the two occurrences of \c "EXPDISKGEOMETRY_HPP" by \c "ISOTHERMALDISKGEOMETRY_HPP".
@@ -227,7 +227,7 @@ properly listed when constructing a new .ski file during an interactive Q&A sess
 requirement applies only to simulation item classes, i.e. classes that inherit directly or indirectly from the
 SimulationItem class, as is the case for your new IsoThermalDiskGeometry class.
 
-Locate and open the file \c SimulationItemRegistry.cpp (also in the <tt>SKIRT/core</tt> directory). You need to add two
+Locate and open the file \c SimulationItemRegistry.cpp (in the <tt>SKIRT/simulation</tt> directory). You need to add two
 lines in this file: an \c \#include directive for the new class header, and an \c add<> statement to register the new
 class.
 

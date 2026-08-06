@@ -4,7 +4,7 @@
 
 \section DevItemsIntro Introduction
 
-Together, the hundreds of SimulationItem subclasses residing in the <tt>SKIRT/core</tt> module (see \ref
+Together, the hundreds of SimulationItem subclasses spread across the various modules under <tt>SKIRT/</tt> (see \ref
 DevStructSKIRTModules) form the bulk of the SKIRT code. We use the term <em>simulation item class</em> to indicate a
 SimulationItem subclass and <em>simulation item instance</em> to indicate an instance of a SimulationItem subclass,
 i.e. a run-time object of that type. When the context allows, we use <em>simulation items</em> to loosely indicate both

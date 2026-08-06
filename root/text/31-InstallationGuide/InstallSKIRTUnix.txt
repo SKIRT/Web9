@@ -224,11 +224,11 @@ Scanning dependencies of target build
 Scanning dependencies of target fundamentals
 [  1%] Building CXX object SMILE/fundamentals/CMakeFiles/fundamentals.dir/BooleanExpression.cpp.o
 ...
-Scanning dependencies of target skirt
-[100%] Building CXX object SKIRT/main/CMakeFiles/skirt.dir/SkirtCommandLineHandler.cpp.o
-[100%] Building CXX object SKIRT/main/CMakeFiles/skirt.dir/SkirtMain.cpp.o
-[100%] Linking CXX executable skirt
-[100%] Built target skirt
+Scanning dependencies of target simulation
+[100%] Building CXX object SKIRT/simulation/CMakeFiles/simulation.dir/SkirtCommandLineHandler.cpp.o
+[100%] Building CXX object SKIRT/simulation/CMakeFiles/simulation.dir/SkirtMain.cpp.o
+[100%] Linking CXX executable ../main/skirt
+[100%] Built target simulation
 \endverbatim
 
 If things do not go so well, you'll need to take corrective action depending on the problem. The table below
