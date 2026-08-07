@@ -70,4 +70,92 @@ Module | Direct dependencies | Indirect dependencies
 -------|----------------------|------------------------
 \c doxstyle | \c fundamentals | \em none
 
+\section DevDependenciesDiagram Dependency diagram
+
+The diagram below shows a summary of the information in the tables above, restricted to the \c SKIRT modules themselves
+plus the four \c SMILE modules they reach into directly. An arrow points from a module down to a module it depends on.
+To limit the number of arrows, an arrow that is already implied by a chain of other arrows is omitted. In other words,
+only the transitive reduction is shown.
+
+\dot
+digraph SkirtTargetDependencies {
+    rankdir=TB;
+    fontname=Helvetica;
+    node [shape=rect, style=filled, fontname=Helvetica, fontsize=10, margin="0.14,0.08"];
+    edge [color="#6b645c", arrowsize=0.8];
+
+    simulation [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    probe [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    instrument [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    medium [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    material [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    source [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    grain [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    field [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    wavelength [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    sed [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    geometry [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    serialize [fillcolor="#f2eefa", color="#5b3f96", fontcolor="#5b3f96"];
+    tools [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    schema [fillcolor="#f2eefa", color="#5b3f96", fontcolor="#5b3f96"];
+    build [fillcolor="#f2eefa", color="#5b3f96", fontcolor="#5b3f96"];
+    mpi [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    utils [fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+    tetgen [fillcolor="#fbf2e2", color="#92660f", fontcolor="#92660f", style="filled,dashed"];
+    fitsio [fillcolor="#fbf2e2", color="#92660f", fontcolor="#92660f", style="filled,dashed"];
+    fundamentals [fillcolor="#f2eefa", color="#5b3f96", fontcolor="#5b3f96"];
+    voro [fillcolor="#fbf2e2", color="#92660f", fontcolor="#92660f", style="filled,dashed"];
+
+    { rank=same; simulation; }
+    { rank=same; probe; }
+    { rank=same; instrument; }
+    { rank=same; medium; }
+    { rank=same; material source; }
+    { rank=same; grain field wavelength sed geometry; }
+    { rank=same; serialize tools; }
+    { rank=same; schema build mpi utils; }
+    { rank=same; tetgen fitsio fundamentals voro; }
+
+    build -> fundamentals;
+    field -> tools;
+    geometry -> tools;
+    geometry -> voro;
+    grain -> tools;
+    instrument -> medium;
+    material -> grain;
+    material -> wavelength;
+    medium -> field;
+    medium -> geometry;
+    medium -> material;
+    medium -> tetgen;
+    mpi -> fundamentals;
+    probe -> instrument;
+    probe -> source;
+    schema -> fundamentals;
+    sed -> tools;
+    serialize -> schema;
+    simulation -> build;
+    simulation -> probe;
+    simulation -> serialize;
+    source -> field;
+    source -> geometry;
+    source -> sed;
+    source -> wavelength;
+    tools -> fitsio;
+    tools -> mpi;
+    tools -> schema;
+    tools -> utils;
+    utils -> fundamentals;
+    wavelength -> tools;
+
+    subgraph cluster_legend {
+        label="Legend"; fontname=Helvetica; fontsize=10; color="#c9c3b8"; style=rounded;
+        legend_skirt [label="SKIRT module", shape=rect, fillcolor="#eef2f7", color="#33475b", fontcolor="#33475b"];
+        legend_smile [label="SMILE module", shape=rect, fillcolor="#f2eefa", color="#5b3f96", fontcolor="#5b3f96"];
+        legend_vendor [label="third-party", shape=rect, fillcolor="#fbf2e2", color="#92660f", fontcolor="#92660f", style="filled,dashed"];
+        legend_skirt -> legend_smile -> legend_vendor [style=invis];
+    }
+}
+\enddot
+
 */
