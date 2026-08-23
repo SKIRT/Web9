@@ -211,21 +211,21 @@ TO DO:
 - kinematics
 - scattering dispersion
 - time lag instruments
-- other media types?
+- other media types (e.g., X-ray dust/electrons)
+- value of pathLengthBias other than 0.5
+- value of minWeightReduction other than the default
 
-Other:
-
-- Nothing in the document explores varying the pathLengthBias itself — everything (comfort zone,
-high-tau, high-albedo) is analyzed at the SKIRT default. Whether a different value shifts the tradeoff (less runaway
-weight in the high-albedo case vs. worse penetration at high tau) seems like a natural, currently-missing question.
-
-- minWeightReduction (the abort threshold) is fixed at the SKIRT default throughout; not flagged as a variable
-worth exploring.
 
 \section UserPathLengthStretchingSummary Summary
 
-- TO DO: add summary table
-- TO DO: add note about migration (fewer paths, fewer interactions --> fewer peel-off --> need more packets)
-       refer to convergence topic
+TO DO:
+- add summary table
+
+Finally, a word of caution. When enabling PLS in a simulation that previously was run without PLS, the simulation will
+run faster. However, the number of photon packets must be increased to obtain the same output quality as before. This
+is because the stretched photon packets paths experience fewer interactions and thus spin off fewer peel-off packets to
+the instruments. Consequently, when making this change, one needs to perform a new convergence study (see \ref
+UserDiscretization). When in doubt, a FOM comparison (see \ref UserPathLengthStretchingFOM and other sections above) is
+the only proper tool to determine whether the PLS technique is beneficial for a given type of simulation.
 
 */

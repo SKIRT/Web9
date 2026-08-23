@@ -54,7 +54,7 @@ Module | Direct dependencies | Indirect dependencies
 \c source | \c field, \c fundamentals, \c geometry, \c mpi, \c sed, \c tools, \c utils, \c wavelength | \c fitsio, \c schema, \c voro
 \c material | \c fundamentals, \c grain, \c mpi, \c tools, \c utils, \c wavelength | \c fitsio, \c schema
 \c medium | \c field, \c fundamentals, \c geometry, \c material, \c mpi, \c tetgen, \c tools, \c utils, \c wavelength | \c fitsio, \c grain, \c schema, \c voro
-\c instrument | \c fundamentals, \c medium, \c mpi, \c tools, \c utils, \c wavelength | \c field, \c fitsio, \c geometry, \c grain, \c material, \c schema, \c tetgen, \c voro
+\c instrument | \c fundamentals, \c mpi, \c tools, \c utils, \c wavelength | \c fitsio, \c schema
 \c probe | \c fundamentals, \c geometry, \c grain, \c instrument, \c material, \c medium, \c mpi, \c source, \c tools, \c utils, \c wavelength | \c field, \c fitsio, \c schema, \c sed, \c tetgen, \c voro
 \c simulation | \c build, \c field, \c fundamentals, \c geometry, \c grain, \c instrument, \c material, \c medium, \c mpi, \c probe, \c schema, \c sed, \c serialize, \c source, \c tools, \c utils, \c wavelength | \c fitsio, \c tetgen, \c voro
 
@@ -121,7 +121,7 @@ digraph SkirtTargetDependencies {
     geometry -> tools;
     geometry -> voro;
     grain -> tools;
-    instrument -> medium;
+    instrument -> wavelength;
     material -> grain;
     material -> wavelength;
     medium -> field;
@@ -130,6 +130,7 @@ digraph SkirtTargetDependencies {
     medium -> tetgen;
     mpi -> fundamentals;
     probe -> instrument;
+    probe -> medium;
     probe -> source;
     schema -> fundamentals;
     sed -> tools;
@@ -157,5 +158,14 @@ digraph SkirtTargetDependencies {
     }
 }
 \enddot
+
+
+\section DevDependenciesMediumGrid Spatial grids in medium module
+
+There is an intimate bidirectional dependency between the medium system and the spatial grid classes. The medium system
+owns and uses the simulation's spatial grid to construct and manage the per-cell medium state. Vice versa, spatial grid
+setup often requires access to the medium components to determine the grid structure (for example, based on medium
+density). To avoid forbidden cyclic dependencies between modules, the spatial grid classes are included in the \em
+medium module. Resolving this issue would require a major redesign.
 
 */

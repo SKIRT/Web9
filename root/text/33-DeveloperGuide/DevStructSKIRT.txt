@@ -89,17 +89,19 @@ SKIRT subproject (also see \ref UserCmdLine):
  - \c fitsio -- This library provides input/output capabilities for FITS files. It contains a subset of the cfitsio
    source files available from NASA's HEASARC software site. For more information see \ref DevCfitsio.
  - \c voro -- This library provides support for building Voronoi tessellations.
-   The source code is adapted from the Voro++ library written by Chris H. Rycroft (LBL / UC Berkeley).
-   For more information see \ref DevVoroPlusPlus.
+   The source code is adapted from the Voro++ library written by Chris H. Rycroft (University of California,
+   Berkeley / Lawrence Berkeley Laboratory). For more information see \ref DevVoroPlusPlus.
  - \c tetgen -- This library provides support for building Delaunay tetrahedralizations.
    The source code is adapted from the TetGen library written by Hang Si (WIAS Berlin).
- - \c mpi -- This library encapsulates any and all invocations of the Message Passing Interface (MPI) optionally
-   linked in as an external library. Concentrating all MPI calls in a single module allows the code in other modules
-   to be compiled without the MPI extra's.
- - \c utils -- This library provides some basic SKIRT-specific functionality that does \em not depend on
-   the SimulationItem class.
- - \c tools -- This library provides tool classes that \em do depend on the SimulationItem class, including logging,
-   random numbers, unit systems, the parallel execution engine, and stored-table, text, and FITS file I/O.
+ - \c mpi -- This library encapsulates any and all invocations of the Message Passing Interface (MPI), providing a
+   working implementation if MPI support is requested and available, or a stub representing a single process if not.
+   Concentrating all MPI calls in a single module allows the code in other modules to be compiled without the MPI
+   extra's.
+ - \c utils -- This library provides basic SKIRT-specific utility classes and interfaces that do \em not depend on
+   any SKIRT code outside this library itself.
+ - \c tools -- This library provides the SimulationItem class itself, together with tool classes that \em do depend
+   on it: configuration, logging, random numbers, unit systems, cosmology, the parallel execution engine, and file
+   path handling and stored-table, text, and FITS file I/O.
  - \c field -- This library implements the VectorField class hierarchy representing velocity or magnetic vector
    fields that can be attached to sources and media.
  - \c grain -- This library implements the optical and calorimetric properties of dust grain materials
@@ -108,24 +110,30 @@ SKIRT subproject (also see \ref UserCmdLine):
  - \c sed -- This library implements spectral energy distributions (the SED class) and parameterized SED libraries
    (SEDFamily) from which an SED can be obtained through interpolation.
  - \c geometry -- This library implements three-dimensional density distributions (the Geometry class and its
-   decorators), SPH smoothing kernels, and readers for imported N-body/hydrodynamical simulation snapshots.
+   decorators), SPH smoothing kernels, and readers for imported N-body/hydrodynamical simulation snapshots (the
+   Snapshot hierarchy) on which some geometries are built.
  - \c wavelength -- This library implements wavelength grids (WavelengthGrid), wavelength-weighting distributions
    (WavelengthDistribution), and photometric bands (Band).
  - \c source -- This library implements primary emitting sources (the Source class), their angular emission patterns
-   and polarization profiles, and the luminosity normalizations used to scale them.
+   (AngularDistribution) and polarization profiles, and the luminosity normalizations used to scale them. Secondary
+   (dust/line re-emission) sources are handled separately, as part of the \c medium module.
  - \c material -- This library implements the MaterialMix class hierarchy representing the optical and other
-   physical properties of dust, electron, and gas material mixtures.
+   physical properties of dust, electron, and gas material mixtures, the MaterialMixFamily class, and the shared
+   medium-state types (MaterialState, StateVariable, MediumState) and calculation helpers used only by these classes.
  - \c medium -- This library implements MediumSystem and the Medium class hierarchy representing the transfer media
-   in a simulation, including the spatial grid, the secondary (dust/line re-emission) sources, and related material
-   normalization and dynamic state recipe classes.
+   in a simulation, including the spatial cell library classes, the SpatialGrid hierarchy with its tree-node and
+   tree-policy helpers, the one-dimensional Mesh hierarchy, the SecondarySourceSystem and secondary (dust/line
+   re-emission) source classes, and related material normalization and dynamic state recipe classes.
  - \c instrument -- This library implements InstrumentSystem and the Instrument class hierarchy representing the
-   virtual detectors that record a simulation's output.
- - \c probe -- This library implements the Probe and Form class hierarchies used to extract and output additional
-   information about a simulation while it is running.
- - \c simulation -- This library provides the top-level simulation orchestration classes, including
-   MonteCarloSimulation and the SimulationItem registry (also see \ref DevItems), together with the SKIRT console
-   application entry point. It handles the command line arguments and links in everything else from the other
-   libraries, producing the \c skirt executable.
+   virtual detectors that record a simulation's output, including the all-sky projection helpers used by
+   AllSkyInstrument and HEALPixSkyInstrument, the TimeGrid hierarchy used by TimeInstrument and FluxRecorder, and
+   FluxRecorder itself.
+ - \c probe -- This library implements the Probe and Form class hierarchies, together with ProbeFormBridge, used to
+   extract and output additional information about a simulation while it is running.
+ - \c simulation -- This module builds the \c skirt command-line executable, consisting of the entry point
+   (SkirtMain, SkirtCommandLineHandler) together with the top-level simulation orchestration classes (Simulation,
+   MonteCarloSimulation, ConfigurationSetup) and the SimulationItem registry (also see \ref DevItems) that only this
+   executable needs. It handles the command line arguments and links in everything else from the other libraries.
 
 MakeUp subproject (also see \ref UserMakeUp):
 
