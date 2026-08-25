@@ -192,6 +192,61 @@ noise and decreasing the corresponding FOM.
 In conclusion, the PLS technique does not apply well to scattering-dominated media.
 
 
+\subsection UserPathLengthStretchingKinematics Kinematics
+
+|                                 |
+|---------------------------------|
+| ![ ](UserPLS-KinematicsSED.png) |
+
+
+To study the behavior of PLS in moving media, we use a model consisting of an expanding spherical shell (inner radius
+0.05 pc, outer radius 1 pc, density power-law exponent 0.5) around a central, stationary, isotropic point source
+emitting at a single wavelength of 0.55 micron. The shell material has the same optical properties as those used in \c
+UserPathLengthStretchingComfortZone, i.e. an albedo of 0.46 and a scattering asymmetry parameter of 0.25 (both values
+are approximate because the photon wavelength varies slightly as a result of kinematic effects). The shell density is
+normalized to a radial optical depth of 5 (or 10 along a full axis through the origin). The material moves radially
+outward so that within the shell the local outflow speed ramps up from about 22% of the configured velocity magnitude
+at the inner edge to 100% of it at the outer edge. This nominal velocity is varied over 100, 500, 1000 and 2000 km/s in
+separate simulations.
+
+Because the source sits at the shell's centre, every photon's pre-scattering direction is exactly radial, i.e.
+co-moving with the local outflow at the point where it scatters. This means that the first scattering event can never
+blueshift the photon, which is why every curve in the figure above lies entirely redward of the source's rest
+wavelength. Larger outflow speeds correspondingly broaden the profile further to the red, while the peak flux near line
+centre drops (the same total luminosity gets redistributed over a wider band).
+
+The markers on each curve indicate three reference wavelengths, chosen where the flux has fallen 1, 2 and 3 dex below
+its peak value. These probe progressively deeper into each curve's noisy tail, where ordinary Monte Carlo sampling
+struggles most. For the fastest case (2000 km/s), the flux has fallen only about 2.7 dex short of its peak by the edge
+of the simulated wavelength range, so the deepest (3 dex) reference point is not reached there.
+
+|                                 |
+|---------------------------------|
+| ![ ](UserPLS-KinematicsFOM.png) |
+
+The figure above shows the converged FOM as a function of outflow velocity, evaluated at each of those three reference
+wavelengths, for disabled PLS (light blue) and for PLS with the default bias value of 0.5 (green). The light gray
+arrows mark the average ratio between the two, averaged over the four simulated velocities. PLS is clearly beneficial
+at every velocity tested, from 100 up to 2000 km/s: the FOM improvement stays remarkably flat across the tested range.
+Interestingly, the average improvement grows from a factor of about 4.3 at 1 dex below peak, to about 5.6 at 2 dex, to
+about 8.6 at 3 dex. This is what one would expect given that PLS was designed to ease access to low-probability
+regions.
+
+This test uses a deliberately simple model with a very smooth velocity distribution. We therefore ran a similar test
+for a model with 300 randomly moving pockets of material. The optical depth along a full coordinate axis is between
+11 and 15. The individual pockets have velocities ranging from 380 km/s to 3160 km/s with a mean of 2000 km/s, in
+random directions. This test confirms the overall trend seen with the smooth model: the simulations with enabled PLS
+show a FOM improvement by a factor of 4 or more (detailed results not shown here).
+
+These results should not be over-generalized. Specifically, the medium parameters used in these tests are well within
+the previously established comfort zone of moderate optical depth and non-negligible absorption (see \ref
+UserPathLengthStretchingComfortZone, \ref UserPathLengthStretchingHighTau, \ref UserPathLengthStretchingHighAlbedo).
+The addition of kinematics to the mix may influence the boundaries of the comfort zone in unkown ways.
+
+In summary, it seems that the PLS technique works well for simulations that include kinematics, as long as the material
+parameters stay within the comfort zone.
+
+
 \subsection UserPathLengthStretchingResonantScat Resonant scattering (Lyman-alpha)
 
 Lyman-alpha and similar resonant scattering regimes often show optical depths of 1000 and higher at the center of the
@@ -208,11 +263,9 @@ UserPathLengthStretchingNonForced).
 
 TO DO:
 - explicit absorption
-- kinematics
 - scattering dispersion
 - time lag instruments
 - other media types (e.g., X-ray dust/electrons)
-- value of pathLengthBias other than 0.5
 - value of minWeightReduction other than the default
 
 
@@ -220,6 +273,8 @@ TO DO:
 
 TO DO:
 - add summary table
+- describe the (updated) restrictions forced on PLS during setup
+- discuss values of pathLengthBias other than 0.5 (larger values show worse FOM --> use either 0 or 0.5)
 
 Finally, a word of caution. When enabling PLS in a simulation that previously was run without PLS, the simulation will
 run faster. However, the number of photon packets must be increased to obtain the same output quality as before. This
