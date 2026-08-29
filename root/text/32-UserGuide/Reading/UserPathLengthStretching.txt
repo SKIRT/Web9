@@ -137,7 +137,7 @@ It should be noted that the slab model forces photon packets to fully travel thr
 before being observed. In many models photon packets can "escape" the region of high optical depth as a result of the
 geometry (e.g. a planetary dust disk observed away from the edge-on sight line) or because of wavelength shifts (e.g.
 resonant scattering). In those configurations, the local optical depth can be much higher than the numbers shown/quoted
-above without adversely effecting the photo cycle or the PLS technique.
+above without adversely affecting the photon cycle or the PLS technique.
 
 
 \subsection UserPathLengthStretchingHighAlbedo High albedo
@@ -318,7 +318,7 @@ To be completed.
 
 When enabling PLS in a simulation that previously was run without PLS, the simulation will run faster. However, the
 number of photon packets must be increased to obtain the same output quality as before. This is because the stretched
-photon packets paths experience fewer interactions and thus spin off fewer peel-off packets to the instruments.
+photon packet paths experience fewer interactions and thus spin off fewer peel-off packets to the instruments.
 Consequently, when making this change, one needs to perform a new convergence study (see \ref UserDiscretization).
 
 When in doubt, a FOM comparison (see \ref UserPathLengthStretchingFOM and other sections above) is the only proper tool
@@ -327,15 +327,15 @@ to determine whether the PLS technique is beneficial for a given type of simulat
 
 \subsection UserPathLengthStretchingOtherValues Other values of the bias parameter
 
-There is no theoretical reason for expecting improved PLS performance for values of the bias parameter \f$xi\f$ other
+There is no theoretical reason for expecting improved PLS performance for values of the bias parameter \f$\xi\f$ other
 than 0 and 0.5. The parameter controls the fraction of path segments for which a "stretched" interaction point is
-sampled. In simulation regimes where PLS does not perform well, other \f$xi\f$ values will simply adjust the level of
-bad performance. In cases where PLS does benefit the FOM, \f$xi\f$ values below 0.5 will lower the benefit, while
-\f$xi\f$ values above 0.5 will cause larger bias factors, resulting into higher noise levels (see \ref
+sampled. In simulation regimes where PLS does not perform well, other \f$\xi\f$ values will simply adjust the level of
+bad performance. In cases where PLS does benefit the FOM, \f$\xi\f$ values below 0.5 will lower the benefit, while
+\f$\xi\f$ values above 0.5 will cause larger bias factors, resulting in higher noise levels (see \ref
 UserPathLengthStretchingForced). Without carrying out an in-depth study, various spot checks (not shown here) seem to
 confirm this reasoning.
 
-Consequently, users should configure \f$xi=0\f$ to disable PLS and \f$xi=0.5\f$ to enable it.
+Consequently, users should configure \f$\xi=0\f$ to disable PLS and \f$\xi=0.5\f$ to enable it.
 
 
 \subsection UserPathLengthStretchingIterations Iterations and secondary emission
@@ -347,9 +347,9 @@ statistics are gathered on the radiation field calculated during the iteration p
 measure the noise originating in the last iteration; they do not provide information on the quality or level of
 convergence of the iterative calculation.
 
-Similary, in a simulation with secondary emission, the statistics do not measure the quality of the radiation field
-calculated during primary emission and used to determine secondary emission characterstics. Also, the statistics apply
-to the total detected flux. The R and FOM metrics thus cannot be obtain for primary and secondary components
+Similarly, in a simulation with secondary emission, the statistics do not measure the quality of the radiation field
+calculated during primary emission and used to determine secondary emission characteristics. Also, the statistics apply
+to the total detected flux. The R and FOM metrics thus cannot be obtained for primary and secondary components
 separately, except in spectral ranges where one component strongly dominates the other.
 
 
