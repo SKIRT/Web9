@@ -133,6 +133,12 @@ exceedingly high. As a result, a simulation must launch a very large number of p
 number of packets that properly sample the model, making the PLS technique largely ineffective in a regime with optical
 depths well above 20.
 
+It should be noted that the slab model forces photon packets to fully travel through the transverse optical depth
+before being observed. In many models photon packets can "escape" the region of high optical depth as a result of the
+geometry (e.g. a planetary dust disk observed away from the edge-on sight line) or because of wavelength shifts (e.g.
+resonant scattering). In those configurations, the local optical depth can be much higher than the numbers shown/quoted
+above without adversely effecting the photo cycle or the PLS technique.
+
 
 \subsection UserPathLengthStretchingHighAlbedo High albedo
 
@@ -201,7 +207,7 @@ In conclusion, the PLS technique does not apply well to scattering-dominated med
 
 To study the behavior of PLS in moving media, we use a model consisting of an expanding spherical shell (inner radius
 0.05 pc, outer radius 1 pc, density power-law exponent 0.5) around a central, stationary, isotropic point source
-emitting at a single wavelength of 0.55 micron. The shell material has the same optical properties as those used in \c
+emitting at a single wavelength of 0.55 micron. The shell material has the same optical properties as those used in \ref
 UserPathLengthStretchingComfortZone, i.e. an albedo of 0.46 and a scattering asymmetry parameter of 0.25 (both values
 are approximate because the photon wavelength varies slightly as a result of kinematic effects). The shell density is
 normalized to a radial optical depth of 5 (or 10 along a full axis through the origin). The material moves radially
@@ -241,10 +247,52 @@ show a FOM improvement by a factor of 4 or more (detailed results not shown here
 These results should not be over-generalized. Specifically, the medium parameters used in these tests are well within
 the previously established comfort zone of moderate optical depth and non-negligible absorption (see \ref
 UserPathLengthStretchingComfortZone, \ref UserPathLengthStretchingHighTau, \ref UserPathLengthStretchingHighAlbedo).
-The addition of kinematics to the mix may influence the boundaries of the comfort zone in unkown ways.
+The addition of kinematics to the mix may influence the boundaries of the comfort zone in unexpected ways.
 
 In summary, it seems that the PLS technique works well for simulations that include kinematics, as long as the material
 parameters stay within the comfort zone.
+
+
+\subsection UserPathLengthStretchingXrayGas X-ray gas
+
+To check whether the encouraging kinematics result above carries over to X-ray radiative transfer, we repeat the
+exercise for a static, ring-shaped torus of neutral atomic gas (\c XRayAtomicGasMix, which models photo-absorption,
+fluorescence, and bound-electron scattering) around a central X-ray point source with a cutoff power-law spectrum. The
+setup follows the RXTORUS benchmark configuration described in Vander Meulen et al. 2023
+<a href="https://ui.adsabs.harvard.edu/abs/2023A%26A...674A.123V">[ADS]</a>, section 4.2.2; see \ref VanderMeulen2023
+on this web site for a full description and a comparison against the REFLEX code. We use an equatorial column density
+of \f$N_\mathrm{H}=10^{23}~\mathrm{cm}^{-2}\f$, viewed along an obscured sightline at an inclination of 75°, and
+compare PLS switched off against PLS with bias 0.5 (the default), at photon packet counts up to \f$10^8\f$.
+
+An X-ray spectrum like this one is not a single smooth feature the way the kinematics test above was: the
+scientifically interesting part of the reprocessed signal consists of several very narrow fluorescence lines sitting on
+top of a smooth continuum. To capture both aspects, we evaluate the FOM at five reference points in the energy range
+below 1 keV: two in the line-free continuum, and the centres of the three most prominent fluorescence lines in this
+range, which turn out to be the Kα lines of nitrogen, oxygen, and neon.
+
+We could not use similar reference points above 1 keV. SKIRT's recorded noise statistics are based on the total
+detected signal, including light that reaches the instrument without ever interacting with the torus. Above roughly
+1 keV the torus becomes increasingly transparent, so this directly transmitted light increasingly dominates the
+detected total and makes the recorded statistics look artificially good -- they no longer reflect the noise on the
+scattered and re-emitted (fluorescence) signal that is actually of interest here. Below 1 keV, the torus absorbs
+virtually all of the direct light, so this problem does not arise and the recorded statistics are meaningful.
+
+| Reference point | Energy (keV) | FOM ratio (bias 0.5 / off) |
+|-----------------|--------------|----------------------------|
+| Continuum       | 0.35         | 0.56                       |
+| N Kα line       | 0.39         | 0.57                       |
+| O Kα line       | 0.53         | 0.60                       |
+| Continuum       | 0.75         | 0.58                       |
+| Ne Kα line      | 0.85         | 0.67                       |
+
+At every one of these five points, enabling PLS reduces the figure of merit to at best two thirds of its value with PLS
+switched off, both in the continuum and on the fluorescence lines. Unlike the kinematics case above, PLS is therefore
+not beneficial for this X-ray torus configuration, even though its column density sits within the
+established comfort zone. However, in this medium the cross section varies significantly with wavelength. At the same
+time, many photon packets experience strong wavelength updates along their path as a result of Compton scattering and
+fluorescence transitions (which are implemented as scattering). Most likely this causes the poor PLS performance.
+
+In conclusion, for this type of medium, PLS should be left switched off.
 
 
 \subsection UserPathLengthStretchingResonantScat Resonant scattering (Lyman-alpha)
@@ -259,28 +307,90 @@ a non-forced-scattering photon cycle, for which PLS is not implemented anyway (s
 UserPathLengthStretchingNonForced).
 
 
-\subsection UserPathLengthStretchingToDo To be evaluated/documented
+\subsection UserPathLengthStretchingTimeLag Time lag instruments
 
-TO DO:
-- explicit absorption
-- scattering dispersion
-- time lag instruments
-- other media types (e.g., X-ray dust/electrons)
-- value of minWeightReduction other than the default
+To be completed.
+
+
+\section UserPathLengthStretchingOtherIssues Other considerations
+
+\subsection UserPathLengthStretchingMigration Enabling PLS in existing simulations
+
+When enabling PLS in a simulation that previously was run without PLS, the simulation will run faster. However, the
+number of photon packets must be increased to obtain the same output quality as before. This is because the stretched
+photon packets paths experience fewer interactions and thus spin off fewer peel-off packets to the instruments.
+Consequently, when making this change, one needs to perform a new convergence study (see \ref UserDiscretization).
+
+When in doubt, a FOM comparison (see \ref UserPathLengthStretchingFOM and other sections above) is the only proper tool
+to determine whether the PLS technique is beneficial for a given type of simulation.
+
+
+\subsection UserPathLengthStretchingOtherValues Other values of the bias parameter
+
+There is no theoretical reason for expecting improved PLS performance for values of the bias parameter \f$xi\f$ other
+than 0 and 0.5. The parameter controls the fraction of path segments for which a "stretched" interaction point is
+sampled. In simulation regimes where PLS does not perform well, other \f$xi\f$ values will simply adjust the level of
+bad performance. In cases where PLS does benefit the FOM, \f$xi\f$ values below 0.5 will lower the benefit, while
+\f$xi\f$ values above 0.5 will cause larger bias factors, resulting into higher noise levels (see \ref
+UserPathLengthStretchingForced). Without carrying out an in-depth study, various spot checks (not shown here) seem to
+confirm this reasoning.
+
+Consequently, users should configure \f$xi=0\f$ to disable PLS and \f$xi=0.5\f$ to enable it.
+
+
+\subsection UserPathLengthStretchingIterations Iterations and secondary emission
+
+SKIRT gathers the statistics information used to calculate the R and FOM metrics (see \ref UserPathLengthStretchingFOM)
+while photon packets are being detected by the instruments. If a simulation performs multiple iterations to calculate
+self-consistent results, only the very last iteration sends peel-off photon packets to the instruments. Furthermore, no
+statistics are gathered on the radiation field calculated during the iteration process. The statistics thus just
+measure the noise originating in the last iteration; they do not provide information on the quality or level of
+convergence of the iterative calculation.
+
+Similary, in a simulation with secondary emission, the statistics do not measure the quality of the radiation field
+calculated during primary emission and used to determine secondary emission characterstics. Also, the statistics apply
+to the total detected flux. The R and FOM metrics thus cannot be obtain for primary and secondary components
+separately, except in spectral ranges where one component strongly dominates the other.
+
+
+\subsection UserPathLengthStretchingExplicitAbs Explicit absorption
+
+Explicit absorption (EA) is an alternative formulation of the photon life cycle introduced by [Baes et al.
+(2022)](https://ui.adsabs.harvard.edu/abs/2022A%26A...666A.101B/abstract), exposed in SKIRT through the \em
+explicitAbsorption property of \c PhotonPacketOptions. Rather than sampling from the extinction optical depth along a
+photon packet's path, EA samples the packet's next interaction location from the scattering optical depth alone and
+applies absorption separately, as an independent weight factor accumulated along the path. Because this factor is
+decoupled from the (necessarily non-negative) scattering cross section, it can represent a genuine energy gain rather
+than a loss, supporting stimulated emission that may exceed the absorption in some (or all) cells along the path.
+
+The PLS results discussed in the previous sections were performed with EA disabled. Here we offer some preliminary
+results related to EA, based on spot checks rather than an in-depth study:
+
+ - It virtually never pays to enable both PLS and EA at the same time.
+ - EA fails dramatically for the X-ray gas regime, where scattering events often significantly update
+   the photon wavelength (elastic scattering, fluorescence).
+ - There are indications that EA may perform much better than PLS for typical dust media at high optical depth.
+
+Further research is needed before formulating clear recommendations concerning EA, other than that, evidently, EA must
+be enabled for media with stimulated emission.
 
 
 \section UserPathLengthStretchingSummary Summary
 
-TO DO:
-- add summary table
-- describe the (updated) restrictions forced on PLS during setup
-- discuss values of pathLengthBias other than 0.5 (larger values show worse FOM --> use either 0 or 0.5)
+| %Simulation regime | Example | \em explicitAbsorption | \em forceScattering | \em pathLengthBias |
+|-------------------|---------|------------------------|---------------------|--------------------|
+| balanced albedo, no extreme optical depth | dust in galaxies (UV-submm) | false | true | 0.5 |
+| . the above with moving media | . | false | true | 0.5 |
+| extreme optical depth | depends on geometry | false | true | 0 |
+| scattering-dominated, no dispersion (*) | Thomson electrons | false | false | 0 |
+| scattering dispersion (*) | Compton electrons; XRay gas | false | true | 0 |
+| resonant scattering | Lyman-alpha line | false | false | 0 |
+| stimulated emission | NonLTE gas lines | true | true | 0 |
 
-Finally, a word of caution. When enabling PLS in a simulation that previously was run without PLS, the simulation will
-run faster. However, the number of photon packets must be increased to obtain the same output quality as before. This
-is because the stretched photon packets paths experience fewer interactions and thus spin off fewer peel-off packets to
-the instruments. Consequently, when making this change, one needs to perform a new convergence study (see \ref
-UserDiscretization). When in doubt, a FOM comparison (see \ref UserPathLengthStretchingFOM and other sections above) is
-the only proper tool to determine whether the PLS technique is beneficial for a given type of simulation.
+(*) Scattering dispersion: scattering events update the photon wavelength (elastic scattering, fluorescence)
+
+
+\note When enabling PLS in a simulation that previously was run without PLS, see the cautionary note in \ref
+UserPathLengthStretchingMigration.
 
 */
