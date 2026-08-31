@@ -309,7 +309,53 @@ UserPathLengthStretchingNonForced).
 
 \subsection UserPathLengthStretchingTimeLag Time lag instruments
 
-To be completed.
+The SKIRT time instruments record the time-lag response to a pulse in the source luminosity. To study the behavior of
+PLS for such instruments, we again use the slab configuration described in \ref UserPathLengthStretchingComfortZone,
+now equipped with a LightCurveInstrument at the same observer position. We set the transverse optical depth to 5.
+
+|                             |
+|-----------------------------|
+| ![ ](UserPLS-TimeLagLC.png) |
+
+The above figure shows the light curve calculated in four different ways: without and with PLS (default bias), and
+minimum weight reduction set to the default value of 1e4 or boosted to 1e9. All curves are converged (launching more
+packets does not visibly change the curve, and the R and VOV metrics have a value below 0.1). Remarkably, the tails of
+these light curves differ quite significantly.
+
+The \em minWeightReduction property of \c PhotonPacketOptions terminates a photon packet as soon as its weight drops
+below its original luminosity divided by this property's value; a larger value thus means a
+harder-to-reach cutoff. In this slab configuration, reaching a large time lag requires many consecutive scattering
+events, each of which multiplies the packet's weight by the local albedo. With the default value of 1e4, packets that
+have scattered many times are terminated well before they can contribute to the tail of the light curve, artificially
+truncating it. Raising the value to 1e9 lets packets survive far more scattering events, so their contribution to the
+late-time bins is retained and the reliable range of the light curve extends much further.
+
+PLS makes this truncation worse. As described in \ref UserPathLengthStretchingForced, it applies an additional
+multiplicative bias weight at every scattering event, on top of the albedo factor. This extra weight reduction means a
+PLS-enabled packet reaches the \em minWeightReduction cutoff -- and gets aborted -- after fewer scattering events than
+an otherwise identical packet without PLS. Since reaching a given time lag requires a minimum number of scatterings,
+this systematically removes long-lived, late-arriving packets from the estimate, which is why the PLS-enabled curves in
+the figure cut off earlier than their PLS-off counterparts at the default threshold, and why the gap narrows once the
+threshold is raised to 1e9.
+
+With minWeightReduction=1e4, the light curves are in agreement until around 5 dex below the peak, while the curves with
+minWeightReduction=1e9 remain meaningful until about 10 dex below peak (see the horizontal reference lines).
+
+| Time lag (s) | FOM ratio (bias 0.5 / off) |
+|--------------|----------------------------|
+| 5e8          | 4.0                        |
+| 1e9          | 10.6                       |
+
+The two time lag points in this table are marked by the vertical reference lines in the figure. At both points, the
+light curves have not yet visibly diverged (they sit well above the 5 dex line discussed above). PLS delivers a
+significant FOM improvement by a factor of 4 to 10 in this "reliable" time lag range, independent of the
+minWeightReduction value.
+
+In summary, PLS remains genuinely useful for this type of time-resolved instrument, delivering a substantial FOM
+improvement in the well-converged part of the light curve. However, care must be taken to raise \em minWeightReduction
+well above its default value when the low-flux, late-time tail of the light curve is of interest, since the default
+setting prematurely terminates exactly the long-lived packets needed to populate that region -- an effect that PLS
+aggravates but does not cause.
 
 
 \section UserPathLengthStretchingOtherIssues Other considerations
