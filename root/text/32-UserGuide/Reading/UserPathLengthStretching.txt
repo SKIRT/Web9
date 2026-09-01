@@ -409,16 +409,19 @@ applies absorption separately, as an independent weight factor accumulated along
 decoupled from the (necessarily non-negative) scattering cross section, it can represent a genuine energy gain rather
 than a loss, supporting stimulated emission that may exceed the absorption in some (or all) cells along the path.
 
-The PLS results discussed in the previous sections were performed with EA disabled. Here we offer some preliminary
-results related to EA, based on spot checks rather than an in-depth study:
+The PLS results discussed in the previous sections were performed with EA disabled. Here we offer some results related
+to EA based on spot checks rather than an in-depth study:
 
  - It virtually never pays to enable both PLS and EA at the same time.
+ - When the medium is strongly scattering-dominated, enabling EA does not improve performance
+   over the classic photon cycle because there is not enough absorption to handle explicitly.
+ - In a regime with significant absorption, enabling EA offers a benefit that is comparable to PLS.
+ - For higher optical depths, EA sometimes seems to perform better than PLS. However, just as with PLS, the
+   calculated result is not necessarily converged (i.e. the flux kreeps up slowly with more photon packets).
  - EA fails dramatically for the X-ray gas regime, where scattering events often significantly update
    the photon wavelength (elastic scattering, fluorescence).
- - There are indications that EA may perform much better than PLS for typical dust media at high optical depth.
 
-Further research is needed before formulating clear recommendations concerning EA, other than that, evidently, EA must
-be enabled for media with stimulated emission.
+There seems to be no reason to recommend enabling EA other than, evidently, for media with stimulated emission.
 
 
 \section UserPathLengthStretchingSummary Summary
