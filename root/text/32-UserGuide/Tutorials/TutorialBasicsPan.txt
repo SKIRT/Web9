@@ -262,7 +262,7 @@ SKIRT offers a wide range of options to define material properties. On the most 
 dust mixes that offer "mean" properties only. With these mean properties SKIRT can produce an exact solution for
 dust extinction effects, but not for thermal dust emission. A more accurate calculation of the dust emission spectrum
 requires specification of the material properties and grain size distribution for each type of dust material
-seperately. SKIRT includes some "turn-key" dust mixes that provide this level of detail and require very little
+separately. SKIRT includes some "turn-key" dust mixes that provide this level of detail and require very little
 extra configuration. On the other hand, it is also possible to specify a custom dust mix with fully configurable grain
 compositions and size distributions.
 
@@ -456,7 +456,7 @@ directory:
 $ skirt PanTorus
 \endverbatim
 
-The SKIRT progress log reflects the various stages of the similation. This panchromatic simulation run includes a
+The SKIRT progress log reflects the various stages of the simulation. This panchromatic simulation run includes a
 secondary emission phase in addition to the primary emission phase. During the primary emission phase, SKIRT tracks
 the strength of radiation field in each spatial cell at each wavelength in the configured radiation field wavelength
 grid. During the secondary emission phase, SKIRT uses this information to calculate the secondary dust emission

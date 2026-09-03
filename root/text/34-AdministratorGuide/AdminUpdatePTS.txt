@@ -36,7 +36,7 @@ issue any warnings or errors. Open the relevant generated HTML pages to verify c
 
 - Perform manual tests to ensure that new or updated features work as intended.
 
-- Also attempty to verify that the proposed changes do not break any existing features. Because there are no formal
+- Also attempt to verify that the proposed changes do not break any existing features. Because there are no formal
 regression tests for PTS, this is often hard to do.
 
 - Commit any changes made locally and push them to the pull request.

@@ -51,7 +51,7 @@ which would output distance in \c pc, wavelength in \c keV, and surface brightne
 
 \section UserUnitsUsage Units for input and output
 
-The unit system configuration in the SKIRT parameter file (/em ski file) determines the default units used for the
+The unit system configuration in the SKIRT parameter file (\em ski file) determines the default units used for the
 simulation. The input/output modules handle units as follows:
 
 - All output files produced by the simulation use the configured default units. This includes the files produced by
@@ -104,7 +104,7 @@ all cases, remember to include a space between the number and the unit abbreviat
 | time | <tt>s, yr, Myr, Gyr</tt> |
 | time lag | <tt>s, min, hour, day, yr, m, km, AU, pc, kpc</tt> |
 | transition rate | <tt>1/s</tt> |
-| collisionalrate rate | <tt>m3/s, cm3/s</tt> |
+| collisional rate | <tt>m3/s, cm3/s</tt> |
 | temperature | <tt>K</tt> |
 | energy | <tt>J, erg, eV, meV, keV, MeV, GeV, TeV</tt> |
 | magnetic field | <tt>T, mT, uT, nT, G, mG, uG, nG</tt> |

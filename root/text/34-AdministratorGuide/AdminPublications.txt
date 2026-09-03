@@ -31,7 +31,7 @@ structure shown and described below.
     # Title (full title)
     # Authors ("First et al." or "First and Second"; last names only)
     # Journal (abbreviation)
-    # Month Year (decimal numbers seperated by space)
+    # Month Year (decimal numbers separated by space)
     # Category (Technical or Application)
     # Filename (filename body without directory nor filename extension)
     # ADS (bibcode reference without the other portions of the URL)
@@ -71,12 +71,12 @@ The 8 lines in each block provide the following information, which can be readil
 
 1. Title: the full title of the paper. Even if the title is very long, it must be listed on a single line.
 
-2. Authors: last name ony. If there is a single author, use "First"; if there are two authors, use "First and Second";
+2. Authors: last name only. If there is a single author, use "First"; if there are two authors, use "First and Second";
    if there are three or more authors, use "First et al.".
 
 3. Journal: abbreviation of the journal name. Wherever possible, use the official shorthand employed by ADS.
 
-4. Month Year: publication month (two decimal digits) and year (four decimal digits) seperated by a space.
+4. Month Year: publication month (two decimal digits) and year (four decimal digits) separated by a space.
 
 5. Category: use "Technical" for papers that describe a technical aspect of the SKIRT code; use "Application" for all
    other papers.
@@ -87,7 +87,7 @@ The 8 lines in each block provide the following information, which can be readil
    followed by the year, and possibly followed by a lowercase letter (a, b, c, ...) to disambiguate multiple papers by
    the same author in the same year.
 
-7. ADS: the final, offical ADS bibcode reference without the other portions of the URL. Papers with arXiv or other
+7. ADS: the final, official ADS bibcode reference without the other portions of the URL. Papers with arXiv or other
    temporary references should not (yet) be included in the database.
 
 8. Empty line
@@ -97,7 +97,7 @@ The 8 lines in each block provide the following information, which can be readil
 
 The .pdf and .png files corresponding to the entries in the core publication data base must be obtained manually and
 placed in the \c ~/SKIRT/ResourcesC/Publications directory. These files must then be published to the data file server
-through a seperate procedure (see \ref AdminUpdateWeb).
+through a separate procedure (see \ref AdminUpdateWeb).
 
 Some areas of note:
 
@@ -105,7 +105,7 @@ Some areas of note:
   respectively.
 
 - Download the PDF file including the accepted paper from the official journal web site. Do not use the arXiv version,
-  except in rare cases where the UGent does not have a subscription and you cannot otherwise obtain the offical PDF
+  except in rare cases where the UGent does not have a subscription and you cannot otherwise obtain the official PDF
   version.
 
 - For the PNG file, select a figure in the paper that seems representative for its key results or for its use of SKIRT.

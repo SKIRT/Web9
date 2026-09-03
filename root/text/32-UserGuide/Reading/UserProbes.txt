@@ -262,6 +262,7 @@ respective class documentation.
 | - <em>%Source statistics:</em> |||
 | LaunchedPacketsProbe | Column text | Number of photon packets launched from sources per wavelength bin |
 | LuminosityProbe | Column text | Primary source luminosities per wavelength bin |
+| IntegratedSecondaryLineLuminosityProbe | Column text | Spatially integrated luminosity for each secondary emission line |
 | - <em>Wavelength grids:</em> |||
 | RadiationFieldWavelengthGridProbe | Column text | Wavelength, width, and borders for each radiation field wavelength bin |
 | DustEmissionWavelengthGridProbe | Column text | Wavelength, width, and borders for each dust emission wavelength bin |

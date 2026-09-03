@@ -15,10 +15,10 @@ For more information, see:
 
 # Organization
 
-The SKIRT project's GitHib presence is bundled in a GitHub \em organization called "SKIRT" and with URL
+The SKIRT project's GitHub presence is bundled in a GitHub \em organization called "SKIRT" and with URL
 https://github.com/SKIRT. As an administrator, you can switch your dashboard between a personal context (your username)
 and an organization context (SKIRT). The former focuses on your personal forks, which may include forks from
-repositories unrelated to SKIRT, and the latter on the original SKIRT respositories.
+repositories unrelated to SKIRT, and the latter on the original SKIRT repositories.
 
 The organization page is where much of the GitHub presence can be configured. Action is necessary only when the
 requirements of the SKIRT project evolve.
@@ -42,7 +42,7 @@ repositories. A new administrator should be added to this team.
 
 The SKIRT organization currently includes the following repositories:
 
-- SKIRT9, PTS9, Web9: the currently active respositories; management of these repositories is discussed elsewhere in
+- SKIRT9, PTS9, Web9: the currently active repositories; management of these repositories is discussed elsewhere in
   this administrator guide (e.g., \ref AdminUpdateSKIRT, \ref AdminUpdatePTS, \ref AdminUpdateWeb).
 
 - SKIRT7, SKIRT8, WEB8, PTS: obsolete repositories for users who didn't yet make the transition to version 9; perhaps

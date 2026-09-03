@@ -222,7 +222,7 @@ To initiate a pull request:
  - On the GitHub web site, create a pull request from your fork.
  - Wait for feedback from the SKIRT Core Team.
 
-This worklow is described in much more detail in \ref DevGitHubFlow.
+This workflow is described in much more detail in \ref DevGitHubFlow.
 
 For more information about contributing to the SKIRT project in general, see \ref Contributing.
 

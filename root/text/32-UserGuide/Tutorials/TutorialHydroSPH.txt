@@ -11,7 +11,7 @@ In this tutorial you will use SKIRT to study the dust in a galaxy model produced
 (http://icc.dur.ac.uk/Eagle ; http://eagle.strw.leidenuniv.nl). The EAGLE simulation code, an adjusted version of
 Gadget-3 (http://wwwmpa.mpa-garching.mpg.de/gadget), includes a gravitational solver for dark and baryonic matter and
 uses smoothed particles to implement the hydrodynamical evolution of the gas (SPH = smoothed particle hydrodynamics).
-The simulation results are stored in consecutive snaphots as time progresses. For this tutorial, you will use data for
+The simulation results are stored in consecutive snapshots as time progresses. For this tutorial, you will use data for
 a single galaxy extracted from a snapshot of a pre-production EAGLE test run. Two data files are provided, respectively
 listing stellar particles, representing the radiation sources, and gas particles, from which a dust distribution can be
 derived.
@@ -270,7 +270,7 @@ wavelength grid must have sufficient resolution in the relevant range.
 
 For calculating the dust emission spectrum in this tutorial simulation, select a nested logarithmic wavelength grid
 ranging from 1 to 1000 \f$\mu\f$m, with a finer subgrid in the range from 3 to 30 \f$\mu\f$m. Specify 75 points in the
-wider grid, and 35 points in the nested grid. The points of the courser grid that happen to lie inside the finer grid
+wider grid, and 35 points in the nested grid. The points of the coarser grid that happen to lie inside the finer grid
 range are automatically removed, so the total number of grid points will be smaller than 110.
 
 \subsection TutorialHydroSPHMed Medium system
@@ -383,7 +383,7 @@ When asked for a second medium component, enter zero to terminate the list.
 \endverbatim
 
 SKIRT discretizes the medium on a spatial grid, i.e. a collection of small cells in which properties such as density
-and radiation field are considered to be constant. Usually you have little a priori knowledge about a the spatial
+and radiation field are considered to be constant. Usually you have little a priori knowledge about the spatial
 distribution imported from SPH simulation results. Due to the lack of spatial symmetries, the grid must be a full 3D
 grid. It is thus best to choose an adaptive grid that automatically forms smaller cells in denser regions. The grid
 will take some time to construct, but the simulation run will be faster and more accurate than if you would use a
@@ -396,7 +396,7 @@ a cube of 40 kpc in each direction, centered on the origin.
 For this tutorial simulation, acceptable values for the grid refinement level are a minimum of 3 and a maximum of 7
 (the default values). The maximum fraction of dust mass in each cell may be set to a value of \f$5\times 10^{-5}\f$.
 For high-quality simulations, you will need to raise the maximum level to 10 or more, and the maximum fraction of dust
-mass should be set to a smaller (and thus more stringent) value. This will result in an octtree with more and smaller
+mass should be set to a smaller (and thus more stringent) value. This will result in an octree with more and smaller
 cells, increasing accuracy as well as execution time.
 
 \subsection TutorialHydroSPHInst Instrument system
@@ -593,8 +593,8 @@ better convergence. Also, in this example, some of the imported gas particles li
 grid. The dust derived from those particles counts towards the input dust mass, but is excluded from the gridded dust
 mass.
 
-It is also instructive to compare the theoretical and gridded dust density cuts (e.g. \c ScatAMR_dns_dust_t_xy.fits and
-\c PanTorus_dns_dust_g_xy.fits) in an interactive FITS viewer or by plotting them using the following PTS command:
+It is also instructive to compare the theoretical and gridded dust density cuts (e.g. \c PanEagle_dns_dust_t_xy.fits and
+\c PanEagle_dns_dust_g_xy.fits) in an interactive FITS viewer or by plotting them using the following PTS command:
 
 \verbatim
 pts plot_convergence . --prefix=PanEagle --dex 4

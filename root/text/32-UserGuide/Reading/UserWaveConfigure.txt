@@ -19,7 +19,7 @@ The discussion on this page is organized as follows:
 - \ref UserWaveConfigMemory
 - \ref UserWaveConfigDiscrete
 
-\note Before adopting the  wavelength grids and especially the  spectral resolution values recommended in the text
+\note Before adopting the wavelength grids and especially the spectral resolution values recommended in the text
 below, it is important to conduct appropriate convergence tests. In other words, try the same simulation with
 "better" grids and more photon packets and compare the results.
 
@@ -179,13 +179,13 @@ radiation field storage will need to increase as well.
 
 \section UserWaveConfigDiscrete Discrete panchromatic simulations
 
-In panchromatic simulation mode, SKIRT samples all wavelengths in a given wavelength range. In contract, some other
+In panchromatic simulation mode, SKIRT samples all wavelengths in a given wavelength range. In contrast, some other
 codes only sample a set of discrete wavelengths in that range. Depending on the form of the involved spectra, these two
 methods may produce different results. While the SKIRT method is designed to more closely reflect the physical reality,
 these differences can be very annoying when comparing SKIRT results with those of other radiative transfer simulation
 codes as part of, for example, a benchmark effort.
 
-SKIRT therefore includes the DiscreteWavelengthDistribution class, which creates the ability to mimick codes that
+SKIRT therefore includes the DiscreteWavelengthDistribution class, which creates the ability to mimic codes that
 emit photon packets at discrete wavelengths rather than across a continuous range, while still using panchromatic
 simulation mode. Configuring such a simulation, however, involves some advanced options and requires great care, as
 described in more detail below.

@@ -23,7 +23,7 @@ SKIRT performs a simulation in three distinct phases:
    At the end of this phase, any probes configured by the user get a chance to write diagnostics or other
    information about the initialized data structures (such as the spatial media density distribution) to output files.
  - Run: the simulation is actually performed by launching a (usually large) number of photon packages and
-   recording the effects. At the end of this phase, the instruments output the mock obervations and
+   recording the effects. At the end of this phase, the instruments output the mock observations and
    any probes configured by the user get a chance to write diagnostics or other
    information about the simulation data structures (e.g. the radiation field) to output files.
 

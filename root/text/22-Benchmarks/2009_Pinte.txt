@@ -36,7 +36,7 @@ benchmark.
 
 To perform this benchmark, download the ski file provided above (\ref PinteRefs). Then pass the (name of) the ski file
 to SKIRT as a single command line argument. At the end of the simulation run, SKIRT outputs data frames and SEDs
-including the elements of the Stokes vector carring the polarization state. This information can be compared to the
+including the elements of the Stokes vector carrying the polarization state. This information can be compared to the
 original benchmark results.
 
 */

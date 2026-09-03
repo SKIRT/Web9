@@ -40,7 +40,7 @@ either, but this might be different for other processes.
 Similarly, secondary emission may sufficiently affect the RF to cause a significant change in the secondary emission
 spectrum (which is calculated from that RF). If this is the case, the RF must be calculated self-consistently by
 iterating over the secondary emission. We call this \em dynamic \em secondary \em emission (DSE). Dust emission in
-high-optical depth regions is an example of a DSE process. The dust population may absorb a non-neglible portion of its
+high-optical depth regions is an example of a DSE process. The dust population may absorb a non-negligible portion of its
 own thermal emission, affecting its internal energy state, which in turn affects the thermal emission spectrum.
 
 ### Update algorithms
@@ -64,7 +64,7 @@ it allows offering alternate recipes without complicating the material mix imple
 
 \section UserIterationsIterate Self-consistent iterations
 
-A soon as a panchromatic simulation includes a medium (other than Lyman-alpha), the configuration allows to enable
+As soon as a panchromatic simulation includes a medium (other than Lyman-alpha), the configuration allows to enable
 self-consistent iterations over primary emission. Similarly, as soon as a simulation includes secondary emission, the
 configuration allows to enable self-consistent iterations over secondary emission. In that case, one can opt to also
 iterate over primary emission in various combinations. See the MonteCarloSimulation class documentation for more
@@ -77,7 +77,7 @@ section.
 
 Some astrophysical systems contain a body of dust with a high optical depth even at longer wavelengths. Examples
 include circumnuclear disks of active galactic nuclei, planetary disks, and compact galaxies at higher redshifts. In
-those systems, the dust population may absorb a non-neglible portion of its own thermal emission, affecting its
+those systems, the dust population may absorb a non-negligible portion of its own thermal emission, affecting its
 internal energy state, in turn affecting the thermal emission spectrum. Modelling this process requires iterations to
 self-consistently calculate these interdependent quantities.
 
@@ -87,7 +87,7 @@ been set to true, the properties offered by the DustEmissionOptions and Iteratio
 MediumSystem) further control the iteration process. Most importantly, the DustEmissionOptions set the convergence
 criteria that determine when the result is sufficiently accurate and the iteration cycle can be terminated. The first
 criterion specifies that convergence is reached when the total absorbed dust luminosity is less than a given fraction
-of the total absorbed primary luminosity. This is to avoid time-consuming iterations in case the  global thermal
+of the total absorbed primary luminosity. This is to avoid time-consuming iterations in case the global thermal
 emission is too small to have a significant effect on the dust temperature, compared to the effect of primary emission.
 The second criterion specifies that convergence is reached when the total absorbed dust luminosity has changed by less
 than a given fraction compared to the previous iteration. This is the actual iterative convergence criterion.
@@ -107,7 +107,7 @@ across a spatial domain requires an iterative approach.
 The NonLTELineGasMix class allows performing such calculations with SKIRT for certain transitions in selected molecules
 and atoms. Specifically, it causes the medium state to store values representing the energy level population densities
 for each spatial cell, and it includes a procedure to update these values based on the currently established radiation
-field. Based on this information, the material mix calculates aborption cross sections and emission luminosities upon
+field. Based on this information, the material mix calculates absorption cross sections and emission luminosities upon
 request.
 
 Simulations that include the NonLTELineGasMix must also include one or more primary sources that trigger the
@@ -133,7 +133,7 @@ of iterations as a safety net.
 Energetic radiation sources such as active galactic nuclei destroy dust grains in their immediate environment. The
 effect depends on the radiation spectrum and on grain properties such as size and chemical composition, and the source
 often is anisotropic. Rather than attempting to include all of these factors in an input model, a SKIRT simulation can
-self-consistently determine the resulting the density distribution for the various grain populations through an
+self-consistently determine the resulting density distribution for the various grain populations through an
 iterative process.
 
 As an example, we consider an anisotropic point source embedded in a body of dust. We limit the simulation to primary
@@ -142,7 +142,7 @@ As a first step towards self-consistent calculation of grain destruction near th
 grain types and sizes in the dust mixture to be handled separately. To this end, we insert a FragmentDustMixDecorator
 around the DraineLiDustMix. We set the \em fragmentSizeBins property to true, so that the decorated mixture is
 fragmented into individual grain size bins as configured in the DraineLiDustMix for each material type. We also set the
-\em hasDynamicDensities property to true, causing the medium state to store a seperate density fraction for each of
+\em hasDynamicDensities property to true, causing the medium state to store a separate density fraction for each of
 these dust population fragments relative to the density distribution determined by the input model.
 
 We set the \em iteratePrimaryEmission property of the MonteCarloSimulation class to true, and we use the properties

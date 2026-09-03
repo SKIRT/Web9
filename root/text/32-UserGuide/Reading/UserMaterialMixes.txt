@@ -136,7 +136,7 @@ supported by SKIRT. Specifically, it handles the following basic dust material p
 - the scattering albedo \f$\varpi_\lambda
      = \varsigma_{\lambda}^{\text{sca}} / \varsigma_{\lambda}^{\text{ext}}\f$
 - scattering phase function properties; depending on the supported scattering mode this may be:
-  - the assymmetry parameter \f$g\f$ for the Henyey-Greenstein phase function
+  - the asymmetry parameter \f$g\f$ for the Henyey-Greenstein phase function
   - a custom phase function \f$\Phi_\lambda(\cos\theta)\f$ that depends only on the cosine of
     the scattering angle \f$\theta\f$
   - a custom phase function \f$\Phi_\lambda(\theta,\phi)\f$ that depends on both scattering angles
@@ -146,8 +146,8 @@ supported by SKIRT. Specifically, it handles the following basic dust material p
 
 The DustMix class allows its subclasses to support the following scattering modes:
 
-- \c HenyeyGreenstein: the subclass supplies the assymmetry parameter \f$g\f$ for the Henyey-Greenstein phase
-function. For a value of \f$g=0\f$, isotropic scattering is implemented directly rather than subsituting zero into the
+- \c HenyeyGreenstein: the subclass supplies the asymmetry parameter \f$g\f$ for the Henyey-Greenstein phase
+function. For a value of \f$g=0\f$, isotropic scattering is implemented directly rather than substituting zero into the
 Henyey-Greenstein phase function.
 
 - \c MaterialPhaseFunction: the subclass implements a custom phase function that depends only on the cosine of the
@@ -160,7 +160,7 @@ outgoing radiation must be updated appropriately. The phase function depends on 
 
 The properties handled by the DustMix class correspond to the properties of a single grain population that is
 representative for the complete dust mix. In the context of tracking photon paths through a dusty medium, using
-properly calculated representive absorption and scattering cross sections and Mueller matrix coefficients is
+properly calculated representative absorption and scattering cross sections and Mueller matrix coefficients is
 mathematically exact. In other words, for scattering modes \c MaterialPhaseFunction and \c SphericalPolarization, the
 representative grain approach does not involve an approximation. However, the calculation of a representative
 scattering asymmetry parameter \f$g\f$ for use with the \c HenyeyGreenstein scattering mode does involve a non-exact
@@ -190,7 +190,7 @@ representative optical properties required for the common interface. See \ref Us
 
 The information offered by the single representative dust grain classes is insufficient to accurately calculate dust
 emission spectra for the dust mixture. This is so because the emission spectrum is a nonlinear function of the grain
-size (among many other things), and thus a single grain cannot accurately represent a population with a potentialy
+size (among many other things), and thus a single grain cannot accurately represent a population with a potentially
 large range of grain sizes. Furthermore, smaller dust grains are often not in local thermal equilibrium, and instead
 are heated stochastically by individual photon absorption events. Modeling emission for these grains involves a
 temperature probability distribution rather than just an equilibrium temperature. And lastly, the calculation obviously
@@ -366,7 +366,7 @@ temperature of the neutral hydrogen gas must be defined by the input model and d
 - The SpinFlipHydrogenGasMix class describes the 21 cm spin-flip transition in neutral atomic hydrogen, including
 emission and absorption. The 21 cm emission luminosity and self-absorption opacity in a given cell are determined from
 gas properties defined in the input model (total hydrogen number density, neutral hydrogen mass fraction, gas
-metallity, gas temperature) and the local UV radiation field calculated by the simulation (taking into account dust
+metallicity, gas temperature) and the local UV radiation field calculated by the simulation (taking into account dust
 extinction). The implementation includes a partitioning scheme to estimate the atomic and molecular fractions based on
 these input model properties and the radiation field.
 

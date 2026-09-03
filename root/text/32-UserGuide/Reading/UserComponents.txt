@@ -14,9 +14,9 @@ in astrophysical systems. The configuration for a particular SKIRT simulation is
 file in XML text format. These parameter files can be created and edited in the following ways:
 
  - You can create a new parameter file through a user-friendly Q&A session in a terminal window, driven by the
-   SKIRT command-line program. Because there are no external depencies, this method works in all circumstances.
+   SKIRT command-line program. Because there are no external dependencies, this method works in all circumstances.
  - You can open an existing parameter file in any text editor and make changes. Because the XML format is largely
-   self-documenting, it is straigthforward to adjust, say, the value of a scaling length in the model, or to add a
+   self-documenting, it is straightforward to adjust, say, the value of a scaling length in the model, or to add a
    second instrument with a new viewing angle.
  - If the MakeUp utility has been built, you can create or adjust a parameter file using the graphical wizard-like
    interface offered by that utility.
@@ -43,7 +43,7 @@ bill. Commonly available Python packages handle the data formats used in astrono
 Plotting capabilities support quick graphs for initial analysis up to publication-quality figures.
 
 The Python Toolkit for SKIRT (PTS) includes basic tools for working with SKIRT from the command line and offers a set
-of Python functions that can be invoked from a custom Python pipeline or simply serve as inpiration for a desired
+of Python functions that can be invoked from a custom Python pipeline or simply serve as inspiration for a desired
 implementation.
 
 */

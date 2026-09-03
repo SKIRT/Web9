@@ -122,12 +122,12 @@ listing the coordinates of its lower-left and upper-right corners plus the compo
 be in arbitrary order and any regions not covered by a cell are simply assumed to be empty. This is suitable for any
 grid defined in Cartesian coordinates, and provides a solution that is usually very easy to implement.
 
-- CylindricalCellSnapshot: simular to CellSnapshot, but now the lower-left and upper-right cell corners are defined
+- CylindricalCellSnapshot: similar to CellSnapshot, but now the lower-left and upper-right cell corners are defined
 using cylindrical coordinates \f$(R,\varphi,z)\f$. Each cell is thus bounded by two vertical cylinders, two meridional
 planes, and two horizontal planes. The class supports 2D models defined in a meridional plane in addition to regular 3D
 models. This is suitable for snapshots of hydrodynamical models simulated in cylindrical coordinates.
 
-- SphericalCellSnapshot: simular to CellSnapshot, but now the lower-left and upper-right cell corners are defined using
+- SphericalCellSnapshot: similar to CellSnapshot, but now the lower-left and upper-right cell corners are defined using
 spherical coordinates \f$(r,\theta,\varphi)\f$. Each cell is thus bounded by two concentric spheres, two polar cones,
 and two meridional planes. The class supports 2D cells defined in a meridional plane and 1D cells defined along a
 radial axis in addition to regular 3D cells. This is suitable for snapshots of hydrodynamical models simulated in
@@ -366,8 +366,21 @@ using:
         </materialMix>
     </VoronoiMeshMedium>
 
-Again, the _massType_ can be specified as \c MassDensity, \c NumberDensity, \c Mass or \c Number as  for \ref
-UserImportSnapMediaCell and \ref UserImportSnapMediaAMR.
+Again, the _massType_ can be specified as \c MassDensity, \c NumberDensity, \c Mass or \c Number as for \ref
+UserImportSnapMediaCell and \ref UserImportSnapMediaAMR. In addition, VoronoiMeshMedium offers two more _massType_
+values, \c MassDensityAndMass and \c NumberDensityAndNumber, that are not available for the other imported media
+types. These import \em two columns per cell instead of one -- both the density and the corresponding
+volume-integrated total (mass or number) -- from which the cell volume can be derived directly. Whenever this
+information is available, and it is safe to do so, SKIRT automatically skips constructing the full Voronoi
+tessellation (a relatively expensive per-cell geometric computation) and instead locates the cell containing a
+given point using a much cheaper search across the generating sites. It is safe to do so only if the imported
+mesh will not itself be used as the spatial grid for the radiative transfer calculation (i.e., the simulation
+does not configure a VoronoiMeshSpatialGrid; see \ref UserImportSnapMediaGrid) and no configured probe needs to
+examine individual cells of the imported snapshot (i.e., there is no InputModelFormProbe instance in the
+simulation); SKIRT checks both conditions automatically and only applies the shortcut when it can. In other
+words, these two _massType_ values mainly help when a large Voronoi-mesh medium is imported purely to be
+regridded onto a different spatial grid, where they can substantially reduce setup time.
+
 The other medium properties, including metallicity, temperature, and velocity, can be
 specified as described in \ref UserImportSnapMediaSPHDust and \ref UserImportSnapMediaSPHOther.
 
@@ -393,7 +406,7 @@ and then possibly re-grid it.
 
 The process is illustrated with a 2D example in the diagram above. The left panel represents the (complete or partial)
 simulation volume defined in the snapshot. The colored cells represent the gravitationally bound structure extracted
-from the snaphot. The import file presented to SKIRT thus contains the Voronoi sites corresponding to the colored
+from the snapshot. The import file presented to SKIRT thus contains the Voronoi sites corresponding to the colored
 cells, but \em not the sites corresponding to the uncolored cells. Assuming the SKIRT spatial grid fully encloses the
 imported structure, SKIRT is forced to create new Voronoi cells at the outer edges. The right panel shows the SKIRT
 grid with green color covering the shape as it was in the snapshot and red color covering the enlarged cells.
@@ -456,7 +469,7 @@ the SKIRT configuration file. The above example file could be imported as follow
         <materialMix type="MaterialMix">
             <ElectronMix includePolarization="false" includeThermalDispersion="true" defaultTemperature="1e4 K"/>
         </materialMix>
-    </ParticleMedium>
+    </AdaptiveMeshMedium>
 
 The _massType_ can be specified as \c MassDensity, \c NumberDensity, \c Mass or \c Number as described for \ref
 UserImportSnapMediaCell. The other medium properties, including metallicity, temperature, and velocity, can be
@@ -473,7 +486,7 @@ Many hydrodynamical simulation codes use spatial cells with boundaries that are 
 Cartesian coordinates, all cells then are cuboids or "boxes". With cylindrical coordinates, cells are bounded by
 cylinders and planes, and with spherical coordinates, cells are bounded by spheres, cones and planes. The CellMedium,
 CylindricalCellMedium, and SphericalCellMedium classes can import media defined on such grids regardless of the
-topological structure of the grid, because each cell is handled as a seperate entity. The approach is similar to what
+topological structure of the grid, because each cell is handled as a separate entity. The approach is similar to what
 has been described for particles in the previous sections (\ref UserImportSnapMediaSPHDust and \ref
 UserImportSnapMediaSPHOther) with the following important differences:
 
@@ -669,10 +682,10 @@ This file could be imported as follows:
 \subsection UserImportSnapSourcesSmooth Determining the smoothing length
 
 Even if the stellar populations (or other radiation sources) in a hydrodynamical simulation are represented as
-"smoothed particles" with a finite extent defined by some spherical kernel, these collisonless particles do not conform
+"smoothed particles" with a finite extent defined by some spherical kernel, these collisionless particles do not conform
 to the semantics of the collisional particles employed in smoothed particle hydrodynamics (SPH). Indeed, the smoothing
 length for SPH particles is determined so that neighboring particles overlap sufficiently to achieve a smooth combined
-density field. For the collisonless stellar particles, there is no such requirement. As a result, the simulation often
+density field. For the collisionless stellar particles, there is no such requirement. As a result, the simulation often
 does not track (and thus does not output) a particle property that directly corresponds to a smoothing length that can
 be used for import into SKIRT. In other words, an appropriate smoothing length must be "fabricated". There is,
 unfortunately, no single best way to do this.
@@ -685,7 +698,7 @@ integrated %SED of the simulated model. However, they do affect the realism of t
 
 Let us consider the options. First, note that many N-body solvers in hydrodynamical simulations use gravitational
 softening to avoid extreme close encounters between the particles, which would cause numerical instabilities. The
-corresponding softening length is sometimes stored in the snaphot data, but it is usually not appropriate as a
+corresponding softening length is sometimes stored in the snapshot data, but it is usually not appropriate as a
 substitute for smoothing length in the context of SKIRT import.
 
 The easiest option is to specify a fixed smoothing length for all particles. This works as long as the value is not too
@@ -726,7 +739,7 @@ file format is a blend of what has been described in previous sections:
 - the media properties discussed in those sections are replaced by the parameters for the selected %SED family, as
   described in section \ref UserImportSnapSourcesParticle.
 
-For more information, refer to those sections and to the documentation of the various imvolved classes.
+For more information, refer to those sections and to the documentation of the various involved classes.
 
 \subsection UserImportSnapSourcesGeometry Geometric sources
 

@@ -31,7 +31,7 @@ Here is a list of known portability issues; most likely there will be others:
 As an administrator you need essentially all software tools mentioned in the SKIRT \ref InstallationGuide.
 Assuming macOS and Qt Creator, this means you need to install the tools listed in the following table.
 
-\note To clone the SKIRT and/or PTS respositories, do not follow the instructions in the regular installation guide.
+\note To clone the SKIRT and/or PTS repositories, do not follow the instructions in the regular installation guide.
 Instead, follow the procedure prescribed in the topic \ref AdminStruct.
 
 | Tool | Instructions | Comments |
@@ -40,7 +40,7 @@ Instead, follow the procedure prescribed in the topic \ref AdminStruct.
 | CMake | \ref InstallSKIRTUnixToolsMac "Build tools" | |
 | git | \ref InstallSKIRTUnixToolsMac "Build tools"| |
 | ''  | \ref DevGitHubFlow "Configure git" | |
-| GitHub desktop | https://desktop.github.com/download/ | Optional but very handy as a compliment to git |
+| GitHub desktop | https://desktop.github.com/download/ | Optional but very handy as a complement to git |
 | Qt/Qt Creator | \ref InstallSKIRTQtInstall "Development environment" | |
 | '' | \ref InstallSKIRTDevQt "Configure Qt Creator" | |
 | clang-format | \ref InstallSKIRTDevClangFormat "Source code formatter" | |

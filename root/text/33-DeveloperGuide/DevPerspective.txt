@@ -49,7 +49,7 @@ Consequently the viewport is perpendicular to \f$\overline{\mathbf{VC}}\f$. The 
 parallel with the upwards line \f$\overline{\mathbf{OU}}\f$, i.e.\ the line connecting the \em world origin with the
 upwards position, and in the same direction.
 
-The eye and the origin of the left-handed <em>eye coordinate system </em> are placed on the crosshair line
+The eye and the origin of the left-handed <em>eye coordinate system</em> are placed on the crosshair line
 \f$\overline{\mathbf{VC}}\f$ at a distance \f$F_{e}\f$ from the viewport origin \f$\mathbf{V}\f$, at the opposite side
 from \f$\mathbf{C}\f$. In other words, the eye is behind the viewport and looks towards the crosshair position through
 the viewport. The axes of the eye coordinate system have the same orientation as those of the viewport coordinate
@@ -123,7 +123,7 @@ i & = & \mathrm{floor}(\mathcal{J}_{x}/\mathcal{J}_{w})\\
 j & = & \mathrm{floor}(\mathcal{J}_{y}/\mathcal{J}_{w})
 \f}
 based on the standard mechanism for converting homogeneous to regular coordinates. The perspective transformation
-developed below is such that the distance \f$d\f$ from the launching position \f$\mathbf{P}\f$ to the the viewport
+developed below is such that the distance \f$d\f$ from the launching position \f$\mathbf{P}\f$ to the viewport
 plane is given by
 \f[
 d=\left|\mathcal{J}_{z}\right|

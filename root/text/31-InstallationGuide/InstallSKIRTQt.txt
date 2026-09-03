@@ -24,7 +24,7 @@ for your operating system:
 
 
 | Unix, macOS | Windows |
-|------- -----|---------|
+|-------------|---------|
 | \ref InstallSKIRTUnixTools | \ref InstallSKIRTWindowsTools |
 | \ref InstallSKIRTUnixGet   | \ref InstallSKIRTWindowsGet   |
 
@@ -100,7 +100,7 @@ editor/builder called Qt Creator. All of these components can be installed with 
 - Select the "Kits->Qt Versions" tab and verify that Qt automatically detected the Qt version you just installed.
   If not, manually add an appropriate Qt version.
 
-- Select the "Kits->Kits" tab. If there are muliple kits, verify that the appropriate kit is marked as "Default".
+- Select the "Kits->Kits" tab. If there are multiple kits, verify that the appropriate kit is marked as "Default".
 Verify and if needed configure the properties of the default kit, specifically "Compiler", "Qt version" and "CMake
 Tool". The "CMake Generator" property should be set to "Unix Makefiles ..."
 
@@ -191,7 +191,7 @@ As the last step, you need to finalize and verify your installation just like yo
 Follow the instructions appropriate for your operating system:
 
 | Unix, macOS | Windows |
-|------- -----|---------|
+|-------------|---------|
 | \ref InstallSKIRTUnixResource | \ref InstallSKIRTWindowsResource |
 | \ref InstallSKIRTUnixFinal   | \ref InstallSKIRTWindowsFinal   |
 

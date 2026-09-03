@@ -117,7 +117,7 @@ this purpose. So select the option called "Extinction only - oligochromatic regi
 
 The number of photon packets must be higher than the default value to achieve an acceptable signal to noise ratio in
 the observed scattered radiation. To limit the run time for this tutorial, set the number of photon packets to
-\f$10^7\f$. This number is sufficient to produce a results for this tutorial, but would likely be insufficient in an
+\f$10^7\f$. This number is sufficient to produce results for this tutorial, but would likely be insufficient in an
 actual research setting.
 
 \subsection TutorialHydroAmrRed Redshift
@@ -437,7 +437,7 @@ numerical rounding errors) because the radiative transfer grid is identical to t
 is represented.
 
 It is also instructive to compare the theoretical and gridded dust density cuts (e.g. \c ScatAMR_dns_dust_t_xy.fits and
-\c PanTorus_dns_dust_g_xy.fits) in an interactive FITS viewer or by plotting them using the following \c PTS command:
+\c ScatAMR_dns_dust_g_xy.fits) in an interactive FITS viewer or by plotting them using the following \c PTS command:
 
 \verbatim
 pts plot_convergence . --prefix=ScatAMR --dex 3

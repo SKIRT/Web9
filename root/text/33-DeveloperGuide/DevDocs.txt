@@ -35,7 +35,7 @@ To build the HTML reference documentation, enter:
 The resulting HTML files are placed in the \c html directory next to (i.e. at the same level as) the \c git directory
 (for SKIRT) or the \c pts directory (for PTS). As usual, the file \c index.html provides the starting point for browsing.
 
-When you run the script for the first time, Doxygen creates the \c html directory and it contents from scratch. This
+When you run the script for the first time, Doxygen creates the \c html directory and its contents from scratch. This
 takes a long time. If you run the script again after you modified the source code (or the extra documentation files),
 Doxygen only processes the changes so it completes a lot faster.
 
@@ -48,7 +48,7 @@ text files in Doxygen format (i.e. special comment blocks without actual source 
 in a separate public GitHub repository. This enables a fully collaborative workflow using pull requests and issues for
 the documentation just as for the actual source code.
 
-The following table lists the involved respositories in the SKIRT organization:
+The following table lists the involved repositories in the SKIRT organization:
 
 | Repository name | Description
 |-----------------|-------------
@@ -67,6 +67,6 @@ from a local copy of all relevant repositories. This procedure uses MATHJAX to r
 many images created by an explicit conversion, and leads to a much more pleasing formula presentation.
 
 While any contributor can stage the web site, assuming they have a local copy of all relevant repositories, only a
-SKIRT Core Team member can actually publish the website because it requires write access rights to the web server.
+SKIRT Core Team member can actually publish the web site because it requires write access rights to the web server.
 
 */

@@ -10,7 +10,7 @@ It is important to backup the information in the SKIRT project directory on a re
 seems prudent to make a yearly backup in a different location.
 
 - Original data, such as resources obtained from third parties and benchmark or functional test specifications, should
-be backed up up as soon as relevant changes were applied.
+be backed up as soon as relevant changes were applied.
 
 - Derived data, such as resource files converted from original data or test results, can be easily regenerated, at
 least in principle. Still, it seems prudent to make a yearly backup.

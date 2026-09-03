@@ -194,7 +194,7 @@ where both the emission spectrum and some normalization for the luminosity of ea
 For this tutorial, (arbitrarily) select a black-body spectrum with the default temperature. Then select normalization
 through the specific luminosity at a given wavelength, with a "per unit of wavelength" luminosity unit style. Finally,
 specify a luminosity at \f$\lambda=0.55~\mu\text{m}\f$ (the wavelength specified previously) of \f$L_\lambda =
-10^11~\text{L}_\odot/\mu\text{m}\f$.
+10^{11}~\text{L}_\odot/\mu\text{m}\f$.
 
 When asked for a second source component, enter zero to terminate the list.
 
@@ -290,7 +290,7 @@ end, it is generally best to place smaller cells in high-density areas (and in a
 rapidly), and larger cells in low-density areas. The adaptive grids offered by SKIRT serve this purpose. However,
 you still need to properly configure the heuristics used by these grids to place their cells.
 
-For example, the octtree grid recursively subdivides the cuboidal domain into 8 cuboidal subcells until each cell
+For example, the octree grid recursively subdivides the cuboidal domain into 8 cuboidal subcells until each cell
 satisfies certain criteria, or until a maximum level of subdivision has been reached. The grid can take into account
 several criteria other than the maximum level. The most basic criterion subdivides cells until the dust mass in
 each cell is smaller than a given fraction of the total dust mass in the grid. The other criteria look at the optical
@@ -439,7 +439,7 @@ Even with this limited grid, the mock observations show the expected overall for
 resolution, however, we can't trust the results, especially in the central areas of the model.
 
 Now turn your attention to the simulation log messages (in the console or in the generated log file). During and
-immediately after constructing the octtree, SKIRT reports some statistics on the structure of the tree, similar to
+immediately after constructing the octree, SKIRT reports some statistics on the structure of the tree, similar to
 the following. The exact values will differ because the dust mass in a tree node is obtain by randomly sampling the
 density distribution.
 
@@ -481,7 +481,7 @@ cannot be any cells at the most shallow subdivision levels (0 through 2) because
 level of grid refinement of 2. The list ends at level 6 because the configuration specifies a maximum level of grid
 refinement of 6. It appears that most of the cells are at level 6, i.e. the deepest allowed subdivision level. This
 implies that the subdivision criteria (in this case the maximum mass fraction) are not satisfied for the majority of
-the dust cells. In other words, the octtree configuration is not well balanced for this particular model.
+the dust cells. In other words, the octree configuration is not well balanced for this particular model.
 
 Before optimizing the dust grid, it is worth revisiting the convergence file \c ArmedSpiralTree_cnv_convergence.dat. At
 the end of that file, you will find optical depth statistics similar to the following (again, the exact values will
@@ -497,21 +497,21 @@ Optical depth of cell diagonal at 0.55 micron
 These statistics will come in handy for setting the maximum optical depth criterion as described at the end of the
 following section.
 
-\subsection TutorialGridsOptimAdj Adjusting the octtree grid parameters
+\subsection TutorialGridsOptimAdj Adjusting the octree grid parameters
 
-The first step is to set appropriate minimum and maximum subdvision levels. The dust mass in a grid cell (or
+The first step is to set appropriate minimum and maximum subdivision levels. The dust mass in a grid cell (or
 equivalently, its average dust density) is estimated by sampling the input dust density in a number of random locations
 across the cell volume. In low-density regions of a model, most often at its outskirts, it can happen that the sampling
 process "misses" the dust concentrated in one corner of a large grid cell and thus fails to trigger the
 maximum-mass-fraction criterion, leaving the overly large cell in place. To avoid this from happening, it is often wise
-to slightly increase the minimum subdvision level to a value of at least 4.
+to slightly increase the minimum subdivision level to a value of at least 4.
 
 At the other end of the scale, one could use the rule of thumb mentioned earlier: the grid cells must be allowed to
 become at least as small as an instrument pixel (after parallel projection). Unfortunately, this provides only an upper
 limit on the cell size. The real question is whether the small-scale dust structure is sufficiently resolved in the
 grid to enable accurate calculation of the radiation field. For a semi-smooth analytical model such as the one studied
 in this tutorial, it seems reasonable to settle for an extra factor of two. With 512 pixels along the instrument field
-of view, this leads to a maximum subdvision level of \f$\log_2(2*512)=10\f$.
+of view, this leads to a maximum subdivision level of \f$\log_2(2*512)=10\f$.
 
 Open the \c ArmedSpiralTree.ski file in a text editor and locate the specification of the spatial grid:
 
@@ -525,10 +525,10 @@ Open the \c ArmedSpiralTree.ski file in a text editor and locate the specificati
 </grid>
 \endverbatim
 
-Adjust the minimum and maximum subdvision levels to \c minLevel="4" and \c maxLevel="10". Rerun the simulation and
+Adjust the minimum and maximum subdivision levels to \c minLevel="4" and \c maxLevel="10". Rerun the simulation and
 study the log file to evaluate the effect on the distribution of the dust cells over subdivision levels.
 
-\note While optimizing the octtree grid following the guidance of this section, you may want to temporarily set the
+\note While optimizing the octree grid following the guidance of this section, you may want to temporarily set the
 number of photon packets launched to zero (by changing the value of the \c numPackets property at the start of the ski
 file). Alternatively, you can type \<Ctrl\>-C in the terminal window to abort SKIRT as soon as it starts shooting
 photon packets.
@@ -545,7 +545,7 @@ pick the value of \f$5\times10^{-6}\f$. This leads to a grid with about 650,000 
 You can now further fine-tune this grid by also imposing a maximum optical depth criterion on each cell (measured
 across the cell diagonal). Open the convergence file and locate the optical depth statistics for your most recent grid
 (with min/max levels 4 and 10 and max mass fraction \f$5\times10^{-6}\f$). Most cells have an optical depth lower than
-0.22, and some cells haven an optical depth of up to 0.63. It is beneficial for the grid quality to further subdivide
+0.22, and some cells have an optical depth of up to 0.63. It is beneficial for the grid quality to further subdivide
 the relatively small number of cells with the largest optical depths.
 
 Set the maximum dust optical depth criterion in the ski file to a value of 0.3 (at a wavelength of
@@ -558,7 +558,7 @@ the deepest allowed level. However, this is not the case in this simulation, as 
 maximum subdivision level. So what is going on?
 
 In SKIRT, the cell mass calculations used for making subdivision decisions while constructing the tree are
-completely seperate from the calculations that set the cell mass in the final grid. Because the calculations sample the
+completely separate from the calculations that set the cell mass in the final grid. Because the calculations sample the
 theoretical densities at a different set of randomly chosen locations, the results are never quite identical (except
 for uniform theoretical densities). The accuracy can be improved by increasing the number of random samples, at the
 cost of increased setup times, by changing the value of the \c numDensitySamples property of the \c SamplingOptions.
@@ -583,19 +583,19 @@ At the lower subdivision levels, the individual cells are visible. At the higher
 structure translates to levels of grayscale. The command also creates a three-dimensional view of the wireframe grid,
 which is meaningful only when the grid has very few cells (with too many cells the result is just a black blob).
 
-As a test of your final octtree grid with 900,000 cells, you might want to run the simulation with more photon packets
-(e.g. \f$10^7\f$) and review the surface brigthness frames produced by the instruments. You could also add extra
+As a test of your final octree grid with 900,000 cells, you might want to run the simulation with more photon packets
+(e.g. \f$10^7\f$) and review the surface brightness frames produced by the instruments. You could also add extra
 instruments at other inclinations (duplicate one of the instrument specifications in the ski file, and adjust
 the values for the new instrument's attributes \c instrumentName and \c inclination).
 
 \subsection TutorialGridsOptimVoro1 About unstructured grids
 
-Hierarchical grids such as the octtree seem to be an obvious choice. It is fairly straightforward to construct an
+Hierarchical grids such as the octree seem to be an obvious choice. It is fairly straightforward to construct an
 appropriate grid for any density field, and it is easy to calculate a straight path through the grid, since the
 boundaries of the cuboidal cells are lined up with the coordinate axes and each cell has a limited number of neighbors.
 
 Hierarchical grids also have drawbacks, however. First of all, for a given density field and required resolution, an
-octtree grid may not be the kind of grid with the least number of cells. To illustrate this, consider a density field
+octree grid may not be the kind of grid with the least number of cells. To illustrate this, consider a density field
 defined by a set of smoothed particles. An octree grid constructed such that each cell encloses at most one particle
 usually has over three times more cells than there are particles; i.e., two out of three cells are empty. In contrast,
 an unstructured grid based on a Voronoi tessellation of the spatial domain, using the given particles as generating
@@ -619,7 +619,7 @@ possible to perform accurate and reasonably efficient radiative transfer on unst
 
 \subsection TutorialGridsOptimVoro2 Experimenting with a Voronoi grid
 
-To avoid overwriting your octtree simulation results, copy the ski file \c ArmedSpiralTree.ski to another file called,
+To avoid overwriting your octree simulation results, copy the ski file \c ArmedSpiralTree.ski to another file called,
 for example, \c ArmedSpiralVoro.ski. Open this new file in a text editor and replace the spatial grid specification by
 the following:
 
@@ -639,11 +639,11 @@ a black blob) and take quite some time to generate, so it is best to remove this
 the end of the ski file).
 
 After saving the above changes, run this new simulation. Shooting photons through a Voronoi grid is about three times
-slower than through a (highly optimized) octtree grid. The Voronoi grid may not be a big win for this monochromatic
+slower than through a (highly optimized) octree grid. The Voronoi grid may not be a big win for this monochromatic
 tutorial simulation, but it might still be beneficial for more complex panchromatic simulations as indicated above.
 
 Evaluate the results of the simulation, following more or less the steps described in section \ref
-TutorialGridsOptimAna. When comparing the simulation results between the octtree grid (with 900,000 cells) and the
+TutorialGridsOptimAna. When comparing the simulation results between the octree grid (with 900,000 cells) and the
 Voronoi grid (with 200,000 cells), take note of the following points.
 
 The dust density discretization with the Voronoi grid is not numerically converged. The convergence metrics show
@@ -652,8 +652,8 @@ regions differs somewhat between the two simulations. However, the Voronoi grid 
 sufficient time and computing resources, you might want to increase the number of cells until the simulation results
 reach convergence.
 
-All octtree cells have the same form factor as the complete domain of the grid, in this case rather flat (the height is
-10 times smaller than the width), while the Voronoi cells don't have any such predisposition. This gives the octtree an
+All octree cells have the same form factor as the complete domain of the grid, in this case rather flat (the height is
+10 times smaller than the width), while the Voronoi cells don't have any such predisposition. This gives the octree an
 advantage over the Voronoi grid in resolving the central regions of the model. More intelligent placement of the
 Voronoi sites might alleviate this issue. SKIRT offers schemes for placing the Voronoi sites randomly (uniform, with a
 steep central peak, according to dust density) or deterministically (at SPH particle locations, loaded from file) to

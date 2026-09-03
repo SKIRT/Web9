@@ -6,7 +6,7 @@ The topic \ref UserImportSnap describes how to format column text files for impo
 columns in these files must be provided in the order expected by the SKIRT class governing the import. However, SKIRT
 also offers some schemes to allow more flexible column ordering. The formal rules are presented in the documentation of
 the TextInFile class and the TextInFile::useColumns() function. The capabilities are illustrated below in a more
-accessable manner through an example.
+accessible manner through an example.
 
 - \ref UserImportColOrderDefault
 - \ref UserImportColOrderExplicit

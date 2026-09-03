@@ -23,7 +23,7 @@ While you do not necessarily need to run any SKIRT simulations to follow along w
 certainly is instructive to review the ski files being discussed. Thus, begin by downloading the ski files using the
 links provided in the table below.
 
-If you do want to perform the simulations on your system. pehaps in slightly modified form, then you should obviously
+If you do want to perform the simulations on your system, perhaps in slightly modified form, then you should obviously
 have installed the SKIRT code, and preferably also PTS and a FITS file viewer such as DS9 (see \ref InstallationGuide).
 
 
@@ -119,7 +119,7 @@ scattering angle from the source maximizes polarization strength.
 
 \section TutorialSphericalModel3D The 3D model
 
-The observations of some of the Blue Hot DOGs under study show only a single cone. To mimick this in your SKIRT model,
+The observations of some of the Blue Hot DOGs under study show only a single cone. To mimic this in your SKIRT model,
 you employ a geometry decorator to remove the top or bottom portion of the "dual" cone. This results in two models, one
 with a cone pointing towards the instruments and one with a cone pointing away from the instruments. (Alternatively,
 you could use a single cone-configuration and add instruments at inclinations below the equatorial plane.)
@@ -195,7 +195,7 @@ It is evident that the cells of the octree, which are aligned with the Cartesian
 properly resolve the slanted borders of the torus and cone geometry. Furthermore, the edges of the low-density cone are
 discretized with significantly larger cells than those of the torus. This is caused by the subdivision algorithm used
 by the SKIRT octree grid, which is mostly controlled by density and optical depth. Because the cone is 5 orders of
-magnitude less dense than the torus, it is exceedlingly hard to have the octree use smaller cells for the cone, unless
+magnitude less dense than the torus, it is exceedingly hard to have the octree use smaller cells for the cone, unless
 by resolving the empty space in the model by a large number of unnecessarily small cells.
 
 The polarization characteristics of the observed radiation in the models discussed here are dominated by scattering

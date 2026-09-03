@@ -52,7 +52,7 @@ a radius of 1 pc and a shallow exponential radial density profile. The total dus
 capture as many aspects of the influence of dust properties as possible, the configuration specifies a panchromatic
 simulation from UV to submillimeter wavelengths taking into account stochastic heating of small grains. The built-in
 Zubko et al. 2004 dust mix, which you will replace in later sections by custom dust mix variations, is configured with
-a suffiently large number of size bins to properly resolve the grain size distributions when calculating the emission
+a sufficiently large number of size bins to properly resolve the grain size distributions when calculating the emission
 spectrum for each material type and for each representative grain size:
 
 \verbatim
@@ -237,10 +237,10 @@ precentages indicating the relative contributions of course did change):
 
 The aggregate optical properties listed in the probe "1" output have adjusted as well. Let us investigate the values
 corresponding to a wavelength of 0.09 micron (the first data row in each file). As expected, the extinction cross
-sections and the masses per hydrogen atom for the three seperate grain populations add up to the corresponding
+sections and the masses per hydrogen atom for the three separate grain populations add up to the corresponding
 quantities of the original dust mix. In other words, \f[ \varsigma=\sum_c\varsigma_{c} \quad;\quad \mu=\sum_c\mu_{c},
 \f] where the sum runs over the individual grain populations. On the other hand, the extinction mass coefficients for
-the seperated grain populations do \em not add up to the extinction mass coefficient of the combined dust mix. In fact,
+the separated grain populations do \em not add up to the extinction mass coefficient of the combined dust mix. In fact,
 the difference is quite substantial. The reason for this becomes obvious from the definition of mass coefficient, \f[
 \kappa=\frac{\varsigma}{\mu}=\frac{\sum_c\varsigma_{c}}{\sum_c\mu_{c}} \neq
 \sum_c\frac{\varsigma_{c}}{\mu_c}=\sum_c\kappa_{c}. \f]
@@ -514,7 +514,7 @@ simulation snapshot, we manually construct simple input data files that illustra
 We first construct a reference model that we can use as the basis for further exploration. The model includes three
 identical sources lined up on the x-axis. Each source is embedded in a blob of dust that may have different properties.
 In the reference model we use a single dust mix; the only difference between the blobs is their mass. By smartly
-positioning a frame instrument so that each pixel covers a single source/blob combination, we can we evaluate the
+positioning a frame instrument so that each pixel covers a single source/blob combination, we can evaluate the
 extinction characteristics for each dust blob separately.
 
 The following column text data file defines the three sources for our model; this file will remain unchanged for all
@@ -591,13 +591,13 @@ The ski file configures source and media components by importing these data file
                 </media>
                 <grid type="SpatialGrid">
                     <CartesianSpatialGrid minX="-1 pc" maxX="1 pc" minY="-1 pc" maxY="1 pc" minZ="-1 pc" maxZ="1 pc">
-                        <meshX type="MoveableMesh">
+                        <meshX type="Mesh">
                             <LinMesh numBins="60"/>
                         </meshX>
-                        <meshY type="MoveableMesh">
+                        <meshY type="Mesh">
                             <LinMesh numBins="60"/>
                         </meshY>
-                        <meshZ type="MoveableMesh">
+                        <meshZ type="Mesh">
                             <LinMesh numBins="60"/>
                         </meshZ>
                     </CartesianSpatialGrid>
@@ -913,7 +913,7 @@ Because the weights specified in the import file are multiplication factors "on 
 configured in the ski file, we need to compensate for the original mass fraction of each population in the complete
 dust mix. Assuming a configured dust mix including fragments \f$c\f$ with dust masses per hydrogen atom \f$\mu_c\f$,
 and given the required dust mass fractions \f$f_c\f$, the weights \f$w_c\f$ to be specified in the import file can be
-calcuted as: \f[ w_c = f_c\,\frac{\sum_c \mu_c}{\mu_c}. \f]
+calculated as: \f[ w_c = f_c\,\frac{\sum_c \mu_c}{\mu_c}. \f]
 
 The relative mass contribution \f$\mu_c / \sum_c\mu_c\f$ for each fragment in the configured dust mix can be obtained
 by inserting the \c DustGrainPopulationsProbe in the ski file. The third column of the output of this probe lists the
@@ -953,7 +953,7 @@ weight (columns 6-8). For the radiative transfer process itself, this product is
 is strongly recommended to have the mass column specify the total mass and the weights specify the requested deviation
 from that mass for each grain population, as we have done in this example. This is because part of the output produced
 by certain probes uses just the information in the mass column, ignoring the weights. For example, the "Input" optical
-depth value in the output from the \c SpatialGridConvergenceProbe ignores the weights, while the corresponding
+depth value in the output from the \c ConvergenceInfoProbe ignores the weights, while the corresponding
 "Gridded" values do take the weights into account.
 
 The \c FragmentDustMixDecorator can also split any of the built-in turn-key dust mixes that inherit from \c
@@ -1121,7 +1121,7 @@ An import file for this configuration may be:
 
 From the output of the \c DustGrainPopulationsProbe for this setup, it can easily be verified that all fragments (or
 size bins) carry the same dust mass contribution. Denoting the number of size bins as \f$C\f$ (i.e. \f$C=32\f$ in our
-example), the formula for calculating the weigths from a given required mass fraction therefore simplifies to \f[ w_c =
+example), the formula for calculating the weights from a given required mass fraction therefore simplifies to \f[ w_c =
 f_c\,C. \f]
 
 This setup produces the following spectra, with similar effects as those in the previous section. The second particle

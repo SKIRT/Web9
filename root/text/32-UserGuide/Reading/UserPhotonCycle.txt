@@ -11,7 +11,7 @@ configure the corresponding options in the parameter file.
 The Monte Carlo radiative transfer method employed by SKIRT essentially emulates the relevant physics by following a
 stream of individual photon packets on "random" paths through the medium. Each photon packet represents a given number
 of photons at a particular wavelength (see the PhotonPacket class and \ref UserWaveTreatPacket). During the photon
-packet life cycle, all emission and interaction events are governed by the probability distribution relecting the
+packet life cycle, all emission and interaction events are governed by the probability distribution reflecting the
 physical process being represented. In practice, however, various variance reduction and acceleration techniques may
 prescribe using an adjusted probability distribution to improve the chances that the packets efficiently trace the
 relevant aspects of the model. In such case, the change is compensated by applying a \em bias factor to the weight of
@@ -24,18 +24,18 @@ escape from the simulated model, a peel-off photon packet is sent to the instrum
 event. With the appropriate bias factors, this method produces the correct results much more quickly.
 
 The MonteCarloSimulation class implements the photon packet life cycle in SKIRT, calling on the other components of
-the simulation such as sources, media and instruments to  perform many of the actual, concrete steps along the way.
+the simulation such as sources, media and instruments to perform many of the actual, concrete steps along the way.
 For more information, see the documentation of the MonteCarloSimulation class and its functions.
 
 \section UserPhotonCycleCycle Photon packet life cycle
 
 ## Emission
 
-When emitting a new photon packet,  key characteristics to be determined include the originating position and the
+When emitting a new photon packet, key characteristics to be determined include the originating position and the
 initial wavelength of the packet. In both cases, SKIRT allows configuring a number of biasing options to achieve
 optimal efficiency.
 
-The \em spatial biasing mechanisms  control the relative number of photon packets emitted for each source and for each
+The \em spatial biasing mechanisms control the relative number of photon packets emitted for each source and for each
 entity within each source, if applicable. Although the default settings are usually sufficient, we briefly
 describe the options here.
 

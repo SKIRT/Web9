@@ -5,7 +5,7 @@
 \section DevSmileIntro Introduction
 
 The SMILE subproject implements the mechanisms for handling SKIRT parameter files in SKIRT and MakeUp. The code in
-this subproject is designed as a generic framework that can be used ouside of the SKIRT project as well.
+this subproject is designed as a generic framework that can be used outside of the SKIRT project as well.
 
 The SMILE acronym stands for "Simple Metadata Interactive Language Editing". SMILE is a metadata language that can
 represent parameter files for software programs or other simple datasets; see \ref DevSmileLang below for more
@@ -74,7 +74,7 @@ and property values. SKIRT uses the SMILE library to save a SMILE schema reflect
 This schema can then be loaded into one of the independent, generic SMILE utilities for creating or editing a SMILE
 data set acting as a parameter file for SKIRT. Subsequently, SKIRT uses the SMILE library to construct a
 run-time object hierarchy (instantiating the SKIRT client classes) mirroring the parameter file, and which is
-used to perform the requested simulation. As an alternative for the user who doesn't have access to the seperate SMILE
+used to perform the requested simulation. As an alternative for the user who doesn't have access to the separate SMILE
 dataset editing utilities, SKIRT uses the SMILE library to implement a built-in console query and answer session.
 
 Another use case is a program that requires a simple settings file, without a tight coupling between the structure of
@@ -90,7 +90,7 @@ in memory.
 
 SMILE is a metadata language that can represent simple datasets such as property lists or parameter files for
 software programs. A SMILE dataset can be stored as a text file using a subset of the standard XML format, which makes
-it easy to create, modify and use electronically. In addition, the SMILE XML format is fairly accessable for direct
+it easy to create, modify and use electronically. In addition, the SMILE XML format is fairly accessible for direct
 viewing and editing by a moderately advanced user.
 
 While SMILE uses a limited subset of the XML standard, it supports complicated data structures including:
@@ -190,7 +190,7 @@ The following tables present the properties for each Smile schema item.
                         inserted in the global and/or local name set when an item of this type is added to the dataset,
                         in addition to the names of the type and its ancestors; an empty string means that no extra
                         names will be added</TD></TR>
-<TR><TD>subPropertyIndex</TD>  <TD>bool</TD>  <TD>the index in the property list where properties of subtypes should
+<TR><TD>subPropertyIndex</TD>  <TD>int</TD>  <TD>the index in the property list where properties of subtypes should
                         be listed; if nonnegative, properties of subtypes must be listed just before the property
                         with the given index; if negative, properties of subtypes must be listed after the properties
                         of the base type</TD></TR>
@@ -220,8 +220,9 @@ The following tables present the properties for each Smile schema item.
                         dataset, in addition to the name automatically associated with the property; an empty string
                         means that no extra names will be added</TD></TR>
 <TR><TD>default</TD>    <TD>string</TD>  <TD>a conditional value expression providing a default value for the property
-                        in case the property is missing  string in a format compatible with the particular concrete
-                        property type; for compound properties the value indicates the name of a type;
+                        in case the property is missing; for scalar properties the value must be a string
+                        in a format compatible with the particular concrete property type;
+                        for compound properties the value indicates the name of a type;
                         an empty string means there is no default value</TD></TR>
 </TABLE>
 
@@ -618,7 +619,7 @@ whitespace. An option always starts with a dash; a filepath and an option value 
 
 The XmlReader and XmlWriter classes implement reading and writing of the XML subset that is sufficient to represent
 SMILE schemas and datasets. The classes support well-formed XML 1.0 documents with certain additional limitations and
-caveats, as decribed in the respective class headers.
+caveats, as described in the respective class headers.
 
 \subsection DevSmileCompSchema The schema and discovery layer
 

@@ -103,7 +103,7 @@ Supporting the SKIRT development process:
 - Back up (portions of) the development data/source code directory.
 
 User interface:
-- Acessible from the command line, from notebooks (such as Jupyter), and through regular Python function calls.
+- Accessible from the command line, from notebooks (such as Jupyter), and through regular Python function calls.
 
 Code design:
 - Developed for Python 3.7 or later using widely available packages only.

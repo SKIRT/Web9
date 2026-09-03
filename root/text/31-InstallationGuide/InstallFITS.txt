@@ -19,7 +19,7 @@ Based on these packages, the \ref HomeFeaturesPTS "Python Toolkit for SKIRT (PTS
 SKIRT output files with some extra intelligence (e.g., interpreting units), and it offers high-level commands to
 rapidly visualize some specific SKIRT output.
 
-While this is all very helpfull, it is often convenient to also have a dedicated FITS viewer available for interactive
+While this is all very helpful, it is often convenient to also have a dedicated FITS viewer available for interactive
 inspection of FITS files produced by SKIRT. The following sections describe how to install one such viewer,
 called [SAOImage DS9](http://ds9.si.edu/site/Home.html), or DS9 for short.
 

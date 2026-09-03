@@ -177,8 +177,7 @@ Two "standard" files are always generated for every simulation (assuming a ski f
    used for the simulation. To avoid confusion, the generated parameter file does not have the ".ski" filename
    extension. However the file can be renamed (possibly after manual editing) to serve as a regular ski file.
 
-Many of the other output files are described in the tutorials offered in the
-<a href="../version8/_tutorials.html">Tutorials</a> section on this web site.
+Many of the other output files are described in the tutorials offered in the \ref UserGuide.
 
 \section UserCmdLineEmul Emulation mode
 
@@ -199,7 +198,7 @@ mpirun -np 2 /path/to/executable/skirt -e -v example.ski
 \endverbatim
 
 The amount of memory stated at the end of the console output applies to just the root process. The memory
-requirements for the other processes can be found a the end of the log file for each process.
+requirements for the other processes can be found at the end of the log file for each process.
 
 
 */

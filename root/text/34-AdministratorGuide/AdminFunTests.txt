@@ -117,8 +117,8 @@ The PTS command "test_functional" allows running all or a subset of test cases:
        Finished test/test_functional.
     $
 
-The first example performs all text cases with a name including the phrase "Disk", regardless of where they are located
-in the \c Functional9 directory hierarchy. The second example simply performs all availabe test cases. For each
+The first example performs all test cases with a name including the phrase "Disk", regardless of where they are located
+in the \c Functional9 directory hierarchy. The second example simply performs all available test cases. For each
 invocation, the procedure creates a test report in the \c Functional9/_testreports subdirectory. The name of the report
 starts with a time stamp and ends with the number of test cases performed. The test cases are performed in somewhat
 arbitrary order, which is reflected in the console log during execution. However, the report file always lists test

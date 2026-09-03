@@ -66,12 +66,12 @@ hopefully guide you to the answer.
         <TD>The path to the include directory(ies) for the MPI headers</TD></TR>
 <TR><TD>MPI_CXX_LIBRARIES</TD>   <TD>\em auto (*)</TD> <TD>BUILD_WITH_MPI</TD>
         <TD>The path to the library directory(ies) for the MPI libraries</TD></TR>
-<TR><TD>Qt5Core_DIR</TD>   <TD>\em auto (*)</TD> <TD>BUILD_MAKE_UP</TD>
-        <TD>The path to the directory for the Qt5Core module</TD></TR>
-<TR><TD>Qt5Gui_DIR</TD>   <TD>\em auto (*)</TD> <TD>BUILD_MAKE_UP</TD>
-        <TD>The path to the directory for the Qt5Gui module</TD></TR>
-<TR><TD>Qt5Widgets_DIR</TD>   <TD>\em auto (*)</TD> <TD>BUILD_MAKE_UP</TD>
-        <TD>The path to the directory for the Qt5Widgets module</TD></TR>
+<TR><TD>Qt6Core_DIR</TD>   <TD>\em auto (*)</TD> <TD>BUILD_MAKE_UP</TD>
+        <TD>The path to the directory for the Qt6Core module</TD></TR>
+<TR><TD>Qt6Gui_DIR</TD>   <TD>\em auto (*)</TD> <TD>BUILD_MAKE_UP</TD>
+        <TD>The path to the directory for the Qt6Gui module</TD></TR>
+<TR><TD>Qt6Widgets_DIR</TD>   <TD>\em auto (*)</TD> <TD>BUILD_MAKE_UP</TD>
+        <TD>The path to the directory for the Qt6Widgets module</TD></TR>
 </TABLE>
 
 (*) \em auto means that CMake usually finds the appropriate path without user intervention. In case CMake fails

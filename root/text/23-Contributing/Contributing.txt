@@ -27,7 +27,7 @@ The technical contribution mechanisms and workflows are discussed here:
 - \ref ContributingIssues
 - \ref ContributingPullRequests
 
-For detailed developer information, including coding style guidelines and the recommended GitHub worklow,
+For detailed developer information, including coding style guidelines and the recommended GitHub workflow,
 see the \ref DeveloperGuide.
 
 \section ContributingContributors Contributor's hall of fame
@@ -36,8 +36,7 @@ Maarten Baes conceived of SKIRT and wrote the first several versions of the code
 determine the strategic direction and to supervise further development, heading the SKIRT Core Team. Once in a while,
 less frequently than he would like, he contributes some nice new feature himself.
 
-Peter Camps was the main SKIRT developer for ten years (2012-2022) until he retired. He introduced its current design
-and added many capabilities.
+Peter Camps has been the main SKIRT developer since 2012. He introduced its current design and added many capabilities.
 
 The following people contributed to the SKIRT project effort by developing code, writing documentation, and/or by
 extensively using the code and offering detailed information on new features. They are listed in alphabetical order on
@@ -210,6 +209,6 @@ To initiate a pull request:
  - On the GitHub web site, create a pull request from your fork.
  - Wait for feedback from the SKIRT Core Team.
 
-This worklow is described in much more detail in \ref DevGitHubFlow.
+This workflow is described in much more detail in \ref DevGitHubFlow.
 
 */

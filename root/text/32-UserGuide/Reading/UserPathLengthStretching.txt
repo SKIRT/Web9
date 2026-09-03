@@ -417,7 +417,7 @@ to EA based on spot checks rather than an in-depth study:
    over the classic photon cycle because there is not enough absorption to handle explicitly.
  - In a regime with significant absorption, enabling EA offers a benefit that is comparable to PLS.
  - For higher optical depths, EA sometimes seems to perform better than PLS. However, just as with PLS, the
-   calculated result is not necessarily converged (i.e. the flux kreeps up slowly with more photon packets).
+   calculated result is not necessarily converged (i.e. the flux creeps up slowly with more photon packets).
  - EA fails dramatically for the X-ray gas regime, where scattering events often significantly update
    the photon wavelength (elastic scattering, fluorescence).
 

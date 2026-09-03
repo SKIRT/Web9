@@ -93,7 +93,7 @@ Once the above commands have completed successfully, verify that the installed t
 \ref InstallSKIRTUnixToolsVersions) by entering the following commands:
 
 \verbatim
-$ g++ --version"
+$ g++ --version
 g++ (GCC) 5.4.0
 ...
 $ cmake --version
@@ -153,7 +153,7 @@ and a remote server on which you actually run the simulations. Or, you may consi
 main project once they have been fleshed out and tested. In these cases, you should first create a personal fork of the
 SKIRT project on GitHub, and then clone that fork to your computer(s). For more information about forking, refer to
 the [GitHub fork help item](https://help.github.com/en/articles/about-forks). For more information about contributing
-to the SKIRT project, see the [Contributing](../root/_Contributing.html) section on this web site.
+to the SKIRT project, see \ref Contributing.
 
 \subsection InstallSKIRTUnixCheckout Install a specific version of the source code
 
@@ -184,7 +184,7 @@ and subsequently rebuild the code as described in \ref InstallSKIRTUnixBuild bel
 
 \subsection InstallSKIRTUnixBuildFirst Building for the first time
 
-The SKIRT code code includes two \c bash shell scripts to help configuring and building SKIRT
+The SKIRT code includes two \c bash shell scripts to help configuring and building SKIRT
 from the source code in the git directory. Before you use these script for the first time, you may need
 to make them executable:
 

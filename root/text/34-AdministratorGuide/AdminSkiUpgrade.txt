@@ -20,7 +20,7 @@ When an update to the SKIRT code involves an incompatible ski file change, the a
 must be extended to accommodate this new upgrade. This functionality is implemented in the pts.skiupgrade.skiupgrade
 module using XPath conditions and XSLT templates for transforming the ski file XML contents.
 
-Using XSLT is extremely flexible, but unfortunately the XSLT language is fairly obscure an thus has a steep learning
+Using XSLT is extremely flexible, but unfortunately the XSLT language is fairly obscure and thus has a steep learning
 curve. To alleviate this problem to some extent, the upgrade procedure's implementation provides a set of functions
 that generate upgrade definitions for specific types of changes, such as, for example, changing the name of a property.
 That way, as soon as the XSLT sheet for a particular type of change has been developed, it can be more easily reused

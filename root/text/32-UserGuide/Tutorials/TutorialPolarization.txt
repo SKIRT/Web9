@@ -8,7 +8,7 @@ polarization degree of the observed radiation, at least for this simplified mode
 
 \section TutorialPolarizationPre Getting ready
 
-This tutorial assumes that you have completed the introductory SKIRT tutorials \ref TutorialBasicsMono ad \ref
+This tutorial assumes that you have completed the introductory SKIRT tutorials \ref TutorialBasicsMono and \ref
 TutorialBasicsPan, or that you have otherwise acquired the working knowledge introduced there. At the very least,
 before starting this tutorial, you should have installed the SKIRT code, and preferably also PTS and a FITS file viewer
 such as DS9 (see \ref InstallationGuide).
@@ -45,7 +45,7 @@ the following configuration elements (not in this order):
      - a thinner exponential disk consisting of young stars (10000 K), with spiral arm structure
      - an exponential dust disk with spiral arm structure (the arms in the young stellar disk and the dust disk trail
        those in the evolved stellar population by varying the phase zero-points)
- - a material mix called \c MeanTrustBenchmarkDustMix, representing the dust properties used in the Gordon et. al 2017
+ - a material mix called \c MeanTrustBenchmarkDustMix, representing the dust properties used in the Gordon et al. 2017
    benchmark (see \ref Gordon2017)
  - an adaptive octree grid
  - six instruments at various inclination and azimuth angles
@@ -95,7 +95,7 @@ Compare the 2D structure of the Q and U components. Examine the differences as y
 
 \subsection TutorialPolarizationVisualMaps Polarization maps with PTS
 
-While the Stokes components correspond to the output of an actual observation, it is much easier to interprete
+While the Stokes components correspond to the output of an actual observation, it is much easier to interpret
 quantities such as the polarization degree and angle, which can be calculated from the Stokes vector components
 (see \ref UserPolarizeBackground).
 
@@ -146,7 +146,7 @@ This average polarization degree plot corresponds to the edge-on polarization ma
 same inclination and wavelength). Even if the two plots unfortunately do not have the same horizontal size, it is
 easily verified that the polarization degree maxima indeed occur at the same X-axis positions.
 
-The model confguration for this tutorial includes a second set of instruments with lines of sight at the same
+The model configuration for this tutorial includes a second set of instruments with lines of sight at the same
 inclinations but with a different azimuthal angle, resulting in a "rotated" view. The figure below shows adjacent
 results for the original view (left column) and for the rotated view (right column). This figure was produced by
 a custom Python script and is based on a simulation using many more photon packets (see Peest et al. 2017).

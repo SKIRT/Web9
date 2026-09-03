@@ -278,7 +278,7 @@ are outside the scope of this tutorial.
 The marker positions in the 3D plot above are determined by the cell centers in the spatial grid of the simulation. For
 a typical SKIRT simulation grid, this means the markers are unevenly spread over the domain because there are more
 (smaller) cells in high-density regions. In some cases, it may be preferable to instead place markers at set of
-predefined positions, for example the points on a regular grid. Similary, other applications may require obtaining the
+predefined positions, for example the points on a regular grid. Similarly, other applications may require obtaining the
 value of physical quantities at a set of predefined positions of interest.
 
 One option is to configure a probe with the AtPositionsForm probe form and provide a text column file listing the

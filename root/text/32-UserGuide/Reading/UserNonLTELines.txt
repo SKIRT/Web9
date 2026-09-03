@@ -166,7 +166,7 @@ It is important to set the options in the ImportedMedium component appropriately
 - \em importMetallicity: leave at the default value of "false".
 - \em importTemperature: set to "true" (!!).
 - \em maxTemperature: leave at the default value of 0 K.
-- \em importVelocity: set to "true" if the input file incudes bulk velocity components, "false" otherwise.
+- \em importVelocity: set to "true" if the input file includes bulk velocity components, "false" otherwise.
 - \em importMagneticField (an expert option): leave at the default value of "false".
 - \em importVariableMixParams: leave at the default value of "false".
 

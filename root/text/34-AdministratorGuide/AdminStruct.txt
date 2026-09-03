@@ -2,8 +2,8 @@
 
 \page AdminStruct SKIRT project directory structure
 
-An administator's SKIRT project directory must be complete and have the exact structure described below. This is
-important because the administator shell scripts and PTS commands rely on this structure. For example, the contents of
+An administrator's SKIRT project directory must be complete and have the exact structure described below. This is
+important because the administrator shell scripts and PTS commands rely on this structure. For example, the contents of
 the SKIRT web site is derived from sources and data spread out across many of the project's subdirectories.
 
 # The SKIRT project directory
@@ -18,7 +18,7 @@ the SKIRT web site is derived from sources and data spread out across many of th
         SKIRT9
         Web9
 
-The top level directory for the SKIRT project is called SKIRT and resides directly in the administator's home folder,
+The top level directory for the SKIRT project is called SKIRT and resides directly in the administrator's home folder,
 i.e. at the highest level. Its subdirectories, shown above in alphabetical order, are described in the following
 sections.
 
@@ -30,7 +30,7 @@ When setting up this directory structure:
 - The contents of the other directories must be obtained from a current backup created by another administrator.
 
 \note There are currently no provisions for synchronizing the contents of the non-GitHub directories between multiple
-administrators/computers. The most straighforward manual synchronization technique is to ensure that (1) just a single
+administrators/computers. The most straightforward manual synchronization technique is to ensure that (1) just a single
 administrator is making changes at any one time, and (2) backups of the most recent version are exchanged when
 transitioning between administrators.
 
@@ -93,13 +93,13 @@ origin https://github.com/USERNAME/SKIRT9.git (fetch)
 origin https://github.com/USERNAME/SKIRT9.git (push)
     \endverbatim
 
-- Establish the main SKIRT9 repository as the "upstream" respository for your local copy:
+- Establish the main SKIRT9 repository as the "upstream" repository for your local copy:
 
     \verbatim
 $ git remote add upstream https://github.com/SKIRT/SKIRT9.git
 $ git remote -v
-origin https://github.com/petercamps/SKIRT9.git (fetch)
-origin https://github.com/petercamps/SKIRT9.git (push)
+origin https://github.com/USERNAME/SKIRT9.git (fetch)
+origin https://github.com/USERNAME/SKIRT9.git (push)
 upstream https://github.com/SKIRT/SKIRT9.git (fetch)
 upstream https://github.com/SKIRT/SKIRT9.git (push)
     \endverbatim
@@ -147,7 +147,7 @@ other information you wish to retain. If so, make a backup copy. Then remove the
 directory.
 
 - Clone <b>your personal fork</b> to a local copy on your computer, and establish the main PTS9 repository as the
-"upstream" respository for your local copy (replace \c USERNAME by your GitHub user name):
+"upstream" repository for your local copy (replace \c USERNAME by your GitHub user name):
 
     \verbatim
 $ cd ~/SKIRT
@@ -269,7 +269,7 @@ verified automatically to avoid regression after each update or addition to the 
         Publish
         StoredTables
 
-This directory contains all data related to the resources used by the SKIRT code. This includes the orginal data
+This directory contains all data related to the resources used by the SKIRT code. This includes the original data
 obtained from a third party where applicable, the corresponding "stored table" files consumed by SKIRT, the resource
 packs to be made available for public download, the specifications for converting between these formats, and the
 procedures for publishing the resource packs to the SKIRT data file server. For more information, see:

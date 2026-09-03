@@ -34,7 +34,7 @@ restrictions):
   In other words, there is no self-consistent calculation of the ionized hydrogen fraction. Instead, the user is
   responsible for determining this in advance of the radiative transfer simulation.
 
-Within these limitations, the model can be placed at any redshift supported by SKIRT (see \ref UserRedshift)
+Within these limitations, the model can be placed at any redshift supported by SKIRT (see \ref UserRedshift).
 
 
 \section DevLymanAlphaPhys Physics
@@ -207,7 +207,7 @@ Specifically, the Hubble flow velocity shift \f$\Delta v_\mathrm{h}\f$ correspon
 \sqrt{\Omega_\mathrm{m}(1+z)^3 + (1-\Omega_\mathrm{m})}. \f] As long as \f$\Delta v_\mathrm{h} \ll c\f$, the photon
 packet wavelength shift corresponding to \f$\Delta v_\mathrm{h}\f$ can be obtained as usual.
 
-The Hubble flow wavelength shift must evaluated and applied to a photon packet after each cell crossing because the Lyα
+The Hubble flow wavelength shift must be evaluated and applied to a photon packet after each cell crossing because the Lyα
 cross section in subsequent cells depends on the adjusted wavelength. This mechanism assumes that the wavelength shift
 within each spatial cell are small relative to the width of the local Lyα cross section profile. If this would not be
 the case, a photon packet might inadvertently 'wavelength-skip' over the cross section profile rather than being
@@ -263,7 +263,7 @@ negligible, and (b) the effects of the phase function on the scattering directio
 essentially randomized by the large number of scattering events.
 
 The acceleration scheme employs a critical frequency \f$x_\mathrm{crit}\f$ that indicates the transition from core to
-wing. Photons in the wings (\f$|x|>x_\mathrm{crit})\f$) receive no special treatment. Photons in the core
+wing. Photons in the wings (\f$|x|>x_\mathrm{crit}\f$) receive no special treatment. Photons in the core
 (\f$|x|<x_\mathrm{crit}\f$) are accelerated as follows. Ordinarily, the physical mechanism that puts a Lyα photon from
 the core into the wing of the line profile is an encounter with a fast moving atom. We can force the scattering atom to
 have a large velocity when generating its velocity components.

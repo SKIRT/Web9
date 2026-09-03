@@ -53,8 +53,8 @@ SKIRT and PTS can be installed on any recent 64-bit version of Unix, macOS, and 
 
 The SKIRT code is intended to be truly cross-platform. It is written in standard C++14, which is supported by all
 recent C++ compilers, and it uses the CMake build system, which is widely available. The source code for SKIRT is
-hosted on GitHub. You can download the code as a ZIP archive, but the recommended method is to use a  git client,
-which is widely available. The source code is formatted using  clang-format and the documentation on this web site is
+hosted on GitHub. You can download the code as a ZIP archive, but the recommended method is to use a git client,
+which is widely available. The source code is formatted using clang-format and the documentation on this web site is
 generated from the source code through Doxygen. You don't need to install these documentation tools unless you are a
 substantial contributor to the SKIRT project.
 

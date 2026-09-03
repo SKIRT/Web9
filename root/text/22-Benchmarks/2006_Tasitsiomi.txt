@@ -49,8 +49,6 @@ considered to be excellent.
 
 \section TasitsiomiPerform Performing this benchmark
 
-XXX
-
 To perform this benchmark, download the ski files provided above (\ref TasitsiomiRefs). Open the relevant ski file in a
 text editor to adjust the following parameter values to a particular benchmark configuration:
 

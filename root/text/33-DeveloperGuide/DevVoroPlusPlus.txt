@@ -91,7 +91,7 @@ creation of additional low-order vertices, so the process is applied recursively
 \subsection DevVoroPlusPlusCompute The compute class
 
 The \c compute class encapsulates the routines for carrying out the Voronoi cell computations. It contains data
-structures suchs as a mask and a queue that are used in the computations. During the computation, the class calls
+structures such as a mask and a queue that are used in the computations. During the computation, the class calls
 routines in the container class to access the particle positions that are stored there.
 
 The key routine in this class is compute_cell(), which makes use of a \c cell class to construct a Voronoi cell for a

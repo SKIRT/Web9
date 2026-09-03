@@ -104,7 +104,7 @@ is used as \f$v_\mathrm{s}\f$.
 particle mass are used to calculate \f$v_\mathrm{s}\f$.
 
 - Absorption cross section and secondary emission (NonLTELineGasMix): the temperature and subgrid turbulence of the
-medium are combined into an efffective temperature \f$T_\mathrm{eff}\f$, which is then used together with the particle
+medium are combined into an effective temperature \f$T_\mathrm{eff}\f$, which is then used together with the particle
 mass to calculate \f$v_\mathrm{s}\f$.
 
 - Scattering cross section (ElectronMix, XRayAtomicGasMix): the temperature of the medium and the mass of its

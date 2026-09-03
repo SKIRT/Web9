@@ -1,7 +1,7 @@
 # Title (full title)
 # Authors ("First et al." or "First and Second"; last names only)
 # Journal (abbreviation)
-# Month Year (decimal numbers seperated by space)
+# Month Year (decimal numbers separated by space)
 # Category (Technical or Application)
 # Filename (filename body without directory nor filename extension)
 # ADS (bibcode reference without the other portions of the URL)
@@ -469,14 +469,6 @@ ApJ
 Application
 Cruz2023
 2023ApJ...955...78C
-
-The atomic-to-molecular hydrogen transition in the TNG50 simulation: Using realistic UV fields to create spatially resolved H I maps
-Gebek et al.
-MNRAS
-06 2023
-Application
-Gebek2023b
-2023MNRAS.521.5645G
 
 Paradigmatic examples for testing models of optical light polarization by spheroidal dust
 Peest et al.
@@ -1071,7 +1063,7 @@ Nersesian2020b
 2020A&A...643A..90N
 
 A redshift-dependent IRX-β dust attenuation relation for TNG50 galaxies
-Schulz et. al
+Schulz et al.
 MNRAS
 10 2020
 Application
@@ -1135,7 +1127,7 @@ Mocz2020
 2020MNRAS.494.2027M
 
 Rapid early coeval star formation and assembly of the most-massive galaxies in the Universe
-Rennehan at al.
+Rennehan et al.
 MNRAS
 04 2020
 Application

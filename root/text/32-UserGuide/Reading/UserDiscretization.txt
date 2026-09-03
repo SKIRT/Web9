@@ -9,7 +9,7 @@ By the nature of numerical methods, SKIRT discretizes the physical quantities de
 resolution elements such as spatial cells, wavelength bins, and photon packets.
 Various parameters in the configuration ski file control the level of discretization. Generally
 speaking, a finer-grained resolution improves the approximation to the continuous variables and thus the simulation
-results, while also increasing the computational costs. To find a acceptable balance, and to ensure meaningful results,
+results, while also increasing the computational costs. To find an acceptable balance, and to ensure meaningful results,
 <b>it is essential to perform numerical convergence tests</b>.
 
 The first section below describes the generic procedure for testing numerical convergence. Subsequent sections consider
@@ -79,7 +79,7 @@ In some specific cases you can pinpoint the proper parameter values for a simula
 based on experience or external guidance. Most often though, you need to verify convergence through the above procedure
 for each of the discretization mechanisms employed by the SKIRT simulations in your study. To complicate matters even
 more, these tests are interdependent. For example, a finer spatial or spectral grid requires a larger number of photon
-packets to propertly sample the smaller cells or bins. Or, vice versa, for a constant number of photon packets, higher
+packets to properly sample the smaller cells or bins. Or, vice versa, for a constant number of photon packets, higher
 resolution spatial or spectral grids yield increased statistical noise per cell/bin. So, where to start?
 
 There is no "optimal" ordering of convergence tests. One approach is to alternate between the various discretization
@@ -151,10 +151,10 @@ emission spectra.
 
 Furthermore, each instrument in the simulation must be configured with a wavelength grid to store the fluxes being
 recorded. These wavelength grids should be fine-tuned to fit the needs of the use case while keeping an eye on the
-required computational resources. Increasing the spectral resolution will deteriorate the signal-to noise ratio in
+required computational resources. Increasing the spectral resolution will deteriorate the signal-to-noise ratio in
 individual wavelength bins unless the number of photon packets in the simulation is increased. Also, because IFU data
 cubes can be large, it is sometimes useful to assign a lower-resolution grid to a FrameInstrument in combination with a
-higher-resolution grid for an SEDInstrument in the same sight line. This boosts the signal-to noise ratio in the data
+higher-resolution grid for an SEDInstrument in the same sight line. This boosts the signal-to-noise ratio in the data
 cube pixels while also limiting memory usage.
 
 One last type of spectral discretization is used for calculating secondary emission in each spatial cell. For example,

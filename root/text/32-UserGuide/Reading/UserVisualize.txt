@@ -94,7 +94,7 @@ The script takes the following arguments:
  - \em colors (string): a string specifying the three wavelength values or broadbands corresponding to each R,G,B
     color channel of the image; by default the script uses frames with wavelengths as widely apart as possible.
 
-The image files are  placed next to the "*.fits" file(s) being represented, with the same filename
+The image files are placed next to the "*.fits" file(s) being represented, with the same filename
 but extended with the specified \em name string and the filename extension replaced by ".png".
 
 For example, after running a panchromatic simulation of a basic spiral galaxy model with a substantial amount of dust,

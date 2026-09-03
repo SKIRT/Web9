@@ -589,7 +589,7 @@ separate set of objects, called "probes".
 
 Depending on a probe's type, it is invoked at one of two points in the simulation run to produce its output: at the end
 of the setup phase, or at the very end of the simulation run. Each probe has a name, serving to unambiguously
-distinguish its output files, and some probe types offer additional options. It possible and often useful to include
+distinguish its output files, and some probe types offer additional options. It is possible and often useful to include
 differently configured multiple probes of the same type.
 
 All probes are part of the probe system. Because there is only one type of probe system, it is selected automatically.
@@ -702,7 +702,7 @@ The execution of a simulation progresses in several distinct stages:
   - During the simulation \em run, photon packets are traced through the spatial domain and detected by instruments.
     For an oligochromatic simulation, there is just a primary emission phase.
     In panchromatic simulations, there can also be a secondary emission phase, and both phases can be iterative.
-  - During \em final \em output, the instruments are requested to ouput the detected mock observations, and the
+  - During \em final \em output, the instruments are requested to output the detected mock observations, and the
     relevant probes are invoked to produce output reflecting the data accumulated during the simulation run.
 
 \subsection TutorialBasicsMonoOutput Output files
@@ -726,7 +726,7 @@ During the setup output stage, the probes configured for this tutorial simulatio
  simulation. The number in the filename indicates the zero-based index of the medium component to which the properties
  correspond. In this tutorial simulation, there is only a single medium component so there is only one file.
 
- - \c MonoDisk_cut_dust_t_xy.fits & \c MonoDisk_cut_dust_t_xz.fits (\c t for "theorical") are single-frame FITS data
+ - \c MonoDisk_cut_dust_t_xy.fits & \c MonoDisk_cut_dust_t_xz.fits (\c t for "theoretical") are single-frame FITS data
  files, each providing a 1024 x 1024 pixel map of the theoretical dust density in a coordinate plane, across the total
  extent of the spatial grid. These density values are determined from the medium distribution as if there is an
  infinitely fine spatial grid.

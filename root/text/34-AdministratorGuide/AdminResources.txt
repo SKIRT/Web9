@@ -24,7 +24,7 @@ Within the SKIRT code, resource files are identified by their filename, without 
 other words, a resource file can be located in any (nested) subdirectory of a resource pack. On the other hand, this
 means that resource file names must be unique across all resource packs.
 
-The Resources9 directory contains the orginal data obtained from a third party where applicable, the corresponding
+The Resources9 directory contains the original data obtained from a third party where applicable, the corresponding
 "stored table" files consumed by SKIRT, the resource packs to be made available for public download, the specifications
 for converting between these formats, and the procedures for publishing the resource packs to the SKIRT data file
 server.
@@ -55,14 +55,14 @@ For more information, see:
 Once a SKIRT resource is properly specified as described in the previous section, it can be constructed using the PTS
 command "construct_skirt_resources". For example:
 
-    $ pts construct_skirt_resource --help
+    $ pts construct_skirt_resources --help
        ...
        positional arguments:
          ...
          subDirectory          name of subdirectory to process or . for all
          ...
     $
-    $ pts construct_skirt_resource Sun
+    $ pts construct_skirt_resources Sun
        Starting storedtable/construct_skirt_resources...
        Starting set Sun of 1 conversion specs
        Performing conversion spec Sun
@@ -70,7 +70,7 @@ command "construct_skirt_resources". For example:
        Finished set of conversion specs
        Finished storedtable/construct_skirt_resources.
     $
-    $ pts construct_skirt_resource .
+    $ pts construct_skirt_resources .
        ...
     $
 

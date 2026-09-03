@@ -2,7 +2,7 @@
 
 \page DevParallel Hybrid parallelization using threads and processes
 
-This page describes the implementation of the hydrid parallelization mechanisms supported by SKIRT. For a description
+This page describes the implementation of the hybrid parallelization mechanisms supported by SKIRT. For a description
 of how to actually use these mechanisms, see \ref UserParallel.
 
 \section DevParallelIntro Introduction
@@ -217,11 +217,11 @@ classes.
 
 The second complexity arises when recording statistics for observed fluxes in the instruments (an optional feature that
 can be enabled in the SKIRT parameter file). This process requires accumulating the contributions of each
-indvidual photon packet to a given flux bin (for example, caused by the peel-off from multiple scattering events). The
+individual photon packet to a given flux bin (for example, caused by the peel-off from multiple scattering events). The
 intermediate result for each photon packet, and per flux bin, must thus be cached during the packet's life cycle. In
 this case, we need a copy of the cache for each execution thread \em and \em for \em each \em instrument. To achieve
 this, the FluxRecorder class uses the ThreadLocalMember class template, which provides a thread-local instance data
-member using some fairly sophisticed C++ machinery.
+member using some fairly sophisticated C++ machinery.
 
 \subsection DevParallelUsageSetup Setup
 

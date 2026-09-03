@@ -331,7 +331,7 @@ When asked for a second medium component, enter zero to terminate the list.
 \endverbatim
 
 SKIRT discretizes the medium on a spatial grid, i.e. a collection of small cells in which properties such as medium
-density are considered to be uniform. Because the clumpy structure of the torus in this tutorial does not exbit any
+density are considered to be uniform. Because the clumpy structure of the torus in this tutorial does not exhibit any
 spatial symmetries, the simulation must use a fully three-dimensional grid. It is best to choose an adaptive grid that
 automatically forms smaller cells in denser regions, i.e. in and around the clumps. The adaptive grid will take some
 time to construct, but compared to a regular Cartesian grid with the same number of grid cells, it will provide a
@@ -530,7 +530,7 @@ $ pts plot_grids .
    Created grid plot /.../ClumpyTorus_grd_grid_xz.pdf
    Created grid plot /.../ClumpyTorus_grd_grid_yz.pdf
    Finished visual/plot_grids.
-(base) pcamps@kenobi:~/SKIRT/SKIRT9/run/xraytorus$
+$
 \endverbatim
 
 This yields the following cuts along horizontal and vertical planes through the adaptive grid, showing that the grid
@@ -593,7 +593,7 @@ scattered secondary flux).
 
 \note Because of the way X-ray reprocessing is implemented in SKIRT, the fluorescent flux is recorded as secondary flux
 (direct or scattered) even if the simulation does not explictly include a secondary emission phase. This allows users
-to distinguish the effects of the various phsyical processes (most notably, Compton scattering and fluorescence).
+to distinguish the effects of the various physical processes (most notably, Compton scattering and fluorescence).
 
 These individual flux contributions can easily be plotted by running the following Python script:
 
@@ -637,7 +637,7 @@ distribution to a smooth distribution with the same total mass. This is very eas
 preserve the proper nesting in the XML-formatted ski file.
 
 Now perform the \c SmoothTorus simulation with SKIRT and evaluate the output files in the same way as you did
-previosuly for the \c ClumpyTorus simulation. Specifically, the optical depth convergence statistics produced by the
+previously for the \c ClumpyTorus simulation. Specifically, the optical depth convergence statistics produced by the
 first probe now show differences smaller than 1 per cent, because both the input and gridded metrics now apply to a
 smooth distribution. Also, the density cuts along the coordinate planes reflect a smooth (and constant) density
 across the torus geometry.
@@ -678,7 +678,7 @@ the levels at energies above 10 keV. As a result, the numerical noise produced b
 the true output signal, especially when studying relatively low-intensity fluorescence lines in this energy range.
 
 To increase the signal to noise ratio, we need to adjust two relevant simulation parameters: an advanced parameter
-called "minum weight reduction", which regulates an aspect of the Monte Carlo photon packet cycle in SKIRT, and the
+called "minimum weight reduction", which regulates an aspect of the Monte Carlo photon packet cycle in SKIRT, and the
 number of photon packets launched in the simulation.
 
 A transfer medium in SKIRT usually implements both absorption and scattering interactions with photon packets. For the
@@ -694,7 +694,7 @@ time increases (significantly but not dramatically) because many photon packets 
 
 The other important parameter is the number of photon packets launched in the simulation (\em numPackets). This is the
 key parameter to reduce the level of noise inherent to the Monte Carlo method used by SKIRT. Unfortunately, the
-simulation time scales esentially linearly with the number of photon packets. The best way to find an optimal value for
+simulation time scales essentially linearly with the number of photon packets. The best way to find an optimal value for
 this parameter is to perform a convergence study: increase the number of photon packets until the relevant simulation
 results no longer vary significantly.
 

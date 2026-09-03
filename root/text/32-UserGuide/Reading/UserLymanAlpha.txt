@@ -33,7 +33,7 @@ restrictions):
   In other words, there is no self-consistent calculation of the ionized hydrogen fraction. Instead, the user is
   responsible for determining this in advance of the radiative transfer simulation.
 
-Within these limitations, the model can be placed at any redshift supported by SKIRT (see \ref UserRedshift)
+Within these limitations, the model can be placed at any redshift supported by SKIRT (see \ref UserRedshift).
 
 ### Note on spatial grid resolution
 

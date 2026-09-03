@@ -4,8 +4,8 @@
 
 SKIRT and PTS include the same set of built-in transmission curves corresponding to standard broadband filters and
 instruments. In fact, the broadband resource files loaded by SKIRT have been prepared using PTS. On the SKIRT side,
-these filters can be used to obsverve broadband-convolved fluxes in instruments and probes, and to normalize the
-luminosity of a primary source. PTS offers functions to obtain the transmission curves, determine proprties such as the
+these filters can be used to observe broadband-convolved fluxes in instruments and probes, and to normalize the
+luminosity of a primary source. PTS offers functions to obtain the transmission curves, determine properties such as the
 pivot wavelengths, or calculate the convolution with a given spectrum.
 
 For more information, see the SKIRT BroadBand, BandWavelengthGrid, and BandLuminosityNormalization classes,
