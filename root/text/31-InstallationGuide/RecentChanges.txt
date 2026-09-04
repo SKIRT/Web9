@@ -140,8 +140,8 @@ Jul  6, 2026 | e8e29d7 | Add DiffuseIonizedGasMix with gas-phase line and contin
 Jul 21, 2026 | b533e20 | Use “mass in box” technique to calculate smoothed particle mass in Cartesian cells
 Jul 29, 2026 | 9989eed | Add ClumpySphericalSpatialGrid: a 3D spherical grid superposed with spherical clumps
 Jul 30, 2026 | 1facef2 | Allow spatial grids with lower symmetry than the primary sources
-Aug 23, 2026 | 2e26393 | Restructure SKIRT code into per-domain CMake targets (modules)
 Aug 31, 2026 | 2d44bfa | Implement statistics for LightCurve and SpectralTimeMap instruments
+Sep  4, 2026 | 4f86221 | Add FileGaussianLinesSED and ListGaussianLinesSED classes
 
 \*\* This update requires a ski file upgrade
 
