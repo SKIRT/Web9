@@ -143,6 +143,7 @@ Jul 30, 2026 | 1facef2 | Allow spatial grids with lower symmetry than the primar
 Aug 31, 2026 | 2d44bfa | Implement statistics for LightCurve and SpectralTimeMap instruments
 Sep  4, 2026 | 4f86221 | Add FileGaussianLinesSED and ListGaussianLinesSED classes
 Sep  4, 2026 | 2a9d62c | Add support for additional NonLTE gas species
+Sep 13, 2026 | c446135 | Gas line emission: add Case B recombination tables and extended line registry
 
 \*\* This update requires a ski file upgrade
 
