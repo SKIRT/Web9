@@ -144,6 +144,8 @@ Aug 31, 2026 | 2d44bfa | Implement statistics for LightCurve and SpectralTimeMap
 Sep  4, 2026 | 4f86221 | Add FileGaussianLinesSED and ListGaussianLinesSED classes
 Sep  4, 2026 | 2a9d62c | Add support for additional NonLTE gas species
 Sep 13, 2026 | c446135 | Gas line emission: add Case B recombination tables and extended line registry
+Sep 16, 2026 | ba06f53 | Add BinnedWavelengthDistribution
+Sep 18, 2026 | e18df5e | Add XRayIonicGasMix supporting hydrogen- and helium-like ions at X-ray wavelengths
 
 \*\* This update requires a ski file upgrade
 
