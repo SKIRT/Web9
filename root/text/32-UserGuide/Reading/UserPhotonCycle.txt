@@ -104,10 +104,7 @@ propose the following overall rules of thumb:
 
 - Enable forced scattering except for media that (1) are strongly dominated by scattering, (2) show optical depths
   \f$\tau\gtrsim 0.5\f$, and (3) for which there is no need to store the radiation field.
-- Always enable explicit absorption.
-
-In our experience, with these rules, the simulation may perform sub-optimally but not dramatically so.
-Note that, for historical reasons, explicit absorption is disabled by default.
+- Enable explicit absorption only for media that exhibit stimulated emission.
 
 ### Forced scattering options
 
@@ -129,7 +126,8 @@ The \em pathLengthBias property sets the fraction of photon packet free path len
 probability distribution as opposed to the regular probability distribution, resulting in longer free paths on average.
 As a result, photon packets more easily penetrate regions of high optical depth in the medium. The default value of 0.5
 is usually appropriate, with the following important caveat. The path length stretching technique cannot be used when
-the wavelength of a photon packet may change during its life cycle, for example because of Doppler shifts. SKIRT issues
+the wavelength of a photon packet can change during a scattering event. Examples include Compton electron scattering
+and fluorescense (which is implemented as a kind of scattering). SKIRT issues
 a warning when it detects these situations and automatically forces the path length bias value to zero. This warning
 can be silenced by setting \em pathLengthBias to zero in the parameter file.
 
