@@ -146,6 +146,7 @@ Sep  4, 2026 | 2a9d62c | Add support for additional NonLTE gas species
 Sep 13, 2026 | c446135 | Gas line emission: add Case B recombination tables and extended line registry
 Sep 16, 2026 | ba06f53 | Add BinnedWavelengthDistribution
 Sep 18, 2026 | e18df5e | Add XRayIonicGasMix supporting hydrogen- and helium-like ions at X-ray wavelengths
+Oct  2, 2026 | 4ddfa42 | ToddlersSEDFamily: add SFRNormalizedVariableDust mode with a grain abundance scaling axis
 
 \*\* This update requires a ski file upgrade
 
