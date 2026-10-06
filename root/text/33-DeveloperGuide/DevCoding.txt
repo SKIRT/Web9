@@ -6,9 +6,9 @@
 
 \subsection DevCodingDesignDepend Language, platforms and dependencies
 
-The SKIRT code is written in standard C++14 and uses the CMake build system. The standard facilities of the C++14
+The SKIRT code is written in standard C++17 and uses the CMake build system. The standard facilities of the C++17
 language and run-time library may be used in full, within the guidance provided here. By and large, the code is fully
-cross-platform and there are no external dependencies other than those on the standard C++14 run-time library. The only
+cross-platform and there are no external dependencies other than those on the standard C++17 run-time library. The only
 exceptions to this rule are:
 
  - The implementation of the System class (\em not its interface!), which contains any and all platform-specific code.
@@ -78,7 +78,8 @@ The exceptions to this rule are:
 
 Unnecessary \#include directives are avoided, especially in header files because their inclusion propagates
 dependencies and increases compilation time. Where possible, a forward class declaration is used in the header file
-and the \#include directive is placed in the implementation file.
+and the \#include directive is placed in the implementation file. Also, there is no need to include a standard library
+header that is already included by the Basics header (see \ref DevCodingStyleUsing).
 
 \#include directives are placed in the beginning of each file as a single block, i.e. without any intervening empty
 lines. They are sorted automatically by the source code formatter, see \ref DevCodingStyleFormat.
@@ -88,9 +89,9 @@ Forward class declarations are placed just after the \#include directives, and t
 \subsection DevCodingStyleUsing 'using' directives and declarations
 
 The Basics header file is included directly or indirectly in all program units. This header includes the headers for
-some frequently-used standard library facilities. In addition, it copies the types \c std::string and \c std::vector,
-and the functions \c std::abs, \c std::min, and \c std::max to the global namespace so that the \c std prefix can be
-omitted.
+some frequently-used standard library facilities. In addition, it copies the types \c std::size_t, \c std::string, and
+\c std::vector, and the functions \c std::abs, \c std::min, and \c std::max to the global namespace so that the \c std
+prefix can be omitted.
 
 Other than these exceptions, \c using \c namespace directives or \c using declarations are not allowed in a global
 scope. In most cases, it is best to use explicit namespace prefixes (i.e. \c std for the standard library). However, if
@@ -120,7 +121,7 @@ implementation for trivial getters and setters may be included inline in the cla
 For each data member of a class, default initialization is provided in the class definition (i.e. in the .hpp file)
 with the declaration of the data member. For objects of a user-defined type (i.e. a proper class), including most
 standard-library types such as strings and containers, default construction is usually sufficient. For primitive data
-types, the C++14 braces or equal sign syntax is used to provide default initialization. A constructor of the class can
+types, the braces or equal sign syntax is used to provide default initialization. A constructor of the class can
 override the initialization of one or more data members, but there is no need to repeat the default initialization.
 
 \subsection DevCodingStyleFormat Formatting the source code
@@ -174,6 +175,28 @@ This section bundles further recommendations on using some of the C++ language f
 Declare variables only just before they are used, and provide initialization as part of the declaration
 (or at least on the next line, for example when reading information from a stream).
 
+When a variable is needed only to decide between the branches of an \c if or \c switch statement, declare it as part
+of that statement, so that it does not leak into the enclosing scope. This applies in particular to the result of a
+lookup or a cast. If the condition simply tests the variable, as is often the case for a pointer, declare the variable
+in the condition itself:
+
+\verbatim
+if (auto widget = dynamic_cast<Widget*>(item)) widget->doSomething();
+\endverbatim
+
+Otherwise, use an initializer statement, separated from the condition by a semicolon. The variable is also available
+in the \c else branch:
+
+\verbatim
+if (auto it = map.find(key); it != map.end())
+    value = it->second;
+else
+    throw FATALERROR("Key not found: " + key);
+\endverbatim
+
+Don't move every variable that happens to be tested once into the condition, though: a named intermediate value that is
+computed by a longer expression usually reads better as a separate declaration.
+
 Initialize data members to a default value as part of their declaration in the class definition.
 If a constructor sets the data member to another value, use the member initialization list rather than the
 body of the constructor wherever possible.
@@ -215,6 +238,12 @@ If you must, use explicit casting (if not, many compilers generate warnings for 
 Avoid casting in general. In any case, never use C-style casts. Instead use the appropriate choice of \c static_cast,
 \c const_cast or \c dynamic_cast.
 
+Use \c std::byte to represent raw memory, i.e. bytes that are not interpreted as characters or numbers, and for bit
+flags that are only combined and tested with bitwise operators. Unlike \c char or \c unsigned \c char, \c std::byte
+supports no arithmetic and no implicit conversion to or from an integer, so that such code cannot accidentally be
+misread as handling text or small numbers. Keep using \c char for text, and where an interface requires it, such as
+the \c read() and \c write() functions of the standard input/output streams.
+
 \subsection DevCodingLangPoin Raw and smart pointers
 
 Use the keyword \c nullptr rather than 0 or NULL to represent a null pointer.
@@ -243,9 +272,11 @@ Do \em not use \c std::auto_ptr -- it is deprecated and broken.
 
 \subsection DevCodingLangArgs Function arguments and return values
 
-Pass function arguments by constant reference rather than by value, except for variables of primitive types (and
-perhaps cheap types such as \c std::string in situations where performance is not of key importance). Avoid "output"
-arguments.
+Pass function arguments of primitive types, and of small types that are cheap to copy (such as \c Vec, \c Position, or
+\c Direction), by value. Pass arguments of other types, including \c std::string, by constant reference if the function
+only reads them. Pass such arguments by value if the function needs its own copy anyway, for example because it modifies
+the argument locally or stores it in a data member; in the latter case, move the argument into place with
+\c std::move(). Avoid "output" arguments.
 
 Never return a reference or a pointer to a local object.
 
@@ -269,33 +300,57 @@ make all widgets in the map do something:
 \verbatim
 std::unordered_map<std::string, std::unique_ptr<Widget>> widgetMap;
 ...
-for (auto& pair : widgetMap)
+for (auto& [name, widget] : widgetMap)
 {
-    if (pair.second) pair.second->doSomething();
+    if (widget) widget->doSomething();
 }
 \endverbatim
 
 The iterator over \c widgetMap in the range-based \c for loop returns values of type \c <c>std::pair<const std::string,
-std::unique_ptr<Widget>></c>. This complexity is hidden by using \c auto in the loop variable declaration.
+std::unique_ptr<Widget>></c>. This complexity is hidden by using \c auto in the loop variable declaration, and the
+structured binding gives the two elements of each pair a meaningful name (see \ref DevCodingLangBind).
 
-Note that the example declares the loop variable as a reference to avoid copying the values being iterated over. In
+Note that the example declares the structured binding as a reference to avoid copying the values being iterated over. In
 this case, the code would not compile without the ampersand because a \c std::unique_ptr cannot be copied. For copyable
 objects the code would compile but might not achieve the desired effect: the loop body would modify a copy of each
 object rather than the objects in the container themselves. As a general rule, use pass by value (\c auto), pass by
 mutable reference (\c auto\&), or pass by constant reference (\c const \c auto\&) as you would for function arguments.
 
-As a final example, \c auto can hide the complex type of a standard container iterator:
+As a final example, \c auto can hide the complex type of a standard container iterator. Because the iterator is
+needed only inside the \c if statement, it is declared as part of that statement (see \ref DevCodingLangInit):
 
 \verbatim
 std::vector<std::string> list;
 ...
-auto it = std::find(list.begin(), list.end(), "string-to-find");
-if (it != list.end())
+if (auto it = std::find(list.begin(), list.end(), "string-to-find"); it != list.end())
 {
     std::string found = *it;
     ...
 }
 \endverbatim
+
+\subsection DevCodingLangBind Structured bindings
+
+Use a structured binding to give meaningful names to the elements of a \c std::pair or \c std::tuple, rather than
+referring to them as \c first and \c second or through \c std::get(). This applies to the loop variable of a
+range-based \c for loop over a map (see the example in \ref DevCodingLangAuto), and to the value returned by a
+function. For example, rather than declaring variables first and then assigning to them with \c std::tie():
+
+\verbatim
+double theta, phi;
+std::tie(theta, phi) = generateAngles();
+\endverbatim
+
+write:
+
+\verbatim
+auto [theta, phi] = generateAngles();
+\endverbatim
+
+The types of the new variables are deduced from the element types of the pair or tuple, so make sure that these are
+the intended types. A structured binding always declares new variables; to assign the elements to existing variables,
+such as data members, keep using \c std::tie(), with \c std::ignore for any unwanted elements. Also note that in
+C++17, a lambda expression cannot capture a variable declared through a structured binding.
 
 \subsection DevCodingLangConsDest Constructors, destructors, and assignment operators
 
