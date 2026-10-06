@@ -272,11 +272,11 @@ Do \em not use \c std::auto_ptr -- it is deprecated and broken.
 
 \subsection DevCodingLangArgs Function arguments and return values
 
-Pass function arguments of primitive types, and of small types that are cheap to copy (such as \c Vec, \c Position, or
-\c Direction), by value. Pass arguments of other types, including \c std::string, by constant reference if the function
-only reads them. Pass such arguments by value if the function needs its own copy anyway, for example because it modifies
-the argument locally or stores it in a data member; in the latter case, move the argument into place with
-\c std::move(). Avoid "output" arguments.
+Pass function arguments of primitive types, and of small types that hold only numbers or pointers and are no larger than
+a \c Vec (24 bytes), such as \c Vec, \c Position, or \c Direction, by value. Pass arguments of other types, including
+\c std::string, by constant reference if the function only reads them. Pass such arguments by value if the function
+needs its own copy anyway, for example because it modifies the argument locally or stores it in a data member; in the
+latter case, move the argument into place with \c std::move(). Avoid "output" arguments.
 
 Never return a reference or a pointer to a local object.
 
