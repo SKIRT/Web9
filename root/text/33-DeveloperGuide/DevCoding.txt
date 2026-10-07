@@ -244,6 +244,14 @@ supports no arithmetic and no implicit conversion to or from an integer, so that
 misread as handling text or small numbers. Keep using \c char for text, and where an interface requires it, such as
 the \c read() and \c write() functions of the standard input/output streams.
 
+Use \c int for integer values that fit its range, even when the values are known to be small, such as atomic or
+quantum numbers. Shorter integer types (\c short, \c int8_t, \c int16_t, and their unsigned counterparts) offer no
+performance benefit in calculations, because their values are promoted to \c int in arithmetic expressions, and mixing
+them with \c int leads to silent narrowing conversions. Reserve these types for cases where the size of the
+representation matters: to reduce the memory footprint of large data structures, to match the layout of an external
+binary format, or where an external interface requires them. When storing values in such a type, make sure the values
+are guaranteed to fit, if necessary through an explicit check.
+
 \subsection DevCodingLangPoin Raw and smart pointers
 
 Use the keyword \c nullptr rather than 0 or NULL to represent a null pointer.
