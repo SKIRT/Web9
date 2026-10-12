@@ -2284,6 +2284,7 @@ INCLUDE_PATH           = ../../SKIRT9/git/SMILE/schema \
                           ../../SKIRT9/git/SKIRT/fitsio \
                           ../../SKIRT9/git/SKIRT/geometry \
                           ../../SKIRT9/git/SKIRT/grain \
+                          ../../SKIRT9/git/SKIRT/h5 \
                           ../../SKIRT9/git/SKIRT/instrument \
                           ../../SKIRT9/git/SKIRT/material \
                           ../../SKIRT9/git/SKIRT/medium \
