@@ -203,8 +203,29 @@ body of the constructor wherever possible.
 
 \subsection DevCodingLangConsEnum Constants and enumerations
 
-Constant objects or data structures with static allocation are best defined inside an anonymous namespace in a .cpp
-file using a declaration that starts with the \c constexpr keyword (and does \em not include the \c static keyword).
+Declare a constant with the \c constexpr keyword rather than \c const if its value is known at compile time (i.e. if
+its initializer is a constant expression; in C++17, the mathematical functions such as \c std::sqrt are not
+\c constexpr). Whether to also add the \c static keyword depends on the scope of the declaration:
+
+ - Constant objects or data structures with static allocation are best defined inside an anonymous namespace in a .cpp
+   file using a declaration that starts with the \c constexpr keyword and does \em not include the \c static
+   keyword. A \c constexpr variable at namespace scope is implicitly \c const, and thus already has internal linkage,
+   so the \c static keyword is redundant.
+
+ - A constant data member of a class must be declared \c static \c constexpr, because a non-static data member cannot
+   be \c constexpr. Such a data member is implicitly \c inline, so it needs no separate definition in a .cpp file.
+
+ - Inside a function, a \c constexpr scalar needs no \c static keyword. In contrast, always declare a compound data
+   structure, such as an array indexed at run time, as \c static \c constexpr. This ensures that it is stored just once
+   in read-only memory and avoids copying onto the stack or checking for thread-safe initialization on each call. The
+   \c static keyword is also required if a pointer or reference to the constant is used after the function returns.
+
+The \c constexpr keyword makes the declared object itself constant, not the data it points to. A pointer to constant
+data, such as a string literal, therefore needs an extra \c const keyword:
+
+\verbatim
+constexpr const char* names[] = {"alpha", "beta", "gamma"};
+\endverbatim
 
 Constant integer values part of a public interface are best defined as a scoped enumeration (\c enum \c class).
 Always use scoped enumerations (\c enum \c class) rather than unscoped enumerations (\c enum).
@@ -215,12 +236,12 @@ can be avoided by declaring the data member \c mutable.
 
 \subsection DevCodingLangStat Static variables
 
-Do not use mutable variables with static allocation except for representing truly program-global system resources. Even
-then, never declare mutable static variables in a non-local scope, i.e. as static data members of a class or at global
-or named namespace scope. Instead, define mutable static variables inside a function, or inside an anonymous namespace
-in a .cpp file.
+Do not use non-const variables with static allocation except for representing truly program-global system resources.
+Even then, never declare non-const static variables in a non-local scope, i.e. as static data members of a class or at
+global or named namespace scope. Instead, define non-const static variables inside a function, or inside an anonymous
+namespace in a .cpp file.
 
-To initialize the static data, either provide a constant initializer (actually, \c constexpr, because then the language
+To initialize the static data, either provide a \c constexpr initializer (because this
 guarantees initialization before program execution starts), or use the \c std::call_once() function to guarantee that
 initialization is performed exactly once even when called from multiple threads. If the static data can change after
 initialization, properly guard all access with a mutex to ensure thread safety.
@@ -322,7 +343,7 @@ Note that the example declares the structured binding as a reference to avoid co
 this case, the code would not compile without the ampersand because a \c std::unique_ptr cannot be copied. For copyable
 objects the code would compile but might not achieve the desired effect: the loop body would modify a copy of each
 object rather than the objects in the container themselves. As a general rule, use pass by value (\c auto), pass by
-mutable reference (\c auto\&), or pass by constant reference (\c const \c auto\&) as you would for function arguments.
+non-const reference (\c auto\&), or pass by constant reference (\c const \c auto\&) as you would for function arguments.
 
 As a final example, \c auto can hide the complex type of a standard container iterator. Because the iterator is
 needed only inside the \c if statement, it is declared as part of that statement (see \ref DevCodingLangInit):
