@@ -473,6 +473,13 @@ Obvious examples include \c std::swap() to swap values; \c std::min(), \c std::m
 lower and upper limits in a list of two or more values; and \c std::sort() and \c std::stable_sort() for sorting a
 range of values. Avoid the C-style \c qsort() function.
 
+To restrict a value to a range, prefer \c std::clamp(v, lo, hi) over a nested combination of \c std::min() and
+\c std::max(), provided that two conditions are met. First, the lower bound must be guaranteed not to exceed the upper
+bound: if \c hi is less than \c lo, the behavior of \c std::clamp() is undefined, whereas a nested combination simply
+returns one of the bounds. Second, for floating point values, it must be acceptable that a NaN value passes through
+unchanged: \c std::clamp() returns a NaN as is, whereas a nested combination, depending on the order of its arguments,
+may replace it by one of the bounds. If either condition is not met, use the nested combination.
+
 Other perhaps less obvious candidates include \c std::all_of(), \c std::any_of(), and \c std::none_of() to verify
 a condition on a range; \c std::count and \c std::count_if to count the occurrences of a given
 value or condition in a range; \c std::accumulate() to add or otherwise combine a range of values; and much more.
