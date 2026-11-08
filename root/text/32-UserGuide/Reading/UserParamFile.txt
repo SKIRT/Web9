@@ -36,11 +36,13 @@ elements. An XML element can carry zero or more attributes. Attributes are speci
 white space is not meaningful except for presentation to a human. By convention the lines are indented so as to reflect
 the nesting level of the XML elements.
 
-After the standard XML declaration (and an optional comment line), a ski file always defines the XML element \c
-skirt-simulation-hierarchy as the top-level or \em root element. The \c format attribute specifies the file format
-version number, which allows future version of SKIRT to detect and adjust for ski files in older formats. To
-represent a complete simulation hierarchy, further XML elements are nested recursively within the root element, and
-some of these elements carry attributes.
+After the standard XML declaration (and an optional comment line), a ski file always defines the XML element
+\c skirt-simulation-hierarchy as the top-level or \em root element. The \c format attribute specifies the version of the
+ski file format, i.e. of the structure of the file, which is independent of the SKIRT version. It has been \c 9 since
+SKIRT 9, and changes only with an incompatible change to that structure. Changes to the simulation items and their
+properties between SKIRT versions leave the format unchanged; a ski file that uses outdated items or properties can be
+upgraded as described in \ref UserUpgradeSki. To represent a complete simulation hierarchy, further XML elements are
+nested recursively within the root element, and some of these elements carry attributes.
 
 An element with a capitalized name (i.e. the first letter is uppercase) represents an object, i.e. an instance of a C++
 class with the same name as the element. Such an element can carry attributes reflecting the scalar properties of the
