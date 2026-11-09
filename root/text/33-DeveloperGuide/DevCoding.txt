@@ -165,6 +165,41 @@ follows:
  - choose the "Tools->External->Formatting->Format comments in selection" menu item \em or use the keyboard shortcut
    assigned to this menu item: <tt>[Alt] + [Cmd] + [I]</tt> (on Mac) or <tt>[Alt] + [Ctrl] + [I]</tt> (on Linux)
 
+\subsection DevCodingStyleDescr Descriptions of items and properties
+
+The macros that declare a simulation item, its discoverable properties, and the values of an enumeration (see
+\ref DevItemsReq) each take a short description. The interactive Q&A session and the MakeUp utility show these
+descriptions to the user, and the ski file reference and the tutorials quote them. The Q&A embeds each description in a
+prompt or in a list of choices, as in "Enter the truncation radius, or zero for no truncation", "Do you want to include
+thermal velocity dispersion?", or "Possible choices for the spatial grid:" followed by the numbered descriptions of the
+grid types. The descriptions are therefore written to read well in this context, following these rules:
+
+ - A description has at most 80 characters. The Q&A adds 30 to 45 characters to a prompt for the allowed range and the
+   default value, and 9 characters to each line in a list of choices, so that longer descriptions lead to lines that
+   wrap on a typical terminal. Further information belongs in the class documentation.
+ - The description of an item type is a noun phrase starting with "a" or "an", as in "a black-body SED family" or "a
+   decorator that clips another geometry using a cuboidal box". The descriptions of probes instead start with their
+   category, as in "properties: basic information for each spatial cell", which groups related probes in the list of
+   choices.
+ - The description of a property is a noun phrase starting with "the", as in "the spatial grid". For an enumeration
+   property, a phrase such as "when to perform the probe" or "how to ..." is acceptable if it reads better. The
+   description of a Boolean property instead completes the question "Do you want to ...?", as in "include thermal
+   velocity dispersion".
+ - The description of an enumeration value reads as one of the listed choices, in the same form as the descriptions of
+   the other values of the enumeration.
+ - A value with a special meaning is mentioned at the end, after a comma, as in "the truncation radius, or zero for no
+   truncation" or "the name of the file with the site positions, or empty for an imported medium", rather than in
+   parentheses.
+ - A description starts with a lowercase letter, because the Q&A and MakeUp capitalize the first letter where needed.
+   Capitals are used only where the spelling requires them, as for proper names, acronyms, and chemical formulas (e.g.
+   "HEALPix", "CMB", "H2"). A description has no trailing period and no superfluous spaces, and it uses US English
+   spelling.
+ - Words implied by the context, such as "spatial" in "spatial cells" or "photon" in "photon packets", can be omitted
+   when the description would otherwise be too long.
+ - Related items and properties use parallel wording, as for the members of a family of classes, the same property in
+   sibling classes, or the properties for the three coordinate axes. The same concept is described with the same term
+   throughout, as "simple stellar population" for the SED families.
+
 
 \section DevCodingLang Language recommendations
 
